@@ -1,10 +1,10 @@
 package fr.jfbeuve.webdmx.dmx;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Logger;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,32 +13,50 @@ import com.juanjo.openDmx.OpenDmx;
 @Component
 public class DmxWrapper {
 	private boolean open;
-	private int master=255;
-	private Map<Integer,Integer> output = new HashMap<Integer, Integer>();
-	private Logger logger = Logger.getLogger("aname");
+	private Map<Integer,DmxChannel> output = new HashMap<Integer, DmxChannel>();
+	private Log logger = LogFactory.getLog(DmxWrapper.class);
+	private Map<String,DmxDimmer> dimmers = new HashMap<String, DmxDimmer>();
+
+	public DmxWrapper(){
+		dimmers.put(DmxDimmer.MASTER, new DmxDimmer(this, new int[]{17}));
+	}
 	
 	@Value("${offline:false}")
 	private boolean offline;
 	
-	public void set(int channel, int _value){
-		int value = _value * master/ 255;
+	/**
+	 * Apply DMX value
+	 */
+	public void set(int _channel, int value){
+		
+		DmxChannel channel = output.get(_channel);
+		if(channel==null)channel=new DmxChannel(_channel);
+		output.put(_channel, channel);
+		
+		int toSet = channel.dim(value);
+		
 		if(!open&&!offline) open = OpenDmx.connect(OpenDmx.OPENDMX_TX);
-		if(!open&&!offline) logger.severe("Open Dmx widget not detected!");
-		if(!offline) OpenDmx.setValue(channel-1,value);
-		output.put(channel,_value);
-		logger.info("OpenDmx.setValue("+channel+","+value+")");
+		if(!open&&!offline) logger.error("Open Dmx widget not detected!");
+		if(!offline) OpenDmx.setValue(_channel-1,toSet);
+		
+		logger.info("OpenDmx.setValue("+_channel+","+toSet+")");
 	}
-	public int get(int channel){
-		return output.get(channel);
+	
+	/**
+	 * Set channel behavior
+	 */
+	public void set(DmxChannel channel){
+		output.put(channel.channel(), channel);
 	}
+		
 	public void disconnect(){
 		if(open&&!offline) OpenDmx.disconnect();
 	}
-	public void master(int value){
-		master=value;
-		for (Iterator<Integer> iterator = output.keySet().iterator(); iterator.hasNext();) {
-			int channel = iterator.next();
-			set(channel, get(channel));
-		}
+	
+	/**
+	 * get dimmer by name and apply new value
+	 */
+	public void dim(String name, int value){
+		dimmers.get(name).dim(value);
 	}
 }

@@ -21,18 +21,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.jetty.service.HelloWorldService;
 
 @Controller
 public class SampleController {
 
 	@Autowired
+	private DmxWrapper dmx;
+	
+	@Autowired
 	private HelloWorldService helloWorldService;
 
 	@RequestMapping("/hello")
 	@ResponseBody
 	public String helloWorld() {
+		dmx.dim("master", 127);
+		dmx.set(11, 255);
+		dmx.set(17, 255);
 		return this.helloWorldService.getHelloMessage();
 	}
-	
+	//TODO /web/*.html, js, css
+	//TODO fade, chase, cue
 }
