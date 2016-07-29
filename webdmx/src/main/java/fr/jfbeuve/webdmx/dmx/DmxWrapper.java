@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import com.juanjo.openDmx.OpenDmx;
 
+import fr.jfbeuve.webdmx.show.DmxColor;
+import fr.jfbeuve.webdmx.show.RGBFixture;
+
 @Component
 public class DmxWrapper {
 	private boolean open;
@@ -31,12 +34,14 @@ public class DmxWrapper {
 	}
 
 	/**
-	 * Apply DMX value
+	 * Apply DMX value if different of the previous or if force=true
+	 * force=true is designed to be used only by DmxDimmer
 	 */
-	public void set(int _channel, int value){
+	public void set(int _channel, int value, boolean force){
 		logger.fine("offline = "+offline);
 		
 		DmxChannel channel = get(_channel);
+		if(channel.value()==value&&!force)return;
 		int toSet = channel.dim(value);
 		
 		if(!open&&!offline) open = OpenDmx.connect(OpenDmx.OPENDMX_TX);
@@ -45,11 +50,17 @@ public class DmxWrapper {
 		
 		logger.info("OpenDmx.setValue("+_channel+","+toSet+")");
 	}
-	
-	public void refresh(DmxChannel channel){
-		set(channel.channel(),channel.value());
+	/**
+	 * Apply DMX value
+	 */
+	public void set(int _channel, int value){
+		set(_channel, value, false);
 	}
-	
+	public void set(RGBFixture fixture, DmxColor color){
+		set(fixture.red(), color.red());
+		set(fixture.green(), color.green());
+		set(fixture.blue(), color.blue());
+	}
 	/**
 	 * Initialize channel with dimmer
 	 */

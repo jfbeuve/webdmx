@@ -28,7 +28,7 @@ public class DmxDimmer {
 	public void dim(int _value){
 		value = _value;
 		for (DmxChannel channel : channels) {
-			dmx.refresh(channel);
+			dmx.set(channel.channel(),channel.value(),true);
 		}
 	}
 }
