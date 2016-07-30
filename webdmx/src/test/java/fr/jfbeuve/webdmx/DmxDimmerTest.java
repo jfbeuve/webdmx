@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package fr.jfbeuve.webdmx.jetty;
+package fr.jfbeuve.webdmx;
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,22 +42,35 @@ public class DmxDimmerTest {
 	
 	@Test
 	public void testMasterDimmer() throws Exception {
-		//TODO set offline=true and logging level to debug
 		dmx.offline();
-		dmx.set(11,255);
-		dmx.set(17,255);
+		dmx.init(DmxDimmer.MASTER, new DmxDimmer(dmx, new int[]{17}));
+		Map<Integer,Integer> values;
+		
+		values = new HashMap<Integer,Integer>();
+		values.put(11,255);
+		values.put(17,255);
+		dmx.set(values);
+		
 		assertEquals(dmx.get(11).dim(), 255);
 		assertEquals(dmx.get(17).dim(), 255);
 		dmx.dim(DmxDimmer.MASTER, 127);
 		assertEquals(dmx.get(11).dim(), 255);
 		assertEquals(127,dmx.get(17).dim());
-		dmx.set(17, 127);
+		
+		values = new HashMap<Integer,Integer>();
+		values.put(17, 127);
+		dmx.set(values);
+		
 		assertEquals(dmx.get(11).dim(), 255);
 		assertEquals(63,dmx.get(17).dim());
 		dmx.dim(DmxDimmer.MASTER, 255);
 		assertEquals(dmx.get(11).dim(), 255);
 		assertEquals(dmx.get(17).dim(), 127);
-		dmx.set(17,255);
+		
+		values = new HashMap<Integer,Integer>();
+		values.put(17,255);
+		dmx.set(values);
+		
 		assertEquals(dmx.get(11).dim(), 255);
 		assertEquals(dmx.get(17).dim(), 255);
 	}

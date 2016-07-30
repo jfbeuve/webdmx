@@ -36,9 +36,6 @@ public class SampleController {
 	@RequestMapping("/hello")
 	@ResponseBody
 	public String helloWorld() {
-		dmx.dim("master", 127);
-		dmx.set(11, 255);
-		dmx.set(17, 255);
 		return this.helloWorldService.getHelloMessage();
 	}
 	//TODO /web/*.html, js, css
