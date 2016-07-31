@@ -33,11 +33,19 @@ public class ShowRunner {
 		if(auto==null) auto();
 	}
 	/**
-	 * removes a show to the scheduler
+	 * removes a show from the scheduler
 	 */
 	public void stop(IShow show){
-		//TODO implement a clean stop to set all fixtures of the show group to 0
 		shows.remove(show);
+	}
+	/**
+	 * stops autorun
+	 */
+	public void stop(){
+		if(auto!=null){
+			auto.stop();
+			auto=null;
+		}
 	}
 	/**
 	 * applies next step and disables autorun
@@ -80,6 +88,7 @@ public class ShowRunner {
 	}
 	private void auto(){
 		nextAuto();
+		if(auto!=null)auto.stop();
 		auto = new Tempo(this, speed);
 		new Thread(auto).start();
 	}

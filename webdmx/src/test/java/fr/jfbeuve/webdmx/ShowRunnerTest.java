@@ -87,6 +87,5 @@ public class ShowRunnerTest {
 		assertEquals(d.red(), dmx.get(33).value());
 		assertEquals(d.green(), dmx.get(34).value());
 		assertEquals(d.blue(), dmx.get(35).value());
-
 	}
 }

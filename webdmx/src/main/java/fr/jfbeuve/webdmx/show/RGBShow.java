@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RGBShow implements IShow{
 
-	RGBFixture[] fixtures = {new RGBFixture(24, 25, 26),new RGBFixture(27, 28, 29),new RGBFixture(30, 31, 32),new RGBFixture(33, 34, 35)};
+	RGB3Fixture[] fixtures = {RGB3Fixture.PAR1,RGB3Fixture.PAR2,RGB3Fixture.PAR3,RGB3Fixture.PAR4};
 	
 	boolean[][] cues = {
 			{false,false, false, false},
@@ -39,6 +39,8 @@ public class RGBShow implements IShow{
 		color.put(RGBColor.ROUGE, RGBColor.JAUNE);
 		color.put(RGBColor.VERT, RGBColor.AMBRE);
 		color.put(RGBColor.BLEU, RGBColor.AMBRE);
+		color.put(RGBColor.BLACK, RGBColor.WHITE);
+		color.put(RGBColor.WHITE, RGBColor.BLACK);
 	}
 	/**
 	 * @return dmx values to apply for next step of the show
@@ -48,9 +50,7 @@ public class RGBShow implements IShow{
 		for (int i=0;i<fixtures.length;i++) {
 			boolean[] cue = cues[step];
 			RGBColor toColor = (cue[i]?color.get(bgColor):bgColor);
-			values.put(fixtures[i].red(), toColor.red());
-			values.put(fixtures[i].green(), toColor.green());
-			values.put(fixtures[i].blue(), toColor.blue());
+			values.putAll(fixtures[i].set(toColor));
 		}
 		step++;
 		if(step==cues.length)step=0;
