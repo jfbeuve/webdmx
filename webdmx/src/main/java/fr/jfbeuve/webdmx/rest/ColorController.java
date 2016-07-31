@@ -27,7 +27,6 @@ import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @Controller
 public class ColorController {
-
 	@Autowired
 	private ShowRunner show;
 	@Autowired

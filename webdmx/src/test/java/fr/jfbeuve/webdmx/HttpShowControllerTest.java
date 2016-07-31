@@ -2,6 +2,8 @@ package fr.jfbeuve.webdmx;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.show.RGBColor;
+import fr.jfbeuve.webdmx.show.RGBShow;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Start.class)
@@ -23,25 +26,57 @@ import fr.jfbeuve.webdmx.show.RGBColor;
 @IntegrationTest({"offline=true", "titi=toto"})
 @DirtiesContext
 public class HttpShowControllerTest {
+	private static final Log log = LogFactory.getLog(HttpShowControllerTest.class);
 	
 	@Autowired
 	private DmxWrapper dmx;
+	
+	@Autowired
+	private RGBShow rgb;
 
 	@Test
 	public void testHttpControllers() throws Exception {
-		//dmx.offline();
-		ResponseEntity<String> entity = new TestRestTemplate().getForEntity("http://localhost/show/start", String.class);
+		
+		//SHOW
+		ResponseEntity<String> entity = new TestRestTemplate().getForEntity("http://localhost/show/run", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
-		assertColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE);
+		assertColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE); //1
 		Thread.sleep(1500);
-		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.CYAN);
+		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.CYAN); //2
+		
+		//STROB
 		entity = new TestRestTemplate().getForEntity("http://localhost/front/strob", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		assertStrob(true);
-		entity = new TestRestTemplate().getForEntity("http://localhost/front/off", String.class);
+		assertColors(RGBColor.BLACK, RGBColor.BLACK, RGBColor.BLACK, RGBColor.BLACK);
+		entity = new TestRestTemplate().getForEntity("http://localhost/front/strob", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		assertStrob(false);
-		//TODO assert color change, tap/next
+		
+		//NEXT
+		assertColors(RGBColor.MAUVE, RGBColor.CYAN, RGBColor.CYAN, RGBColor.MAUVE); //3
+		rgb.setColor(RGBColor.ROUGE);
+		entity = new TestRestTemplate().getForEntity("http://localhost/show/next", String.class);
+		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		assertColors(RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.JAUNE, RGBColor.ROUGE); //4
+		
+		//TAP
+		log.info("###### TAP 1");
+		entity = new TestRestTemplate().getForEntity("http://localhost/show/tap", String.class);
+		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		log.info("###### ASSERT TAP 1");
+		assertColors(RGBColor.ROUGE, RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.JAUNE); //5
+		Thread.sleep(400);
+		log.info("###### TAP 2");
+		entity = new TestRestTemplate().getForEntity("http://localhost/show/tap", String.class);
+		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		log.info("###### ASSERT TAP 2");
+		assertColors(RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.ROUGE, RGBColor.ROUGE); //6
+		Thread.sleep(600);
+		log.info("###### ASSERT TAP 3");
+		assertColors(RGBColor.ROUGE, RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.ROUGE); //7
+		
+		//BLACKOUT
 		entity = new TestRestTemplate().getForEntity("http://localhost/show/blackout", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		assertBlackout();

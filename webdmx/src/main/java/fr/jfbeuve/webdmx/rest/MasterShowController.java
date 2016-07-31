@@ -25,23 +25,24 @@ public class MasterShowController {
 	@Autowired
 	private RGBShow rgb;
 
-	@RequestMapping("/show/start")
-	@ResponseBody
-	public String start() {
-		show.start(rgb);
-		return "OK";
-	}
+	private boolean run = false;
 	
-	@RequestMapping("/show/stop")
+	@RequestMapping("/show/run")
 	@ResponseBody
-	public String stop() {
-		show.stop();
-		Map<Integer,Integer> values = new HashMap<Integer,Integer>();
-		values.putAll(RGB3Fixture.PAR1.set(RGBColor.BLACK));
-		values.putAll(RGB3Fixture.PAR2.set(RGBColor.BLACK));
-		values.putAll(RGB3Fixture.PAR3.set(RGBColor.BLACK));
-		values.putAll(RGB3Fixture.PAR4.set(RGBColor.BLACK));
-		dmx.set(values);
+	public String run() {
+		if(!run){
+			run=true;
+			show.start(rgb);
+		} else {
+			run=false;
+			show.stop();
+			Map<Integer,Integer> values = new HashMap<Integer,Integer>();
+			values.putAll(RGB3Fixture.PAR1.set(RGBColor.BLACK));
+			values.putAll(RGB3Fixture.PAR2.set(RGBColor.BLACK));
+			values.putAll(RGB3Fixture.PAR3.set(RGBColor.BLACK));
+			values.putAll(RGB3Fixture.PAR4.set(RGBColor.BLACK));
+			dmx.set(values);
+		}
 		return "OK";
 	}
 	

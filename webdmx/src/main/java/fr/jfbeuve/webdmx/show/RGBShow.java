@@ -3,11 +3,14 @@ package fr.jfbeuve.webdmx.show;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RGBShow implements IShow{
-
+	private static final Log log = LogFactory.getLog(RGBShow.class);
+	
 	RGB3Fixture[] fixtures = {RGB3Fixture.PAR1,RGB3Fixture.PAR2,RGB3Fixture.PAR3,RGB3Fixture.PAR4};
 	
 	boolean[][] cues = {
@@ -16,7 +19,6 @@ public class RGBShow implements IShow{
 			{false,true,true,false},
 			{true, false, true, false},
 			{false,true, false, true},
-			{true,false, false, false},
 			{true,false, false, false},
 			{false,true, false, false},
 			{false,false, true, false},
@@ -46,6 +48,7 @@ public class RGBShow implements IShow{
 	 * @return dmx values to apply for next step of the show
 	 */
 	public Map<Integer,Integer> next(){
+		log.info("STEP "+step);
 		Map<Integer,Integer> values = new HashMap<Integer,Integer>();
 		for (int i=0;i<fixtures.length;i++) {
 			boolean[] cue = cues[step];

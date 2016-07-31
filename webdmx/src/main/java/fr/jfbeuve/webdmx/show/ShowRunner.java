@@ -48,6 +48,12 @@ public class ShowRunner {
 		}
 	}
 	/**
+	 * restarts autorun
+	 */
+	public void start(){
+		if(auto==null) auto();
+	}
+	/**
 	 * applies next step and disables autorun
 	 */
 	public void next(){
@@ -62,7 +68,7 @@ public class ShowRunner {
 	 * applies next step
 	 */
 	void nextAuto(){
-		log.info("#### nextAuto");
+		log.info("#### next");
 		Map<Integer,Integer> values = new HashMap<Integer,Integer>();
 		for (IShow show : shows) {
 			values.putAll(show.next());
@@ -87,6 +93,7 @@ public class ShowRunner {
 		timestamp=0;
 	}
 	private void auto(){
+		log.info("SPEED "+speed);
 		nextAuto();
 		if(auto!=null)auto.stop();
 		auto = new Tempo(this, speed);
