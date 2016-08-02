@@ -18,9 +18,7 @@ class AjaxButton extends React.Component {
   }
   render() {
     return (
-      <div onClick={this.handleClick}>
-        <button type="button">{this.props.name}</button>
-      </div>
+        <button type="button" onClick={this.handleClick}>{this.props.name}</button>
     );
   }
 }
@@ -33,7 +31,7 @@ ReactDOM.render(
 		<br/>
 		<AjaxButton name="tap" url="/show/tap"></AjaxButton>
 		<AjaxButton name="next"url="/show/next"></AjaxButton>
-  </div>
+    </div>
   ,
   document.getElementById('container')
 );
