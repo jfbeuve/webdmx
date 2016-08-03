@@ -5,13 +5,19 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import fr.jfbeuve.webdmx.dmx.DmxCue;
+
 @Component
-public class RGBShow implements IShow{
-	private static final Log log = LogFactory.getLog(RGBShow.class);
+public class RGB3Show implements IShow{
+	private static final Log log = LogFactory.getLog(RGB3Show.class);
 	
 	RGB3Fixture[] fixtures = {RGB3Fixture.PAR1,RGB3Fixture.PAR2,RGB3Fixture.PAR3,RGB3Fixture.PAR4};
+	
+	@Autowired
+	private DmxCue dmx;
 	
 	boolean[][] cues = {
 			{false,false, false, false},
@@ -30,7 +36,7 @@ public class RGBShow implements IShow{
 	RGBColor bgColor;
 	int step=0;
 	
-	public RGBShow(){
+	public RGB3Show(){
 		//define default color
 		bgColor = RGBColor.MAUVE;
 		
@@ -47,17 +53,15 @@ public class RGBShow implements IShow{
 	/**
 	 * @return dmx values to apply for next step of the show
 	 */
-	public Map<Integer,Integer> next(){
+	public void next(){
 		log.info("STEP "+step);
-		Map<Integer,Integer> values = new HashMap<Integer,Integer>();
 		for (int i=0;i<fixtures.length;i++) {
 			boolean[] cue = cues[step];
 			RGBColor toColor = (cue[i]?color.get(bgColor):bgColor);
-			values.putAll(fixtures[i].set(toColor));
+			dmx.set(fixtures[i],toColor);
 		}
 		step++;
 		if(step==cues.length)step=0;
-		return values;
 	}
 	/**
 	 * set background color
