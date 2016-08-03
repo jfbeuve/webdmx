@@ -48,6 +48,7 @@ public class DmxWrapper {
 
 	/**
 	 * Set DMX values
+	 * WARNING - this skips overrides. prefer using DmxCue
 	 */
 	public void set(Map<Integer,Integer> values){
 		set(values, false);

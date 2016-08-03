@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * RGB 3 channels DMX fixture
  */
-public class RGB3Fixture {
+public class RGB3Fixture extends Fixture{
 	public static final RGB3Fixture PAR1 = new RGB3Fixture(24);
 	public static final RGB3Fixture PAR2 =new RGB3Fixture(27);
 	public static final RGB3Fixture PAR3 = new RGB3Fixture(30);
@@ -19,6 +19,7 @@ public class RGB3Fixture {
 		this.red = channel;
 		this.green = channel+1;
 		this.blue = channel+2;
+		channels(new int[]{red,green, blue});
 	}
 
 	public Map<Integer,Integer> set(RGBColor color){
@@ -28,4 +29,7 @@ public class RGB3Fixture {
 		values.put(blue, color.blue());
 		return values;
 	}
+	public int red(){return red;}
+	public int green(){return green;}
+	public int blue(){return blue;}
 }

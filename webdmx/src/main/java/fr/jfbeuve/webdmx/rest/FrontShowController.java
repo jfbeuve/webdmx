@@ -16,17 +16,14 @@
 
 package fr.jfbeuve.webdmx.rest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import fr.jfbeuve.webdmx.dmx.DmxWrapper;
+import fr.jfbeuve.webdmx.dmx.DmxCue;
 import fr.jfbeuve.webdmx.show.RGB3Fixture;
-import fr.jfbeuve.webdmx.show.RGB7Fixture;
+import fr.jfbeuve.webdmx.show.RGB7Show;
 import fr.jfbeuve.webdmx.show.RGBColor;
 import fr.jfbeuve.webdmx.show.ShowRunner;
 
@@ -37,30 +34,30 @@ public class FrontShowController {
 	private ShowRunner show;
 	
 	@Autowired
-	private DmxWrapper dmx;
+	private RGB7Show front;
+	
+	@Autowired
+	private DmxCue dmx;
 	
 	private boolean strob = false;
 
 	@RequestMapping("/front/strob")
 	@ResponseBody
 	public String strob() {
-		Map<Integer,Integer> values = new HashMap<Integer,Integer>();
 		if(!strob){
 			strob=true;
 			show.stop();
-			values.putAll(RGB3Fixture.PAR1.set(RGBColor.BLACK));
-			values.putAll(RGB3Fixture.PAR2.set(RGBColor.BLACK));
-			values.putAll(RGB3Fixture.PAR3.set(RGBColor.BLACK));
-			values.putAll(RGB3Fixture.PAR4.set(RGBColor.BLACK));
-			values.putAll(RGB7Fixture.LEFT.set(RGBColor.WHITE));
-			values.putAll(RGB7Fixture.LEFT.strob(true));
+			dmx.set(RGB3Fixture.PAR1,RGBColor.BLACK);
+			dmx.set(RGB3Fixture.PAR2,RGBColor.BLACK);
+			dmx.set(RGB3Fixture.PAR3,RGBColor.BLACK);
+			dmx.set(RGB3Fixture.PAR4,RGBColor.BLACK);
+			front.strob(true,false);
 		}else{
 			strob=false;
-			values.putAll(RGB7Fixture.LEFT.set(RGBColor.BLACK));
-			values.putAll(RGB7Fixture.LEFT.strob(false));
+			front.strob(false,false);
 			show.start();
 		}
-		dmx.set(values);
+		dmx.apply();
 		return "OK";
 	}
 }

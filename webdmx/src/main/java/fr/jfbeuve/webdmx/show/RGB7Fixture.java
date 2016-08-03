@@ -15,6 +15,7 @@ public class RGB7Fixture extends RGB3Fixture{
 		super(channel);
 		strob = channel+4;
 		dim = channel+6;
+		channels(new int[]{red,green,blue, strob, dim});
 	}
 	public Map<Integer,Integer> set(RGBColor color){
 		Map<Integer,Integer> values = new HashMap<Integer,Integer>();
@@ -26,13 +27,8 @@ public class RGB7Fixture extends RGB3Fixture{
 		else values.put(dim,255);
 		return values;
 	}
-	/**
-	 * starts strob if fire==true, stops strob if fire==false
-	 */
-	public Map<Integer,Integer> strob(boolean fire){
-		Map<Integer,Integer> values = new HashMap<Integer,Integer>();
-		values.put(strob,(fire?255:0));
-		return values;
-	}
+	
+	public int strob(){return strob;}
+	public int dim(){return dim;}
 }
 

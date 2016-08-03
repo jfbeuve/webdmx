@@ -1,23 +1,21 @@
 package fr.jfbeuve.webdmx.show;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import fr.jfbeuve.webdmx.dmx.DmxWrapper;
+import fr.jfbeuve.webdmx.dmx.DmxCue;
 
 @Component
 public class ShowRunner {
 	private static final Log log = LogFactory.getLog(ShowRunner.class);	
 	
 	@Autowired
-	private DmxWrapper dmx;
+	private DmxCue dmx;
 	
 	private Tempo auto;
 	
@@ -69,11 +67,10 @@ public class ShowRunner {
 	 */
 	void nextAuto(){
 		log.info("#### next");
-		Map<Integer,Integer> values = new HashMap<Integer,Integer>();
 		for (IShow show : shows) {
-			values.putAll(show.next());
+			show.next();
 		}
-		dmx.set(values);
+		dmx.apply();
 	}
 	/**
 	 * starts autorun after to calls and sets tempo
