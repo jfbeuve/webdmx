@@ -18,6 +18,7 @@ package fr.jfbeuve.webdmx.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -32,58 +33,10 @@ public class ColorController {
 	@Autowired
 	private RGB3Show rgb;
 
-	@RequestMapping("/color/rouge")
+	@RequestMapping("/color/{color}")
 	@ResponseBody
-	public String rouge() {
-		rgb.setColor(RGBColor.ROUGE);
-		return "OK";
-	}
-	@RequestMapping("/color/vert")
-	@ResponseBody
-	public String vert() {
-		rgb.setColor(RGBColor.VERT);
-		return "OK";
-	}
-	@RequestMapping("/color/bleu")
-	@ResponseBody
-	public String bleu() {
-		rgb.setColor(RGBColor.BLEU);
-		return "OK";
-	}
-	@RequestMapping("/color/mauve")
-	@ResponseBody
-	public String mauve() {
-		rgb.setColor(RGBColor.MAUVE);
-		return "OK";
-	}
-	@RequestMapping("/color/cyan")
-	@ResponseBody
-	public String cyan() {
-		rgb.setColor(RGBColor.CYAN);
-		return "OK";
-	}	
-	@RequestMapping("/color/jaune")
-	@ResponseBody
-	public String jaune() {
-		rgb.setColor(RGBColor.JAUNE);
-		return "OK";
-	}	
-	@RequestMapping("/color/ambre")
-	@ResponseBody
-	public String ambre() {
-		rgb.setColor(RGBColor.AMBRE);
-		return "OK";
-	}
-	@RequestMapping("/color/blanc")
-	@ResponseBody
-	public String blanc() {
-		rgb.setColor(RGBColor.WHITE);
-		return "OK";
-	}
-	@RequestMapping("/color/noir")
-	@ResponseBody
-	public String noir() {
-		rgb.setColor(RGBColor.BLACK);
+	public String color(@PathVariable String color) {
+		rgb.setColor(RGBColor.valueOf(color));
 		return "OK";
 	}
 }

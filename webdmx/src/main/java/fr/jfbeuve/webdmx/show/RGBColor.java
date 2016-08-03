@@ -1,23 +1,17 @@
 package fr.jfbeuve.webdmx.show;
 
-public class RGBColor {
-	static final public RGBColor ROUGE = new RGBColor(255, 0, 0);
-	static final public RGBColor VERT = new RGBColor(0, 255, 0);
-	static final public RGBColor BLEU = new RGBColor(0, 0, 255);
+public enum RGBColor {
+	ROUGE(255, 0, 0), VERT(0, 255, 0), BLEU(0, 0, 255),
 	
-	static final public RGBColor MAUVE = new RGBColor(255, 0, 255);
-	static final public RGBColor CYAN = new RGBColor(0, 255, 255);
+	MAUVE(255, 0, 255), CYAN(0, 255, 255),
 	
-	static final public RGBColor JAUNE = new RGBColor(255, 255, 0);
-	static final public RGBColor AMBRE = new RGBColor(255, 127, 0);
+	JAUNE(255, 255, 0), AMBRE(255, 127, 0),
 	
-	static final public RGBColor BLACK = new RGBColor(0, 0, 0);
-	static final public RGBColor WHITE = new RGBColor(255, 255, 255);
+	BLACK(0, 0, 0), WHITE(255, 255, 255);
 	
 	int red, green, blue;
 
-	public RGBColor(int red, int green, int blue) {
-		super();
+	private RGBColor(int red, int green, int blue) {
 		this.red = red;
 		this.green = green;
 		this.blue = blue;

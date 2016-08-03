@@ -53,9 +53,13 @@ public class HttpShowControllerTest {
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		assertStrob(false);
 		
-		//NEXT
+		//COLOR
 		assertColors(RGBColor.MAUVE, RGBColor.CYAN, RGBColor.CYAN, RGBColor.MAUVE); //3
-		rgb.setColor(RGBColor.ROUGE);
+		entity = new TestRestTemplate().getForEntity("http://localhost/color/ROUGE", String.class);
+		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		//rgb.setColor(RGBColor.ROUGE);
+		
+		//NEXT
 		entity = new TestRestTemplate().getForEntity("http://localhost/show/next", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		assertColors(RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.JAUNE, RGBColor.ROUGE); //4
