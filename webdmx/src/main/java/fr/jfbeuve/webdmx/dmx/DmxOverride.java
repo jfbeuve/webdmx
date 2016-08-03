@@ -3,13 +3,20 @@ package fr.jfbeuve.webdmx.dmx;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.show.RGBColor;
 
 public class DmxOverride {
+	@JsonProperty
 	private String[] fixtures;
+	@JsonProperty
 	private String color;
+	@JsonProperty
 	private Integer dimmer;
+	
+	public DmxOverride(){}
 	
 	public DmxOverride(String[] f, String c, int d){
 		fixtures = f;

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.jfbeuve.webdmx.dmx.DmxCue;
+import fr.jfbeuve.webdmx.dmx.DmxOverride;
 
 @RestController
 public class OverrideController {
@@ -18,10 +19,8 @@ public class OverrideController {
 	private DmxCue cue;
 	
 	@RequestMapping(value = "/override", method = RequestMethod.POST,consumes="application/json")
-	//public ResponseEntity<String> override(@RequestBody DmxOverride o) {
-	public ResponseEntity<String> override(@RequestBody final Todo o) {
-		System.out.println("#### /override POST "+o);
-		//cue.override(o);
+	public ResponseEntity<String> override(@RequestBody final DmxOverride o) {
+		cue.override(o);
 		return new ResponseEntity<String>("OK",HttpStatus.OK);
 	}
 }
