@@ -80,4 +80,9 @@ public class DmxCue {
 			override.removeAll(f.channels());
 		}
 	}
+	
+	public void override(DmxOverride o){
+		if(o.color()==null&&o.dimmer()==null) reset(o);
+		else set(o);
+	}
 }

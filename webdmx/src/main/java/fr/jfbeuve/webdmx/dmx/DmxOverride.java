@@ -6,7 +6,6 @@ import java.util.List;
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.show.RGBColor;
 
-
 public class DmxOverride {
 	private String[] fixtures;
 	private String color;
