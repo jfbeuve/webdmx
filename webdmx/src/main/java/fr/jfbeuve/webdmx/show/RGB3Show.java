@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.jfbeuve.webdmx.dmx.DmxCue;
+import fr.jfbeuve.webdmx.fixture.RGBFixture;
 
 @Component
 public class RGB3Show implements IShow{
 	private static final Log log = LogFactory.getLog(RGB3Show.class);
 	
-	RGB3Fixture[] fixtures = {RGB3Fixture.PAR1,RGB3Fixture.PAR2,RGB3Fixture.PAR3,RGB3Fixture.PAR4};
+	RGBFixture[] fixtures = {RGBFixture.PAR1,RGBFixture.PAR2,RGBFixture.PAR3,RGBFixture.PAR4};
 	
 	@Autowired
 	private DmxCue dmx;

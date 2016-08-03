@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.jfbeuve.webdmx.dmx.DmxCue;
+import fr.jfbeuve.webdmx.fixture.RGBFixture;
 
 @Component
 public class RGB7Show {
@@ -17,8 +18,8 @@ public class RGB7Show {
 	 * turn off right strob if right = false
 	 */
 	public void strob(boolean left, boolean right){
-		dmx.set(RGB7Fixture.LEFT,(left?RGBColor.WHITE:RGBColor.BLACK));
-		dmx.set(RGB7Fixture.LEFT.strob(),(left?255:0));
-		dmx.set(RGB7Fixture.LEFT.dim(),(left?255:0));
+		dmx.set(RGBFixture.LEFT,(left?RGBColor.WHITE:RGBColor.BLACK));
+		dmx.set(RGBFixture.LEFT.strob(),(left?255:0));
+		dmx.set(RGBFixture.LEFT.dim(),(left?255:0));
 	}
 }

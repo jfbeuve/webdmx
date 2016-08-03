@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import fr.jfbeuve.webdmx.dmx.DmxCue;
-import fr.jfbeuve.webdmx.show.RGB3Fixture;
+import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.show.RGB3Show;
-import fr.jfbeuve.webdmx.show.RGB7Fixture;
 import fr.jfbeuve.webdmx.show.RGBColor;
 import fr.jfbeuve.webdmx.show.ShowRunner;
 
@@ -33,10 +32,10 @@ public class MasterShowController {
 		} else {
 			run=false;
 			show.stop();
-			dmx.set(RGB3Fixture.PAR1,RGBColor.BLACK);
-			dmx.set(RGB3Fixture.PAR2,RGBColor.BLACK);
-			dmx.set(RGB3Fixture.PAR3,RGBColor.BLACK);
-			dmx.set(RGB3Fixture.PAR4,RGBColor.BLACK);
+			dmx.set(RGBFixture.PAR1,RGBColor.BLACK);
+			dmx.set(RGBFixture.PAR2,RGBColor.BLACK);
+			dmx.set(RGBFixture.PAR3,RGBColor.BLACK);
+			dmx.set(RGBFixture.PAR4,RGBColor.BLACK);
 			dmx.apply();
 		}
 		return "OK";
@@ -60,11 +59,11 @@ public class MasterShowController {
 	@ResponseBody
 	public String blackout() {
 		show.stop();
-		dmx.set(RGB3Fixture.PAR1,RGBColor.BLACK);
-		dmx.set(RGB3Fixture.PAR2,RGBColor.BLACK);
-		dmx.set(RGB3Fixture.PAR3,RGBColor.BLACK);
-		dmx.set(RGB3Fixture.PAR4,RGBColor.BLACK);
-		dmx.set(RGB7Fixture.LEFT,RGBColor.BLACK);
+		dmx.set(RGBFixture.PAR1,RGBColor.BLACK);
+		dmx.set(RGBFixture.PAR2,RGBColor.BLACK);
+		dmx.set(RGBFixture.PAR3,RGBColor.BLACK);
+		dmx.set(RGBFixture.PAR4,RGBColor.BLACK);
+		dmx.set(RGBFixture.LEFT,RGBColor.BLACK);
 		dmx.apply();
 		return "OK";
 	}

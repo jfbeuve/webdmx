@@ -1,14 +1,15 @@
 package fr.jfbeuve.webdmx.dmx;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import fr.jfbeuve.webdmx.show.RGB3Fixture;
+import fr.jfbeuve.webdmx.fixture.FixtureType;
+import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.show.RGBColor;
 
 @Component
@@ -18,7 +19,7 @@ public class DmxCue {
 	private DmxWrapper dmx;
 	
 	private Map<Integer,Integer> values = new HashMap<Integer,Integer>();
-	private List<Integer> override = new ArrayList<Integer>();
+	private Set<Integer> override = new HashSet<Integer>();
 	
 	/**
 	 * apply dmx values
@@ -36,23 +37,7 @@ public class DmxCue {
 	/**
 	 * store dmx values to apply if channels are not overridden
 	 */
-	public void set(RGB3Fixture f, RGBColor c){
-		values.put(f.red(), c.red());
-		values.put(f.green(), c.green());
-		values.put(f.blue(), c.blue());
-	}
-	/**
-	 * set override
-	 */
-	public void override(int channel, int value){
-		override.add(channel);
-		values.put(channel, value);
-	}
-	/**
-	 * set override
-	 */
-	public void override(RGB3Fixture f, RGBColor c){
-		override.addAll(f.channels());
+	public void set(RGBFixture f, RGBColor c){
 		values.put(f.red(), c.red());
 		values.put(f.green(), c.green());
 		values.put(f.blue(), c.blue());
@@ -61,18 +46,38 @@ public class DmxCue {
 	 * cancel override
 	 */
 	public void reset(){
-		override = new ArrayList<Integer>();
+		override = new HashSet<Integer>();
 	}
 	/** 
 	 * cancel override
 	 */
-	public void reset(int channel){
-		override.remove(channel);
-	}
-	/** 
-	 * cancel override
-	 */
-	public void reset(RGB3Fixture f){
+	public void reset(RGBFixture f){
 		override.removeAll(f.channels());
+	}
+	public void set(DmxOverride o){
+		RGBColor c = o.color();
+		for (RGBFixture f : o.fixtures()) {
+			override.addAll(f.channels());
+			
+			int dim = 255;
+			
+			if(f.type()==FixtureType.RGB7){
+				values.put(f.dim(), o.dimmer());
+				values.put(f.strob(), 0);
+			}else{
+				dim = o.dimmer();
+			}
+			
+			values.put(f.red(), c.red()*dim/255);
+			values.put(f.green(), c.green()*dim/255);
+			values.put(f.blue(), c.blue()*dim/255);
+		}
+		apply();
+		
+	}
+	public void reset(DmxOverride o){
+		for (RGBFixture f : o.fixtures()) {
+			override.removeAll(f.channels());
+		}
 	}
 }
