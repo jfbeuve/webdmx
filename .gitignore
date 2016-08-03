@@ -3,3 +3,5 @@ webdmx/target
 target
 /webdmx/.settings
 /webdmx/target
+/webdmx/.project
+/webdmx/.classpath
