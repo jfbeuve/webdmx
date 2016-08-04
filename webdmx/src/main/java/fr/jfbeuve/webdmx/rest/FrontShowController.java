@@ -41,7 +41,7 @@ public class FrontShowController {
 			front.strob(false,false);
 			show.start();
 		}
-		dmx.apply();
+		dmx.apply(0);
 		return "OK";
 	}
 }

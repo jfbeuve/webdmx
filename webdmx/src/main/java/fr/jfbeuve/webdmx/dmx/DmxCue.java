@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import fr.jfbeuve.webdmx.fixture.FixtureType;
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.show.RGBColor;
+import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @Component
 public class DmxCue {
@@ -18,14 +19,22 @@ public class DmxCue {
 	@Autowired
 	private DmxWrapper dmx;
 	
+	@Autowired
+	private ShowRunner show;
+	
 	private Map<Integer,Integer> values = new HashMap<Integer,Integer>();
 	private Set<Integer> override = new HashSet<Integer>();
 	
 	/**
 	 * apply dmx values
+	 * @param fade time in milliseconds. 0 means SNAP.
 	 */
-	public void apply(){
-		dmx.set(values);
+	public void apply(long fade){
+		if(fade>0){ //FADE
+			new DmxFader(dmx, values).fade(fade);
+		}else{ //SNAP
+			dmx.set(values);
+		}
 		values = new HashMap<Integer,Integer>();
 	}
 	/**
@@ -72,7 +81,7 @@ public class DmxCue {
 			values.put(f.green(), c.green()*dim/255);
 			values.put(f.blue(), c.blue()*dim/255);
 		}
-		apply();
+		apply(o.fade());
 		
 	}
 	public void reset(DmxOverride o){
@@ -85,4 +94,5 @@ public class DmxCue {
 		if(o.color()==null&&o.dimmer()==null) reset(o);
 		else set(o);
 	}
+	
 }

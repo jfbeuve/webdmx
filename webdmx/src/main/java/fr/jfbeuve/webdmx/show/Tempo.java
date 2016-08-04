@@ -22,7 +22,7 @@ public class Tempo implements Runnable {
 			} catch (InterruptedException e) {
 				log.warn(e, e);
 			}
-			if(!stop) show.nextAuto();
+			if(!stop) show.next();
 		}
 	}
 	

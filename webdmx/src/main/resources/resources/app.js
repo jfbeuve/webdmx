@@ -30,7 +30,6 @@ ReactDOM.render(
 		<AjaxButton name="blackout" url="/show/blackout"></AjaxButton>
 		<br/>
 		<AjaxButton name="tap" url="/show/tap"></AjaxButton>
-		<AjaxButton name="next"url="/show/next"></AjaxButton>
     </div>
   ,
   document.getElementById('container')

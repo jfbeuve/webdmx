@@ -40,19 +40,16 @@ public class ShowRunnerTest {
 		Thread.sleep(1500);
 		log.info("###### ASSERT 2");
 		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.CYAN);
-		show.next();
-		log.info("###### ASSERT 3");
-		assertColors(RGBColor.MAUVE, RGBColor.CYAN, RGBColor.CYAN, RGBColor.MAUVE);
 		show.tap();
 		log.info("###### ASSERT 4");
-		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.CYAN, RGBColor.MAUVE);
+		assertColors(RGBColor.MAUVE, RGBColor.CYAN, RGBColor.CYAN, RGBColor.MAUVE);
 		Thread.sleep(500);
 		show.tap();
 		log.info("###### ASSERT 5");
-		assertColors(RGBColor.MAUVE, RGBColor.CYAN, RGBColor.MAUVE, RGBColor.CYAN);
+		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.CYAN, RGBColor.MAUVE);
 		Thread.sleep(750);
 		log.info("###### ASSERT 6");
-		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE);
+		assertColors(RGBColor.MAUVE, RGBColor.CYAN, RGBColor.MAUVE, RGBColor.CYAN);
 		
 	}
 	private void assertColors(RGBColor a, RGBColor b, RGBColor c, RGBColor d){

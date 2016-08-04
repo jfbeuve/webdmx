@@ -13,6 +13,7 @@ import com.juanjo.openDmx.OpenDmx;
 
 @Component
 public class DmxWrapper {
+	
 	private boolean open;
 	private Map<Integer,DmxChannel> output = new HashMap<Integer, DmxChannel>();
 	private static final Log log = LogFactory.getLog(DmxWrapper.class);
@@ -50,7 +51,7 @@ public class DmxWrapper {
 	 * Set DMX values
 	 * WARNING - this skips overrides. prefer using DmxCue
 	 */
-	public void set(Map<Integer,Integer> values){
+	synchronized public void set(Map<Integer,Integer> values){
 		set(values, false);
 	}
 	
@@ -58,7 +59,6 @@ public class DmxWrapper {
 	 * Set DMX values in bulk
 	 */
 	void set(Map<Integer,Integer> values, boolean dimmer){
-		//TODO fading
 		for (Integer channelId : values.keySet()) {
 		    DmxChannel channel = get(channelId);
 		    // remove unchanged values if !dimmer and old value = new value

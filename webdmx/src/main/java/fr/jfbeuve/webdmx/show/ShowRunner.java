@@ -19,7 +19,7 @@ public class ShowRunner {
 	
 	private Tempo auto;
 	
-	private long speed=1000, timestamp;
+	private long speed=1000, timestamp,fade=2000;
 	
 	private List<IShow> shows = new ArrayList<IShow>();
 	
@@ -51,26 +51,18 @@ public class ShowRunner {
 	public void start(){
 		if(auto==null) auto();
 	}
-	/**
-	 * applies next step and disables autorun
-	 */
-	public void next(){
-		if(auto!=null){
-			auto.stop();
-			auto=null;
-		}
-		nextAuto();
-	}
 	
 	/**
 	 * applies next step
 	 */
-	void nextAuto(){
+	void next(){
 		log.info("#### next");
 		for (IShow show : shows) {
 			show.next();
 		}
-		dmx.apply();
+		// FADE only if fade time < step duration
+		if(fade<speed) dmx.apply(fade);
+		else dmx.apply(0);
 	}
 	/**
 	 * starts autorun after to calls and sets tempo
@@ -78,7 +70,11 @@ public class ShowRunner {
 	public void tap(){
 		if(timestamp==0){
 			timestamp = System.currentTimeMillis();
-			nextAuto();			
+			if(auto!=null){
+				auto.stop();
+				auto=null;
+			}
+			next();			
 			return;
 		}
 		
@@ -91,9 +87,32 @@ public class ShowRunner {
 	}
 	private void auto(){
 		log.info("SPEED "+speed);
-		nextAuto();
+		next();
 		if(auto!=null)auto.stop();
 		auto = new Tempo(this, speed);
 		new Thread(auto).start();
+	}
+	/**
+	 * sets speed
+	 */
+	public void speed(long _speed){
+		speed = _speed;
+		if(auto!=null){
+			auto.stop();
+			auto = new Tempo(this, speed);
+			new Thread(auto).start();
+		}
+	}
+	/**
+	 * set fade time  in millis
+	 */
+	public void fade(long time){
+		fade=time;
+	}
+	/**
+	 * @return fade time in millis
+	 */
+	public long fade(){
+		return fade;
 	}
 }

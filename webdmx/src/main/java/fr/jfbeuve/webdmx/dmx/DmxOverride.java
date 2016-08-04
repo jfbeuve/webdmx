@@ -15,6 +15,8 @@ public class DmxOverride {
 	private String color;
 	@JsonProperty
 	private Integer dimmer;
+	@JsonProperty
+	private Long fade;
 	
 	public DmxOverride(){}
 	
@@ -40,5 +42,9 @@ public class DmxOverride {
 	
 	public Integer dimmer(){
 		return dimmer;
+	}
+	public long fade(){
+		if(fade==null)return 0;
+		return fade;
 	}
 }

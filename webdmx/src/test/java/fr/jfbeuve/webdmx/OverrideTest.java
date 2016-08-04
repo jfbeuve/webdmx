@@ -31,7 +31,7 @@ public class OverrideTest {
 		cue.set(11,255);
 		cue.set(17,127);
 		cue.set(24,127);
-		cue.apply();
+		cue.apply(0);
 		assertEquals(255,dmx.get(11).value());
 		assertEquals(127,dmx.get(17).value());
 		assertEquals(127,dmx.get(24).value());
@@ -48,7 +48,7 @@ public class OverrideTest {
 		cue.set(13,255);
 		cue.set(26,255);
 		cue.set(29,255); // the only one updated
-		cue.apply();
+		cue.apply(0);
 		assertEquals(0,dmx.get(13).value());
 		assertEquals(0,dmx.get(26).value());
 		assertEquals(255,dmx.get(29).value()); // the only one updated
@@ -70,7 +70,7 @@ public class OverrideTest {
 		cue.set(17,100);
 		cue.set(28,100);
 		cue.set(29,100); 
-		cue.apply();
+		cue.apply(0);
 		assertEquals(100,dmx.get(17).value());
 		assertEquals(100,dmx.get(28).value());
 		assertEquals(100,dmx.get(29).value()); // the only one updated

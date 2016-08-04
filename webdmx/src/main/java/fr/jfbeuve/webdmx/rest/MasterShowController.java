@@ -36,15 +36,8 @@ public class MasterShowController {
 			dmx.set(RGBFixture.PAR2,RGBColor.BLACK);
 			dmx.set(RGBFixture.PAR3,RGBColor.BLACK);
 			dmx.set(RGBFixture.PAR4,RGBColor.BLACK);
-			dmx.apply();
+			dmx.apply(show.fade());
 		}
-		return "OK";
-	}
-	
-	@RequestMapping("/show/next")
-	@ResponseBody
-	public String next() {
-		show.next();
 		return "OK";
 	}
 	
@@ -64,7 +57,9 @@ public class MasterShowController {
 		dmx.set(RGBFixture.PAR3,RGBColor.BLACK);
 		dmx.set(RGBFixture.PAR4,RGBColor.BLACK);
 		dmx.set(RGBFixture.LEFT,RGBColor.BLACK);
-		dmx.apply();
+		dmx.apply(show.fade());
 		return "OK";
 	}
+	
+	//TODO request mapping /fade/{time} sets show.fade(time)
 }
