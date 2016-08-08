@@ -13,7 +13,7 @@ import fr.jfbeuve.webdmx.dmx.DmxOverride;
 
 @RestController
 public class OverrideController {
-	//{"fixtures":["PAR1"],"color":"ROUGE","dimmer":255}
+	//{"fixtures":["PAR1"],"color":"ROUGE","dimmer":255,"fade":0}
 	
 	@Autowired
 	private DmxCue cue;

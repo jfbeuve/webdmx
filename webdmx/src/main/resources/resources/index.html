@@ -4,17 +4,32 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <title>Web DMX</title>
-    <link rel="stylesheet" href="../shared/css/base.css" />
+    <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <div id="container"></div>
-    <script src="jquery.min.js"></script>
-    <script src="react.js"></script>
-    <script src="react-dom.js"></script>
-    <script src="browser.min.js"></script>
-    <script type="text/babel" src="app.js"></script>
-    <!-- TODO color palette, fade time slider, css, master dimmer -->
-    <!-- TODO RGB7 override dimmer/color -->
-    <!-- TODO RGB3 override dimmer/color/selector -->
+  <script src="jquery.min.js"></script>
+  <script src="index.js"></script>
+  	<button type="button" onClick="show()">show</button>
+  	<button type="button" onClick="strob()">strob</button>
+  	<button type="button" onClick="blackout()">blackout</button>
+  	<hr/>
+  	<button type="button" class="btn">PAR1</button>
+  	<button type="button" class="btn">PAR2</button>
+  	<button type="button" class="btn">PAR3</button>
+  	<button type="button" class="btn">PAR4</button>
+  	<input type="range" defaultValue="100"/>
+  	<table><tr>
+  		<td height="30" width="30" bgcolor="red" onClick="sideColor('ROUGE')"></td>
+  		<td height="30" width="30" bgcolor="green" onClick="sideColor('VERT')"></td>
+  		<td height="30" width="30" bgcolor="blue" onClick="sideColor('BLEU')"></td>
+  		<td height="30" width="30" bgcolor="violet" onClick="sideColor('MAUVE')"></td>
+  		<td height="30" width="30" bgcolor="cyan" onClick="sideColor('CYAN')"></td>
+  		<td height="30" width="30" bgcolor="yellow" onClick="sideColor('JAUNE')"></td>
+  		<td height="30" width="30" bgcolor="orange" onClick="sideColor('AMBRE')"></td>
+  		<td height="30" width="30" bgcolor="white" onClick="sideColor('WHITE')"></td>
+  		<td height="30" width="30" bgcolor="black" onClick="sideColor('BLACK')"></td>
+  	</tr></table>
+  	<hr/>
+  	<input type="range" defaultValue="20"/><button type="button" onClick="tap()">tap</button>
   </body>
 </html>
