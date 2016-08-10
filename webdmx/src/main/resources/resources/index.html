@@ -8,28 +8,47 @@
   </head>
   <body>
   <script src="jquery.min.js"></script>
-  <script src="index.js"></script>
-  	<button type="button" onClick="show()">show</button>
-  	<button type="button" onClick="strob()">strob</button>
-  	<button type="button" onClick="blackout()">blackout</button>
-  	<hr/>
-  	<button type="button" class="btn">PAR1</button>
-  	<button type="button" class="btn">PAR2</button>
-  	<button type="button" class="btn">PAR3</button>
-  	<button type="button" class="btn">PAR4</button>
-  	<input type="range" defaultValue="100"/>
+  <div class="master">
+  	<button onClick="show()">show</button>
+  	<button onClick="strob()">strob</button>
+  	<button onClick="blackout()">blackout</button>
   	<table><tr>
-  		<td height="30" width="30" bgcolor="red" onClick="sideColor('ROUGE')"></td>
-  		<td height="30" width="30" bgcolor="green" onClick="sideColor('VERT')"></td>
-  		<td height="30" width="30" bgcolor="blue" onClick="sideColor('BLEU')"></td>
-  		<td height="30" width="30" bgcolor="violet" onClick="sideColor('MAUVE')"></td>
-  		<td height="30" width="30" bgcolor="cyan" onClick="sideColor('CYAN')"></td>
-  		<td height="30" width="30" bgcolor="yellow" onClick="sideColor('JAUNE')"></td>
-  		<td height="30" width="30" bgcolor="orange" onClick="sideColor('AMBRE')"></td>
-  		<td height="30" width="30" bgcolor="white" onClick="sideColor('WHITE')"></td>
-  		<td height="30" width="30" bgcolor="black" onClick="sideColor('BLACK')"></td>
+  		<td bgcolor="red" onClick="color('ROUGE')"></td>
+  		<td bgcolor="green" onClick="color('VERT')"></td>
+  		<td bgcolor="blue" onClick="color('BLEU')"></td>
+  		<td bgcolor="violet" onClick="sideColor('MAUVE')"></td>
+  		<td bgcolor="cyan" onClick="color('CYAN')"></td>
+  		<td bgcolor="yellow" onClick="color('JAUNE')"></td>
+  		<td bgcolor="orange" onClick="color('AMBRE')"></td>
+  		<td bgcolor="white" onClick="color('WHITE')"></td>
+  		<td bgcolor="black" onClick="color('BLACK')"></td>
   	</tr></table>
-  	<hr/>
-  	<input type="range" defaultValue="20"/><button type="button" onClick="tap()">tap</button>
+  </div><hr/><div class="override">
+  	<button class="override" id="PAR1">PAR1</button>
+  	<button class="override" id="PAR2">PAR2</button>
+  	<button class="override" id="PAR3">PAR3</button>
+  	<button class="override" id="PAR4">PAR4</button>
+  	<button class="override" id="LEFT">LEFT</button>
+  	<input type="range"/>
+  	<table><tr>
+  		<td bgcolor="red" onClick="sideColor('ROUGE')"></td>
+  		<td bgcolor="green" onClick="sideColor('VERT')"></td>
+  		<td bgcolor="blue" onClick="sideColor('BLEU')"></td>
+  		<td bgcolor="violet" onClick="sideColor('MAUVE')"></td>
+  		<td bgcolor="cyan" onClick="sideColor('CYAN')"></td>
+  		<td bgcolor="yellow" onClick="sideColor('JAUNE')"></td>
+  		<td bgcolor="orange" onClick="sideColor('AMBRE')"></td>
+  		<td bgcolor="white" onClick="sideColor('WHITE')"></td>
+  		<td bgcolor="black" onClick="sideColor('BLACK')"></td>
+  	</tr></table>
+  	</div><hr/><div class="fader">
+	  	<button onClick="fade(0)">0s</button>
+	  	<button onClick="fade(2000)">2s</button>
+	  	<button onClick="fade(5000)">5s</button>
+	  	<button onClick="fade(30000)">30s</button>
+	  	<button onClick="fade(180000)">3m</button>
+	  	<button onClick="tap()">tap</button>
+  	</div>
+  	<script src="index.js"></script>
   </body>
 </html>

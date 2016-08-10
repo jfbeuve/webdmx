@@ -66,7 +66,7 @@ public class MasterController {
 	}
 	@RequestMapping("/color/{color}")
 	@ResponseBody
-	public String color(@PathVariable String color) {
+	public String color(@PathVariable("color") String color) {
 		rgb.setColor(RGBColor.valueOf(color));
 		return "OK";
 	}
@@ -93,7 +93,7 @@ public class MasterController {
 	}
 	@RequestMapping("/fade/{time}")
 	@ResponseBody
-	public String fade(@PathVariable Long time) {
+	public String fade(@PathVariable("time") Long time) {
 		show.fade(time);
 		return "OK";
 	}

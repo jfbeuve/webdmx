@@ -80,6 +80,7 @@ public class ShowRunner {
 		
 		long now = System.currentTimeMillis();
 		speed = now-timestamp;
+		//TODO align fade time unless time==0
 		
 		auto();
 		
@@ -107,6 +108,7 @@ public class ShowRunner {
 	 * set fade time  in millis
 	 */
 	public void fade(long time){
+		//TODO align show speed unless time==0
 		fade=time;
 	}
 	/**

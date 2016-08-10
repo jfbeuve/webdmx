@@ -1,19 +1,38 @@
-.btn {
-  background: #3498db;
-  border-radius: 0px;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 12px;
-  padding: 2px 2px 2px 2px;
-  text-decoration: none;
-  height: 30px;
-  width: 70px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  display: block;
+button {
+    background-color: white;
+    border: 2px solid #4CAF50;
+    color: black;
+    padding: 6px 6px;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.master button {
+	    padding: 10px 10px;
+}
+.override button {
+	    padding: 6px 6px;
+}
+.fader button {
+	    padding: 10px 10px;
+}
+.override td {
+	height: 30px;
+	width: 30px;
+}
+.master td {
+	height: 30px;
+	width: 30px;
 }
 
-.btn:active {
-  background: #cecece;
-  text-decoration: none;
+button:click {
+    background-color: #4CAF50;
+    color: white;
+}
+.active {
+    background-color: #4CAF50;
+    color: white;
+}
+input[type=range]{
+	width: 100%;
 }
