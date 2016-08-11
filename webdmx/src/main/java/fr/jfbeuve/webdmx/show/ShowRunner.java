@@ -19,16 +19,16 @@ public class ShowRunner {
 	
 	private Tempo auto;
 	
-	private long speed=1000, timestamp,fade=2000;
+	private long speed=4000;
 	
 	private List<IShow> shows = new ArrayList<IShow>();
 	
 	/**
 	 * adds a show to the scheduler
 	 */
-	public void start(IShow show){
+	public boolean start(IShow show){
 		shows.add(show);
-		if(auto==null) auto();
+		return start();
 	}
 	/**
 	 * removes a show from the scheduler
@@ -38,18 +38,26 @@ public class ShowRunner {
 	}
 	/**
 	 * stops autorun
+	 * @return true if stopred, false if already stopped
 	 */
-	public void stop(){
+	public boolean stop(){
 		if(auto!=null){
 			auto.stop();
 			auto=null;
-		}
+			return true;
+		}else
+			return false;
 	}
 	/**
-	 * restarts autorun
+	 * starts/restarts autorun
+	 * @return true if started, false if already running
 	 */
-	public void start(){
-		if(auto==null) auto();
+	public boolean start(){
+		if(auto==null){
+			speed(speed);
+			return true;
+		}else
+			return false;
 	}
 	
 	/**
@@ -60,61 +68,19 @@ public class ShowRunner {
 		for (IShow show : shows) {
 			show.next();
 		}
-		// FADE only if fade time < step duration
-		if(fade<speed) dmx.apply(fade);
-		else dmx.apply(0);
+		long fade = 0;
+		if(speed>2000) fade = speed/2;
+		dmx.apply(fade);
 	}
 	/**
-	 * starts autorun after to calls and sets tempo
-	 */
-	public void tap(){
-		if(timestamp==0){
-			timestamp = System.currentTimeMillis();
-			if(auto!=null){
-				auto.stop();
-				auto=null;
-			}
-			next();			
-			return;
-		}
-		
-		long now = System.currentTimeMillis();
-		speed = now-timestamp;
-		//TODO align fade time unless time==0
-		
-		auto();
-		
-		timestamp=0;
-	}
-	private void auto(){
-		log.info("SPEED "+speed);
-		next();
-		if(auto!=null)auto.stop();
-		auto = new Tempo(this, speed);
-		new Thread(auto).start();
-	}
-	/**
-	 * sets speed
+	 * sets speed and starts auto run
 	 */
 	public void speed(long _speed){
 		speed = _speed;
-		if(auto!=null){
-			auto.stop();
-			auto = new Tempo(this, speed);
-			new Thread(auto).start();
-		}
-	}
-	/**
-	 * set fade time  in millis
-	 */
-	public void fade(long time){
-		//TODO align show speed unless time==0
-		fade=time;
-	}
-	/**
-	 * @return fade time in millis
-	 */
-	public long fade(){
-		return fade;
+		if(shows.isEmpty()) return;
+		if(auto!=null) auto.stop();
+		next();
+		auto = new Tempo(this, speed);
+		new Thread(auto).start();
 	}
 }

@@ -34,20 +34,20 @@ public class ShowRunnerTest {
 	public void testShowRunner() throws Exception {
 		dmx.offline();
 		rgb.setColor(RGBColor.MAUVE);
+		show.speed(1000);
 		show.start(rgb);
 		log.info("###### ASSERT 1");
 		assertColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE);
-		Thread.sleep(1500);
+		Thread.sleep(1200);
 		log.info("###### ASSERT 2");
 		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.CYAN);
-		show.tap();
+		show.speed(500);
 		log.info("###### ASSERT 4");
 		assertColors(RGBColor.MAUVE, RGBColor.CYAN, RGBColor.CYAN, RGBColor.MAUVE);
-		Thread.sleep(500);
-		show.tap();
+		Thread.sleep(600);
 		log.info("###### ASSERT 5");
 		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.CYAN, RGBColor.MAUVE);
-		Thread.sleep(750);
+		Thread.sleep(500);
 		log.info("###### ASSERT 6");
 		assertColors(RGBColor.MAUVE, RGBColor.CYAN, RGBColor.MAUVE, RGBColor.CYAN);
 		

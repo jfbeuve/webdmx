@@ -12,24 +12,26 @@ function get(url){
     });
 }
 
-function show(){
-	get('/show/run');
-}
-function strob(){
-	get('/front/strob');
-}
-function blackout(){
-	get('/show/blackout');
-}
+var timestamp=0;
 function tap(){
-	get('/show/tap');
+	var btn = $("#tap");
+	if(btn.hasClass("active")){
+		// tear down
+		var time = Date.now - timestamp;
+		speed(time);
+		btn.removeClass("active");		
+	}else{
+		//tear up
+		timestamp = Date.now;
+		btn.addClass("active");
+	}
 }
 
-function fade(time){
+function speed(time){
 	$.ajax({
-      url: '/fade/'+time,
+      url: '/speed/'+time,
       success: function(data) {
-      	console.log('FADE '+time);
+      	console.log('SPEED '+time);
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -49,17 +51,25 @@ function color(color){
     });
 }
 
-$(":button,.override").click(function(){
+$(".override>button").click(function(){
 	console.log(this.id);
 	var btn = $("#"+this.id);
+	if(this.id=='STROB'){
+		//TODO start/stop strob if supported by fixture
+	}
 	if(btn.hasClass("active")){
-		//TODO HTTP POST remove override
 		 btn.removeClass("active");
+		 $.ajax({
+		  type: "POST",
+	      url: "/override",
+	      data: "{'fixtures':['"+this.id+"']}",
+	      contentType: 'application/json',
+	      cache: false
+	    });
 	}
 	else btn.addClass("active");
 });
 
-//{"fixtures":["PAR1"],"color":"ROUGE","dimmer":255,"fade":0}
 var side = {
 	fixtures: [],
 	dimmer: 255,
@@ -76,7 +86,7 @@ function sideColor(color){
 	side.color = color;
 	console.log(color);
 	side.fixtures = new Array();
-	$.each( $(".active"), function() {
+	$.each( $(".override>button.active"), function() {
     	side.fixtures.push(this.id);
 	});
 	if(side.fixtures.length>0){
@@ -89,14 +99,4 @@ function sideColor(color){
 	    });
 	}
 }
-// http://api.jquery.com/jquery.getjson/
-// var your_object = JSON.parse(json_text);
-//var json_text = JSON.stringify(your_object, null, 2);
-
-//TODO show color
-//TODO fading time buttons + Ajax
-//TODO init (show, strob, blackout, overrides)
-//TODO side overrides
-//TODO overrides dimmer
-//TODO fade button hold/init
 

@@ -25,30 +25,11 @@ public class MasterController {
 	@Autowired
 	private RGB7Show front;
 
-	private boolean run = false;
-	
 	@RequestMapping("/show/run")
 	@ResponseBody
 	public String run() {
-		if(!run){
-			run=true;
-			show.start(rgb);
-		} else {
-			run=false;
-			show.stop();
-			//dmx.set(RGBFixture.PAR1,RGBColor.BLACK);
-			//dmx.set(RGBFixture.PAR2,RGBColor.BLACK);
-			//dmx.set(RGBFixture.PAR3,RGBColor.BLACK);
-			//dmx.set(RGBFixture.PAR4,RGBColor.BLACK);
-			//dmx.apply(show.fade());
-		}
-		return "OK";
-	}
-	
-	@RequestMapping("/show/tap")
-	@ResponseBody
-	public String tap() {
-		show.tap();
+		boolean success = show.start(rgb);
+		if(!success) show.stop();
 		return "OK";
 	}
 	
@@ -91,10 +72,10 @@ public class MasterController {
 		dmx.apply(0);
 		return "OK";
 	}
-	@RequestMapping("/fade/{time}")
+	@RequestMapping("/speed/{time}")
 	@ResponseBody
-	public String fade(@PathVariable("time") Long time) {
-		show.fade(time);
+	public String speed(@PathVariable("time") Long time) {
+		show.speed(time);
 		return "OK";
 	}
 }

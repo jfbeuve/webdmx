@@ -9,26 +9,27 @@
   <body>
   <script src="jquery.min.js"></script>
   <div class="master">
-  	<button onClick="show()">show</button>
-  	<button onClick="strob()">strob</button>
-  	<button onClick="blackout()">blackout</button>
+  	<button onClick="get('/show/run')">show</button>
+  	<button onClick="get('/front/strob')">strob</button>
+  	<button onClick="get('/show/blackout')">blackout</button>
   	<table><tr>
   		<td bgcolor="red" onClick="color('ROUGE')"></td>
   		<td bgcolor="green" onClick="color('VERT')"></td>
   		<td bgcolor="blue" onClick="color('BLEU')"></td>
-  		<td bgcolor="violet" onClick="sideColor('MAUVE')"></td>
+  		<td bgcolor="violet" onClick="color('MAUVE')"></td>
   		<td bgcolor="cyan" onClick="color('CYAN')"></td>
   		<td bgcolor="yellow" onClick="color('JAUNE')"></td>
   		<td bgcolor="orange" onClick="color('AMBRE')"></td>
   		<td bgcolor="white" onClick="color('WHITE')"></td>
   		<td bgcolor="black" onClick="color('BLACK')"></td>
   	</tr></table>
+  	<input type="range"/>
   </div><hr/><div class="override">
-  	<button class="override" id="PAR1">PAR1</button>
-  	<button class="override" id="PAR2">PAR2</button>
-  	<button class="override" id="PAR3">PAR3</button>
-  	<button class="override" id="PAR4">PAR4</button>
-  	<button class="override" id="LEFT">LEFT</button>
+  	<button id="PAR1">PAR1</button>
+  	<button id="PAR2">PAR2</button>
+  	<button id="PAR3">PAR3</button>
+  	<button id="PAR4">PAR4</button>
+  	<button id="LEFT">LEFT</button>
   	<input type="range"/>
   	<table><tr>
   		<td bgcolor="red" onClick="sideColor('ROUGE')"></td>
@@ -41,13 +42,13 @@
   		<td bgcolor="white" onClick="sideColor('WHITE')"></td>
   		<td bgcolor="black" onClick="sideColor('BLACK')"></td>
   	</tr></table>
-  	</div><hr/><div class="fader">
-	  	<button onClick="fade(0)">0s</button>
-	  	<button onClick="fade(2000)">2s</button>
-	  	<button onClick="fade(5000)">5s</button>
-	  	<button onClick="fade(30000)">30s</button>
-	  	<button onClick="fade(180000)">3m</button>
-	  	<button onClick="tap()">tap</button>
+  	<button id="STROB">STROB</button>
+  	</div><hr/><div class="speed">
+	  	<button onClick="speed(2000)">2s</button>
+	  	<button onClick="speed(5000)">5s</button>
+	  	<button onClick="speed(30000)">30s</button>
+	  	<button onClick="speed(180000)">3m</button>
+	  	<button onClick="tap()" id="tap">tap</button>
   	</div>
   	<script src="index.js"></script>
   </body>

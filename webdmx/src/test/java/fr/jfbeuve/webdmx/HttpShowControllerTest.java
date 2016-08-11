@@ -38,41 +38,40 @@ public class HttpShowControllerTest {
 	public void testHttpControllers() throws Exception {
 		
 		//SHOW
-		ResponseEntity<String> entity = new TestRestTemplate().getForEntity("http://localhost/show/run", String.class);
+		ResponseEntity<String> entity = new TestRestTemplate().getForEntity("http://localhost/speed/1000", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		entity = new TestRestTemplate().getForEntity("http://localhost/show/run", String.class);
+		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		log.info("###### ASSERT 1");
 		assertColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE); //1
 		Thread.sleep(1500);
+		log.info("###### ASSERT 2");
 		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.CYAN); //2
 		
 		//STROB
 		entity = new TestRestTemplate().getForEntity("http://localhost/front/strob", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		assertStrob(true);
+		log.info("###### ASSERT STROB");
 		assertColors(RGBColor.BLACK, RGBColor.BLACK, RGBColor.BLACK, RGBColor.BLACK);
 		entity = new TestRestTemplate().getForEntity("http://localhost/front/strob", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		assertStrob(false);
 		
 		//COLOR
+		log.info("###### ASSERT 3");
 		assertColors(RGBColor.MAUVE, RGBColor.CYAN, RGBColor.CYAN, RGBColor.MAUVE); //3
 		entity = new TestRestTemplate().getForEntity("http://localhost/color/ROUGE", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		
 		//TAP
-		log.info("###### TAP 1");
-		entity = new TestRestTemplate().getForEntity("http://localhost/show/tap", String.class);
+		entity = new TestRestTemplate().getForEntity("http://localhost/speed/400", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
-		log.info("###### ASSERT TAP 1");
+		log.info("###### ASSERT 4");
 		assertColors(RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.JAUNE, RGBColor.ROUGE); //4
-		Thread.sleep(400);
-		log.info("###### TAP 2");
-		entity = new TestRestTemplate().getForEntity("http://localhost/show/tap", String.class);
-		assertEquals(HttpStatus.OK, entity.getStatusCode());
-		log.info("###### ASSERT TAP 2");
-		assertColors(RGBColor.ROUGE, RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.JAUNE); //5
 		Thread.sleep(600);
-		log.info("###### ASSERT TAP 3");
-		assertColors(RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.ROUGE, RGBColor.ROUGE); //6
+		log.info("###### ASSERT 5");
+		assertColors(RGBColor.ROUGE, RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.JAUNE); //5
 		
 		//BLACKOUT
 		entity = new TestRestTemplate().getForEntity("http://localhost/show/blackout", String.class);
