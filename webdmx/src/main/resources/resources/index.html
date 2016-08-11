@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimal-ui">
     <title>Web DMX</title>
     <link rel="stylesheet" href="index.css" />
   </head>
@@ -12,43 +12,48 @@
   	<button onClick="get('/show/run')">show</button>
   	<button onClick="get('/front/strob')">strob</button>
   	<button onClick="get('/show/blackout')">blackout</button>
-  	<table><tr>
-  		<td bgcolor="red" onClick="color('ROUGE')"></td>
-  		<td bgcolor="green" onClick="color('VERT')"></td>
-  		<td bgcolor="blue" onClick="color('BLEU')"></td>
-  		<td bgcolor="violet" onClick="color('MAUVE')"></td>
-  		<td bgcolor="cyan" onClick="color('CYAN')"></td>
-  		<td bgcolor="yellow" onClick="color('JAUNE')"></td>
-  		<td bgcolor="orange" onClick="color('AMBRE')"></td>
-  		<td bgcolor="white" onClick="color('WHITE')"></td>
-  		<td bgcolor="black" onClick="color('BLACK')"></td>
-  	</tr></table>
-  	<input type="range"/>
-  </div><hr/><div class="override">
-  	<button id="PAR1">PAR1</button>
-  	<button id="PAR2">PAR2</button>
-  	<button id="PAR3">PAR3</button>
-  	<button id="PAR4">PAR4</button>
-  	<button id="LEFT">LEFT</button>
-  	<input type="range"/>
-  	<table><tr>
-  		<td bgcolor="red" onClick="sideColor('ROUGE')"></td>
-  		<td bgcolor="green" onClick="sideColor('VERT')"></td>
-  		<td bgcolor="blue" onClick="sideColor('BLEU')"></td>
-  		<td bgcolor="violet" onClick="sideColor('MAUVE')"></td>
-  		<td bgcolor="cyan" onClick="sideColor('CYAN')"></td>
-  		<td bgcolor="yellow" onClick="sideColor('JAUNE')"></td>
-  		<td bgcolor="orange" onClick="sideColor('AMBRE')"></td>
-  		<td bgcolor="white" onClick="sideColor('WHITE')"></td>
-  		<td bgcolor="black" onClick="sideColor('BLACK')"></td>
-  	</tr></table>
-  	<button id="STROB">STROB</button>
-  	</div><hr/><div class="speed">
+  </div>
+
+    <div class="speed">
 	  	<button onClick="speed(2000)">2s</button>
 	  	<button onClick="speed(5000)">5s</button>
 	  	<button onClick="speed(30000)">30s</button>
 	  	<button onClick="speed(180000)">3m</button>
 	  	<button onClick="tap()" id="tap">tap</button>
+	  	<div id="speed" style="display: inline-block">0ms</div>
+  </div>
+
+  		<div class="color" style="background-color: red" onclick="color('ROUGE')"></div>
+  		<div class="color" style="background-color: green" onClick="color('VERT')"></div>
+  		<div class="color" style="background-color: blue" onClick="color('BLEU')"></div>
+  		<div class="color" style="background-color: violet" onClick="color('MAUVE')"></div>
+  		<div class="color" style="background-color: cyan" onClick="color('CYAN')"></div>
+  		<div class="color" style="background-color: yellow" onClick="color('JAUNE')"></div>
+  		<div class="color" style="background-color: orange" onClick="color('AMBRE')"></div>
+  		<div class="color" style="background-color: white" onClick="color('WHITE')"></div>
+  		<div class="color" style="background-color: black" onClick="color('BLACK')"></div>
+  	<br/><input type="range"/>
+  
+  	<hr/>
+  <div class="override"><div class="fixture">
+  	<button id="PAR1">PAR1</button>
+  	<button id="PAR2">PAR2</button>
+  	<button id="PAR3">PAR3</button>
+  	<button id="PAR4">PAR4</button>
+  	<button id="LEFT">LEFT</button>
+  	</div>
+  	  	<div class="color" style="background-color: red" onclick="sideColor('ROUGE')"></div>
+  		<div class="color" style="background-color: green" onClick="sideColor('VERT')"></div>
+  		<div class="color" style="background-color: blue" onClick="sideColor('BLEU')"></div>
+  		<div class="color" style="background-color: violet" onClick="sideColor('MAUVE')"></div>
+  		<div class="color" style="background-color: cyan" onClick="sideColor('CYAN')"></div>
+  		<div class="color" style="background-color: yellow" onClick="sideColor('JAUNE')"></div>
+  		<div class="color" style="background-color: orange" onClick="sideColor('AMBRE')"></div>
+  		<div class="color" style="background-color: white" onClick="sideColor('WHITE')"></div>
+  		<div class="color" style="background-color: black" onClick="sideColor('BLACK')"></div>
+	<br/>
+  	<input type="range"/>
+  	<button id="STROB">STROB</button>
   	</div>
   	<script src="index.js"></script>
   </body>

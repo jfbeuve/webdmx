@@ -76,6 +76,7 @@ public class ShowRunner {
 	 * sets speed and starts auto run
 	 */
 	public void speed(long _speed){
+		if(_speed<100) _speed = 100;
 		speed = _speed;
 		if(shows.isEmpty()) return;
 		if(auto!=null) auto.stop();

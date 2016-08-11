@@ -1,24 +1,25 @@
 button {
     background-color: white;
-    border: 2px solid #4CAF50;
+    border: 1px solid #4CAF50;
     color: black;
     padding: 6px 6px;
-    font-size: 14px;
+    font-size: 20px;
     margin: 4px 2px;
     cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .master button {
-	    padding: 10px 10px;
+	    padding: 15px 15px;
 }
 .override button {
-	    padding: 6px 6px;
+	    padding: 12px 12px;
 }
 .speed button {
-	    padding: 10px 10px;
+	    padding: 15px 15px;
 }
 .override td {
-	height: 30px;
-	width: 30px;
+	height: 60px;
+	width: 60px;
 }
 .master td {
 	height: 30px;
@@ -35,4 +36,9 @@ button:click {
 }
 input[type=range]{
 	width: 100%;
+}
+.color{
+	height: 84px;
+	width: 84px;
+	display: inline-block;
 }

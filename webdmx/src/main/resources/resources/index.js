@@ -17,12 +17,13 @@ function tap(){
 	var btn = $("#tap");
 	if(btn.hasClass("active")){
 		// tear down
-		var time = Date.now - timestamp;
+		var time = Date.now() - timestamp;
 		speed(time);
-		btn.removeClass("active");		
+		btn.removeClass("active");
+		$("#speed").text(time + 'ms');		
 	}else{
 		//tear up
-		timestamp = Date.now;
+		timestamp = Date.now();
 		btn.addClass("active");
 	}
 }
@@ -51,20 +52,16 @@ function color(color){
     });
 }
 
-$(".override>button").click(function(){
+$(".fixture>button").click(function(){
 	console.log(this.id);
 	var btn = $("#"+this.id);
-	if(this.id=='STROB'){
-		//TODO start/stop strob if supported by fixture
-	}
 	if(btn.hasClass("active")){
 		 btn.removeClass("active");
 		 $.ajax({
 		  type: "POST",
 	      url: "/override",
-	      data: "{'fixtures':['"+this.id+"']}",
-	      contentType: 'application/json',
-	      cache: false
+	      data: JSON.stringify({fixtures:[this.id]}),
+	      contentType: 'application/json'
 	    });
 	}
 	else btn.addClass("active");
@@ -86,7 +83,7 @@ function sideColor(color){
 	side.color = color;
 	console.log(color);
 	side.fixtures = new Array();
-	$.each( $(".override>button.active"), function() {
+	$.each( $(".fixture>button.active"), function() {
     	side.fixtures.push(this.id);
 	});
 	if(side.fixtures.length>0){
@@ -94,8 +91,7 @@ function sideColor(color){
 		  type: "POST",
 	      url: "/override",
 	      data: JSON.stringify(side),
-	      contentType: 'application/json',
-	      cache: false
+	      contentType: 'application/json'
 	    });
 	}
 }
