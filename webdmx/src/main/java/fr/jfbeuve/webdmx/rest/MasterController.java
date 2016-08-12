@@ -48,6 +48,7 @@ public class MasterController {
 	@RequestMapping("/color/{color}")
 	@ResponseBody
 	public String color(@PathVariable("color") String color) {
+		//TODO auto color
 		rgb.setColor(RGBColor.valueOf(color));
 		return "OK";
 	}
