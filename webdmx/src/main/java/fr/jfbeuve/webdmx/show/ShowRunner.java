@@ -17,6 +17,9 @@ public class ShowRunner {
 	@Autowired
 	private DmxCue dmx;
 	
+	@Autowired
+	private RGB3Show rgb;
+	
 	private Tempo auto;
 	
 	private long speed=4000;
@@ -38,7 +41,7 @@ public class ShowRunner {
 	}
 	/**
 	 * stops autorun
-	 * @return true if stopred, false if already stopped
+	 * @return true if stopped, false if already stopped
 	 */
 	public boolean stop(){
 		if(auto!=null){
@@ -76,9 +79,13 @@ public class ShowRunner {
 	 * sets speed and starts auto run
 	 */
 	public void speed(long _speed){
+		if(_speed==0){
+			if(!stop()) next();
+			return;
+		}
 		if(_speed<100) _speed = 100;
 		speed = _speed;
-		if(shows.isEmpty()) return;
+		if(shows.isEmpty()) shows.add(rgb);
 		if(auto!=null) auto.stop();
 		next();
 		auto = new Tempo(this, speed);

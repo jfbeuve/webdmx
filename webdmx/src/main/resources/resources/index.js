@@ -12,6 +12,11 @@ function get(url){
     });
 }
 
+function man(){
+	speed(0);
+	speedlist("","");
+}
+
 var timestamp=0;
 function tap(){
 	var btn = $("#tap");
@@ -20,8 +25,8 @@ function tap(){
 		var time = Date.now() - timestamp;
 		speed(time);
 		btn.removeClass("active");
-		$("#speeddisplay").text(time + 'ms');
-		$("#speed").val(time + 'ms');		
+		//$("#speeddisplay").text(time + 'ms');
+		speedlist(time,time+' ms');
 	}else{
 		//tear up
 		timestamp = Date.now();
@@ -42,7 +47,7 @@ function speed(time){
       	console.log('SPEED '+time);
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error('/speed/'+time, status, err.toString());
       }.bind(this)
     });
 }
@@ -83,12 +88,53 @@ function parcolor(){
    }
    o.addClass(o.val());
 }
+function washcolorchange(){
+	var o = $("#washcolor");
+	o.removeClass("red");o.removeClass("green");o.removeClass("blue");
+	o.removeClass("violet");o.removeClass("cyan");o.removeClass("yellow");
+	o.removeClass("orange");o.removeClass("white");o.removeClass("black");
+	switch (o.val()) {
+    	case "red": washcolor("ROUGE"); break;
+    	case "green": washcolor("VERT"); break;
+    	case "blue": washcolor("BLEU"); break;
+    	case "violet": washcolor("MAUVE"); break;
+    	case "cyan": washcolor("CYAN"); break;
+    	case "yellow": washcolor("JAUNE"); break;
+    	case "orange": washcolor("AMBRE"); break;
+    	case "white": washcolor("WHITE"); break;
+    	case "black": washcolor("BLACK"); break;
+   }
+   o.addClass(o.val());
+}
+function washcolor(color){
+	var data = {
+		fixtures: ['LEFT'],
+		color: color,
+		dimmer: 255,
+		fade: 0
+	};
+	console.log("WASH "+color);
+		$.ajax({
+		  type: "POST",
+	      url: "/override",
+	      data: JSON.stringify(data),
+	      contentType: 'application/json'
+	    });
+}
+function speedlist(value, text){
+	$("#speed").empty()
+	.append('<option value="'+value+'">'+text+'</option>')
+	.append('<option value="4000">4s</option>')
+	.append('<option value="30000">30s</option>')
+	.append('<option value="180000">3m</option>')
+	.val(value);
+}
 
-//TODO init mastercolor
+//TODO INIT
 $("#mastercolor").val("violet");
 $("#mastercolor").addClass("violet");
-$("#speed").val("");
 $("#parcolor").val("");
+speedlist("","");
 
 function color(color){
 	$.ajax({
@@ -117,11 +163,7 @@ $(".override>button").click(function(){
 	else btn.addClass("active");
 });
 
-var side = {
-	fixtures: [],
-	dimmer: 255,
-	fade: 0
-};
+
 
 var front = {
 	fixtures: [],

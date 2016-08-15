@@ -35,7 +35,6 @@ public class ShowRunnerTest {
 		dmx.offline();
 		rgb.setColor(RGBColor.MAUVE);
 		show.speed(1000);
-		show.start(rgb);
 		log.info("###### ASSERT 1");
 		assertColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE);
 		Thread.sleep(1200);

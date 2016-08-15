@@ -8,12 +8,13 @@
     <meta name="viewport" content="initial-scale=1, width=device-width, user-scalable=no">
     <title>Web DMX</title>
     <link rel="stylesheet" href="index.css" />
+    <script src="jquery.min.js"></script>
   </head>
   <body>
-  <script src="jquery.min.js"></script>
 
-  	<button onClick="get('/front/strob')">STROB</button>
-  	<button onClick="get('/show/blackout')">BLACKOUT</button>
+<div class="section" id="master">
+  	<button onclick="get('/front/strob')">STROB</button>
+  	<button onclick="get('/show/blackout')">BLACKOUT</button>
   	
 <select onchange="mastercolor()" id="mastercolor">
     <option value="red" class="red">ROUGE</option>
@@ -33,11 +34,12 @@
     <option value="30000">30s</option>
     <option value="180000">3m</option>
 </select>
-<button onClick="tap()" id="tap">TAP</button>
-<div id="speeddisplay" style="display: inline-block"></div>
-
-
-  <div class="override">
+<button onclick="man()">MAN</button>
+<button onclick="tap()" id="tap">TAP</button>
+<br/>
+<input type="range" value="100"/>
+</div>
+  <div class="override section" id="override">
   	<button id="PAR1">PAR1</button>
   	<button id="PAR2">PAR2</button>
   	<button id="PAR3">PAR3</button>
@@ -53,7 +55,25 @@
 	    <option value="white" class="white">BLANC</option>
 	    <option value="black" class="black">NOIR</option>
 	</select>
+	<input type="range" value="100"/>
   	</div>
+  	
+  	<div id="wash" class="section">
+  	<select onchange="washcolorchange()" id="washcolor">
+	    <option value="red" class="red">ROUGE</option>
+	    <option value="green" class="green">VERT</option>
+	    <option value="blue" class="blue">BLEU</option>
+	    <option value="violet" class="violet">MAUVE</option>
+	    <option value="cyan" class="cyan">CYAN</option>
+	    <option value="yellow" class="yellow">JAUNE</option>
+	    <option value="orange" class="orange">ORANGE</option>
+	    <option value="white" class="white">BLANC</option>
+	    <option value="black" class="black">NOIR</option>
+	</select>
+	<button>STROB</button>
+	<input type="range" value="100"/>
+  	</div>
+  	
   	<script src="index.js"></script>
   </body>
 </html>

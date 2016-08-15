@@ -40,8 +40,6 @@ public class HttpShowControllerTest {
 		//SHOW
 		ResponseEntity<String> entity = new TestRestTemplate().getForEntity("http://localhost/speed/1000", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
-		entity = new TestRestTemplate().getForEntity("http://localhost/show/run", String.class);
-		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		log.info("###### ASSERT 1");
 		assertColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE); //1
 		Thread.sleep(1500);

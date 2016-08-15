@@ -86,3 +86,6 @@ select{
 	background:black;
 	color: white;
 }
+.section{
+	border: 1px solid #4CAF50;padding: 6px 6px;margin: 4px 2px;
+}

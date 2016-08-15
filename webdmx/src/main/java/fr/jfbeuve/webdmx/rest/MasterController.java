@@ -24,14 +24,6 @@ public class MasterController {
 	private RGB3Show rgb;
 	@Autowired
 	private RGB7Show front;
-
-	@RequestMapping("/show/run")
-	@ResponseBody
-	public String run() {
-		boolean success = show.start(rgb);
-		if(!success) show.stop();
-		return "OK";
-	}
 	
 	@RequestMapping("/show/blackout")
 	@ResponseBody
