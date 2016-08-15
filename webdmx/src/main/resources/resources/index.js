@@ -20,12 +20,19 @@ function tap(){
 		var time = Date.now() - timestamp;
 		speed(time);
 		btn.removeClass("active");
-		$("#speed").text(time + 'ms');		
+		$("#speeddisplay").text(time + 'ms');
+		$("#speed").val(time + 'ms');		
 	}else{
 		//tear up
 		timestamp = Date.now();
 		btn.addClass("active");
 	}
+
+}
+
+function speedsel(){
+	var time = $("#speed").val();
+	if(time!="") speed(time);
 }
 
 function speed(time){
@@ -40,6 +47,49 @@ function speed(time){
     });
 }
 
+function mastercolor(){
+	var o = $("#mastercolor");
+	o.removeClass("red");o.removeClass("green");o.removeClass("blue");
+	o.removeClass("violet");o.removeClass("cyan");o.removeClass("yellow");
+	o.removeClass("orange");o.removeClass("white");o.removeClass("black");
+	switch (o.val()) {
+    	case "red": color("ROUGE"); break;
+    	case "green": color("VERT"); break;
+    	case "blue": color("BLEU"); break;
+    	case "violet": color("MAUVE"); break;
+    	case "cyan": color("CYAN"); break;
+    	case "yellow": color("JAUNE"); break;
+    	case "orange": color("AMBRE"); break;
+    	case "white": color("WHITE"); break;
+    	case "black": color("BLACK"); break;
+   }
+   o.addClass(o.val());
+}
+function parcolor(){
+	var o = $("#parcolor");
+	o.removeClass("red");o.removeClass("green");o.removeClass("blue");
+	o.removeClass("violet");o.removeClass("cyan");o.removeClass("yellow");
+	o.removeClass("orange");o.removeClass("white");o.removeClass("black");
+	switch (o.val()) {
+    	case "red": sideColor("ROUGE"); break;
+    	case "green": sideColor("VERT"); break;
+    	case "blue": sideColor("BLEU"); break;
+    	case "violet": sideColor("MAUVE"); break;
+    	case "cyan": sideColor("CYAN"); break;
+    	case "yellow": sideColor("JAUNE"); break;
+    	case "orange": sideColor("AMBRE"); break;
+    	case "white": sideColor("WHITE"); break;
+    	case "black": sideColor("BLACK"); break;
+   }
+   o.addClass(o.val());
+}
+
+//TODO init mastercolor
+$("#mastercolor").val("violet");
+$("#mastercolor").addClass("violet");
+$("#speed").val("");
+$("#parcolor").val("");
+
 function color(color){
 	$.ajax({
       url: '/color/'+color,
@@ -52,7 +102,7 @@ function color(color){
     });
 }
 
-$(".fixture>button").click(function(){
+$(".override>button").click(function(){
 	console.log(this.id);
 	var btn = $("#"+this.id);
 	if(btn.hasClass("active")){
@@ -83,7 +133,7 @@ function sideColor(color){
 	side.color = color;
 	console.log(color);
 	side.fixtures = new Array();
-	$.each( $(".fixture>button.active"), function() {
+	$.each( $(".override>button.active"), function() {
     	side.fixtures.push(this.id);
 	});
 	if(side.fixtures.length>0){

@@ -43,3 +43,46 @@ input[type=range]{
 	width: 84px;
 	display: inline-block;
 }
+select{
+    border: 1px solid #4CAF50;
+    padding: 6px 6px;
+    font-size: 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.red{
+	background:red;
+	color: white;
+}
+.green{
+	background:green;
+	color: white;
+}
+.blue{
+	background:blue;
+	color: white;
+}
+.violet{
+	background:violet;
+	color: white;
+}
+.cyan{
+	background:cyan;
+	color: white;
+}
+.yellow{
+	background:yellow;
+	color: black;
+}
+.orange{
+	background:orange;
+	color: black;
+}
+.white{
+	background:white;
+	color: black;
+}
+.black{
+	background:black;
+	color: white;
+}
