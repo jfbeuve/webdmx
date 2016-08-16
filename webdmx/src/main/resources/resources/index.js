@@ -54,73 +54,50 @@ function speed(time){
 
 function mastercolor(){
 	var o = $("#mastercolor");
-	o.removeClass("red");o.removeClass("green");o.removeClass("blue");
-	o.removeClass("violet");o.removeClass("cyan");o.removeClass("yellow");
-	o.removeClass("orange");o.removeClass("white");o.removeClass("black");
-	switch (o.val()) {
-    	case "red": color("ROUGE"); break;
-    	case "green": color("VERT"); break;
-    	case "blue": color("BLEU"); break;
-    	case "violet": color("MAUVE"); break;
-    	case "cyan": color("CYAN"); break;
-    	case "yellow": color("JAUNE"); break;
-    	case "orange": color("AMBRE"); break;
-    	case "white": color("WHITE"); break;
-    	case "black": color("BLACK"); break;
-   }
-   o.addClass(o.val());
+	colorlist(o);
+	color(style2color(o.val()));
 }
-function parcolor(){
-	var o = $("#parcolor");
-	o.removeClass("red");o.removeClass("green");o.removeClass("blue");
-	o.removeClass("violet");o.removeClass("cyan");o.removeClass("yellow");
-	o.removeClass("orange");o.removeClass("white");o.removeClass("black");
-	switch (o.val()) {
-    	case "red": sideColor("ROUGE"); break;
-    	case "green": sideColor("VERT"); break;
-    	case "blue": sideColor("BLEU"); break;
-    	case "violet": sideColor("MAUVE"); break;
-    	case "cyan": sideColor("CYAN"); break;
-    	case "yellow": sideColor("JAUNE"); break;
-    	case "orange": sideColor("AMBRE"); break;
-    	case "white": sideColor("WHITE"); break;
-    	case "black": sideColor("BLACK"); break;
-   }
-   o.addClass(o.val());
-}
-function washcolorchange(){
-	var o = $("#washcolor");
-	o.removeClass("red");o.removeClass("green");o.removeClass("blue");
-	o.removeClass("violet");o.removeClass("cyan");o.removeClass("yellow");
-	o.removeClass("orange");o.removeClass("white");o.removeClass("black");
-	switch (o.val()) {
-    	case "red": washcolor("ROUGE"); break;
-    	case "green": washcolor("VERT"); break;
-    	case "blue": washcolor("BLEU"); break;
-    	case "violet": washcolor("MAUVE"); break;
-    	case "cyan": washcolor("CYAN"); break;
-    	case "yellow": washcolor("JAUNE"); break;
-    	case "orange": washcolor("AMBRE"); break;
-    	case "white": washcolor("WHITE"); break;
-    	case "black": washcolor("BLACK"); break;
-   }
-   o.addClass(o.val());
-}
-function washcolor(color){
-	var data = {
-		fixtures: ['LEFT'],
-		color: color,
-		dimmer: 255,
-		fade: 0
-	};
-	console.log("WASH "+color);
+function sidecolor(color){
+	var data = {fixtures:[],color:color,dimmer:255,fade:0};
+	console.log(color);
+	$.each( $("#fixture>button.active"), function() {
+    	data.fixtures.push(this.id);
+	});
+	if(data.fixtures.length>0){
 		$.ajax({
 		  type: "POST",
 	      url: "/override",
 	      data: JSON.stringify(data),
 	      contentType: 'application/json'
 	    });
+	}
 }
+function parcolor(){
+	var o = $("#parcolor");
+	colorlist(o);
+	sidecolor(style2color(o.val()));
+}
+
+function colorlist(o){
+	o.removeClass("red");o.removeClass("green");o.removeClass("blue");
+	o.removeClass("violet");o.removeClass("cyan");o.removeClass("yellow");
+	o.removeClass("orange");o.removeClass("white");o.removeClass("black");
+    o.addClass(o.val());
+}
+function style2color(style){
+	switch (style) {
+    	case "red": return "ROUGE";
+    	case "green": return "VERT";
+    	case "blue": return "BLEU";
+    	case "violet": return "MAUVE";
+    	case "cyan": return "CYAN";
+    	case "yellow":  return "JAUNE";
+    	case "orange": return "AMBRE";
+    	case "white": return "WHITE";
+    	case "black": return "BLACK";
+   }
+}
+
 function speedlist(value, text){
 	$("#speed").empty()
 	.append('<option value="'+value+'">'+text+'</option>')
@@ -131,8 +108,8 @@ function speedlist(value, text){
 }
 
 //TODO INIT
-$("#mastercolor").val("violet");
-$("#mastercolor").addClass("violet");
+$("#mastercolor").val("");
+$("#mastercolor").addClass("");
 $("#parcolor").val("");
 speedlist("","");
 
@@ -148,7 +125,7 @@ function color(color){
     });
 }
 
-$(".override>button").click(function(){
+$("#fixture>button").click(function(){
 	console.log(this.id);
 	var btn = $("#"+this.id);
 	if(btn.hasClass("active")){
@@ -163,28 +140,11 @@ $(".override>button").click(function(){
 	else btn.addClass("active");
 });
 
-
-
-var front = {
-	fixtures: [],
-	dimmer: 255,
-	fade: 0
-};
-
-function sideColor(color){
-	side.color = color;
-	console.log(color);
-	side.fixtures = new Array();
-	$.each( $(".override>button.active"), function() {
-    	side.fixtures.push(this.id);
-	});
-	if(side.fixtures.length>0){
-		$.ajax({
-		  type: "POST",
-	      url: "/override",
-	      data: JSON.stringify(side),
-	      contentType: 'application/json'
-	    });
-	}
+function overstrob(){
+	var btn = $("#overstrob");
+	if(btn.hasClass("active")) btn.removeClass("active");
+	else btn.addClass("active");
 }
+
+
 

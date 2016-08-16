@@ -2,6 +2,7 @@ package fr.jfbeuve.webdmx;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,9 @@ public class DmxDimmerTest {
 	@Test
 	public void testMasterDimmer() throws Exception {
 		dmx.offline();
-		dmx.init(DmxDimmer.MASTER, new DmxDimmer(dmx, new int[]{17}));
+		ArrayList<Integer> channels = new ArrayList<Integer>();
+		channels.add(17);
+		dmx.init(DmxDimmer.MASTER, new DmxDimmer(dmx, channels));
 		Map<Integer,Integer> values;
 		
 		values = new HashMap<Integer,Integer>();

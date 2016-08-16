@@ -3,6 +3,8 @@ package fr.jfbeuve.webdmx;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
@@ -32,7 +34,9 @@ public class DmxFaderTest {
 	public void testFader() throws Exception {
 		dmx.offline();
 		
-		dmx.init(DmxDimmer.MASTER, new DmxDimmer(dmx, new int[]{17}));
+		ArrayList<Integer> channels = new ArrayList<Integer>();
+		channels.add(17);
+		dmx.init(DmxDimmer.MASTER, new DmxDimmer(dmx, channels));
 		dmx.dim(DmxDimmer.MASTER, 127);
 		
 		//SNAP

@@ -36,6 +36,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.juanjo</groupId>
+			<artifactId>opendmx</artifactId>
+			<version>2008.05.22</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

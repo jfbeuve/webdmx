@@ -20,7 +20,7 @@ public class DmxWrapper {
 	private Map<String,DmxDimmer> dimmers = new HashMap<String, DmxDimmer>();
 
 	public DmxWrapper(){
-		//dimmers.put(DmxDimmer.MASTER, new DmxDimmer(this, new int[]{17}));
+		dimmers.put(DmxDimmer.MASTER, DmxDimmer.getMaster(this));
 	}
 	
 	@Value("${offline:false}")

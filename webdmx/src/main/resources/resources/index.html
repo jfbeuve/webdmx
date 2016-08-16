@@ -39,11 +39,15 @@
 <br/>
 <input type="range" value="100"/>
 </div>
-  <div class="override section" id="override">
+  <div class="section" id="override">
+  	<div id="fixture">
   	<button id="PAR1">PAR1</button>
   	<button id="PAR2">PAR2</button>
   	<button id="PAR3">PAR3</button>
   	<button id="PAR4">PAR4</button>
+  	<button id="LEFT">LEFT</button>
+  	</div>
+  	<button id="overstrob" onclick="overstrob()">STROB</button>
   	<select onchange="parcolor()" id="parcolor">
 	    <option value="red" class="red">ROUGE</option>
 	    <option value="green" class="green">VERT</option>
@@ -57,23 +61,6 @@
 	</select>
 	<input type="range" value="100"/>
   	</div>
-  	
-  	<div id="wash" class="section">
-  	<select onchange="washcolorchange()" id="washcolor">
-	    <option value="red" class="red">ROUGE</option>
-	    <option value="green" class="green">VERT</option>
-	    <option value="blue" class="blue">BLEU</option>
-	    <option value="violet" class="violet">MAUVE</option>
-	    <option value="cyan" class="cyan">CYAN</option>
-	    <option value="yellow" class="yellow">JAUNE</option>
-	    <option value="orange" class="orange">ORANGE</option>
-	    <option value="white" class="white">BLANC</option>
-	    <option value="black" class="black">NOIR</option>
-	</select>
-	<button>STROB</button>
-	<input type="range" value="100"/>
-  	</div>
-  	
-  	<script src="index.js"></script>
+   	<script src="index.js"></script>
   </body>
 </html>

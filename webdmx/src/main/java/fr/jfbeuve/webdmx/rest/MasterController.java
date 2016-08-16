@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import fr.jfbeuve.webdmx.dmx.DmxCue;
+import fr.jfbeuve.webdmx.dmx.DmxDimmer;
+import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.show.RGB3Show;
 import fr.jfbeuve.webdmx.show.RGB7Show;
@@ -24,6 +26,8 @@ public class MasterController {
 	private RGB3Show rgb;
 	@Autowired
 	private RGB7Show front;
+	@Autowired
+	private DmxWrapper io;
 	
 	@RequestMapping("/show/blackout")
 	@ResponseBody
@@ -69,6 +73,15 @@ public class MasterController {
 	@ResponseBody
 	public String speed(@PathVariable("time") Long time) {
 		show.speed(time);
+		return "OK";
+	}
+	/**
+	 * set master dimmer value in %
+	 **/
+	@RequestMapping("/dim/{value}")
+	@ResponseBody
+	public String speed(@PathVariable("value") Integer value) {
+		io.dim(DmxDimmer.MASTER, value*255/100);
 		return "OK";
 	}
 }
