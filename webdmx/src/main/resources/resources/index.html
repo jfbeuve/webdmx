@@ -13,8 +13,8 @@
   <body>
 
 <div class="section" id="master">
-  	<button onclick="get('/front/strob')">STROB</button>
-  	<button onclick="get('/show/blackout')">BLACKOUT</button>
+  	<button onclick="get('/front/strob')">&#9889;&#9889;&#9889;</button>
+  	<button onclick="blackout()">BLACKOUT</button>
   	
 <select onchange="mastercolor()" id="mastercolor">
     <option value="red" class="red">ROUGE</option>
@@ -37,17 +37,16 @@
 <button onclick="man()">MAN</button>
 <button onclick="tap()" id="tap">TAP</button>
 <br/>
-<input type="range" value="100"/>
-</div>
+<input type="range" value="100" id="masterdim" onchange="masterdim(this)"/>
+</div><br/>
   <div class="section" id="override">
   	<div id="fixture">
-  	<button id="PAR1">PAR1</button>
-  	<button id="PAR2">PAR2</button>
-  	<button id="PAR3">PAR3</button>
-  	<button id="PAR4">PAR4</button>
-  	<button id="LEFT">LEFT</button>
-  	</div>
-  	<button id="overstrob" onclick="overstrob()">STROB</button>
+  	<button id="PAR1" onclick="fixture(this)">RGB1</button>
+  	<button id="PAR2" onclick="fixture(this)">RGB2</button>
+  	<button id="PAR3" onclick="fixture(this)">RGB3</button>
+  	<button id="PAR4" onclick="fixture(this)">RGB4</button>
+  	<button id="LEFT" onclick="fixture(this)">10mm</button>
+  	</div>  	
   	<select onchange="parcolor()" id="parcolor">
 	    <option value="red" class="red">ROUGE</option>
 	    <option value="green" class="green">VERT</option>
@@ -59,7 +58,8 @@
 	    <option value="white" class="white">BLANC</option>
 	    <option value="black" class="black">NOIR</option>
 	</select>
-	<input type="range" value="100"/>
+	<button id="overstrob" onclick="overstrob()">&#9889;&#9889;&#9889;</button>
+	<input type="range" value="100" onchange="overdim()" id="overdim"/>
   	</div>
    	<script src="index.js"></script>
   </body>

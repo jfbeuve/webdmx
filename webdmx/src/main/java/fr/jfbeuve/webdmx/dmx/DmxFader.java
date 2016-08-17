@@ -28,37 +28,52 @@ public class DmxFader implements Runnable{
 		}
 	}
 	public void fade(long _time){
+		step = 1;
 		time = _time / 255;
-
-		/*if(time<100){
-			// system does not really sustain refresh more often than every 100ms
+		
+		// system does not really sustain refresh more often than every 100ms
+		if(time<100){
 			step = 100/(int)time;
 			time=100;
-		}*/
+		}
 		
 		log.info("time="+time+"; step="+step);
 		new Thread(this).start();
 	}
+	private Thread thread=null;
+	private boolean done = false;
 	
 	public void run() {
+		thread=Thread.currentThread();
 		for (int i = 1; i < 256; i=i+step) {
-			log.info("FADING "+i);
+			log.info("FADING "+i+ " ("+done+")");
 			Map<Integer,Integer> values = new HashMap<Integer,Integer>();
 			for (Integer channel : diff.keySet()) {
 				int targetValue = end.get(channel);
 				int gap = diff.get(channel);
 				int newValue = targetValue - gap + gap*i/255;
 				values.put(channel,newValue);
+				if(done)return;
 			}
 			dmx.set(values);
 			try {
 				Thread.sleep(time);
 			} catch (InterruptedException e) {
-				log.warn(e,e);
+				log.info(e.getMessage());
+				return;
 			}
+			if(done)return;
 		}
+		
 		//ends up forcing final values in case step<>1 and i never ends up being 255
 		if(time==100) dmx.set(end);
 		log.info("FADING COMPLETED");
+		done=true;
+	}
+	public void interupt(){
+		if(done)return;
+		log.info("## INTERRUPT ##");
+		done = true;
+		thread.interrupt();
 	}
 }

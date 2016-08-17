@@ -5,15 +5,12 @@ function get(url){
       cache: false,
       success: function(data) {
       	console.log('GET '+url);
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
 }
 
 function man(){
-	speed(0);
+	get("/speed/0");
 	speedlist("","");
 }
 
@@ -23,7 +20,7 @@ function tap(){
 	if(btn.hasClass("active")){
 		// tear down
 		var time = Date.now() - timestamp;
-		speed(time);
+		get("/speed/"+time);
 		btn.removeClass("active");
 		//$("#speeddisplay").text(time + 'ms');
 		speedlist(time,time+' ms');
@@ -37,28 +34,26 @@ function tap(){
 
 function speedsel(){
 	var time = $("#speed").val();
-	if(time!="") speed(time);
+	if(time!="") get("/speed/"+time);
 }
-
-function speed(time){
-	$.ajax({
-      url: '/speed/'+time,
-      success: function(data) {
-      	console.log('SPEED '+time);
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error('/speed/'+time, status, err.toString());
-      }.bind(this)
-    });
-}
-
+/**
+ * Apply master color change (style and ajax call) 
+ */
 function mastercolor(){
 	var o = $("#mastercolor");
 	colorlist(o);
-	color(style2color(o.val()));
+	get('/color/'+style2color(o.val()));
 }
-function sidecolor(color){
-	var data = {fixtures:[],color:color,dimmer:255,fade:0};
+/**
+ * Apply override color change (styles and ajax post)  
+ */
+function parcolor(){
+	var o = $("#parcolor");
+	colorlist(o);
+	var color = style2color(o.val());
+	var dimmer = $("#overdim").val()*255/100;
+	var strob = $("#overstrob").hasClass("active");
+	var data = {fixtures:[],color:color,dimmer:dimmer,fade:0,strob:strob};
 	console.log(color);
 	$.each( $("#fixture>button.active"), function() {
     	data.fixtures.push(this.id);
@@ -72,18 +67,18 @@ function sidecolor(color){
 	    });
 	}
 }
-function parcolor(){
-	var o = $("#parcolor");
-	colorlist(o);
-	sidecolor(style2color(o.val()));
-}
-
+/**
+ * Apply style change to a color list 
+ */
 function colorlist(o){
 	o.removeClass("red");o.removeClass("green");o.removeClass("blue");
 	o.removeClass("violet");o.removeClass("cyan");o.removeClass("yellow");
 	o.removeClass("orange");o.removeClass("white");o.removeClass("black");
-    o.addClass(o.val());
+    if(o.val()!=null) o.addClass(o.val());
 }
+/**
+ * returns webdmx color enum from css style 
+ */
 function style2color(style){
 	switch (style) {
     	case "red": return "ROUGE";
@@ -97,7 +92,10 @@ function style2color(style){
     	case "black": return "BLACK";
    }
 }
-
+/**
+ * refreshes speed list
+ * @param current custom tap speed 
+ */
 function speedlist(value, text){
 	$("#speed").empty()
 	.append('<option value="'+value+'">'+text+'</option>')
@@ -113,38 +111,46 @@ $("#mastercolor").addClass("");
 $("#parcolor").val("");
 speedlist("","");
 
-function color(color){
-	$.ajax({
-      url: '/color/'+color,
-      success: function(data) {
-      	console.log('COLOR '+color);
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-}
-
-$("#fixture>button").click(function(){
-	console.log(this.id);
-	var btn = $("#"+this.id);
+/**
+ * ajax post and style change on override fixture select/unselect 
+ */
+function fixture(o){
+	console.log(o.id);
+	var btn = $("#"+o.id);
 	if(btn.hasClass("active")){
 		 btn.removeClass("active");
 		 $.ajax({
 		  type: "POST",
 	      url: "/override",
-	      data: JSON.stringify({fixtures:[this.id]}),
+	      data: JSON.stringify({fixtures:[o.id]}),
 	      contentType: 'application/json'
 	    });
 	}
-	else btn.addClass("active");
-});
+	else {
+		btn.addClass("active");
+		if($("#parcolor").val()!=null) parcolor();
+	}
+}
 
 function overstrob(){
 	var btn = $("#overstrob");
 	if(btn.hasClass("active")) btn.removeClass("active");
 	else btn.addClass("active");
+	if($("#parcolor").val()!=null) parcolor();
 }
-
-
-
+function masterdim(o){
+	get("/dim/"+o.value*255/100);
+}
+function blackout(){
+	get('/show/blackout');
+	speedlist("","");
+	$("#parcolor").val("");
+	colorlist($("#parcolor"));
+	$("#overstrob").removeClass("active");
+	$.each( $("#fixture>button.active"), function(o) {
+    	$("#"+this.id).removeClass('active');
+	});
+}
+function overdim(){
+	if($("#parcolor").val()!=null) parcolor();
+}

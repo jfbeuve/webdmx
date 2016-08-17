@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,9 @@ public class DmxWrapper {
 	private static final Log log = LogFactory.getLog(DmxWrapper.class);
 	private Map<String,DmxDimmer> dimmers = new HashMap<String, DmxDimmer>();
 
+	@Autowired
+	private DmxCue cue;
+	
 	public DmxWrapper(){
 		dimmers.put(DmxDimmer.MASTER, DmxDimmer.getMaster(this));
 	}
@@ -37,7 +41,6 @@ public class DmxWrapper {
 	 * Apply DMX IO
 	 */
 	private void set(DmxChannel channel, int value){
-		log.debug("offline = "+offline);
 		int target = channel.dim(value);
 		
 		if(!open&&!offline) open = OpenDmx.connect(OpenDmx.OPENDMX_TX);
@@ -74,6 +77,7 @@ public class DmxWrapper {
 		Map<Integer,Integer> values = new HashMap<Integer,Integer>();
 		for (DmxChannel channel : channels) {
 			if(channel.value()==0) continue;
+			if(cue.isOverridden(channel.channel())) continue;
 			values.put(channel.channel(),channel.value());
 		}
 		set(values,true);
@@ -108,5 +112,14 @@ public class DmxWrapper {
 		if(channel==null)channel=new DmxChannel(channelid);
 		output.put(channelid, channel); 
 		return channel;
+	}
+	/**
+	 * Sets all channels to 0
+	 */
+	public void blackout(){
+		for(Integer channelId:output.keySet()){
+			DmxChannel channel = output.get(channelId); 
+			if(channel.value()>0) set(channel,0);
+		}
 	}
 }

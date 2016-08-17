@@ -1,3 +1,4 @@
+/*TODO style black background*/
 button {
     background-color: white;
     border: 1px solid #4CAF50;
@@ -69,5 +70,11 @@ select{
 	color: white;
 }
 .section{
-	border: 1px solid #4CAF50;padding: 6px 6px;margin: 4px 2px;
+	border: 1px solid #4CAF50;
+	padding: 6px 6px;
+	margin: 4px 2px;
 }
+div{
+	display: inline-block;
+}
+

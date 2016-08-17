@@ -17,7 +17,7 @@ import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @Controller
 public class MasterController {
-
+	//TODO auto color? master dimmer? override dimmer? override "apply" button, init service?
 	@Autowired
 	private DmxCue dmx;
 	@Autowired
@@ -33,12 +33,7 @@ public class MasterController {
 	@ResponseBody
 	public String blackout() {
 		show.stop();
-		dmx.set(RGBFixture.PAR1,RGBColor.BLACK);
-		dmx.set(RGBFixture.PAR2,RGBColor.BLACK);
-		dmx.set(RGBFixture.PAR3,RGBColor.BLACK);
-		dmx.set(RGBFixture.PAR4,RGBColor.BLACK);
-		dmx.set(RGBFixture.LEFT,RGBColor.BLACK);
-		dmx.apply(0);
+		dmx.blackout();
 		return "OK";
 	}
 	@RequestMapping("/color/{color}")
@@ -49,13 +44,14 @@ public class MasterController {
 		return "OK";
 	}
 	private boolean strob = false;
+	private boolean running = false;
 
 	@RequestMapping("/front/strob")
 	@ResponseBody
 	public String strob() {
 		if(!strob){
 			strob=true;
-			show.stop();
+			running = show.stop();
 			dmx.set(RGBFixture.PAR1,RGBColor.BLACK);
 			dmx.set(RGBFixture.PAR2,RGBColor.BLACK);
 			dmx.set(RGBFixture.PAR3,RGBColor.BLACK);
@@ -64,7 +60,7 @@ public class MasterController {
 		}else{
 			strob=false;
 			front.strob(false,false);
-			show.start();
+			if(running) show.start();
 		}
 		dmx.apply(0);
 		return "OK";
@@ -76,12 +72,13 @@ public class MasterController {
 		return "OK";
 	}
 	/**
-	 * set master dimmer value in %
+	 * set master dimmer value 0/255
 	 **/
 	@RequestMapping("/dim/{value}")
 	@ResponseBody
 	public String speed(@PathVariable("value") Integer value) {
-		io.dim(DmxDimmer.MASTER, value*255/100);
+		//TODO apply master dimmer only to ShowRunner = skip overrides ?
+		io.dim(DmxDimmer.MASTER, value);
 		return "OK";
 	}
 }

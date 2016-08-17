@@ -22,6 +22,8 @@ public class DmxCue {
 	@Autowired
 	private ShowRunner show;
 	
+	private DmxFader fader;
+	
 	private Map<Integer,Integer> values = new HashMap<Integer,Integer>();
 	private Set<Integer> override = new HashSet<Integer>();
 	
@@ -30,12 +32,19 @@ public class DmxCue {
 	 * @param fade time in milliseconds. 0 means SNAP.
 	 */
 	public void apply(long fade){
+		if(fader!=null)fader.interupt();
 		if(fade>0){ //FADE
-			new DmxFader(dmx, values).fade(fade);
+			fader = new DmxFader(dmx, values);
+			fader.fade(fade);
 		}else{ //SNAP
 			dmx.set(values);
 		}
 		values = new HashMap<Integer,Integer>();
+	}
+	public void blackout(){
+		fader.interupt();
+		reset();
+		dmx.blackout();
 	}
 	/**
 	 * store dmx value to apply if channel is not overridden
@@ -68,11 +77,15 @@ public class DmxCue {
 		for (RGBFixture f : o.fixtures()) {
 			override.addAll(f.channels());
 			
-			int dim = 255;
+			int dim = o.dimmer();
+			if(c==RGBColor.BLACK) dim = 0;
+			
 			
 			if(f.type()==FixtureType.RGB7){
-				values.put(f.dim(), o.dimmer());
-				values.put(f.strob(), 0);
+				int strob = (o.strob()?255:0);
+				if(c==RGBColor.BLACK) strob = 0;
+				values.put(f.dim(), dim);
+				values.put(f.strob(), strob);
 			}else{
 				dim = o.dimmer();
 			}
@@ -93,6 +106,9 @@ public class DmxCue {
 	public void override(DmxOverride o){
 		if(o.color()==null&&o.dimmer()==null) reset(o);
 		else set(o);
+	}
+	public boolean isOverridden(int channel){
+		return override.contains(channel);
 	}
 	
 }

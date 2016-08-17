@@ -17,6 +17,8 @@ public class DmxOverride {
 	private Integer dimmer;
 	@JsonProperty
 	private Long fade;
+	@JsonProperty
+	private boolean strob;
 	
 	public DmxOverride(){}
 	
@@ -46,5 +48,8 @@ public class DmxOverride {
 	public long fade(){
 		if(fade==null)return 0;
 		return fade;
+	}
+	public boolean strob(){
+		return strob;
 	}
 }
