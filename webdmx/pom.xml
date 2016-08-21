@@ -44,11 +44,11 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/opendmx/OpenDmx.jar</systemPath>
 		</dependency>
-		<dependency>
+		<!-- dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
 			<version>2.6.1</version>
-		</dependency>
+		</dependency-->
 	</dependencies>
 	<build>
 		<finalName>webdmx</finalName>

@@ -42,7 +42,7 @@ public class DmxCue {
 		values = new HashMap<Integer,Integer>();
 	}
 	public void blackout(){
-		fader.interupt();
+		if(fader!=null)fader.interupt();
 		reset();
 		dmx.blackout();
 	}
@@ -50,15 +50,15 @@ public class DmxCue {
 	 * store dmx value to apply if channel is not overridden
 	 */
 	public void set(int channel, int value){
-		if(!override.contains(channel)) values.put(channel, value);
+		if(!override.contains(channel))	values.put(channel, value);
 	}
 	/**
 	 * store dmx values to apply if channels are not overridden
 	 */
 	public void set(RGBFixture f, RGBColor c){
-		values.put(f.red(), c.red());
-		values.put(f.green(), c.green());
-		values.put(f.blue(), c.blue());
+		set(f.red(), c.red());
+		set(f.green(), c.green());
+		set(f.blue(), c.blue());
 	}
 	/** 
 	 * cancel override
@@ -86,6 +86,7 @@ public class DmxCue {
 				if(c==RGBColor.BLACK) strob = 0;
 				values.put(f.dim(), dim);
 				values.put(f.strob(), strob);
+				dim = 255;
 			}else{
 				dim = o.dimmer();
 			}

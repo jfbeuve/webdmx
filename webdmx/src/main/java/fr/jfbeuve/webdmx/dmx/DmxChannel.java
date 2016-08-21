@@ -1,10 +1,7 @@
 package fr.jfbeuve.webdmx.dmx;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class DmxChannel {
-	private List<DmxDimmer> dimmers = new ArrayList<DmxDimmer>();
 	private int value;
 	private int channel;
 	
@@ -13,35 +10,26 @@ public class DmxChannel {
 	}
 	
 	/**
-	 * add dimmer to the channel
+	 * @return new value after dimmers
 	 */
-	public void setDimmer(DmxDimmer dim){
-		dimmers.add(dim);
-	}
-	/**
-	 * @return value after dimmers
-	 */
-	public int dim(int _value){
+	public int value(int _value){
 		value = _value;
+		if(value==0) return 0;
 		int toReturn = value;
 		
-		for (DmxDimmer dim : dimmers) {
-			toReturn = dim.apply(toReturn);
+		DmxDimmer[] dimmers = DmxDimmer.values();
+		for(int i=0;i<dimmers.length;i++){
+			if(dimmers[i].channels().contains(channel))
+				toReturn = toReturn * dimmers[i].value() / 255;
 		}
 		
 		return toReturn;
 	}
 	/**
-	 * @return dmx value before dimmer
+	 * @return current value after dimmer
 	 */
 	public int value(){
-		return value;
-	}
-	/**
-	 * return dmx value after dimmmer
-	 */
-	public int dim(){
-		return dim(value);
+		return value(value);
 	}
 	
 	public int channel(){

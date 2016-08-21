@@ -11,7 +11,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.juanjo.openDmx.OpenDmx;
+import fr.jfbeuve.webdmx.io.IOWrapper;
+import fr.jfbeuve.webdmx.io.OlaWeb;
 
 
 @Configuration
@@ -21,10 +22,16 @@ public class Start {
 	public static void main(String[] args) throws Exception {
 		if(args.length>0&&(args[0].toLowerCase().endsWith("-version")))
 			version();
-		else if(args.length>0&&(args[0].toLowerCase().endsWith("-test")))
-			test();
-		else
+		else if(args.length>0&&(args[0].toLowerCase().endsWith("-help")))
+			help();
+		else if(args.length>0&&(args[0].toLowerCase().endsWith("-test"))){
+			String host = "localhost";
+			if(args.length>1) host = args[1];
+			test(host);
+		}else{
 			SpringApplication.run(Start.class, args);
+		}
+			
 	}
 	private static void version(){
 		Properties props = new Properties();
@@ -37,21 +44,19 @@ public class Start {
 			e.printStackTrace();
 		}
 	}
-	public static void test() {
+	public static void test(String host) {
+		//TODO instantiate WinDll if running on windows and host = localhost
+		IOWrapper dmx = new OlaWeb(host);
+		int[] data = new int[512];
 		
 		boolean exit=false;
-		
-		//open send mode
-		if(!OpenDmx.connect(OpenDmx.OPENDMX_TX)){
-			System.out.println("Open Dmx widget not detected!");
-			return;
-		}
 		
 		//reader for console input
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		String cmd,cmd1,cmd2;
-		int sep,channel,value;
+		int sep,channel;
+		short value;
 
 		System.out.println(">Write: channel=value (channel 1-512, value 0-255)");
 
@@ -73,7 +78,7 @@ public class Start {
 						cmd2=cmd.substring(sep+1,cmd.length());
 						
 						channel=Integer.parseInt(cmd1); //1-512
-						value=Integer.parseInt(cmd2);
+						value=Short.parseShort(cmd2);
 						
 						if(channel<1)channel=1;
 						if(channel>512)channel=512;
@@ -81,12 +86,18 @@ public class Start {
 						if(value>255)value=255;
 						
 						//update dmx output
-						OpenDmx.setValue(channel-1,value);
+						data[channel-1]=value;
+						long begin = System.nanoTime();
+						dmx.send(data);
+						long end = System.nanoTime();
 						
-						System.out.println(">dmx channel "+String.valueOf(channel)+" set to value "+String.valueOf(value)+"!");
+						long duration = end-begin;
+						duration = duration /1000000;
+						
+						System.out.println(">dmx channel "+String.valueOf(channel)+" set to value "+String.valueOf(value)+"! "+duration+" ms");
 					}
 					catch(Exception e){
-						System.out.println(">Incorrect command!");
+						e.printStackTrace();
 					}
 				}
 				
@@ -98,6 +109,17 @@ public class Start {
 		System.out.println("bye!");
 		
 		//close
-		OpenDmx.disconnect();
+		dmx.disconnect();
+	}
+	private static void help(){
+		System.out.println("Usage: java -jar webdmx.jar -version                    => returns maven version of the build");
+		System.out.println("       java -jar webdmx.jar -test                       => allows io testing through command line");
+		System.out.println("       java -jar webdmx.jar -test <hostname>            => allows io testing through command line through remote host");
+		System.out.println("       java -jar webdmx.jar                             => starts jetty using ola through localhost");
+		System.out.println("       java -jar webdmx.jar -Djava.library.path=opendmx => run jetty on windows");
+		System.out.println("       java -jar webdmx.jar --remote=<hostname>         => starts jetty using ola through remote host");
+		System.out.println("       java -jar webdmx.jar --offline=true              => emulation with no IO");
+		System.out.println("       java -jar webdmx.jar -help                       => display command line help (this)");
+		
 	}
 }

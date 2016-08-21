@@ -5,39 +5,31 @@ import java.util.List;
 
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 
-public class DmxDimmer {
-	public static final String MASTER = "master";
+public enum DmxDimmer {
+	MASTER(master());
+	private List<Integer> channels;
+	private int value = 255;
+	private DmxDimmer(List<Integer> _channels){
+		channels = _channels;
+	}
+	private static List<Integer> master(){
+		ArrayList<Integer> toReturn = new ArrayList<Integer>();
+
+		toReturn.add(17);
+		toReturn.addAll(RGBFixture.PAR1.channels());
+		toReturn.addAll(RGBFixture.PAR2.channels());
+		toReturn.addAll(RGBFixture.PAR3.channels());
+		toReturn.addAll(RGBFixture.PAR4.channels());
 		
-	private List<DmxChannel> channels=new ArrayList<DmxChannel>();
-	private DmxWrapper dmx;
-	private int value=255;
-	
-	public DmxDimmer(DmxWrapper _dmx, ArrayList<Integer> _channels){
-		dmx=_dmx;
-		
-		for (Integer i : _channels) {
-			DmxChannel channel = new DmxChannel(i);
-			channel.setDimmer(this);
-			channels.add(channel);
-			dmx.init(channel);
-		}
+		return toReturn; 
 	}
-	
-	public int apply(int _value){
-		return _value * value / 255; 
+	public List<Integer> channels(){
+		return channels;
 	}
-	
-	public void dim(int _value){
-		value = _value;
-		dmx.refresh(channels);
+	public void value(int v){
+		value = v;
 	}
-	public static DmxDimmer getMaster(DmxWrapper dmx){
-		ArrayList<Integer> channels = new ArrayList<Integer>();
-		channels.add(17);
-		channels.addAll(RGBFixture.PAR1.channels());
-		channels.addAll(RGBFixture.PAR2.channels());
-		channels.addAll(RGBFixture.PAR3.channels());
-		channels.addAll(RGBFixture.PAR4.channels());
-		return new DmxDimmer(dmx, channels);
+	public int value(){
+		return value;
 	}
 }

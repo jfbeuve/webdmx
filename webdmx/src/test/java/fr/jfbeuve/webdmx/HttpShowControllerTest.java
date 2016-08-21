@@ -16,6 +16,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.show.RGBColor;
 import fr.jfbeuve.webdmx.show.RGB3Show;
@@ -36,6 +37,7 @@ public class HttpShowControllerTest {
 
 	@Test
 	public void testHttpControllers() throws Exception {
+		DmxDimmer.MASTER.value(255);
 		
 		//SHOW
 		ResponseEntity<String> entity = new TestRestTemplate().getForEntity("http://localhost/speed/1000", String.class);

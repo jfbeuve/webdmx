@@ -10,6 +10,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.jfbeuve.webdmx.dmx.DmxCue;
+import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxOverride;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 
@@ -26,6 +27,7 @@ public class OverrideTest {
 	@Test
 	public void testShowRunner() throws Exception {
 		dmx.offline();
+		DmxDimmer.MASTER.value(255);
 		
 		// SET INITIAL STATE 
 		cue.set(11,255);
@@ -37,7 +39,7 @@ public class OverrideTest {
 		assertEquals(127,dmx.get(24).value());
 		
 		// SET OVERRIDE
-		cue.set(new DmxOverride(new String[]{"LEFT","PAR1"}, "VERT", 200));
+		cue.override(new DmxOverride(new String[]{"LEFT","PAR1"}, "VERT", 200));
 		assertEquals(0,dmx.get(11).value());
 		assertEquals(255,dmx.get(12).value());
 		assertEquals(200,dmx.get(17).value());
@@ -57,7 +59,7 @@ public class OverrideTest {
 		assertEquals(200,dmx.get(25).value());
 		
 		// UPDATE OVERRIDES
-		cue.set(new DmxOverride(new String[]{"LEFT","PAR1"}, "ROUGE", 150));
+		cue.override(new DmxOverride(new String[]{"LEFT","PAR1"}, "ROUGE", 150));
 		assertEquals(255,dmx.get(11).value());
 		assertEquals(0,dmx.get(12).value());
 		assertEquals(150,dmx.get(17).value());

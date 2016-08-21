@@ -1,7 +1,6 @@
 package fr.jfbeuve.webdmx.dmx;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -10,22 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.juanjo.openDmx.OpenDmx;
+import fr.jfbeuve.webdmx.io.OlaWeb;
 
 @Component
 public class DmxWrapper {
 	
-	private boolean open;
 	private Map<Integer,DmxChannel> output = new HashMap<Integer, DmxChannel>();
 	private static final Log log = LogFactory.getLog(DmxWrapper.class);
-	private Map<String,DmxDimmer> dimmers = new HashMap<String, DmxDimmer>();
-
-	@Autowired
-	private DmxCue cue;
 	
+	private int[] data;
+
 	public DmxWrapper(){
-		dimmers.put(DmxDimmer.MASTER, DmxDimmer.getMaster(this));
+		data = new int[512];
+		for(int i=0;i<512;i++) data[i]=0;
 	}
+	
+	@Autowired
+	public OlaWeb io;
 	
 	@Value("${offline:false}")
 	private boolean offline;
@@ -40,77 +40,39 @@ public class DmxWrapper {
 	/**
 	 * Apply DMX IO
 	 */
-	private void set(DmxChannel channel, int value){
-		int target = channel.dim(value);
-		
-		if(!open&&!offline) open = OpenDmx.connect(OpenDmx.OPENDMX_TX);
-		if(!open&&!offline) log.warn("Open Dmx widget not detected!");
-		if(!offline) OpenDmx.setValue(channel.channel()-1,target);
-		
-		log.info("OpenDmx.setValue("+channel.channel()+","+target+")");
-	}
-
-	/**
-	 * Set DMX values
-	 * WARNING - this skips overrides. prefer using DmxCue
-	 */
-	synchronized public void set(Map<Integer,Integer> values){
-		set(values, false);
-	}
-	
-	/**
-	 * Set DMX values in bulk
-	 */
-	void set(Map<Integer,Integer> values, boolean dimmer){
+	public void set(Map<Integer,Integer> values){
 		for (Integer channelId : values.keySet()) {
 		    DmxChannel channel = get(channelId);
-		    // remove unchanged values if !dimmer and old value = new value
-		    if(!dimmer && values.get(channelId)==channel.value()) continue;
-			set(channel,values.get(channelId));
+		    int dim = channel.value(values.get(channelId));
+			data[channelId] = dim;
+			log.info(channelId+" = "+dim);
 		}
-	}
-	
-	/**
-	 * Force channels refresh with no value change (used by master/group dimmers)
-	 */
-	void refresh(List<DmxChannel> channels){
-		Map<Integer,Integer> values = new HashMap<Integer,Integer>();
-		for (DmxChannel channel : channels) {
-			if(channel.value()==0) continue;
-			if(cue.isOverridden(channel.channel())) continue;
-			values.put(channel.channel(),channel.value());
-		}
-		set(values,true);
-	}
-	
-	/**
-	 * Initialize channel with dimmer
-	 */
-	public void init(DmxChannel channel){
-		output.put(channel.channel(), channel);
-	}
-	/**
-	 * Add a dimmer
-	 */
-	public void init(String name, DmxDimmer dim){
-		dimmers.put(name,dim);
-	}
-		
-	public void disconnect(){
-		if(open&&!offline) OpenDmx.disconnect();
+		if(!offline) io.send(data);
+		log.info("DMX SEND");
 	}
 	
 	/**
 	 * get dimmer by name and apply new value
 	 */
-	public void dim(String name, int value){
-		dimmers.get(name).dim(value);
+	public void dim(DmxDimmer dimmer, int value){
+		dimmer.value(value);
+		for (int channelId : dimmer.channels()) {
+			if(!output.containsKey(channelId)) continue;
+			DmxChannel channel = output.get(channelId);
+			int dim = channel.value();
+			data[channelId] = dim;
+			log.info(channelId+" = "+dim);	
+		}
+		if(!offline) io.send(data);
+		log.info("DMX SEND");
 	}
 	
 	public DmxChannel get(int channelid){
 		DmxChannel channel = output.get(channelid);
-		if(channel==null)channel=new DmxChannel(channelid);
-		output.put(channelid, channel); 
+		if(channel==null) {
+			channel=new DmxChannel(channelid);
+			output.put(channelid, channel);
+		}
 		return channel;
 	}
 	/**
@@ -118,8 +80,11 @@ public class DmxWrapper {
 	 */
 	public void blackout(){
 		for(Integer channelId:output.keySet()){
-			DmxChannel channel = output.get(channelId); 
-			if(channel.value()>0) set(channel,0);
+			DmxChannel channel = output.get(channelId);
+			data[channelId] = channel.value(0);
+			log.info(channelId+" = 0");	
 		}
+		if(!offline) io.send(data);
+		log.info("DMX SEND");
 	}
 }
