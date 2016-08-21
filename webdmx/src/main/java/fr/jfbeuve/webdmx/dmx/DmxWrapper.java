@@ -44,7 +44,7 @@ public class DmxWrapper {
 		for (Integer channelId : values.keySet()) {
 		    DmxChannel channel = get(channelId);
 		    int dim = channel.value(values.get(channelId));
-			data[channelId] = dim;
+			data[channelId-1] = dim;
 			log.info(channelId+" = "+dim);
 		}
 		if(!offline) io.send(data);
@@ -60,7 +60,7 @@ public class DmxWrapper {
 			if(!output.containsKey(channelId)) continue;
 			DmxChannel channel = output.get(channelId);
 			int dim = channel.value();
-			data[channelId] = dim;
+			data[channelId-1] = dim;
 			log.info(channelId+" = "+dim);	
 		}
 		if(!offline) io.send(data);
@@ -81,7 +81,7 @@ public class DmxWrapper {
 	public void blackout(){
 		for(Integer channelId:output.keySet()){
 			DmxChannel channel = output.get(channelId);
-			data[channelId] = channel.value(0);
+			data[channelId-1] = channel.value(0);
 			log.info(channelId+" = 0");	
 		}
 		if(!offline) io.send(data);
