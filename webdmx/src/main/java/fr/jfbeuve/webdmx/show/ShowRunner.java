@@ -18,7 +18,7 @@ public class ShowRunner {
 	private DmxCue dmx;
 	
 	@Autowired
-	private RGB3Show rgb;
+	private RockShow rgb;
 	
 	private Tempo auto;
 	
@@ -90,5 +90,24 @@ public class ShowRunner {
 		next();
 		auto = new Tempo(this, speed);
 		new Thread(auto).start();
+	}
+	
+	private boolean strob = false;
+	private boolean running = false;
+	public void strob(){
+		if(!strob){
+			strob=true;
+			running = stop();
+			for (IShow show : shows) {
+				show.strob(strob);
+			}
+		}else{
+			strob=false;
+			for (IShow show : shows) {
+				show.strob(strob);
+			}
+			if(running) start();
+		}
+		dmx.apply(0);
 	}
 }

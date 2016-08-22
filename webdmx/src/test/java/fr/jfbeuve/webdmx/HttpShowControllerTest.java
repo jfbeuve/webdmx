@@ -19,7 +19,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.show.RGBColor;
-import fr.jfbeuve.webdmx.show.RGB3Show;
+import fr.jfbeuve.webdmx.show.RockShow;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Start.class)
@@ -33,7 +33,7 @@ public class HttpShowControllerTest {
 	private DmxWrapper dmx;
 	
 	@Autowired
-	private RGB3Show rgb;
+	private RockShow rgb;
 
 	@Test
 	public void testHttpControllers() throws Exception {

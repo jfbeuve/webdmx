@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.show.RGBColor;
-import fr.jfbeuve.webdmx.show.RGB3Show;
+import fr.jfbeuve.webdmx.show.RockShow;
 import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,7 +28,7 @@ public class ShowRunnerTest {
 	@Autowired
 	private ShowRunner show;
 	@Autowired
-	private RGB3Show rgb;
+	private RockShow rgb;
 	
 	@Test
 	public void testShowRunner() throws Exception {

@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import fr.jfbeuve.webdmx.dmx.DmxCue;
 import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
-import fr.jfbeuve.webdmx.fixture.RGBFixture;
-import fr.jfbeuve.webdmx.show.RGB3Show;
-import fr.jfbeuve.webdmx.show.RGB7Show;
+import fr.jfbeuve.webdmx.show.RockShow;
 import fr.jfbeuve.webdmx.show.RGBColor;
 import fr.jfbeuve.webdmx.show.ShowRunner;
 
@@ -23,9 +21,7 @@ public class MasterController {
 	@Autowired
 	private ShowRunner show;
 	@Autowired
-	private RGB3Show rgb;
-	@Autowired
-	private RGB7Show front;
+	private RockShow rgb;
 	@Autowired
 	private DmxWrapper io;
 	
@@ -43,26 +39,11 @@ public class MasterController {
 		rgb.setColor(RGBColor.valueOf(color));
 		return "OK";
 	}
-	private boolean strob = false;
-	private boolean running = false;
 
 	@RequestMapping("/front/strob")
 	@ResponseBody
 	public String strob() {
-		if(!strob){
-			strob=true;
-			running = show.stop();
-			dmx.set(RGBFixture.PAR1,RGBColor.BLACK);
-			dmx.set(RGBFixture.PAR2,RGBColor.BLACK);
-			dmx.set(RGBFixture.PAR3,RGBColor.BLACK);
-			dmx.set(RGBFixture.PAR4,RGBColor.BLACK);
-			front.strob(true,false);
-		}else{
-			strob=false;
-			front.strob(false,false);
-			if(running) show.start();
-		}
-		dmx.apply(0);
+		show.strob();
 		return "OK";
 	}
 	@RequestMapping("/speed/{time}")
