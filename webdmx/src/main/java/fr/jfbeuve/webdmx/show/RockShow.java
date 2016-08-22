@@ -12,8 +12,8 @@ import fr.jfbeuve.webdmx.dmx.DmxCue;
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 
 @Component
-public class RGB3Show implements IShow{
-	private static final Log log = LogFactory.getLog(RGB3Show.class);
+public class RockShow implements IShow{
+	private static final Log log = LogFactory.getLog(RockShow.class);
 	
 	RGBFixture[] fixtures = {RGBFixture.PAR1,RGBFixture.PAR2,RGBFixture.PAR3,RGBFixture.PAR4};
 	
@@ -32,12 +32,12 @@ public class RGB3Show implements IShow{
 			{false,false, false, true},
 	};
 	
-	Map<RGBColor,RGBColor> color = new HashMap<RGBColor,RGBColor>();
+	private Map<RGBColor,RGBColor> color = new HashMap<RGBColor,RGBColor>();
 	
-	RGBColor bgColor;
-	int step=0;
+	private RGBColor bgColor;
+	private int step=0;
 	
-	public RGB3Show(){
+	public RockShow(){
 		//define default color
 		bgColor = RGBColor.MAUVE;
 		
@@ -69,6 +69,23 @@ public class RGB3Show implements IShow{
 	 **/
 	public void setColor(RGBColor _color) {
 		this.bgColor = _color;
+		if(strob) strob(true);
+	}
+	
+	
+	private boolean strob = false; 
+	public void strob(boolean fire) {
+		strob = fire;
+		if(fire){
+			dmx.set(RGBFixture.PAR1,RGBColor.BLACK);
+			dmx.set(RGBFixture.PAR2,RGBColor.BLACK);
+			dmx.set(RGBFixture.PAR3,RGBColor.BLACK);
+			dmx.set(RGBFixture.PAR4,RGBColor.BLACK);
+		}
+		//TODO? dmx.set(RGBFixture.LEFT,(fire?color.get(bgcolor):RGBColor.BLACK));
+		dmx.set(RGBFixture.LEFT,(fire?RGBColor.WHITE:RGBColor.BLACK));
+		dmx.set(RGBFixture.LEFT.strob(),(fire?255:0));
+		dmx.set(RGBFixture.LEFT.dim(),(fire?255:0));
 	}
 	
 }

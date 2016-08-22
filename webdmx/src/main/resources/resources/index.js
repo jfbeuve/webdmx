@@ -119,6 +119,7 @@ function fixture(o){
 	var btn = $("#"+o.id);
 	if(btn.hasClass("active")){
 		 btn.removeClass("active");
+		 if(o.id=="LEFT") $("#overstrob").removeClass("active");
 		 $.ajax({
 		  type: "POST",
 	      url: "/override",
