@@ -95,6 +95,7 @@ public class ShowRunner {
 	private boolean strob = false;
 	private boolean running = false;
 	public void strob(){
+		if(shows.isEmpty()) shows.add(rgb);
 		if(!strob){
 			strob=true;
 			running = stop();
@@ -109,5 +110,18 @@ public class ShowRunner {
 			if(running) start();
 		}
 		dmx.apply(0);
+	}
+	
+	private RGBColor bgColor = RGBColor.MAUVE;
+	/**
+	 * set background color
+	 **/
+	public void color(RGBColor _color) {
+		bgColor = _color;
+		if(shows.isEmpty()) shows.add(rgb);
+		for (IShow show : shows) {
+			show.color(bgColor);
+		}
+		if(strob) dmx.apply(0);
 	}
 }

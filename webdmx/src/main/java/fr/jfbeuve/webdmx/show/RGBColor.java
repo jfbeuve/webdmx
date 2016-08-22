@@ -7,7 +7,7 @@ public enum RGBColor {
 	
 	JAUNE(255, 255, 0), AMBRE(255, 127, 0),
 	
-	BLACK(0, 0, 0), WHITE(255, 255, 255);
+	BLACK(0, 0, 0), WHITE(255, 255, 255), AUTO(-1,-1,-1);
 	
 	int red, green, blue;
 

@@ -155,3 +155,12 @@ function blackout(){
 function overdim(){
 	if($("#parcolor").val()!=null) parcolor();
 }
+function strob(){
+	get('/front/strob');
+	$("#parcolor").val("");
+	colorlist($("#parcolor"));
+	$("#overstrob").removeClass("active");
+	$.each( $("#fixture>button.active"), function(o) {
+    	$("#"+this.id).removeClass('active');
+	});
+}

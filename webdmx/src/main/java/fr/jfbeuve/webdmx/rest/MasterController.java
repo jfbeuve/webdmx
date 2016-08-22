@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import fr.jfbeuve.webdmx.dmx.DmxCue;
 import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
-import fr.jfbeuve.webdmx.show.RockShow;
 import fr.jfbeuve.webdmx.show.RGBColor;
 import fr.jfbeuve.webdmx.show.ShowRunner;
 
@@ -20,8 +19,6 @@ public class MasterController {
 	private DmxCue dmx;
 	@Autowired
 	private ShowRunner show;
-	@Autowired
-	private RockShow rgb;
 	@Autowired
 	private DmxWrapper io;
 	
@@ -35,8 +32,7 @@ public class MasterController {
 	@RequestMapping("/color/{color}")
 	@ResponseBody
 	public String color(@PathVariable("color") String color) {
-		//TODO auto color
-		rgb.setColor(RGBColor.valueOf(color));
+		show.color(RGBColor.valueOf(color));
 		return "OK";
 	}
 

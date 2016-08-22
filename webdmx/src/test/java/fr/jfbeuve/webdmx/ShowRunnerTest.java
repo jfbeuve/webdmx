@@ -33,7 +33,7 @@ public class ShowRunnerTest {
 	@Test
 	public void testShowRunner() throws Exception {
 		dmx.offline();
-		rgb.setColor(RGBColor.MAUVE);
+		show.color(RGBColor.MAUVE);
 		show.speed(1000);
 		log.info("###### ASSERT 1");
 		assertColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE);

@@ -34,13 +34,10 @@ public class RockShow implements IShow{
 	
 	private Map<RGBColor,RGBColor> color = new HashMap<RGBColor,RGBColor>();
 	
-	private RGBColor bgColor;
 	private int step=0;
+	private RGBColor bgColor = RGBColor.MAUVE;
 	
 	public RockShow(){
-		//define default color
-		bgColor = RGBColor.MAUVE;
-		
 		//define bgcolor matrix
 		color.put(RGBColor.CYAN, RGBColor.MAUVE);
 		color.put(RGBColor.MAUVE, RGBColor.CYAN);
@@ -64,14 +61,6 @@ public class RockShow implements IShow{
 		step++;
 		if(step==cues.length)step=0;
 	}
-	/**
-	 * set background color
-	 **/
-	public void setColor(RGBColor _color) {
-		this.bgColor = _color;
-		if(strob) strob(true);
-	}
-	
 	
 	private boolean strob = false; 
 	public void strob(boolean fire) {
@@ -82,10 +71,16 @@ public class RockShow implements IShow{
 			dmx.set(RGBFixture.PAR3,RGBColor.BLACK);
 			dmx.set(RGBFixture.PAR4,RGBColor.BLACK);
 		}
-		//TODO? dmx.set(RGBFixture.LEFT,(fire?color.get(bgcolor):RGBColor.BLACK));
-		dmx.set(RGBFixture.LEFT,(fire?RGBColor.WHITE:RGBColor.BLACK));
+		dmx.set(RGBFixture.LEFT,(fire?color.get(bgColor):RGBColor.BLACK));
+		//dmx.set(RGBFixture.LEFT,(fire?RGBColor.WHITE:RGBColor.BLACK));
 		dmx.set(RGBFixture.LEFT.strob(),(fire?255:0));
 		dmx.set(RGBFixture.LEFT.dim(),(fire?255:0));
+	}
+
+	@Override
+	public void color(RGBColor _color) {
+		bgColor = _color;
+		if(strob) strob(true);
 	}
 	
 }

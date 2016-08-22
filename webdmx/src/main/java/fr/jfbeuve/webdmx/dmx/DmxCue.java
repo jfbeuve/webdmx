@@ -101,7 +101,10 @@ public class DmxCue {
 	public void reset(DmxOverride o){
 		for (RGBFixture f : o.fixtures()) {
 			override.removeAll(f.channels());
-			if(f==RGBFixture.LEFT) set(f,RGBColor.BLACK);
+			if(f==RGBFixture.LEFT){
+				set(f,RGBColor.BLACK);
+				apply(0);
+			}
 		}
 	}
 	
