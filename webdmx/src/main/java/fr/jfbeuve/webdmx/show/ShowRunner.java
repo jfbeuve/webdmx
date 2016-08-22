@@ -115,15 +115,13 @@ public class ShowRunner {
 		dmx.apply(0);
 	}
 	
-	private RGBColor bgColor = RGBColor.MAUVE;
 	/**
 	 * set background color
 	 **/
-	public void color(RGBColor _color) {
-		bgColor = _color;
+	public void color(RGBColor color) {
 		if(shows.isEmpty()) shows.add(rgb);
 		for (IShow show : shows) {
-			show.color(bgColor);
+			show.color(color);
 		}
 		if(strob) dmx.apply(0);
 	}

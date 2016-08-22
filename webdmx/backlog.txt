@@ -1,5 +1,2 @@
 black background
 slider style
-smart show (skip steps if speed > 2s)
-blackout LEFT PAR if override disabled
-auto color (change every 3 min)

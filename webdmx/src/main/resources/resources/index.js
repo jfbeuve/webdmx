@@ -90,6 +90,7 @@ function style2color(style){
     	case "orange": return "AMBRE";
     	case "white": return "WHITE";
     	case "black": return "BLACK";
+    	case "auto": return "AUTO";
    }
 }
 /**
@@ -106,8 +107,7 @@ function speedlist(value, text){
 }
 
 //TODO INIT
-$("#mastercolor").val("");
-$("#mastercolor").addClass("");
+$("#mastercolor").val("auto");
 $("#parcolor").val("");
 speedlist("","");
 
