@@ -75,6 +75,9 @@ public class ShowRunner {
 		if(speed>2000) fade = speed/2;
 		dmx.apply(fade);
 	}
+	public long speed(){
+		return speed;
+	}
 	/**
 	 * sets speed and starts auto run
 	 */

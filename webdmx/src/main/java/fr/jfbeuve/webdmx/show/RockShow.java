@@ -15,21 +15,24 @@ import fr.jfbeuve.webdmx.fixture.RGBFixture;
 public class RockShow implements IShow{
 	private static final Log log = LogFactory.getLog(RockShow.class);
 	
+	@Autowired
+	private ShowRunner show;
+	
 	RGBFixture[] fixtures = {RGBFixture.PAR1,RGBFixture.PAR2,RGBFixture.PAR3,RGBFixture.PAR4};
 	
 	@Autowired
 	private DmxCue dmx;
 	
 	boolean[][] cues = {
-			{false,false, false, false},
-			{true,false,false,true},
+			{false,false, false, false}, // skip if slow speed
+			{true,false,false,true}, 
 			{false,true,true,false},
 			{true, false, true, false},
 			{false,true, false, true},
-			{true,false, false, false},
-			{false,true, false, false},
-			{false,false, true, false},
-			{false,false, false, true},
+			{true,false, false, false}, // skip if slow speed
+			{false,true, false, false}, // skip if slow speed
+			{false,false, true, false}, // skip if slow speed
+			{false,false, false, true}, // skip if slow speed
 	};
 	
 	private Map<RGBColor,RGBColor> color = new HashMap<RGBColor,RGBColor>();
@@ -52,6 +55,11 @@ public class RockShow implements IShow{
 	 * @return dmx values to apply for next step of the show
 	 */
 	public void next(){
+		if(show.speed()>2000){
+			//smart show (skips solo steps in rock show if slow speed)
+			if(step==0) step = 1;
+			if(step>4) step = 1;
+		}
 		log.info("STEP "+step);
 		for (int i=0;i<fixtures.length;i++) {
 			boolean[] cue = cues[step];
