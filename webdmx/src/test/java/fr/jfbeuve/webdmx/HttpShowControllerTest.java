@@ -20,6 +20,7 @@ import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.show.RGBColor;
 import fr.jfbeuve.webdmx.show.RockShow;
+import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Start.class)
@@ -33,11 +34,16 @@ public class HttpShowControllerTest {
 	private DmxWrapper dmx;
 	
 	@Autowired
-	private RockShow rgb;
+	private RockShow rock;
+	@Autowired
+	private ShowRunner show;
 
 	@Test
 	public void testHttpControllers() throws Exception {
+		//INIT
 		DmxDimmer.MASTER.value(255);
+		rock.autoColorTime(180000);
+		show.fadeThreshold(2000);
 		
 		//SHOW
 		ResponseEntity<String> entity = new TestRestTemplate().getForEntity("http://localhost/speed/1000", String.class);
@@ -97,7 +103,7 @@ public class HttpShowControllerTest {
 	}
 	private void assertStrob(boolean strob){
 		if(strob){
-			assertEquals(255, dmx.get(11).value());
+			assertEquals(0, dmx.get(11).value());
 			assertEquals(255, dmx.get(12).value());
 			assertEquals(255, dmx.get(13).value());
 			assertEquals(255, dmx.get(15).value());

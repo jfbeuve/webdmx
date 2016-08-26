@@ -27,14 +27,14 @@ public class DmxFader implements Runnable{
 			diff.put(channel, value);
 		}
 	}
-	public void fade(long _time){
-		step = 1;
-		time = _time / 255;
-		
+	public void fade(long tot){
 		// system does not really sustain refresh more often than every 100ms
-		if(time<100){
-			step = 100/(int)time;
+		if(tot<=25500){
+			step = (int) (25500 / tot);
 			time=100;
+		}else{
+			step = 1;
+			time = tot / 255;
 		}
 		
 		log.info("time="+time+"; step="+step);
@@ -45,7 +45,7 @@ public class DmxFader implements Runnable{
 	
 	public void run() {
 		thread=Thread.currentThread();
-		for (int i = 1; i < 256; i=i+step) {
+		for (int i = step; i < 256; i=i+step) {
 			log.info("FADING "+i+ " ("+done+")");
 			Map<Integer,Integer> values = new HashMap<Integer,Integer>();
 			for (Integer channel : diff.keySet()) {

@@ -27,6 +27,17 @@ public class ShowRunner {
 	private List<IShow> shows = new ArrayList<IShow>();
 	
 	/**
+	 * speed threshold for snap/fade
+	 */
+	private long fadeThreshold=2000;
+	
+	public long fadeThreshold() {
+		return fadeThreshold;
+	}
+	public void fadeThreshold(long fadeThreshold) {
+		this.fadeThreshold = fadeThreshold;
+	}
+	/**
 	 * adds a show to the scheduler
 	 */
 	public boolean start(IShow show){
@@ -72,7 +83,7 @@ public class ShowRunner {
 			show.next();
 		}
 		long fade = 0;
-		if(speed>2000) fade = speed/2;
+		if(speed>fadeThreshold) fade = speed/2;
 		dmx.apply(fade);
 	}
 	public long speed(){

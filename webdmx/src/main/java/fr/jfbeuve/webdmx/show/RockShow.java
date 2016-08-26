@@ -42,6 +42,18 @@ public class RockShow implements IShow{
 	private int step=0;
 	private RGBColor bgColor = RGBColor.MAUVE;
 	
+	/**
+	 * auto color time
+	 */
+	private long autoColorTime=180000;
+	
+	public long autoColorTime() {
+		return autoColorTime;
+	}
+	public void autoColorTime(long autoColorTime) {
+		this.autoColorTime = autoColorTime;
+	}
+	
 	public RockShow(){
 		//define bgcolor matrix
 		color.put(RGBColor.CYAN, RGBColor.MAUVE);
@@ -62,7 +74,7 @@ public class RockShow implements IShow{
 		if(colortime==0) colortime = System.currentTimeMillis();
 		
 		if(autocolor){
-			if(System.currentTimeMillis()-colortime>180000){
+			if(System.currentTimeMillis()-colortime>autoColorTime){
 				colortime = System.currentTimeMillis();
 				//next color
 				for(int i=0;i<colorseq.length;i++){
@@ -76,7 +88,7 @@ public class RockShow implements IShow{
 			}
 		}
 		
-		if(show.speed()>2000){
+		if(show.speed()>show.fadeThreshold()){
 			//smart show (skips solo steps in rock show if slow speed)
 			if(step==0) step = 1;
 			if(step>4) step = 1;
