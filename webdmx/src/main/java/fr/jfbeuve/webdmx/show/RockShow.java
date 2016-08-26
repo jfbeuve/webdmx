@@ -76,6 +76,7 @@ public class RockShow implements IShow{
 		if(autocolor){
 			if(System.currentTimeMillis()-colortime>autoColorTime){
 				colortime = System.currentTimeMillis();
+				RGBColor before = bgColor;
 				//next color
 				for(int i=0;i<colorseq.length;i++){
 					if(bgColor==colorseq[i]){
@@ -85,6 +86,7 @@ public class RockShow implements IShow{
 						break;
 					}
 				}
+				log.info("AUTO COLOR CHANGE "+before+ " => "+bgColor);
 			}
 		}
 		

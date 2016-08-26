@@ -38,9 +38,10 @@ public class ShowRunnerTest {
 		//INIT
 		dmx.offline();
 		DmxDimmer.MASTER.value(255);
-		rock.autoColorTime(180000);
 		show.fadeThreshold(2000);
 		show.color(RGBColor.MAUVE);
+		show.color(RGBColor.AUTO);
+		rock.autoColorTime(3200);
 		show.speed(1000);
 		
 		log.info("###### ASSERT 1");
@@ -62,13 +63,17 @@ public class ShowRunnerTest {
 		show.fadeThreshold(400);
 		Thread.sleep(600);
 		// assert fading in progress
-		log.info("###### ASSERT 6 != 1"); 
+		log.info("###### ASSERT 6 != step 1"); 
 		assertTrue(!isColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE));
 		Thread.sleep(200);
 		// assert step > 4 skipped 0 back to step 1 since we are in fade show
-		log.info("###### ASSERT 6 = 1"); 
+		log.info("###### ASSERT 6 = step 1"); 
 		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.CYAN);
 		
+		// auto color change
+		Thread.sleep(500);
+		log.info("###### ASSERT 7 = step 2"); 
+		assertColors(RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.ROUGE, RGBColor.JAUNE);
 	}
 	private void assertColors(RGBColor a, RGBColor b, RGBColor c, RGBColor d){
 		assertEquals(a.red(), dmx.get(24).value());
