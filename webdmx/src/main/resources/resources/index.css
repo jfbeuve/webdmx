@@ -1,8 +1,17 @@
-/*TODO style black background*/
+body{
+	background-color: black;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
 button {
+	border-radius: 5px;
     background-color: white;
-    border: 1px solid #4CAF50;
-    color: black;
+    border: 0px;
+    color: dimgrey;
     padding: 15px 15px;
     font-size: 20px;
     margin: 4px 2px;
@@ -15,11 +24,8 @@ button:click {
     color: white;
 }
 .active {
-    background-color: #4CAF50;
+    background-color: grey;
     color: white;
-}
-input[type=range]{
-	width: 100%;
 }
 .color{
 	height: 84px;
@@ -27,11 +33,14 @@ input[type=range]{
 	display: inline-block;
 }
 select{
-    border: 1px solid #4CAF50;
+    border: 1px solid lightgrey;
     padding: 6px 6px;
     font-size: 20px;
     margin: 4px 2px;
     cursor: pointer;
+    border-radius: 5px;
+    background:white;
+	color: dimgrey;
 }
 .red{
 	background:red;
@@ -70,11 +79,33 @@ select{
 	color: white;
 }
 .section{
-	border: 1px solid #4CAF50;
+	border: 1px solid lightgrey;
 	padding: 6px 6px;
 	margin: 4px 2px;
+}
+.group{
+	border: 0px;
 }
 div{
 	display: inline-block;
 }
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  border-radius: 5px;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  height: 40px;
+  background: white;
+  border-radius: 5px;
+}
+input[type=range]::-webkit-slider-thumb {
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
+  background: grey;
+  -webkit-appearance: none;
+}
+
+
 

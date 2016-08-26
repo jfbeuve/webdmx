@@ -17,7 +17,7 @@
   	<button onclick="blackout()">BLACKOUT</button>
   	
 <select onchange="mastercolor()" id="mastercolor">
-    <option value="auto">AUTO</option>
+    <option value="auto" class="white">AUTO</option>
     <option value="red" class="red">ROUGE</option>
     <option value="green" class="green">VERT</option>
     <option value="blue" class="blue">BLEU</option>
@@ -28,16 +28,13 @@
     <option value="white" class="white">BLANC</option>
     <option value="black" class="black">NOIR</option>
 </select>
-<br/>
 <select onchange="speedsel()" id="speed">
-    <option value="2000">2s</option>
-    <option value="5000">5s</option>
-    <option value="30000">30s</option>
-    <option value="180000">3m</option>
+	<option value="">speed</option>
 </select>
+<div class="group">
 <button onclick="man()">MAN</button>
 <button onclick="tap()" id="tap">TAP</button>
-<br/>
+</div>
 <input type="range" value="100" id="masterdim" onchange="masterdim(this)"/>
 </div><br/>
   <div class="section" id="override">

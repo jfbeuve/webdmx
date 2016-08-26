@@ -107,7 +107,7 @@ function speedlist(value, text){
 }
 
 //TODO INIT
-$("#mastercolor").val("auto");
+$("#mastercolor").val("");
 $("#parcolor").val("");
 speedlist("","");
 
