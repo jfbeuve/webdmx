@@ -1,2 +1,11 @@
-black background
-slider style
+* rename index html into rock html
+
+* create index html menu
+
+* create theatre html 
+DIMMER BOTEX
+chase123432 500ms, chase all/none 1s, 1234 on/off, all fade on/off
+
+* create disco html 
+SWITCH BOTEX, PAR10mm, STROB
+color/dimmer/music/off PAR 10MM, switch 1234 on/off, strob speed/strenght slider on/off button 

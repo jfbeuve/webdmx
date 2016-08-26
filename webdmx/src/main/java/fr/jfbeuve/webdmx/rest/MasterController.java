@@ -14,7 +14,6 @@ import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @Controller
 public class MasterController {
-	//TODO auto color? master dimmer? override dimmer? override "apply" button, init service?
 	@Autowired
 	private DmxCue dmx;
 	@Autowired
@@ -54,7 +53,6 @@ public class MasterController {
 	@RequestMapping("/dim/{value}")
 	@ResponseBody
 	public String speed(@PathVariable("value") Integer value) {
-		//TODO apply master dimmer only to ShowRunner = skip overrides ?
 		io.dim(DmxDimmer.MASTER, value);
 		return "OK";
 	}
