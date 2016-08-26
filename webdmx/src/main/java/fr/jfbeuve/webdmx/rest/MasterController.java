@@ -10,6 +10,7 @@ import fr.jfbeuve.webdmx.dmx.DmxCue;
 import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.show.RGBColor;
+import fr.jfbeuve.webdmx.show.RockShow;
 import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @Controller
@@ -20,6 +21,8 @@ public class MasterController {
 	private ShowRunner show;
 	@Autowired
 	private DmxWrapper io;
+	@Autowired
+	private RockShow rock;
 	
 	@RequestMapping("/show/blackout")
 	@ResponseBody
@@ -31,6 +34,7 @@ public class MasterController {
 	@RequestMapping("/color/{color}")
 	@ResponseBody
 	public String color(@PathVariable("color") String color) {
+		if(show.isEmpty()) show.set(rock);
 		show.color(RGBColor.valueOf(color));
 		return "OK";
 	}
@@ -38,6 +42,7 @@ public class MasterController {
 	@RequestMapping("/front/strob")
 	@ResponseBody
 	public String strob() {
+		if(show.isEmpty()) show.set(rock);
 		show.strob();
 		return "OK";
 	}
@@ -45,6 +50,8 @@ public class MasterController {
 	@ResponseBody
 	public String speed(@PathVariable("time") Long time) {
 		show.speed(time);
+		if(show.isEmpty()) show.set(rock);
+		show.start();
 		return "OK";
 	}
 	/**

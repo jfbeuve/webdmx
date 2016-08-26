@@ -68,12 +68,21 @@ public class ShowRunner {
 	 */
 	public boolean start(){
 		if(auto==null){
-			speed(speed);
+			next();
+			auto = new Tempo(this, speed);
+			new Thread(auto).start();
 			return true;
 		}else
 			return false;
 	}
-	
+	public void set(IShow show){
+		shows.add(show);
+	}
+	public void reset(IShow show){
+		List<IShow> newShows = new ArrayList<IShow>();
+		newShows.add(show);
+		shows=newShows;
+	}
 	/**
 	 * applies next step
 	 */
@@ -89,8 +98,11 @@ public class ShowRunner {
 	public long speed(){
 		return speed;
 	}
+	public boolean isEmpty(){
+		return shows.isEmpty();
+	}
 	/**
-	 * sets speed and starts auto run
+	 * sets speed 
 	 */
 	public void speed(long _speed){
 		if(_speed==0){
@@ -99,17 +111,16 @@ public class ShowRunner {
 		}
 		if(_speed<100) _speed = 100;
 		speed = _speed;
-		if(shows.isEmpty()) shows.add(rgb);
-		if(auto!=null) auto.stop();
-		next();
-		auto = new Tempo(this, speed);
-		new Thread(auto).start();
+		if(auto!=null){ 
+			auto.stop();
+			auto=null;
+			start();
+		}
 	}
 	
 	private boolean strob = false;
 	private boolean running = false;
 	public void strob(){
-		if(shows.isEmpty()) shows.add(rgb);
 		if(!strob){
 			strob=true;
 			running = stop();
@@ -130,7 +141,6 @@ public class ShowRunner {
 	 * set background color
 	 **/
 	public void color(RGBColor color) {
-		if(shows.isEmpty()) shows.add(rgb);
 		for (IShow show : shows) {
 			show.color(color);
 		}

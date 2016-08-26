@@ -43,6 +43,7 @@ public class ShowRunnerTest {
 		show.color(RGBColor.AUTO);
 		rock.autoColorTime(3200);
 		show.speed(1000);
+		show.start(rock);
 		
 		log.info("###### ASSERT 1");
 		assertColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE);
