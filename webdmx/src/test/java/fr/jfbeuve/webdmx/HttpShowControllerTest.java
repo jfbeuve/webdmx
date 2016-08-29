@@ -42,7 +42,7 @@ public class HttpShowControllerTest {
 	public void testHttpControllers() throws Exception {
 		//INIT
 		DmxDimmer.MASTER.value(255);
-		rock.autoColorTime(180000);
+		show.autoColorTime=180000;
 		show.fadeThreshold(2000);
 		
 		//SHOW

@@ -37,22 +37,8 @@ public class RockShow implements IShow{
 	
 	private Map<RGBColor,RGBColor> color = new HashMap<RGBColor,RGBColor>();
 	
-	private RGBColor[] colorseq = {RGBColor.CYAN, RGBColor.MAUVE, RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.AMBRE, RGBColor.VERT, RGBColor.BLEU};
-	
 	private int step=0;
-	private RGBColor bgColor = RGBColor.MAUVE;
-	
-	/**
-	 * auto color time
-	 */
-	private long autoColorTime=180000;
-	
-	public long autoColorTime() {
-		return autoColorTime;
-	}
-	public void autoColorTime(long autoColorTime) {
-		this.autoColorTime = autoColorTime;
-	}
+	private RGBColor bgColor;
 	
 	public RockShow(){
 		//define bgcolor matrix
@@ -66,30 +52,11 @@ public class RockShow implements IShow{
 		color.put(RGBColor.BLACK, RGBColor.WHITE);
 		color.put(RGBColor.WHITE, RGBColor.BLACK);
 	}
-	private long colortime=0;
+	
 	/**
 	 * @return dmx values to apply for next step of the show
 	 */
 	public void next(){
-		if(colortime==0) colortime = System.currentTimeMillis();
-		
-		if(autocolor){
-			if(System.currentTimeMillis()-colortime>autoColorTime){
-				colortime = System.currentTimeMillis();
-				RGBColor before = bgColor;
-				//next color
-				for(int i=0;i<colorseq.length;i++){
-					if(bgColor==colorseq[i]){
-						int a = i+1;
-						if(a==colorseq.length) a=0;
-						bgColor = colorseq[i+1];
-						break;
-					}
-				}
-				log.info("AUTO COLOR CHANGE "+before+ " => "+bgColor);
-			}
-		}
-		
 		if(show.speed()>show.fadeThreshold()){
 			//smart show (skips solo steps in rock show if slow speed)
 			if(step==0) step = 1;
@@ -119,15 +86,9 @@ public class RockShow implements IShow{
 		dmx.set(RGBFixture.LEFT.strob(),(fire?255:0));
 		dmx.set(RGBFixture.LEFT.dim(),(fire?255:0));
 	}
-	boolean autocolor = true;
+	
 	@Override
 	public void color(RGBColor _color) {
-		if(_color==RGBColor.AUTO){
-			autocolor=true;
-			return;
-		}
-		autocolor=false;
-		colortime = System.currentTimeMillis();
 		bgColor = _color;
 		if(strob) strob(true);
 	}

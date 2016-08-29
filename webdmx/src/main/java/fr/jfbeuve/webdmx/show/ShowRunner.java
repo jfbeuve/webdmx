@@ -38,13 +38,6 @@ public class ShowRunner {
 		this.fadeThreshold = fadeThreshold;
 	}
 	/**
-	 * adds a show to the scheduler
-	 */
-	public boolean start(IShow show){
-		shows.add(show);
-		return start();
-	}
-	/**
 	 * removes a show from the scheduler
 	 */
 	public void stop(IShow show){
@@ -76,6 +69,7 @@ public class ShowRunner {
 			return false;
 	}
 	public void set(IShow show){
+		show.color(color);
 		shows.add(show);
 	}
 	public void reset(IShow show){
@@ -88,6 +82,28 @@ public class ShowRunner {
 	 */
 	void next(){
 		log.info("#### next");
+
+		// AUTO COLOR
+		if(colortime==0) colortime = System.currentTimeMillis();
+		if(autocolor){
+			if(System.currentTimeMillis()-colortime>autoColorTime){
+				colortime = System.currentTimeMillis();
+				RGBColor before = color;
+				//next color
+				for(int i=0;i<colorseq.length;i++){
+					if(color==colorseq[i]){
+						int a = i+1;
+						if(a==colorseq.length) a=0;
+						for (IShow show : shows) {
+							show.color(colorseq[i+1]);
+						}
+						break;
+					}
+				}
+				log.info("AUTO COLOR CHANGE "+before+ " => "+color);
+			}
+		}
+		
 		for (IShow show : shows) {
 			show.next();
 		}
@@ -136,11 +152,22 @@ public class ShowRunner {
 		}
 		dmx.apply(0);
 	}
-	
+	private RGBColor color=RGBColor.MAUVE;
+	private RGBColor[] colorseq = {RGBColor.CYAN, RGBColor.MAUVE, RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.AMBRE, RGBColor.VERT, RGBColor.BLEU};
+	public long autoColorTime=180000;
+	private boolean autocolor = true;
+	private long colortime=0;
 	/**
 	 * set background color
 	 **/
-	public void color(RGBColor color) {
+	public void color(RGBColor _color) {
+		if(_color==RGBColor.AUTO){
+			autocolor=true;
+			return;
+		}
+		autocolor=false;
+		colortime = System.currentTimeMillis();
+		color = _color;
 		for (IShow show : shows) {
 			show.color(color);
 		}

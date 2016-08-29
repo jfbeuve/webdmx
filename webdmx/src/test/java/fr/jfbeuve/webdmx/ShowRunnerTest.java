@@ -41,9 +41,10 @@ public class ShowRunnerTest {
 		show.fadeThreshold(2000);
 		show.color(RGBColor.MAUVE);
 		show.color(RGBColor.AUTO);
-		rock.autoColorTime(3200);
+		show.autoColorTime=3200;
 		show.speed(1000);
-		show.start(rock);
+		show.set(rock);
+		show.start();
 		
 		log.info("###### ASSERT 1");
 		assertColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE);
