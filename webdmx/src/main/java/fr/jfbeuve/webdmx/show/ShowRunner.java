@@ -17,9 +17,6 @@ public class ShowRunner {
 	@Autowired
 	private DmxCue dmx;
 	
-	@Autowired
-	private RockShow rgb;
-	
 	private Tempo auto;
 	
 	private long speed=4000;

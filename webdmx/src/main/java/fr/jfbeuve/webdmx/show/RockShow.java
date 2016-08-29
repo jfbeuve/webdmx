@@ -13,6 +13,7 @@ import fr.jfbeuve.webdmx.fixture.RGBFixture;
 
 @Component
 public class RockShow implements IShow{
+	//TODO RGBShow (snap, fade, s1, s2, s3, s4, s1234, strob-all) PARShow (chase, all)
 	private static final Log log = LogFactory.getLog(RockShow.class);
 	
 	@Autowired

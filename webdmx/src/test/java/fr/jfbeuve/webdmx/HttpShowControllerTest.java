@@ -19,7 +19,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.show.RGBColor;
-import fr.jfbeuve.webdmx.show.RockShow;
 import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,8 +32,6 @@ public class HttpShowControllerTest {
 	@Autowired
 	private DmxWrapper dmx;
 	
-	@Autowired
-	private RockShow rock;
 	@Autowired
 	private ShowRunner show;
 
