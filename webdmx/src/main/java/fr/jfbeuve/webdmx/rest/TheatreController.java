@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import fr.jfbeuve.webdmx.dmx.DmxCue;
 import fr.jfbeuve.webdmx.show.FadeType;
+import fr.jfbeuve.webdmx.show.RGBShow;
 import fr.jfbeuve.webdmx.show.ShowRunner;
-import fr.jfbeuve.webdmx.show.TheatreChaseShow;
-import fr.jfbeuve.webdmx.show.TheatreOnOffShow;
 
 @Controller
 public class TheatreController {
@@ -18,10 +17,6 @@ public class TheatreController {
 	private DmxCue dmx;
 	@Autowired
 	private ShowRunner show;
-	@Autowired
-	private TheatreOnOffShow all;
-	@Autowired
-	private TheatreChaseShow chase;
 	
 	private boolean lightOn=false;
 	
@@ -35,14 +30,14 @@ public class TheatreController {
 	@ResponseBody
 	public String fade(@PathVariable("time") Long time) {
 		FadeType type = (lightOn?FadeType.OUT:FadeType.IN);
-		all.fade(type, time);
+		//FIXME all.fade(type, time);
 		lightOn=!lightOn;
 		return "OK";
 	}
 	@RequestMapping("/theatre/chase")
 	@ResponseBody
 	public String chase() {
-		show.reset(chase);
+		show.reset(RGBShow.CHASE);
 		show.start();
 		return "OK";
 	}
@@ -50,13 +45,13 @@ public class TheatreController {
 	@ResponseBody
 	public String off() {
 		show.stop();
-		all.fade(FadeType.OUT, 0);
+		//FIXME all.fade(FadeType.OUT, 0);
 		return "OK";
 	}
 	@RequestMapping("/theatre/all")
 	@ResponseBody
 	public String all() {
-		show.reset(all);
+		show.reset(RGBShow.STROB);
 		show.start();
 		return "OK";
 	}

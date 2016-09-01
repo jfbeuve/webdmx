@@ -102,7 +102,7 @@ public class ShowRunner {
 		}
 		
 		for (IShow show : shows) {
-			show.next();
+			show.next(dmx);
 		}
 		long fade = 0;
 		if(speed>fadeThreshold) fade = speed/2;
@@ -131,24 +131,6 @@ public class ShowRunner {
 		}
 	}
 	
-	private boolean strob = false;
-	private boolean running = false;
-	public void strob(){
-		if(!strob){
-			strob=true;
-			running = stop();
-			for (IShow show : shows) {
-				show.strob(strob);
-			}
-		}else{
-			strob=false;
-			for (IShow show : shows) {
-				show.strob(strob);
-			}
-			if(running) start();
-		}
-		dmx.apply(0);
-	}
 	private RGBColor color=RGBColor.MAUVE;
 	private RGBColor[] colorseq = {RGBColor.CYAN, RGBColor.MAUVE, RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.AMBRE, RGBColor.VERT, RGBColor.BLEU};
 	public long autoColorTime=180000;
@@ -168,6 +150,5 @@ public class ShowRunner {
 		for (IShow show : shows) {
 			show.color(color);
 		}
-		if(strob) dmx.apply(0);
 	}
 }

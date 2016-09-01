@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.show.RGBColor;
-import fr.jfbeuve.webdmx.show.RockShow;
+import fr.jfbeuve.webdmx.show.RGBShow;
 import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,8 +29,6 @@ public class ShowRunnerTest {
 	private DmxWrapper dmx;
 	@Autowired
 	private ShowRunner show;
-	@Autowired
-	private RockShow rock;
 	
 	@Test
 	public void testShowRunner() throws Exception {
@@ -43,7 +41,7 @@ public class ShowRunnerTest {
 		show.color(RGBColor.AUTO);
 		show.autoColorTime=3200;
 		show.speed(1000);
-		show.set(rock);
+		show.set(RGBShow.ROCK);
 		show.start();
 		
 		log.info("###### ASSERT 1");

@@ -1,8 +1,8 @@
 package fr.jfbeuve.webdmx.show;
 
+import fr.jfbeuve.webdmx.dmx.DmxCue;
 
 public interface IShow {
-	public void next();
-	public void strob(boolean fire);
+	public void next(DmxCue dmx);
 	void color(RGBColor bgColor);
 }
