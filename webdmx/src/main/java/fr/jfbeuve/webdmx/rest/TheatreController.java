@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import fr.jfbeuve.webdmx.dmx.DmxCue;
 import fr.jfbeuve.webdmx.show.FadeType;
-import fr.jfbeuve.webdmx.show.RGBShow;
+import fr.jfbeuve.webdmx.show.Show;
 import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @Controller
@@ -37,7 +37,7 @@ public class TheatreController {
 	@RequestMapping("/theatre/chase")
 	@ResponseBody
 	public String chase() {
-		show.reset(RGBShow.CHASE);
+		show.set(Show.CHASE);
 		show.start();
 		return "OK";
 	}
@@ -51,7 +51,7 @@ public class TheatreController {
 	@RequestMapping("/theatre/all")
 	@ResponseBody
 	public String all() {
-		show.reset(RGBShow.STROB);
+		show.set(Show.STROBO);
 		show.start();
 		return "OK";
 	}

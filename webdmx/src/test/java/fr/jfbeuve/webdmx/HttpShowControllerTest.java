@@ -40,7 +40,7 @@ public class HttpShowControllerTest {
 		//INIT
 		DmxDimmer.MASTER.value(255);
 		show.autoColorTime=180000;
-		show.fadeThreshold(2000);
+		show.fade(2000);
 		
 		//SHOW
 		ResponseEntity<String> entity = new TestRestTemplate().getForEntity("http://localhost/speed/1000", String.class);

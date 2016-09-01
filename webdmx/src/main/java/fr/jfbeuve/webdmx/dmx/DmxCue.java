@@ -56,9 +56,17 @@ public class DmxCue {
 	 * store dmx values to apply if channels are not overridden
 	 */
 	public void set(RGBFixture f, RGBColor c){
-		set(f.red(), c.red());
-		set(f.green(), c.green());
-		set(f.blue(), c.blue());
+		if(f.type()==FixtureType.PAR){
+			int val = 0;
+			if(c.red()>c.green()&&c.red()>c.blue()) val = c.red();
+			if(c.green()>c.red()&&c.green()>c.blue()) val = c.green();
+			if(c.blue()>c.green()&&c.blue()>c.red()) val = c.blue();
+			set(f.dim(),val);
+		}else{
+			set(f.red(), c.red());
+			set(f.green(), c.green());
+			set(f.blue(), c.blue());
+		}
 	}
 	/** 
 	 * cancel override

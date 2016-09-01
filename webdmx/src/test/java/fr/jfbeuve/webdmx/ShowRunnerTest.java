@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.show.RGBColor;
-import fr.jfbeuve.webdmx.show.RGBShow;
+import fr.jfbeuve.webdmx.show.Show;
 import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,12 +36,12 @@ public class ShowRunnerTest {
 		//INIT
 		dmx.offline();
 		DmxDimmer.MASTER.value(255);
-		show.fadeThreshold(2000);
+		show.fade(2000);
 		show.color(RGBColor.MAUVE);
 		show.color(RGBColor.AUTO);
 		show.autoColorTime=3200;
 		show.speed(1000);
-		show.set(RGBShow.ROCK);
+		show.set(Show.CHASEMIX);
 		show.start();
 		
 		log.info("###### ASSERT 1");
@@ -60,7 +60,7 @@ public class ShowRunnerTest {
 		assertColors(RGBColor.MAUVE, RGBColor.CYAN, RGBColor.MAUVE, RGBColor.CYAN);
 		
 		// auto fade 250ms
-		show.fadeThreshold(400);
+		show.fade(400);
 		Thread.sleep(600);
 		// assert fading in progress
 		log.info("###### ASSERT 6 != step 1"); 

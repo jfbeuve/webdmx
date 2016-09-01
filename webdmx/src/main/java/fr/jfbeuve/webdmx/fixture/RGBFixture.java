@@ -15,16 +15,26 @@ public enum RGBFixture{
 	private RGBFixture(int channel, FixtureType _type){
 		type = _type;
 		
-		red = channel;
-		green = channel+1;
-		blue = channel+2;
-		if(type==FixtureType.RGB3){
-			channels(new int[]{red,green, blue});	
+		if(type!=FixtureType.PAR){
+			red = channel;
+			green = channel+1;
+			blue = channel+2;
 		}
-		if(type==FixtureType.RGB7){
-			strob = channel+4;
-			dim = channel+6;
-			channels(new int[]{red,green,blue, strob, dim});
+		
+		switch(type){
+			case RGB3:
+				channels(new int[]{red,green, blue});	
+				break;
+			case RGB7:
+				strob = channel+4;
+				dim = channel+6;
+				channels(new int[]{red,green,blue, strob, dim});
+				break;
+			case PAR:
+				dim = channel;
+				channels(new int[]{dim});
+				break;
+			default:
 		}
 	}
 	

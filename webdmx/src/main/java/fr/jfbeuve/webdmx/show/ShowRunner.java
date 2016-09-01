@@ -1,14 +1,12 @@
 package fr.jfbeuve.webdmx.show;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.jfbeuve.webdmx.dmx.DmxCue;
+import fr.jfbeuve.webdmx.dmx.DmxOverride;
 
 @Component
 public class ShowRunner {
@@ -20,25 +18,13 @@ public class ShowRunner {
 	private Tempo auto;
 	
 	private long speed=4000;
+	private long fade=1000;
 	
-	private List<IShow> shows = new ArrayList<IShow>();
+	private Show show=null;
 	
-	/**
-	 * speed threshold for snap/fade
-	 */
-	private long fadeThreshold=2000;
 	
-	public long fadeThreshold() {
-		return fadeThreshold;
-	}
-	public void fadeThreshold(long fadeThreshold) {
-		this.fadeThreshold = fadeThreshold;
-	}
-	/**
-	 * removes a show from the scheduler
-	 */
-	public void stop(IShow show){
-		shows.remove(show);
+	public void fade(long time) {
+		this.fade = time;
 	}
 	/**
 	 * stops autorun
@@ -57,6 +43,7 @@ public class ShowRunner {
 	 * @return true if started, false if already running
 	 */
 	public boolean start(){
+		if(show==null) show = Show.CHASEMIX;
 		if(auto==null){
 			next();
 			auto = new Tempo(this, speed);
@@ -65,14 +52,9 @@ public class ShowRunner {
 		}else
 			return false;
 	}
-	public void set(IShow show){
+	public void set(Show show){
 		show.color(color);
-		shows.add(show);
-	}
-	public void reset(IShow show){
-		List<IShow> newShows = new ArrayList<IShow>();
-		newShows.add(show);
-		shows=newShows;
+		this.show = show;
 	}
 	/**
 	 * applies next step
@@ -91,9 +73,7 @@ public class ShowRunner {
 					if(color==colorseq[i]){
 						int a = i+1;
 						if(a==colorseq.length) a=0;
-						for (IShow show : shows) {
-							show.color(colorseq[i+1]);
-						}
+						show.color(colorseq[i+1]);
 						break;
 					}
 				}
@@ -101,18 +81,15 @@ public class ShowRunner {
 			}
 		}
 		
-		for (IShow show : shows) {
-			show.next(dmx);
-		}
-		long fade = 0;
-		if(speed>fadeThreshold) fade = speed/2;
-		dmx.apply(fade);
+		show.next(dmx);
+		if(speed<fade) dmx.apply(0);
+		else dmx.apply(fade);
 	}
 	public long speed(){
 		return speed;
 	}
 	public boolean isEmpty(){
-		return shows.isEmpty();
+		return show == null;
 	}
 	/**
 	 * sets speed 
@@ -147,8 +124,23 @@ public class ShowRunner {
 		autocolor=false;
 		colortime = System.currentTimeMillis();
 		color = _color;
-		for (IShow show : shows) {
+		
+		boolean strob = false;
+		if(show!=null){
 			show.color(color);
+			strob = show.strob();
 		}
+		if(solo!=null){
+			if(!strob) dmx.override(new DmxOverride(solo.f,color.solo(),solo.dim));
+			else dmx.override(new DmxOverride(solo.f,color,solo.dim));
+		}
+	}
+	private Solo solo=null;
+	public void solo(Solo s){
+		// cancel previous override
+		if(solo!=null) dmx.override(new DmxOverride(solo.f));
+		//set new override
+		dmx.override(new DmxOverride(s.f,color.solo(),s.dim));
+		solo = s;
 	}
 }

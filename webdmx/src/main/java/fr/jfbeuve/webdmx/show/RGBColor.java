@@ -1,5 +1,8 @@
 package fr.jfbeuve.webdmx.show;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum RGBColor {
 	ROUGE(255, 0, 0), VERT(0, 255, 0), BLEU(0, 0, 255),
 	
@@ -25,5 +28,24 @@ public enum RGBColor {
 	}
 	public int blue(){
 		return blue;
+	}
+	
+	@SuppressWarnings("serial")
+	static private Map<RGBColor,RGBColor> solo = new HashMap<RGBColor,RGBColor>(){
+		{
+			put(RGBColor.CYAN, RGBColor.MAUVE);
+			put(RGBColor.MAUVE, RGBColor.CYAN);
+			put(RGBColor.JAUNE, RGBColor.ROUGE);
+			put(RGBColor.ROUGE, RGBColor.JAUNE);
+			put(RGBColor.VERT, RGBColor.AMBRE);
+			put(RGBColor.BLEU, RGBColor.AMBRE);
+			put(RGBColor.AMBRE, RGBColor.JAUNE);
+			put(RGBColor.BLACK, RGBColor.WHITE);
+			put(RGBColor.WHITE, RGBColor.BLACK);
+		}
+	};
+	
+	public RGBColor solo(){
+		return solo.get(this);
 	}
 }

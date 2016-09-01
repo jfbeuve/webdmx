@@ -27,6 +27,16 @@ public class DmxOverride {
 		color = c;
 		dimmer = d;
 	}
+	public DmxOverride(RGBFixture f, RGBColor c, int d){
+		fixtures = new String[]{f.toString()};
+		color = c.toString();
+		dimmer = d;
+	}
+	public DmxOverride(RGBFixture f){
+		fixtures = new String[]{f.toString()};
+		color = null;
+		dimmer = null;
+	}
 	
 	public List<RGBFixture> fixtures(){
 		List<RGBFixture> toReturn = new ArrayList<RGBFixture>();

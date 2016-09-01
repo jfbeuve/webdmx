@@ -1,8 +1,5 @@
 package fr.jfbeuve.webdmx.show;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -10,8 +7,9 @@ import fr.jfbeuve.webdmx.dmx.DmxCue;
 import fr.jfbeuve.webdmx.fixture.PARFixture;
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 
-public enum RGBShow implements IShow{
-	ROCK(new boolean[][]{
+public enum Show {
+	CHASEMIX(new boolean[][]{
+		{false,false,false,false}, 
 		{true,false,false,true}, 
 		{false,true,true,false},
 		{true, false, true, false},
@@ -21,7 +19,7 @@ public enum RGBShow implements IShow{
 		{false,true, false, false}, 
 		{false,false, true, false} 
 	},false),
-	STROB(new boolean[][]{
+	STROBO(new boolean[][]{
 		{false,false, false, false},
 		{true,true,true,true} 
 	},true),
@@ -56,33 +54,27 @@ public enum RGBShow implements IShow{
 			{false,true, false, true},
 			{true,false,false,true}, 
 			{false,true,true,false}
+	},false),
+	ON(new boolean[][]{
+			{true,true, true, true}
+	},false),
+	OFF(new boolean[][]{
+			{false,false, false, false}
 	},false);
 	
-	private static final Log log = LogFactory.getLog(RGBShow.class);
+	private static final Log log = LogFactory.getLog(Show.class);
 	public RGBFixture[] rgb = {RGBFixture.PAR1,RGBFixture.PAR2,RGBFixture.PAR3,RGBFixture.PAR4};
 	public PARFixture[] par = {PARFixture.PAR1,PARFixture.PAR2,PARFixture.PAR3,PARFixture.PAR4};
 	
 	private boolean[][] cues;
 	
-	private Map<RGBColor,RGBColor> color = new HashMap<RGBColor,RGBColor>();
-	
 	private int step=0;
 	private RGBColor bgColor;
 	private boolean strob = false;
 	
-	private RGBShow(boolean[][] _cues, boolean _strob){
+	private Show(boolean[][] _cues, boolean _strob){
 		cues = _cues;
 		strob = _strob;
-		
-		color.put(RGBColor.CYAN, RGBColor.MAUVE);
-		color.put(RGBColor.MAUVE, RGBColor.CYAN);
-		color.put(RGBColor.JAUNE, RGBColor.ROUGE);
-		color.put(RGBColor.ROUGE, RGBColor.JAUNE);
-		color.put(RGBColor.VERT, RGBColor.AMBRE);
-		color.put(RGBColor.BLEU, RGBColor.AMBRE);
-		color.put(RGBColor.AMBRE, RGBColor.JAUNE);
-		color.put(RGBColor.BLACK, RGBColor.WHITE);
-		color.put(RGBColor.WHITE, RGBColor.BLACK);
 	}
 	
 	public void next(DmxCue dmx){
@@ -90,7 +82,8 @@ public enum RGBShow implements IShow{
 		
 		for (int i=0;i<rgb.length;i++) {
 			boolean[] cue = cues[step];
-			RGBColor toColor = (cue[i]?color.get(bgColor):strob?RGBColor.BLACK:bgColor);
+			RGBColor toColor = cue[i]?bgColor.solo():bgColor;
+			if(strob) toColor = cue[i]?bgColor:RGBColor.BLACK;
 			dmx.set(rgb[i],toColor);
 		}
 		
@@ -106,5 +99,7 @@ public enum RGBShow implements IShow{
 	public void color(RGBColor _color) {
 		bgColor = _color;
 	}
-	
+	public boolean strob(){
+		return strob;
+	}
 }

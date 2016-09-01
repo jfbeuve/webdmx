@@ -29,7 +29,9 @@ public class Start {
 			String host = "localhost";
 			if(args.length>1) host = args[1];
 			test(host);
-		}else{
+		}else if(args.length>0&&(args[0].toLowerCase().endsWith("-strob")))
+			strob(args[1]);
+		else{
 			SpringApplication.run(Start.class, args);
 		}
 			
@@ -134,6 +136,20 @@ public class Start {
 		System.out.println("       java -jar webdmx.jar --remote=<hostname>         => starts jetty using ola through remote host");
 		System.out.println("       java -jar webdmx.jar --offline=true              => emulation with no IO");
 		System.out.println("       java -jar webdmx.jar -help                       => display command line help (this)");
+		System.out.println("       java -jar webdmx.jar -strob <speed>              => flash RGB PAR1 RED at <speed>");
 		
+	}
+
+	public static void strob(String _speed) throws Exception{
+		long speed = Long.parseLong(_speed);
+		IOWrapper dmx = new OlaWeb("localhost");
+		int[] data = new int[30];
+		boolean black=false;
+		while(true){
+			data[23] = black?0:255;
+			dmx.send(data);
+			Thread.sleep(speed);
+			black = !black;
+		}
 	}
 }
