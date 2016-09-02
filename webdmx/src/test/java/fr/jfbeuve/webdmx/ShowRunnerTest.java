@@ -63,17 +63,17 @@ public class ShowRunnerTest {
 		show.fade(400);
 		Thread.sleep(600);
 		// assert fading in progress
-		log.info("###### ASSERT 6 != step 1"); 
-		assertTrue(!isColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE));
-		Thread.sleep(200);
+		log.info("###### ASSERT 6 != step 6"); 
+		assertTrue(!isColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE));
+		Thread.sleep(300);
 		// assert step > 4 skipped 0 back to step 1 since we are in fade show
-		log.info("###### ASSERT 6 = step 1"); 
-		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.CYAN);
+		log.info("###### ASSERT 6 = step 6"); 
+		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE);
 		
 		// auto color change
 		Thread.sleep(500);
-		log.info("###### ASSERT 7 = step 2"); 
-		assertColors(RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.ROUGE, RGBColor.JAUNE);
+		log.info("###### ASSERT 7 = step 7"); 
+		assertColors(RGBColor.JAUNE, RGBColor.JAUNE, RGBColor.JAUNE, RGBColor.ROUGE);
 	}
 	private void assertColors(RGBColor a, RGBColor b, RGBColor c, RGBColor d){
 		assertEquals(a.red(), dmx.get(24).value());

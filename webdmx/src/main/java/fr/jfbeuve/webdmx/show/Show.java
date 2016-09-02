@@ -9,15 +9,15 @@ import fr.jfbeuve.webdmx.fixture.RGBFixture;
 
 public enum Show {
 	CHASEMIX(new boolean[][]{
-		{false,false,false,false}, 
-		{true,false,false,true}, 
-		{false,true,true,false},
-		{true, false, true, false},
-		{false,true, false, true},
-		{true,false, false, false},
-		{false,false, false, true},
-		{false,true, false, false}, 
-		{false,false, true, false} 
+		{false,false,false,false}, // 1
+		{true,false,false,true}, // 2
+		{false,true,true,false}, // 3
+		{true, false, true, false}, // 4
+		{false,true, false, true}, // 5
+		{true,false, false, false}, // 6
+		{false,false, false, true}, // 7
+		{false,true, false, false}, // 8
+		{false,false, true, false} //9
 	},false),
 	STROBO(new boolean[][]{
 		{false,false, false, false},
