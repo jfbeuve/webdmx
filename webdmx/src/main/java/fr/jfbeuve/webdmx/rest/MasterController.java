@@ -26,13 +26,12 @@ public class MasterController {
 	@ResponseBody
 	public String blackout() {
 		show.stop();
-		dmx.blackout();
+		show.blackout();
 		return "OK";
 	}
 	@RequestMapping("/color/{color}")
 	@ResponseBody
 	public String color(@PathVariable("color") String color) {
-		if(show.isEmpty()) show.set(Show.CHASEMIX);
 		show.color(RGBColor.valueOf(color));
 		return "OK";
 	}
@@ -40,7 +39,7 @@ public class MasterController {
 	@RequestMapping("/front/strob")
 	@ResponseBody
 	public String strob() {
-		show.set(Show.STROBO);
+		show.start(Show.STROBO);
 		show.speed(100);
 		return "OK";
 	}
@@ -48,8 +47,7 @@ public class MasterController {
 	@ResponseBody
 	public String speed(@PathVariable("time") Long time) {
 		show.speed(time);
-		if(show.isEmpty()) show.set(Show.CHASEMIX);
-		show.start();
+		show.start(Show.CHASEMIX);
 		return "OK";
 	}
 	/**

@@ -78,13 +78,9 @@ public class DmxWrapper {
 	/**
 	 * Sets all channels to 0
 	 */
-	public void blackout(){
+	public void blackout(DmxCue cue){
 		for(Integer channelId:output.keySet()){
-			DmxChannel channel = output.get(channelId);
-			data[channelId-1] = channel.value(0);
-			log.info(channelId+" = 0");	
+			cue.set(channelId, 0);
 		}
-		if(!offline) io.send(data);
-		log.info("DMX SEND");
 	}
 }

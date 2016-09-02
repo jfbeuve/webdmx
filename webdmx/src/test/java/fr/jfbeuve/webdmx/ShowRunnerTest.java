@@ -41,8 +41,7 @@ public class ShowRunnerTest {
 		show.color(RGBColor.AUTO);
 		show.autoColorTime=3200;
 		show.speed(1000);
-		show.set(Show.CHASEMIX);
-		show.start();
+		show.start(Show.CHASEMIX);
 		
 		log.info("###### ASSERT 1");
 		assertColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE);

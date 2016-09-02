@@ -41,10 +41,11 @@ public class DmxCue {
 		}
 		values = new HashMap<Integer,Integer>();
 	}
-	public void blackout(){
+	public void blackout(long time){
 		if(fader!=null)fader.interupt();
 		reset();
-		dmx.blackout();
+		dmx.blackout(this);
+		apply(time);
 	}
 	/**
 	 * store dmx value to apply if channel is not overridden

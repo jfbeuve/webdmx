@@ -42,19 +42,17 @@ public class ShowRunner {
 	 * starts/restarts autorun
 	 * @return true if started, false if already running
 	 */
-	public boolean start(){
-		if(show==null) show = Show.CHASEMIX;
+	public boolean start(Show _show){
+		show = _show;
+		if(show==null) return false;
+		show.color(color);
 		if(auto==null){
 			next();
-			auto = new Tempo(this, speed);
+			auto = new Tempo(this, show.strob()?100:speed);
 			new Thread(auto).start();
 			return true;
 		}else
 			return false;
-	}
-	public void set(Show show){
-		show.color(color);
-		this.show = show;
 	}
 	/**
 	 * applies next step
@@ -88,23 +86,21 @@ public class ShowRunner {
 	public long speed(){
 		return speed;
 	}
-	public boolean isEmpty(){
-		return show == null;
-	}
 	/**
 	 * sets speed 
 	 */
 	public void speed(long _speed){
+		//TODO next+tap if speed = 0
+		//TODO stop+next+tap if speed = -1
 		if(_speed==0){
 			if(!stop()) next();
 			return;
 		}
-		if(_speed<100) _speed = 100;
 		speed = _speed;
 		if(auto!=null){ 
 			auto.stop();
 			auto=null;
-			start();
+			start(show);
 		}
 	}
 	
@@ -142,5 +138,8 @@ public class ShowRunner {
 		//set new override
 		dmx.override(new DmxOverride(s.f,color.solo(),s.dim));
 		solo = s;
+	}
+	public void blackout(){
+		dmx.blackout(fade);
 	}
 }

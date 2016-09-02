@@ -37,8 +37,7 @@ public class TheatreController {
 	@RequestMapping("/theatre/chase")
 	@ResponseBody
 	public String chase() {
-		show.set(Show.CHASE);
-		show.start();
+		show.start(Show.CHASE);
 		return "OK";
 	}
 	@RequestMapping("/theatre/off")
@@ -51,8 +50,7 @@ public class TheatreController {
 	@RequestMapping("/theatre/all")
 	@ResponseBody
 	public String all() {
-		show.set(Show.STROBO);
-		show.start();
+		show.start(Show.STROBO);
 		return "OK";
 	}
 }
