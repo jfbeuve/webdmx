@@ -59,7 +59,7 @@ public class DmxCue {
 	public void set(RGBFixture f, RGBColor c){
 		if(f.type()==FixtureType.PAR){
 			int val = 0;
-			if(c.red()>c.green()&&c.red()>c.blue()) val = c.red();
+			if(c.red()>=c.green()&&c.red()>=c.blue()) val = c.red();
 			if(c.green()>c.red()&&c.green()>c.blue()) val = c.green();
 			if(c.blue()>c.green()&&c.blue()>c.red()) val = c.blue();
 			set(f.dim(),val);
