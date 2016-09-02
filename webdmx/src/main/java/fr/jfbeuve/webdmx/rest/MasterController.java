@@ -12,6 +12,7 @@ import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.show.RGBColor;
 import fr.jfbeuve.webdmx.show.Show;
 import fr.jfbeuve.webdmx.show.ShowRunner;
+import fr.jfbeuve.webdmx.show.Solo;
 
 @Controller
 public class MasterController {
@@ -22,11 +23,11 @@ public class MasterController {
 	@Autowired
 	private DmxWrapper io;
 	
-	@RequestMapping("/show/blackout")
+	@RequestMapping("/show/{name}")
 	@ResponseBody
-	public String blackout() {
-		show.stop();
-		show.blackout();
+	public String show(@PathVariable("name") String name) {
+		if(name.equals("blackout")) show.blackout();
+		else show.start(Show.valueOf(name));
 		return "OK";
 	}
 	@RequestMapping("/color/{color}")
@@ -35,19 +36,22 @@ public class MasterController {
 		show.color(RGBColor.valueOf(color));
 		return "OK";
 	}
-
-	@RequestMapping("/front/strob")
-	@ResponseBody
-	public String strob() {
-		show.start(Show.STROBO);
-		show.speed(100);
-		return "OK";
-	}
 	@RequestMapping("/speed/{time}")
 	@ResponseBody
 	public String speed(@PathVariable("time") Long time) {
 		show.speed(time);
-		show.start(Show.CHASEMIX);
+		return "OK";
+	}
+	@RequestMapping("/solo/{name}/{dim}")
+	@ResponseBody
+	public String fixture(@PathVariable("name") String name, @PathVariable("dim") String dim) {
+		show.solo(new Solo(name,dim));
+		return "OK";
+	}
+	@RequestMapping("/fade/{time}")
+	@ResponseBody
+	public String fade(@PathVariable("time") Long time) {
+		show.fade(time);
 		return "OK";
 	}
 	/**

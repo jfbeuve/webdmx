@@ -16,12 +16,11 @@ public class ShowRunner {
 	private DmxCue dmx;
 	
 	private Tempo auto;
-	
+
+	// DEFAULTS
 	private long speed=4000;
 	private long fade=1000;
-	
-	private Show show=null;
-	
+	private Show show=Show.CHASEMIX;
 	
 	public void fade(long time) {
 		this.fade = time;
@@ -43,9 +42,11 @@ public class ShowRunner {
 	 * @return true if started, false if already running
 	 */
 	public boolean start(Show _show){
-		show = _show;
-		if(show==null) return false;
-		show.color(color);
+		set(_show);
+		return start();
+	}
+	
+	public boolean start(){
 		if(auto==null){
 			next();
 			auto = new Tempo(this, show.strob()?100:speed);
@@ -53,6 +54,11 @@ public class ShowRunner {
 			return true;
 		}else
 			return false;
+	}
+	public void set(Show _show){
+		if(show==_show) return;
+		show = _show;
+		if(show!=null) show.color(color);
 	}
 	/**
 	 * applies next step
@@ -120,7 +126,7 @@ public class ShowRunner {
 		if(auto!=null){ 
 			auto.stop();
 			auto=null;
-			start(show);
+			start();
 		}
 	}
 	
@@ -155,11 +161,18 @@ public class ShowRunner {
 	public void solo(Solo s){
 		// cancel previous override
 		if(solo!=null) dmx.override(new DmxOverride(solo.f));
-		//set new override
-		dmx.override(new DmxOverride(s.f,color.solo(),s.dim));
-		solo = s;
+
+		if(s.dim<0) {
+			// cancel override only
+			solo = null;
+		} else {
+			//set new override
+			dmx.override(new DmxOverride(s.f,color.solo(),s.dim));
+			solo = s;
+		}
 	}
 	public void blackout(){
+		stop();
 		dmx.blackout(fade);
 	}
 }
