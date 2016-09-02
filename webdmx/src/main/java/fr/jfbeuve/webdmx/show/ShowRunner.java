@@ -86,17 +86,37 @@ public class ShowRunner {
 	public long speed(){
 		return speed;
 	}
+	private long timestamp=0;
 	/**
 	 * sets speed 
+	 * -1 PAUSE
+	 * 0 TAP
 	 */
 	public void speed(long _speed){
-		//TODO next+tap if speed = 0
-		//TODO stop+next+tap if speed = -1
-		if(_speed==0){
-			if(!stop()) next();
+		if(_speed==-1){
+			// PAUSE + TAP
+			timestamp = System.currentTimeMillis();
+			stop();
+			next();
 			return;
 		}
-		speed = _speed;
+		if(_speed==0){
+			// TAP
+			if(timestamp>0){
+				// adjust speed
+				long newspeed =  System.currentTimeMillis() - timestamp;
+				timestamp = System.currentTimeMillis();
+				if(newspeed==speed) return;
+				speed = newspeed;
+			} else {
+				// record timestamp
+				timestamp = System.currentTimeMillis();
+				next();
+				return;
+			}
+		}else
+			speed = _speed;
+		
 		if(auto!=null){ 
 			auto.stop();
 			auto=null;
