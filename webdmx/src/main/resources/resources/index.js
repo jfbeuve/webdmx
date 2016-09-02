@@ -10,62 +10,61 @@ function get(url){
 }
 
 function man(){
-	get("/speed/0");
-	speedlist("","");
+	get("/speed/-1");
+	$("#speedsel").val("");
 }
 
-var timestamp=0;
 function tap(){
-	var btn = $("#tap");
-	if(btn.hasClass("active")){
-		// tear down
-		var time = Date.now() - timestamp;
-		get("/speed/"+time);
-		btn.removeClass("active");
-		//$("#speeddisplay").text(time + 'ms');
-		speedlist(time,time+' ms');
-	}else{
-		//tear up
-		timestamp = Date.now();
-		btn.addClass("active");
-	}
-
+	get("/speed/0");
+	$("#speedsel").val("");
 }
 
+function speedrange(){
+	var time = $("#speedsel").val();
+	var range = $("#speedrange").val();
+	if(time!=""){
+		if(range==0) range=1;
+		time = time * range / 50; 
+		get("/speed/"+time);
+		printms($("#speedval"),time);
+	}
+}
 function speedsel(){
-	var time = $("#speed").val();
-	if(time!="") get("/speed/"+time);
+	$("#speedrange").val(50);
+	speedrange();
+}
+function fadesel(){
+	var range = $("#faderange").val(50);
+	faderange();
+}
+function faderange(){
+	var time = $("#fadesel").val();
+	var range = $("#faderange").val();
+	 
+	if(time!=""){
+		time = Math.round(time * range / 50);
+		get("/fade/"+time);
+		printms($("#fadeval"),time);
+	}
+}
+/**
+ * print friendly time in millis
+ */
+function printms(o,v){
+	var u = " ms";
+	if(v>=1000){
+		v = v / 1000;
+		u=" s";
+	}
+	o.html(v+u);
 }
 /**
  * Apply master color change (style and ajax call) 
  */
-function mastercolor(){
-	var o = $("#mastercolor");
+function color(){
+	var o = $("#color");
 	colorlist(o);
 	get('/color/'+style2color(o.val()));
-}
-/**
- * Apply override color change (styles and ajax post)  
- */
-function parcolor(){
-	var o = $("#parcolor");
-	colorlist(o);
-	var color = style2color(o.val());
-	var dimmer = $("#overdim").val()*255/100;
-	var strob = $("#overstrob").hasClass("active");
-	var data = {fixtures:[],color:color,dimmer:dimmer,fade:0,strob:strob};
-	console.log(color);
-	$.each( $("#fixture>button.active"), function() {
-    	data.fixtures.push(this.id);
-	});
-	if(data.fixtures.length>0){
-		$.ajax({
-		  type: "POST",
-	      url: "/override",
-	      data: JSON.stringify(data),
-	      contentType: 'application/json'
-	    });
-	}
 }
 /**
  * Apply style change to a color list 
@@ -93,74 +92,46 @@ function style2color(style){
     	case "auto": return "AUTO";
    }
 }
-/**
- * refreshes speed list
- * @param current custom tap speed 
- */
-function speedlist(value, text){
-	$("#speed").empty()
-	.append('<option value="'+value+'">'+text+'</option>')
-	.append('<option value="4000">4s</option>')
-	.append('<option value="30000">30s</option>')
-	.append('<option value="180000">3m</option>')
-	.val(value);
-}
-
-//TODO INIT
-$("#mastercolor").val("");
-$("#parcolor").val("");
-speedlist("","");
 
 /**
  * ajax post and style change on override fixture select/unselect 
  */
 function fixture(o){
-	console.log(o.id);
 	var btn = $("#"+o.id);
 	if(btn.hasClass("active")){
 		 btn.removeClass("active");
-		 if(o.id=="LEFT") $("#overstrob").removeClass("active");
-		 $.ajax({
-		  type: "POST",
-	      url: "/override",
-	      data: JSON.stringify({fixtures:[o.id]}),
-	      contentType: 'application/json'
-	    });
+		 get("/solo/"+o.id+"/-1");
 	}
 	else {
+		var a = $("#fixture>button.active");
+		if (a.length>0) {
+			a.removeClass('active');
+		}
 		btn.addClass("active");
-		if($("#parcolor").val()!=null) parcolor();
+		solorange();
+	}
+}
+function solorange(){
+	var range = $("#solorange").val();
+	var dim = Math.round(255 * range / 100);
+	$("#solodimval").html(dim);
+	var a = $("#fixture>button.active");
+	if (a.length>0) {
+		get("/solo/"+a.get(0).id+"/"+dim);
 	}
 }
 
-function overstrob(){
-	var btn = $("#overstrob");
-	if(btn.hasClass("active")) btn.removeClass("active");
-	else btn.addClass("active");
-	if($("#parcolor").val()!=null) parcolor();
+function show(){
+	var name = $("#show").val();
+	if(name!="") get("/show/"+name);
+	if(name=="blackout"){
+		$("#speedsel").val("");
+		var a = $("#fixture>button.active");
+		if (a!=null) a.removeClass('active');
+	}
 }
 function masterdim(o){
-	get("/dim/"+o.value*255/100);
-}
-function blackout(){
-	get('/show/blackout');
-	speedlist("","");
-	$("#parcolor").val("");
-	colorlist($("#parcolor"));
-	$("#overstrob").removeClass("active");
-	$.each( $("#fixture>button.active"), function(o) {
-    	$("#"+this.id).removeClass('active');
-	});
-}
-function overdim(){
-	if($("#parcolor").val()!=null) parcolor();
-}
-function strob(){
-	get('/front/strob');
-	$("#parcolor").val("");
-	colorlist($("#parcolor"));
-	$("#overstrob").removeClass("active");
-	$.each( $("#fixture>button.active"), function(o) {
-    	$("#"+this.id).removeClass('active');
-	});
+	var val = Math.round(o.value*255/100);
+	get("/dim/"+val);
+	$("#masterdimval").html(val);
 }

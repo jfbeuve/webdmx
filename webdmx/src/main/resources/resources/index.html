@@ -1,64 +1,98 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <!--https://webkit.org/blog/5610/more-responsive-tapping-on-ios/-->
-    <!--meta name="viewport" content="initial-scale=1, maximum-scale=1"-->
-    <!--https://github.com/ftlabs/fastclick-->
-    <meta name="viewport" content="initial-scale=1, width=device-width, user-scalable=no">
-    <title>Web DMX</title>
-    <link rel="stylesheet" href="index.css" />
-    <script src="jquery.min.js"></script>
-  </head>
-  <body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="apple-mobile-web-app-title" content="Ui">
+		<!--https://webkit.org/blog/5610/more-responsive-tapping-on-ios/-->
+		<!--https://github.com/ftlabs/fastclick-->
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+		<title>Web DMX</title>
+		<link rel="stylesheet" href="index.css" />
+		<script src="jquery.min.js"></script>
+	</head>
+	<body>
 
-<div class="section" id="master">
-  	<button onclick="strob()">&#9889;&#9889;&#9889;</button>
-  	<button onclick="blackout()">BLACKOUT</button>
-  	
-<select onchange="mastercolor()" id="mastercolor">
-    <option value="auto" class="white">AUTO</option>
-    <option value="red" class="red">ROUGE</option>
-    <option value="green" class="green">VERT</option>
-    <option value="blue" class="blue">BLEU</option>
-    <option value="violet" class="violet">MAUVE</option>
-    <option value="cyan" class="cyan">CYAN</option>
-    <option value="yellow" class="yellow">JAUNE</option>
-    <option value="orange" class="orange">ORANGE</option>
-    <option value="white" class="white">BLANC</option>
-    <option value="black" class="black">NOIR</option>
-</select>
-<select onchange="speedsel()" id="speed">
-	<option value="">speed</option>
-</select>
-<div class="group">
-<button onclick="man()">MAN</button>
-<button onclick="tap()" id="tap">TAP</button>
-</div>
-<input type="range" value="100" id="masterdim" onchange="masterdim(this)"/>
-</div><br/>
-  <div class="section" id="override">
-  	<div id="fixture">
-  	<button id="PAR1" onclick="fixture(this)">RGB1</button>
-  	<button id="PAR2" onclick="fixture(this)">RGB2</button>
-  	<button id="PAR3" onclick="fixture(this)">RGB3</button>
-  	<button id="PAR4" onclick="fixture(this)">RGB4</button>
-  	<button id="LEFT" onclick="fixture(this)">10mm</button>
-  	</div>  	
-  	<select onchange="parcolor()" id="parcolor">
-	    <option value="red" class="red">ROUGE</option>
-	    <option value="green" class="green">VERT</option>
-	    <option value="blue" class="blue">BLEU</option>
-	    <option value="violet" class="violet">MAUVE</option>
-	    <option value="cyan" class="cyan">CYAN</option>
-	    <option value="yellow" class="yellow">JAUNE</option>
-	    <option value="orange" class="orange">ORANGE</option>
-	    <option value="white" class="white">BLANC</option>
-	    <option value="black" class="black">NOIR</option>
-	</select>
-	<button id="overstrob" onclick="overstrob()">&#9889;&#9889;&#9889;</button>
-	<input type="range" value="100" onchange="overdim()" id="overdim"/>
-  	</div>
-   	<script src="index.js"></script>
-  </body>
+		<div class="section" id="master">
+			MASTER
+			<select onchange="show()" id="show">
+				<option value=""> - SHOW - </option>
+				<option value="CHASEMIX">CHASE MIX</option>
+				<option value="STROBOCHASE">STROBOCHASE</option>
+				<option value="STROBO">STROBOSCOPE</option>
+				<option value="CHASE">CHASE</option>
+				<option value="FADE">FADING</option>
+				<option value="FADE">FULL ON</option>
+				<option value="FADE">FULL OFF</option>
+				<option value="blackout">BLACKOUT</option>
+			</select>
+			
+			<select onchange="color()" id="color">
+				<option value="" class="white"> - COLOR - </option>
+				<option value="red" class="red">ROUGE</option>
+				<option value="green" class="green">VERT</option>
+				<option value="blue" class="blue">BLEU</option>
+				<option value="violet" class="violet">MAUVE</option>
+				<option value="cyan" class="cyan">CYAN</option>
+				<option value="yellow" class="yellow">JAUNE</option>
+				<option value="orange" class="orange">ORANGE</option>
+				<option value="white" class="white">BLANC</option>
+				<option value="black" class="black">NOIR</option>
+				<option value="auto" class="white">AUTO</option>
+			</select>
+
+			<div class="group">
+				<button onclick="man()">
+					MAN
+				</button>
+				<button onclick="tap()" id="tap">
+					TAP
+				</button>
+			</div>
+
+			<br/><input type="range" value="100" id="masterdim" onchange="masterdim(this)"/><div id="masterdimval">255</div>
+		</div><br/>
+
+		<div class="section" id="speed">
+			SPEED
+			<select onchange="speedsel()" id="speedsel">
+				<option value=""> - SPEED - </option>
+				<option value="100">100ms</option>
+				<option value="500">500ms</option>
+				<option value="1000">1s</option>
+				<option value="5000">5s</option>
+				<option value="180000">30s</option>
+			</select>
+			<br/><input type="range" value="50" id="speedrange" onchange="speedrange()"/><div id="speedval"></div>
+		</div>
+
+		<div class="section" id="fade">
+			FADE TIME
+			<select onchange="fadesel()" id="fadesel">
+				<option value=""> - FADE TIME - </option>
+				<option value="0">0s</option>
+				<option value="1000">1s</option>
+				<option value="5000">5s</option>
+				<option value="10000">10s</option>
+				<option value="180000">30s</option>
+			</select>
+			<br/><input type="range" value="50" id="faderange" onchange="faderange()"/><div id="fadeval"></div>
+		</div><br/>
+
+		<div class="section" id="solo">
+			SOLO
+			<div id="fixture">
+				<button id="PAR1" onclick="fixture(this)">1</button>
+				<button id="PAR2" onclick="fixture(this)">2</button>
+				<button id="PAR3" onclick="fixture(this)">3</button>
+				<button id="PAR4" onclick="fixture(this)">4</button>
+			</div>
+			<br/><input type="range" value="100" id="solorange" onchange="solorange()"/><div id="solodimval">255</div>
+		</div>
+
+		<script src="index.js"></script>
+	</body>
 </html>

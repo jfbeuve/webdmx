@@ -20,7 +20,7 @@ public class ShowRunner {
 	// DEFAULTS
 	private long speed=4000;
 	private long fade=1000;
-	private Show show=Show.CHASEMIX;
+	private Show show=null;
 	
 	public void fade(long time) {
 		this.fade = time;
@@ -29,31 +29,25 @@ public class ShowRunner {
 	 * stops autorun
 	 * @return true if stopped, false if already stopped
 	 */
-	public boolean stop(){
+	public void stop(){
 		if(auto!=null){
 			auto.stop();
 			auto=null;
-			return true;
-		}else
-			return false;
+		}
 	}
 	/**
 	 * starts/restarts autorun
-	 * @return true if started, false if already running
 	 */
-	public boolean start(Show _show){
+	public void start(Show _show){
 		set(_show);
-		return start();
+		start();
 	}
 	
-	public boolean start(){
-		if(auto==null){
-			next();
-			auto = new Tempo(this, show.strob()?100:speed);
-			new Thread(auto).start();
-			return true;
-		}else
-			return false;
+	public void start(){
+		if(auto!=null) stop();
+		next();
+		auto = new Tempo(this, show.strob()?100:speed);
+		new Thread(auto).start();
 	}
 	public void set(Show _show){
 		if(show==_show) return;
@@ -64,6 +58,7 @@ public class ShowRunner {
 	 * applies next step
 	 */
 	void next(){
+		if(show==null) return;
 		log.info("#### next");
 
 		// AUTO COLOR
@@ -86,7 +81,7 @@ public class ShowRunner {
 		}
 		
 		show.next(dmx);
-		if(speed<fade) dmx.apply(0);
+		if(speed<fade||show.strob()) dmx.apply(0);
 		else dmx.apply(fade);
 	}
 	public long speed(){
@@ -112,7 +107,6 @@ public class ShowRunner {
 				// adjust speed
 				long newspeed =  System.currentTimeMillis() - timestamp;
 				timestamp = System.currentTimeMillis();
-				if(newspeed==speed) return;
 				speed = newspeed;
 			} else {
 				// record timestamp
@@ -123,11 +117,8 @@ public class ShowRunner {
 		}else
 			speed = _speed;
 		
-		if(auto!=null){ 
-			auto.stop();
-			auto=null;
-			start();
-		}
+		if(auto!=null) auto.stop();
+		start();
 	}
 	
 	private RGBColor color=RGBColor.MAUVE;
