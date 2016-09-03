@@ -15,7 +15,7 @@ public class OlaWeb implements IOWrapper {
 	private static final Log log = LogFactory.getLog(OlaWeb.class);
 	private HttpURLConnection con;
 	
-	@Value("${remote:default localhost}")
+	@Value("${remote:localhost}")
 	private String host;
 	
 	public OlaWeb(){}

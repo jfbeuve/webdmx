@@ -8,7 +8,14 @@ function get(url){
       }.bind(this)
     });
 }
-
+function strob(){
+	$("#show").val("STROBO");
+	show();
+}
+function blackout(){
+	$("#show").val("blackout");
+	show();
+}
 function man(){
 	get("/speed/-1");
 	$("#speedsel").val("");
@@ -28,6 +35,12 @@ function speedrange(){
 		get("/speed/"+time);
 		printms($("#speedval"),time);
 	}
+}
+function strobospeed(){
+	var range = $("#stroborange").val();
+	var time = Math.round(20 + 80 * range / 100); 
+	get("/strobospeed/"+time);
+	printms($("#stroboval"),time);
 }
 function speedsel(){
 	$("#speedrange").val(50);

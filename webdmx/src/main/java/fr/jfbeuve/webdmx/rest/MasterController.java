@@ -42,6 +42,12 @@ public class MasterController {
 		show.speed(time);
 		return "OK";
 	}
+	@RequestMapping("/strobospeed/{time}")
+	@ResponseBody
+	public String strobospeed(@PathVariable("time") Long time) {
+		show.strobospeed(time);
+		return "OK";
+	}
 	@RequestMapping("/solo/{name}/{dim}")
 	@ResponseBody
 	public String fixture(@PathVariable("name") String name, @PathVariable("dim") String dim) {

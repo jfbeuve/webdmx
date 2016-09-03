@@ -37,9 +37,9 @@ public enum RGBColor {
 			put(RGBColor.MAUVE, RGBColor.CYAN);
 			put(RGBColor.JAUNE, RGBColor.ROUGE);
 			put(RGBColor.ROUGE, RGBColor.JAUNE);
-			put(RGBColor.VERT, RGBColor.AMBRE);
-			put(RGBColor.BLEU, RGBColor.AMBRE);
-			put(RGBColor.AMBRE, RGBColor.JAUNE);
+			put(RGBColor.VERT, RGBColor.BLEU);
+			put(RGBColor.BLEU, RGBColor.CYAN);
+			put(RGBColor.AMBRE, RGBColor.ROUGE);
 			put(RGBColor.BLACK, RGBColor.WHITE);
 			put(RGBColor.WHITE, RGBColor.BLACK);
 		}

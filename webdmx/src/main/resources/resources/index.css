@@ -2,7 +2,7 @@ body{
 	background-color: black;
 	color: white;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 20px;
+	font-size: 40px;
 }
 input:focus,
 select:focus,
@@ -15,12 +15,13 @@ button {
     background-color: white;
     border: 0px;
     color: dimgrey;
-    padding: 15px 15px;
+    padding: 10px 25px;
     margin: 4px 2px;
+    height: 40;
     cursor: pointer;
     touch-action: manipulation;
     font-family: Arial, Helvetica, sans-serif;
-	font-size: 20px;
+	font-size: 40px;
 }
 button:click {
     background-color: #4CAF50;
@@ -39,7 +40,7 @@ select{
     background:white;
 	color: dimgrey;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 20px;
+	font-size: 40px;
 }
 .red{
 	background:red;
@@ -81,6 +82,7 @@ select{
 	border: 1px solid lightgrey;
 	padding: 6px 6px;
 	margin: 4px 2px;
+	width: 98%;
 }
 .group{
 	border: 0px;
@@ -90,29 +92,21 @@ div{
 } 
 input[type=range] {
   -webkit-appearance: none;
-  width: 200px;
+  width: 300px;
   border-radius: 5px;
+  vertical-align:middle;
 }
 #masterdim{
-  width: 463px;
-}
-#speedrange{
-  width: 170px;
-}
-#faderange{
-  width: 233px;
-}
-#solorange{
-  width: 240px;
+  width: 600px;
 }
 input[type=range]::-webkit-slider-runnable-track {
-  height: 40px;
+  height: 60px;
   background: white;
   border-radius: 5px;
 }
 input[type=range]::-webkit-slider-thumb {
-  height: 40px;
-  width: 40px;
+  height: 60px;
+  width: 60px;
   border-radius: 5px;
   background: grey;
   -webkit-appearance: none;

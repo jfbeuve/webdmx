@@ -32,20 +32,17 @@ public enum Show {
 			{false,true, false, false}
 	},false),
 	STROBOCHASE(new boolean[][]{
-			{true,false, false, false}, // 1
-			{true,true,true,true},
+			{false,false, false, false},
+			{true,true,true,true} 
+	},true),
+	FLASH(new boolean[][]{
+			{false,false, false, false},
 			{true,false, false, false},
-			{true,true,true,true},
-			{false,true, false, false}, // 2
-			{true,true,true,true},
+			{false,false, false, false},
 			{false,true, false, false},
-			{true,true,true,true},
-			{false,false, true, false}, // 3
-			{true,true,true,true},
+			{false,false, false, false},
 			{false,false, true, false},
-			{true,true,true,true},
-			{false,false, false, true}, // 4
-			{true,true,true,true},
+			{false,false, false, false},
 			{false,false, false, true}
 	},true),
 	FADE(new boolean[][]{
@@ -77,13 +74,24 @@ public enum Show {
 		strob = _strob;
 	}
 	
+	private long timestamp = 0;
+	private int solo = 0;
+	
 	public void next(DmxCue dmx){
-		log.info("STEP "+step);
+		if(this==STROBOCHASE){
+			log.info("STEP "+step+ " SOLO "+solo);
+			if(timestamp==0) timestamp = System.currentTimeMillis();
+			if(System.currentTimeMillis()-timestamp>2000) solo++;
+			if(solo>3) solo=0;
+		}else {
+			log.info("STEP "+step);
+		}
 		
 		for (int i=0;i<rgb.length;i++) {
 			boolean[] cue = cues[step];
 			RGBColor toColor = cue[i]?bgColor.solo():bgColor;
 			if(strob) toColor = cue[i]?bgColor:RGBColor.BLACK;
+			if(this==STROBOCHASE&&i==solo) toColor = bgColor;
 			dmx.set(rgb[i],toColor);
 		}
 		

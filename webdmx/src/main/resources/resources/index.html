@@ -18,7 +18,7 @@
 
 		<div class="section" id="master">
 			MASTER
-			<select onchange="show()" id="show">
+			<select onchange="show()" id="show" size="1">
 				<option value=""> - SHOW - </option>
 				<option value="CHASEMIX">CHASE MIX</option>
 				<option value="STROBOCHASE">STROBOCHASE</option>
@@ -30,7 +30,7 @@
 				<option value="blackout">BLACKOUT</option>
 			</select>
 			
-			<select onchange="color()" id="color">
+			<select onchange="color()" id="color" size="1">
 				<option value="" class="white"> - COLOR - </option>
 				<option value="red" class="red">ROUGE</option>
 				<option value="green" class="green">VERT</option>
@@ -44,6 +44,9 @@
 				<option value="auto" class="white">AUTO</option>
 			</select>
 
+			<button onclick="blackout()">BLACKOUT</button>
+			<button onclick="strob()">STROB</button>
+
 			<div class="group">
 				<button onclick="man()">
 					MAN
@@ -53,7 +56,7 @@
 				</button>
 			</div>
 
-			<br/><input type="range" value="100" id="masterdim" onchange="masterdim(this)"/><div id="masterdimval">255</div>
+			<br/><input type="range" value="100" id="masterdim" onchange="masterdim(this)"/> <div id="masterdimval">255</div>
 		</div><br/>
 
 		<div class="section" id="speed">
@@ -64,22 +67,24 @@
 				<option value="500">500ms</option>
 				<option value="1000">1s</option>
 				<option value="5000">5s</option>
-				<option value="180000">30s</option>
+				<option value="30000">30s</option>
 			</select>
-			<br/><input type="range" value="50" id="speedrange" onchange="speedrange()"/><div id="speedval"></div>
+			<input type="range" value="50" id="speedrange" onchange="speedrange()"/> <div id="speedval"></div>
+			<br/>STROB <input type="range" value="100" id="stroborange" onchange="strobospeed()"/> <div id="stroboval">100 ms</div>
 		</div>
-
+<br/>
 		<div class="section" id="fade">
 			FADE TIME
 			<select onchange="fadesel()" id="fadesel">
 				<option value=""> - FADE TIME - </option>
 				<option value="0">0s</option>
+				<option value="500">500ms</option>
 				<option value="1000">1s</option>
 				<option value="5000">5s</option>
 				<option value="10000">10s</option>
-				<option value="180000">30s</option>
+				<option value="30000">30s</option>
 			</select>
-			<br/><input type="range" value="50" id="faderange" onchange="faderange()"/><div id="fadeval"></div>
+			<input type="range" value="50" id="faderange" onchange="faderange()"/> <div id="fadeval"></div>
 		</div><br/>
 
 		<div class="section" id="solo">
@@ -90,7 +95,7 @@
 				<button id="PAR3" onclick="fixture(this)">3</button>
 				<button id="PAR4" onclick="fixture(this)">4</button>
 			</div>
-			<br/><input type="range" value="100" id="solorange" onchange="solorange()"/><div id="solodimval">255</div>
+			<input type="range" value="100" id="solorange" onchange="solorange()"/> <div id="solodimval">255</div>
 		</div>
 
 		<script src="index.js"></script>

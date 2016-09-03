@@ -19,6 +19,7 @@ public class ShowRunner {
 
 	// DEFAULTS
 	private long speed=4000;
+	private long strobospeed=100;
 	private long fade=1000;
 	private Show show=null;
 	
@@ -44,9 +45,10 @@ public class ShowRunner {
 	}
 	
 	public void start(){
+		if(show==null) return;
 		if(auto!=null) stop();
 		next();
-		auto = new Tempo(this, show.strob()?100:speed);
+		auto = new Tempo(this, show.strob()?strobospeed:speed);
 		new Thread(auto).start();
 	}
 	public void set(Show _show){
@@ -84,8 +86,10 @@ public class ShowRunner {
 		if(speed<fade||show.strob()) dmx.apply(0);
 		else dmx.apply(fade);
 	}
-	public long speed(){
-		return speed;
+	public void strobospeed(long s){
+		strobospeed = s;
+		if(auto!=null) auto.stop();
+		start();
 	}
 	private long timestamp=0;
 	/**
@@ -117,7 +121,6 @@ public class ShowRunner {
 		}else
 			speed = _speed;
 		
-		if(auto!=null) auto.stop();
 		start();
 	}
 	
@@ -158,7 +161,9 @@ public class ShowRunner {
 			solo = null;
 		} else {
 			//set new override
-			dmx.override(new DmxOverride(s.f,color.solo(),s.dim));
+			boolean strob = false;
+			if(show!=null) strob = show.strob();
+			dmx.override(new DmxOverride(s.f,strob?color:color.solo(),s.dim));
 			solo = s;
 		}
 	}
