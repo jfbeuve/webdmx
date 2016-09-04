@@ -27,10 +27,11 @@ public class DmxOverride {
 		color = c;
 		dimmer = d;
 	}
-	public DmxOverride(RGBFixture f, RGBColor c, int d){
+	public DmxOverride(RGBFixture f, RGBColor c, int d, long fa){
 		fixtures = new String[]{f.toString()};
 		color = c.toString();
 		dimmer = d;
+		fade = fa;
 	}
 	public DmxOverride(RGBFixture f){
 		fixtures = new String[]{f.toString()};

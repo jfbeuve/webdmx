@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class Tempo implements Runnable {
 	private static final Log log = LogFactory.getLog(Tempo.class);
+	
 	private ShowRunner show;
 	private long speed;
 	private boolean stop=false;
@@ -18,17 +19,26 @@ public class Tempo implements Runnable {
 	@Override
 	public void run() {
 		thread=Thread.currentThread();
+		log.info("START "+show.show()+" "+thread);
 		while(!stop){
 			try {
 				Thread.sleep(speed);
 			} catch (InterruptedException e) {
-				log.warn(e, e);
+				log.debug(e, e);
+				log.info("INTERRUPT SLEEP");
 			}
-			if(!stop) show.next();
+			if(stop)return;
+			if(!stop){
+				log.info("NEXT");
+				show.next();
+			}else
+				log.info("INTERRUPT NEXT");
 		}
 	}
 	
 	public void stop(){
+		if(stop) return;
+		log.info("INTERRUPT ASK "+thread);
 		stop=true;
 		thread.interrupt();
 	}

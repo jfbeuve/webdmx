@@ -48,12 +48,11 @@ public class ShowRunner {
 	public void start(Show _show){
 		blackout=false;
 		set(_show);
-		start();
+		if(auto==null) start();
 	}
 	
 	public void start(){
 		if(show==null) return;
-		if(auto!=null) stop();
 		next();
 		auto = new Tempo(this, show.strob()?strobospeed:speed);
 		new Thread(auto).start();
@@ -129,6 +128,7 @@ public class ShowRunner {
 			speed = _speed;
 		// dmx runs at 44hz
 		if(speed<20)speed=20;
+		stop();
 		start();
 	}
 	
@@ -155,8 +155,8 @@ public class ShowRunner {
 			strob = show.strob();
 		}
 		if(solo!=null){
-			if(!strob) dmx.override(new DmxOverride(solo.f,color.solo(),solo.dim));
-			else dmx.override(new DmxOverride(solo.f,color,solo.dim));
+			if(!strob) dmx.override(new DmxOverride(solo.f,color.solo(),solo.dim, fade));
+			else dmx.override(new DmxOverride(solo.f,color,solo.dim, fade));
 		}
 	}
 	private Solo solo=null;
@@ -175,7 +175,7 @@ public class ShowRunner {
 			//set new override
 			boolean strob = false;
 			if(show!=null) strob = show.strob();
-			dmx.override(new DmxOverride(s.f,strob||bgblack||blackout?color:color.solo(),s.dim));
+			dmx.override(new DmxOverride(s.f,strob||bgblack||blackout?color:color.solo(),s.dim, fade));
 			solo = s;
 		}
 	}
@@ -191,5 +191,8 @@ public class ShowRunner {
 	}
 	public void bgblack(boolean b){
 		bgblack = b;
+	}
+	public Show show() {
+		return show;
 	}
 }

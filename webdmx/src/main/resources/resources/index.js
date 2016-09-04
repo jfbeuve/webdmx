@@ -16,7 +16,7 @@ function snapshow(){
 	if(!$("#snap").hasClass("active")) snap();
 	$("#speedsel").val("500");
 	speedsel();
-	shown('CHASEMIX');
+	shown('CHASE');
 }
 function fadeshow(){
 	if($("#snap").hasClass("active")) snap();
@@ -24,7 +24,7 @@ function fadeshow(){
 	speedsel();
 	$("#fadesel").val("1000");
 	fadesel();
-	shown('CHASEMIX');
+	shown('FADE');
 }
 function man(){
 	get("/speed/-1");

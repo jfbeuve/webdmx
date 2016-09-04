@@ -7,12 +7,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class DmxFader implements Runnable{
-	//TODO logging threads start/stop/interrupt
 	private static final Log log = LogFactory.getLog(DmxFader.class);
 	
 	private DmxWrapper dmx;
 	private long time;
-	private int step=1;
 	
 	private Map<Integer,Integer> end;
 	private Map<Integer,Integer> diff = new HashMap<Integer,Integer>();
@@ -28,53 +26,57 @@ public class DmxFader implements Runnable{
 			diff.put(channel, value);
 		}
 	}
-	public void fade(long tot){
-		// system does not really sustain refresh more often than every 100ms
-		if(tot<=25500){
-			step = (int) (25500 / tot);
-			time=100;
-		}else{
-			step = 1;
-			time = tot / 255;
-		}
-		
-		log.info("time="+time+"; step="+step);
-		new Thread(this).start();
+	public void fade(long _time){
+		time = _time;
+		log.info("FADING ASK "+time);
+		thread = new Thread(this);
+		thread.start();
 	}
 	private Thread thread=null;
 	private boolean done = false;
 	
 	public void run() {
-		thread=Thread.currentThread();
-		//TODO step > 30ms and use while instead of for to better align to time specification
-		for (int i = step; i < 256; i=i+step) {
-			log.info("FADING "+i+ " ("+done+")");
+		log.info("FADING START "+time+" "+thread);
+		long start = System.currentTimeMillis();
+		while(!done&&(System.currentTimeMillis()<start+time)){
+			int rate = (int) ((System.currentTimeMillis() - start) * 255 / time);
+			log.debug("FADING "+rate+ "/255 ("+done+")");
 			Map<Integer,Integer> values = new HashMap<Integer,Integer>();
 			for (Integer channel : diff.keySet()) {
 				int targetValue = end.get(channel);
 				int gap = diff.get(channel);
-				int newValue = targetValue - gap + gap*i/255;
+				int newValue = targetValue - gap + gap*rate/255;
 				values.put(channel,newValue);
-				if(done)return;
+				if(done){
+					log.info("INTERRUPT FADING at "+(System.currentTimeMillis()-start)+" / "+time);
+				}
 			}
 			dmx.set(values);
 			try {
-				Thread.sleep(time);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
-				log.info(e.getMessage());
+				log.debug(e,e);
+				log.info("INTERRUPT SLEEP at "+(System.currentTimeMillis()-start)+" / "+time);
 				return;
 			}
-			if(done)return;
+			if(done){
+				log.info("INTERRUPT AFTER SLEEP at "+(System.currentTimeMillis()-start)+" / "+time);
+				return;
+			}
 		}
 		
 		//ends up forcing final values in case step<>1 and i never ends up being 255
-		if(time==100) dmx.set(end);
-		log.info("FADING COMPLETED");
+		if(!done){
+			dmx.set(end);
+		}else{
+			log.info("INTERRUPT END");
+		}
+		log.info("FADING END");
 		done=true;
 	}
 	public void interupt(){
 		if(done)return;
-		log.info("## INTERRUPT ##");
+		log.info("INTERRUPT ASK "+thread);
 		done = true;
 		thread.interrupt();
 	}
