@@ -73,11 +73,19 @@ public class ShowRunner {
 				colortime = System.currentTimeMillis();
 				RGBColor before = color;
 				//next color
-				for(int i=0;i<colorseq.length;i++){
-					if(color==colorseq[i]){
+				for(int i=0;i<coldcolorseq.length;i++){
+					if(color==coldcolorseq[i]){
 						int a = i+1;
-						if(a==colorseq.length) a=0;
-						show.color(colorseq[i+1]);
+						if(a==coldcolorseq.length) a=0;
+						show.color(coldcolorseq[i+1]);
+						break;
+					}
+				}
+				for(int i=0;i<warmcolorseq.length;i++){
+					if(color==warmcolorseq[i]){
+						int a = i+1;
+						if(a==warmcolorseq.length) a=0;
+						show.color(warmcolorseq[i+1]);
 						break;
 					}
 				}
@@ -128,7 +136,8 @@ public class ShowRunner {
 	}
 	
 	private RGBColor color=RGBColor.MAUVE;
-	private RGBColor[] colorseq = {RGBColor.CYAN, RGBColor.MAUVE, RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.AMBRE, RGBColor.VERT, RGBColor.BLEU};
+	private RGBColor[] coldcolorseq = {RGBColor.CYAN, RGBColor.MAUVE, RGBColor.VERT, RGBColor.BLEU};
+	private RGBColor[] warmcolorseq = {RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.AMBRE};
 	public long autoColorTime=20000;
 	private boolean autocolor = true;
 	private long colortime=0;
