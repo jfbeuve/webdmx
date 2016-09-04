@@ -48,10 +48,10 @@ public class ShowRunner {
 	public synchronized void start(Show _show){
 		blackout=false;
 		set(_show);
-		if(auto==null) start();
+		if(auto==null) restart();
 	}
 	
-	public synchronized void start(){
+	private synchronized void restart(){
 		if(show==null) return;
 		if(auto!=null) stop();
 		next();
@@ -60,8 +60,11 @@ public class ShowRunner {
 	}
 	private void set(Show _show){
 		if(show==_show) return;
+		boolean restart = true;
+		if(show!=null&&_show!=null&&show.strob()!=_show.strob()) restart=false;
 		show = _show;
 		if(show!=null) show.color(color);
+		if(restart) stop();
 	}
 	/**
 	 * applies next step
@@ -95,8 +98,9 @@ public class ShowRunner {
 	}
 	public void strobospeed(long s){
 		strobospeed = s;
-		if(auto!=null) stop();
-		start();
+		if(show!=null&&show.strob()){
+			if(auto!=null) restart();
+		}
 	}
 	private long timestamp=0;
 	/**
@@ -129,8 +133,7 @@ public class ShowRunner {
 			speed = _speed;
 		// dmx runs at 44hz
 		if(speed<20)speed=20;
-		stop();
-		start();
+		if(auto!=null)restart();
 	}
 	
 	private RGBColor color=RGBColor.MAUVE;
