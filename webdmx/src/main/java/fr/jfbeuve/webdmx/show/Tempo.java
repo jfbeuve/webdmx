@@ -18,8 +18,8 @@ public class Tempo implements Runnable {
 	
 	@Override
 	public void run() {
-		thread=Thread.currentThread();
-		log.info("START "+show.show()+" "+thread);
+		thread = Thread.currentThread();
+		log.info("START "+show.show()+" "+speed+" "+thread);
 		while(!stop){
 			try {
 				Thread.sleep(speed);
@@ -36,11 +36,11 @@ public class Tempo implements Runnable {
 		}
 	}
 	
-	public void stop(){
+	public synchronized void stop(){
 		if(stop) return;
-		log.info("INTERRUPT ASK "+thread);
+		log.info("INTERRUPT ASK "+thread);	
+		if(thread==null)System.out.println("oups!");
 		stop=true;
 		thread.interrupt();
 	}
-
 }

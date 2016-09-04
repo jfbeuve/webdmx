@@ -49,6 +49,7 @@ public class DmxFader implements Runnable{
 				values.put(channel,newValue);
 				if(done){
 					log.info("INTERRUPT FADING at "+(System.currentTimeMillis()-start)+" / "+time);
+					return;
 				}
 			}
 			dmx.set(values);
