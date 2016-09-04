@@ -68,16 +68,28 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<dependencies>
+					<dependency>
+						<groupId>ant</groupId>
+						<artifactId>ant-jsch</artifactId>
+						<version>1.6.5</version>
+					</dependency>
+					<dependency>
+						<groupId>com.jcraft</groupId>
+						<artifactId>jsch</artifactId>
+						<version>0.1.52</version>
+					</dependency>
+				</dependencies>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
 						<phase>package</phase>
 						<configuration>
 							<tasks>
-								<scp file="webdmx.jar" todir="pi@192.168.1.27:/home/pi"
-									password="raspberry" />
-								<sshexec host="192.168.1.27" username="pi" password="taspberry"
-									command="/home/pi/restart.sh" />
+								<scp file="./target/webdmx.jar" todir="pi@192.168.1.27:/home/pi"
+									password="raspberry" trust="true"/>
+								<!-- sshexec host="192.168.1.27" username="pi" password="raspberry"
+									command="/home/pi/restart.sh" trust="true"/-->
 							</tasks>
 						</configuration>
 						<goals>

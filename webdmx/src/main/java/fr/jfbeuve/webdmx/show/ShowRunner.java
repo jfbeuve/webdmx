@@ -36,7 +36,7 @@ public class ShowRunner {
 	 * stops autorun
 	 * @return true if stopped, false if already stopped
 	 */
-	public void stop(){
+	public synchronized void stop(){
 		if(auto!=null){
 			auto.stop();
 			auto=null;
@@ -45,14 +45,15 @@ public class ShowRunner {
 	/**
 	 * starts/restarts autorun
 	 */
-	public void start(Show _show){
+	public synchronized void start(Show _show){
 		blackout=false;
 		set(_show);
 		if(auto==null) start();
 	}
 	
-	public void start(){
+	public synchronized void start(){
 		if(show==null) return;
+		if(auto!=null) stop();
 		next();
 		auto = new Tempo(this, show.strob()?strobospeed:speed);
 		new Thread(auto).start();
@@ -94,7 +95,7 @@ public class ShowRunner {
 	}
 	public void strobospeed(long s){
 		strobospeed = s;
-		if(auto!=null) auto.stop();
+		if(auto!=null) stop();
 		start();
 	}
 	private long timestamp=0;
