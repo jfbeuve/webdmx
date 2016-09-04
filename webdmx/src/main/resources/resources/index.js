@@ -13,8 +13,7 @@ function shown(name){
 	show();
 }
 function snapshow(){
-	if(!$("#snap").hasClass("active")) snap();
-	$("#speedsel").val("500");
+	$("#speedsel").val("400");
 	speedsel();
 	shown('CHASE');
 }
@@ -22,7 +21,7 @@ function fadeshow(){
 	if($("#snap").hasClass("active")) snap();
 	$("#speedsel").val("4000");
 	speedsel();
-	$("#fadesel").val("1000");
+	$("#fadesel").val("2000");
 	fadesel();
 	shown('FADE');
 }

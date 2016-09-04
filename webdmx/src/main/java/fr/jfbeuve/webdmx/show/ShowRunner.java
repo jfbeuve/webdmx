@@ -20,7 +20,7 @@ public class ShowRunner {
 	// DEFAULTS
 	private long speed=4000;
 	private long strobospeed=100;
-	private long fade=1000;
+	private long fade=2000;
 	private Show show=null;
 	
 	/**
@@ -129,7 +129,7 @@ public class ShowRunner {
 	
 	private RGBColor color=RGBColor.MAUVE;
 	private RGBColor[] colorseq = {RGBColor.CYAN, RGBColor.MAUVE, RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.AMBRE, RGBColor.VERT, RGBColor.BLEU};
-	public long autoColorTime=180000;
+	public long autoColorTime=20000;
 	private boolean autocolor = true;
 	private long colortime=0;
 	/**
