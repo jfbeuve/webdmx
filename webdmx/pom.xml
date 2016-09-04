@@ -44,11 +44,8 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/opendmx/OpenDmx.jar</systemPath>
 		</dependency>
-		<!-- dependency>
-			<groupId>com.google.protobuf</groupId>
-			<artifactId>protobuf-java</artifactId>
-			<version>2.6.1</version>
-		</dependency-->
+		<!-- dependency> <groupId>com.google.protobuf</groupId> <artifactId>protobuf-java</artifactId> 
+			<version>2.6.1</version> </dependency -->
 	</dependencies>
 	<build>
 		<finalName>webdmx</finalName>
@@ -69,6 +66,25 @@
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<configuration>
+							<tasks>
+								<scp file="webdmx.jar" todir="pi@192.168.1.27:/home/pi"
+									password="raspberry" />
+								<sshexec host="192.168.1.27" username="pi" password="taspberry"
+									command="/home/pi/restart.sh" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

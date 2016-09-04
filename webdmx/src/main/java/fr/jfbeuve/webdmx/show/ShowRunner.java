@@ -23,6 +23,12 @@ public class ShowRunner {
 	private long fade=1000;
 	private Show show=null;
 	
+	/**
+	 * @return true if speed>fade time
+	 */
+	public boolean fade(){
+		return speed>fade;
+	}
 	public void fade(long time) {
 		this.fade = time;
 	}
@@ -40,6 +46,7 @@ public class ShowRunner {
 	 * starts/restarts autorun
 	 */
 	public void start(Show _show){
+		blackout=false;
 		set(_show);
 		start();
 	}
@@ -51,7 +58,7 @@ public class ShowRunner {
 		auto = new Tempo(this, show.strob()?strobospeed:speed);
 		new Thread(auto).start();
 	}
-	public void set(Show _show){
+	private void set(Show _show){
 		if(show==_show) return;
 		show = _show;
 		if(show!=null) show.color(color);
@@ -82,7 +89,7 @@ public class ShowRunner {
 			}
 		}
 		
-		show.next(dmx);
+		show.next(dmx,this);
 		if(speed<fade||show.strob()) dmx.apply(0);
 		else dmx.apply(fade);
 	}
@@ -111,7 +118,7 @@ public class ShowRunner {
 				// adjust speed
 				long newspeed =  System.currentTimeMillis() - timestamp;
 				timestamp = System.currentTimeMillis();
-				speed = newspeed;
+				if(newspeed<10000) speed = newspeed;
 			} else {
 				// record timestamp
 				timestamp = System.currentTimeMillis();
@@ -120,7 +127,8 @@ public class ShowRunner {
 			}
 		}else
 			speed = _speed;
-		
+		// dmx runs at 44hz
+		if(speed<20)speed=20;
 		start();
 	}
 	
@@ -153,8 +161,12 @@ public class ShowRunner {
 	}
 	private Solo solo=null;
 	public void solo(Solo s){
-		// cancel previous override
-		if(solo!=null) dmx.override(new DmxOverride(solo.f));
+		if(solo!=null){
+			// cancel previous override
+			dmx.reset(solo.f);
+			dmx.set(solo.f, RGBColor.BLACK);
+			dmx.apply(0);
+		}
 
 		if(s.dim<0) {
 			// cancel override only
@@ -163,12 +175,21 @@ public class ShowRunner {
 			//set new override
 			boolean strob = false;
 			if(show!=null) strob = show.strob();
-			dmx.override(new DmxOverride(s.f,strob?color:color.solo(),s.dim));
+			dmx.override(new DmxOverride(s.f,strob||bgblack||blackout?color:color.solo(),s.dim));
 			solo = s;
 		}
 	}
+	boolean blackout = true;
 	public void blackout(){
 		stop();
 		dmx.blackout(fade);
+		blackout=true;
+	}
+	private boolean bgblack = false;
+	public boolean bgblack(){
+		return bgblack;
+	}
+	public void bgblack(boolean b){
+		bgblack = b;
 	}
 }

@@ -24,12 +24,11 @@ public enum Show {
 		{true,true,true,true} 
 	},true),
 	CHASE(new boolean[][]{
-			{true,false, false, false},
+			{false,false,false,false},
 			{false,true, false, false},
-			{false,false, true, false},
 			{false,false, false, true},
-			{false,false, true, false},
-			{false,true, false, false}
+			{true,false, false, false},
+			{false,false, true, false}
 	},false),
 	STROBOCHASE(new boolean[][]{
 			{false,false, false, false},
@@ -37,13 +36,13 @@ public enum Show {
 	},true),
 	FLASH(new boolean[][]{
 			{false,false, false, false},
-			{true,false, false, false},
-			{false,false, false, false},
 			{false,true, false, false},
 			{false,false, false, false},
-			{false,false, true, false},
+			{false,false, false, true},
 			{false,false, false, false},
-			{false,false, false, true}
+			{true,false, false, false},
+			{false,false, false, false},
+			{false,false, true, false}
 	},true),
 	FADE(new boolean[][]{
 			{false,false, false, false},
@@ -77,12 +76,25 @@ public enum Show {
 	private long timestamp = 0;
 	private int solo = 0;
 	
-	public void next(DmxCue dmx){
+	public void next(DmxCue dmx, ShowRunner run){
+		if(this==FADE||this==CHASE||this==CHASEMIX){
+			if(run.bgblack()&&step==0) step =1;
+		}
+		
+		if(this==CHASEMIX&&run.fade()){
+			// smart show (skip solo steps if fade mode)
+			if(step>5) step=0;
+		}
+		
 		if(this==STROBOCHASE){
 			log.info("STEP "+step+ " SOLO "+solo);
-			if(timestamp==0) timestamp = System.currentTimeMillis();
-			if(System.currentTimeMillis()-timestamp>2000) solo++;
-			if(solo>3) solo=0;
+			if(timestamp==0) System.currentTimeMillis();
+			if(System.currentTimeMillis()-timestamp>4000){
+				timestamp = System.currentTimeMillis();
+				solo++;
+				if(solo>3) solo=0;
+			}
+
 		}else {
 			log.info("STEP "+step);
 		}
@@ -90,7 +102,7 @@ public enum Show {
 		for (int i=0;i<rgb.length;i++) {
 			boolean[] cue = cues[step];
 			RGBColor toColor = cue[i]?bgColor.solo():bgColor;
-			if(strob) toColor = cue[i]?bgColor:RGBColor.BLACK;
+			if(strob||run.bgblack()) toColor = cue[i]?bgColor:RGBColor.BLACK;
 			if(this==STROBOCHASE&&i==solo) toColor = bgColor;
 			dmx.set(rgb[i],toColor);
 		}
@@ -102,6 +114,7 @@ public enum Show {
 		
 		step++;
 		if(step==cues.length)step=0;
+		if(this==ON||this==OFF) run.stop();
 	}
 	
 	public void color(RGBColor _color) {

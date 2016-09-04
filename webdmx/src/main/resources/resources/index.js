@@ -8,27 +8,48 @@ function get(url){
       }.bind(this)
     });
 }
-function strob(){
-	$("#show").val("STROBO");
+function shown(name){
+	$("#show").val(name);
 	show();
 }
-function blackout(){
-	$("#show").val("blackout");
-	show();
+function snapshow(){
+	if(!$("#snap").hasClass("active")) snap();
+	$("#speedsel").val("500");
+	speedsel();
+	shown('CHASEMIX');
+}
+function fadeshow(){
+	if($("#snap").hasClass("active")) snap();
+	$("#speedsel").val("4000");
+	speedsel();
+	$("#fadesel").val("1000");
+	fadesel();
+	shown('CHASEMIX');
 }
 function man(){
 	get("/speed/-1");
-	$("#speedsel").val("");
 }
-
+var timestamp=0;
+var speedtap=0;
 function tap(){
 	get("/speed/0");
-	$("#speedsel").val("");
+	if(timestamp==0) 
+		timestamp = Date.now();
+	else{
+		$("#speedsel").val("");
+		speedtap = Date.now() - timestamp;
+		timestamp = Date.now();
+		if(speedtap>10000)
+			speedtap=0;
+		else 
+			printms($("#speedval"),speedtap);
+	}
+	
 }
-
 function speedrange(){
 	var time = $("#speedsel").val();
 	var range = $("#speedrange").val();
+	if(speedtap>0&&time=="")time=speedtap;
 	if(time!=""){
 		if(range==0) range=1;
 		time = time * range / 50; 
@@ -64,10 +85,10 @@ function faderange(){
  * print friendly time in millis
  */
 function printms(o,v){
-	var u = " ms";
+	var u = "ms";
 	if(v>=1000){
 		v = v / 1000;
-		u=" s";
+		u="s";
 	}
 	o.html(v+u);
 }
@@ -124,6 +145,28 @@ function fixture(o){
 		solorange();
 	}
 }
+function bgblack(){
+	var btn = $("#bgblack");
+	if(btn.hasClass("active")){
+		 btn.removeClass("active");
+		 get("/bgblack/false");
+	}
+	else {
+		btn.addClass("active");
+		get("/bgblack/true");
+	}
+}
+function snap(){
+	var btn = $("#snap");
+	if(btn.hasClass("active")){
+		 btn.removeClass("active");
+		 faderange();
+	}
+	else {
+		btn.addClass("active");
+		get("/fade/0");
+	}
+}
 function solorange(){
 	var range = $("#solorange").val();
 	var dim = Math.round(255 * range / 100);
@@ -139,6 +182,7 @@ function show(){
 	if(name!="") get("/show/"+name);
 	if(name=="blackout"){
 		$("#speedsel").val("");
+		speedtap=0;
 		var a = $("#fixture>button.active");
 		if (a!=null) a.removeClass('active');
 	}

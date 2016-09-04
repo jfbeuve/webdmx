@@ -60,6 +60,12 @@ public class MasterController {
 		show.fade(time);
 		return "OK";
 	}
+	@RequestMapping("/bgblack/{b}")
+	@ResponseBody
+	public String bgblack(@PathVariable("b") Boolean b) {
+		show.bgblack(b);
+		return "OK";
+	}
 	/**
 	 * set master dimmer value 0/255
 	 **/

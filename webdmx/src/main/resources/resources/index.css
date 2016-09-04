@@ -2,7 +2,7 @@ body{
 	background-color: black;
 	color: white;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 40px;
+	font-size: 30px;
 }
 input:focus,
 select:focus,
@@ -17,15 +17,30 @@ button {
     color: dimgrey;
     padding: 10px 25px;
     margin: 4px 2px;
-    height: 40;
     cursor: pointer;
     touch-action: manipulation;
     font-family: Arial, Helvetica, sans-serif;
-	font-size: 40px;
+	font-size: 30px;
 }
 button:click {
     background-color: #4CAF50;
     color: white;
+}
+#tap, #man{
+	height: 80px;
+	width: 120px;
+	position: absolute;
+	right: 20px;
+}
+#tap {
+	top: 110px;
+}
+#man{
+	top: 20px;
+}
+#snap{
+	position: absolute;
+	right: 20px;
 }
 .active {
     background-color: grey;
@@ -40,7 +55,7 @@ select{
     background:white;
 	color: dimgrey;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 40px;
+	font-size: 30px;
 }
 .red{
 	background:red;
@@ -92,25 +107,33 @@ div{
 } 
 input[type=range] {
   -webkit-appearance: none;
-  width: 300px;
+  width: 380px;
   border-radius: 5px;
   vertical-align:middle;
 }
-#masterdim{
-  width: 600px;
-}
 input[type=range]::-webkit-slider-runnable-track {
-  height: 60px;
+  height: 50px;
   background: white;
   border-radius: 5px;
 }
 input[type=range]::-webkit-slider-thumb {
-  height: 60px;
-  width: 60px;
+  height: 50px;
+  width: 50px;
   border-radius: 5px;
   background: grey;
   -webkit-appearance: none;
 }
-
+.rangelabel {
+	position: relative;
+	right: 200px;
+	color: dimgrey;
+	pointer-events: none;
+}
+#masterdim{
+	width: 580px;
+}
+#masterdimval{
+	right: 340px;
+}
 
 

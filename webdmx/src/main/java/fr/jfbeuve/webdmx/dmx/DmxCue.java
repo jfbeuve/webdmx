@@ -1,7 +1,7 @@
 package fr.jfbeuve.webdmx.dmx;
 
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,22 +24,24 @@ public class DmxCue {
 	
 	private DmxFader fader;
 	
-	private Map<Integer,Integer> values = new HashMap<Integer,Integer>();
+	private Map<Integer,Integer> values = new Hashtable<Integer,Integer>();
 	private Set<Integer> override = new HashSet<Integer>();
 	
 	/**
 	 * apply dmx values
 	 * @param fade time in milliseconds. 0 means SNAP.
 	 */
-	public void apply(long fade){
+	public synchronized void apply(long fade){
+		Map<Integer,Integer> todo = values;
+		values = new Hashtable<Integer,Integer>();
+		
 		if(fader!=null)fader.interupt();
 		if(fade>0){ //FADE
-			fader = new DmxFader(dmx, values);
+			fader = new DmxFader(dmx, todo);
 			fader.fade(fade);
 		}else{ //SNAP
-			dmx.set(values);
+			dmx.set(todo);
 		}
-		values = new HashMap<Integer,Integer>();
 	}
 	public void blackout(long time){
 		if(fader!=null)fader.interupt();
@@ -124,5 +126,5 @@ public class DmxCue {
 	public boolean isOverridden(int channel){
 		return override.contains(channel);
 	}
-	
+
 }

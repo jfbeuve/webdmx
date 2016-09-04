@@ -6,7 +6,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-		<meta name="apple-mobile-web-app-title" content="Ui">
+		<meta name="apple-mobile-web-app-title" content="webdmx">
 		<!--https://webkit.org/blog/5610/more-responsive-tapping-on-ios/-->
 		<!--https://github.com/ftlabs/fastclick-->
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
@@ -21,12 +21,13 @@
 			<select onchange="show()" id="show" size="1">
 				<option value=""> - SHOW - </option>
 				<option value="CHASEMIX">CHASE MIX</option>
-				<option value="STROBOCHASE">STROBOCHASE</option>
-				<option value="STROBO">STROBOSCOPE</option>
 				<option value="CHASE">CHASE</option>
 				<option value="FADE">FADING</option>
-				<option value="FADE">FULL ON</option>
-				<option value="FADE">FULL OFF</option>
+				<option value="STROBO">STROBOSCOPE</option>
+				<option value="FLASH">FLASH</option>
+				<option value="STROBOCHASE">STROBOCHASE</option>
+				<option value="ON">FULL ON</option>
+				<option value="OFF">FULL OFF</option>
 				<option value="blackout">BLACKOUT</option>
 			</select>
 			
@@ -43,48 +44,50 @@
 				<option value="black" class="black">NOIR</option>
 				<option value="auto" class="white">AUTO</option>
 			</select>
+			<button onclick="bgblack()" id="bgblack">&#9788;</button>
+<br/>
+			<button onclick="shown('blackout')">BLACKOUT</button>
+			<button onclick="shown('FLASH')">FLASH</button>
+			<button onclick="snapshow()">SNAP</button>
+			<button onclick="fadeshow()">FADE</button>
 
-			<button onclick="blackout()">BLACKOUT</button>
-			<button onclick="strob()">STROB</button>
-
+			<br/><input type="range" value="100" id="masterdim" onchange="masterdim(this)"/> <label id="masterdimval" class="rangelabel">255</label>
+			
 			<div class="group">
-				<button onclick="man()">
+				<button onclick="man()" id="man">
 					MAN
 				</button>
 				<button onclick="tap()" id="tap">
 					TAP
 				</button>
 			</div>
-
-			<br/><input type="range" value="100" id="masterdim" onchange="masterdim(this)"/> <div id="masterdimval">255</div>
 		</div><br/>
 
 		<div class="section" id="speed">
 			SPEED
 			<select onchange="speedsel()" id="speedsel">
-				<option value=""> - SPEED - </option>
 				<option value="100">100ms</option>
 				<option value="500">500ms</option>
 				<option value="1000">1s</option>
-				<option value="5000">5s</option>
+				<option value="4000" selected="selected">4s</option>
 				<option value="30000">30s</option>
 			</select>
-			<input type="range" value="50" id="speedrange" onchange="speedrange()"/> <div id="speedval"></div>
-			<br/>STROB <input type="range" value="100" id="stroborange" onchange="strobospeed()"/> <div id="stroboval">100 ms</div>
+			<input type="range" value="50" id="speedrange" onchange="speedrange()"/> <label id="speedval" class="rangelabel">4s</label>
+			<br/>STROB <input type="range" value="100" id="stroborange" onchange="strobospeed()"/> <label id="stroboval" class="rangelabel">100ms</label>
 		</div>
 <br/>
 		<div class="section" id="fade">
 			FADE TIME
 			<select onchange="fadesel()" id="fadesel">
-				<option value=""> - FADE TIME - </option>
 				<option value="0">0s</option>
 				<option value="500">500ms</option>
-				<option value="1000">1s</option>
+				<option value="1000" selected="selected">1s</option>
 				<option value="5000">5s</option>
 				<option value="10000">10s</option>
 				<option value="30000">30s</option>
 			</select>
-			<input type="range" value="50" id="faderange" onchange="faderange()"/> <div id="fadeval"></div>
+			<input type="range" value="50" id="faderange" onchange="faderange()"/><label id="fadeval" class="rangelabel">1s</label>
+			<button onclick="snap()" id="snap">SNAP</button>
 		</div><br/>
 
 		<div class="section" id="solo">
@@ -95,7 +98,7 @@
 				<button id="PAR3" onclick="fixture(this)">3</button>
 				<button id="PAR4" onclick="fixture(this)">4</button>
 			</div>
-			<input type="range" value="100" id="solorange" onchange="solorange()"/> <div id="solodimval">255</div>
+			<input type="range" value="100" id="solorange" onchange="solorange()"/> <label id="solodimval" class="rangelabel">255</label>
 		</div>
 
 		<script src="index.js"></script>

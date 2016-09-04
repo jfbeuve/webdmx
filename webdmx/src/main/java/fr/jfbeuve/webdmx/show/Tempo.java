@@ -8,6 +8,7 @@ public class Tempo implements Runnable {
 	private ShowRunner show;
 	private long speed;
 	private boolean stop=false;
+	private Thread thread=null;
 	
 	public Tempo(ShowRunner _show, long _speed){
 		speed=_speed;
@@ -16,6 +17,7 @@ public class Tempo implements Runnable {
 	
 	@Override
 	public void run() {
+		thread=Thread.currentThread();
 		while(!stop){
 			try {
 				Thread.sleep(speed);
@@ -28,6 +30,7 @@ public class Tempo implements Runnable {
 	
 	public void stop(){
 		stop=true;
+		thread.interrupt();
 	}
 
 }

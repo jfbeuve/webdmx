@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class DmxFader implements Runnable{
+	//TODO logging threads start/stop/interrupt
 	private static final Log log = LogFactory.getLog(DmxFader.class);
 	
 	private DmxWrapper dmx;
@@ -45,6 +46,7 @@ public class DmxFader implements Runnable{
 	
 	public void run() {
 		thread=Thread.currentThread();
+		//TODO step > 30ms and use while instead of for to better align to time specification
 		for (int i = step; i < 256; i=i+step) {
 			log.info("FADING "+i+ " ("+done+")");
 			Map<Integer,Integer> values = new HashMap<Integer,Integer>();
