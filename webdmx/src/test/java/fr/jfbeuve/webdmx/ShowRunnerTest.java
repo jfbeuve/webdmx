@@ -74,6 +74,8 @@ public class ShowRunnerTest {
 		Thread.sleep(500);
 		log.info("###### ASSERT 7 = step 7"); 
 		assertColors(RGBColor.VERT, RGBColor.VERT, RGBColor.VERT, RGBColor.VERT);
+		
+		show.blackout();
 	}
 	private void assertColors(RGBColor a, RGBColor b, RGBColor c, RGBColor d){
 		assertEquals(a.red(), dmx.get(24).value());

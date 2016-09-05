@@ -77,7 +77,6 @@ public class OverrideTest {
 		assertEquals(100,dmx.get(17).value());
 		assertEquals(100,dmx.get(28).value());
 		assertEquals(100,dmx.get(29).value()); // the only one updated
-	
 	}
 
 }
