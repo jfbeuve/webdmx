@@ -30,6 +30,7 @@ public class DmxFaderTest {
 	
 	@Test
 	public void testFader() throws Exception {
+		System.out.println("###### testFader");
 		dmx.offline();
 		dmx.dim(DmxDimmer.MASTER, 127);
 		

@@ -11,7 +11,7 @@
 	<groupId>fr.jfbeuve</groupId>
 	<name>Spring Boot Jetty Sample</name>
 	<description>Spring Boot Jetty Sample</description>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3</version>
 	<properties>
 		<main.basedir>${basedir}/../..</main.basedir>
 	</properties>

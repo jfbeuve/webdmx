@@ -19,6 +19,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.show.RGBColor;
+import fr.jfbeuve.webdmx.show.Show;
 import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,13 +38,16 @@ public class HttpShowControllerTest {
 
 	@Test
 	public void testHttpControllers() throws Exception {
-		//INIT
+		System.out.println("###### testHttpControllers");
 		DmxDimmer.MASTER.value(255);
 		show.autoColorTime=180000;
 		show.fade(2000);
+		Show.CHASEMIX.reset();
 		
 		//SHOW
 		ResponseEntity<String> entity = new TestRestTemplate().getForEntity("http://localhost/speed/1000", String.class);
+		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		entity = new TestRestTemplate().getForEntity("http://localhost/show/CHASEMIX", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		log.info("###### ASSERT 1");
 		assertColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE); //1
@@ -51,21 +55,12 @@ public class HttpShowControllerTest {
 		log.info("###### ASSERT 2");
 		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.CYAN); //2
 		
-		//STROB
-		entity = new TestRestTemplate().getForEntity("http://localhost/front/strob", String.class);
-		assertEquals(HttpStatus.OK, entity.getStatusCode());
-		assertStrob(true);
-		log.info("###### ASSERT STROB");
-		assertColors(RGBColor.BLACK, RGBColor.BLACK, RGBColor.BLACK, RGBColor.BLACK);
-		entity = new TestRestTemplate().getForEntity("http://localhost/front/strob", String.class);
-		assertEquals(HttpStatus.OK, entity.getStatusCode());
-		assertStrob(false);
-		
 		//COLOR
-		log.info("###### ASSERT 3");
-		assertColors(RGBColor.MAUVE, RGBColor.CYAN, RGBColor.CYAN, RGBColor.MAUVE); //3
 		entity = new TestRestTemplate().getForEntity("http://localhost/color/ROUGE", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		Thread.sleep(1000);
+		log.info("###### ASSERT 3");
+		assertColors(RGBColor.ROUGE, RGBColor.JAUNE, RGBColor.JAUNE, RGBColor.ROUGE); //3
 		
 		//TAP
 		entity = new TestRestTemplate().getForEntity("http://localhost/speed/400", String.class);
@@ -79,6 +74,7 @@ public class HttpShowControllerTest {
 		//BLACKOUT
 		entity = new TestRestTemplate().getForEntity("http://localhost/show/blackout", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
+		Thread.sleep(2000);
 		assertBlackout();
 	}
 	private void assertColors(RGBColor a, RGBColor b, RGBColor c, RGBColor d){

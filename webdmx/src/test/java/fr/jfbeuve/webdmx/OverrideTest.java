@@ -25,7 +25,8 @@ public class OverrideTest {
 	private DmxCue cue;
 	
 	@Test
-	public void testShowRunner() throws Exception {
+	public void testOverride() throws Exception {
+		System.out.println("###### testOverride");
 		dmx.offline();
 		DmxDimmer.MASTER.value(255);
 		

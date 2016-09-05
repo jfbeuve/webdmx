@@ -59,8 +59,8 @@ public enum Show {
 	},false);
 	
 	private static final Log log = LogFactory.getLog(Show.class);
-	public RGBFixture[] rgb = {RGBFixture.PAR1,RGBFixture.PAR2,RGBFixture.PAR3,RGBFixture.PAR4};
-	public PARFixture[] par = {PARFixture.PAR1,PARFixture.PAR2,PARFixture.PAR3,PARFixture.PAR4};
+	private static final RGBFixture[] rgb = {RGBFixture.PAR1,RGBFixture.PAR2,RGBFixture.PAR3,RGBFixture.PAR4};
+	private static final PARFixture[] par = {PARFixture.PAR1,PARFixture.PAR2,PARFixture.PAR3,PARFixture.PAR4};
 	
 	private boolean[][] cues;
 	
@@ -122,5 +122,8 @@ public enum Show {
 	}
 	public boolean strob(){
 		return strob;
+	}
+	public void reset(){
+		step = 0;
 	}
 }

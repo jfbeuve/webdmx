@@ -73,22 +73,9 @@ public class ShowRunner {
 				colortime = System.currentTimeMillis();
 				RGBColor before = color;
 				//next color
-				for(int i=0;i<coldcolorseq.length;i++){
-					if(color==coldcolorseq[i]){
-						int a = i+1;
-						if(a==coldcolorseq.length) a=0;
-						show.color(coldcolorseq[i+1]);
-						break;
-					}
-				}
-				for(int i=0;i<warmcolorseq.length;i++){
-					if(color==warmcolorseq[i]){
-						int a = i+1;
-						if(a==warmcolorseq.length) a=0;
-						show.color(warmcolorseq[i+1]);
-						break;
-					}
-				}
+				autoColorNext(coldcolorseq);
+				autoColorNext(warmcolorseq);
+				show.color(color);
 				log.info("AUTO COLOR CHANGE "+before+ " => "+color);
 			}
 		}
@@ -96,6 +83,16 @@ public class ShowRunner {
 		show.next(dmx,this);
 		if(speed<fade||show.strob()) dmx.apply(0);
 		else dmx.apply(fade);
+	}
+	private void autoColorNext(RGBColor[] colorseq){
+		for(int i=0;i<colorseq.length;i++){
+			if(color==colorseq[i]){
+				int a = i+1;
+				if(a==colorseq.length) a=0;
+				color = colorseq[i+1];
+				break;
+			}
+		}
 	}
 	public void strobospeed(long s){
 		strobospeed = s;

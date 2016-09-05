@@ -32,6 +32,7 @@ public class ShowRunnerTest {
 	
 	@Test
 	public void testShowRunner() throws Exception {
+		System.out.println("###### testShowRunner");
 		
 		//INIT
 		dmx.offline();
@@ -72,7 +73,7 @@ public class ShowRunnerTest {
 		// auto color change
 		Thread.sleep(500);
 		log.info("###### ASSERT 7 = step 7"); 
-		assertColors(RGBColor.JAUNE, RGBColor.JAUNE, RGBColor.JAUNE, RGBColor.ROUGE);
+		assertColors(RGBColor.VERT, RGBColor.VERT, RGBColor.VERT, RGBColor.VERT);
 	}
 	private void assertColors(RGBColor a, RGBColor b, RGBColor c, RGBColor d){
 		assertEquals(a.red(), dmx.get(24).value());

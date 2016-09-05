@@ -25,6 +25,7 @@ public class DmxDimmerTest {
 	
 	@Test
 	public void testMasterDimmer() throws Exception {
+		System.out.println("###### testMasterDimmer");
 		dmx.offline();
 		Map<Integer,Integer> values;
 		
