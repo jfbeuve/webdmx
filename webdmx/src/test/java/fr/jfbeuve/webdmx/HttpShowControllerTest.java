@@ -40,7 +40,7 @@ public class HttpShowControllerTest {
 	public void testHttpControllers() throws Exception {
 		System.out.println("###### testHttpControllers");
 		DmxDimmer.MASTER.value(255);
-		show.autoColorTime=180000;
+		show.autocolor(180000);
 		show.fade(2000);
 		Show.CHASEMIX.reset();
 		

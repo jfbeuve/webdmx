@@ -42,6 +42,9 @@ button:click {
 	position: absolute;
 	right: 20px;
 }
+.macro button{
+	height: 80px;
+}
 .active {
     background-color: grey;
     color: white;

@@ -15,7 +15,7 @@ function shown(name){
 function snapshow(){
 	$("#speedsel").val("400");
 	speedsel();
-	shown('CHASE');
+	shown('CHASEMIX');
 }
 function fadeshow(){
 	if($("#snap").hasClass("active")) snap();
@@ -23,7 +23,7 @@ function fadeshow(){
 	speedsel();
 	$("#fadesel").val("2000");
 	fadesel();
-	shown('FADE');
+	shown('CHASEMIX');
 }
 function man(){
 	get("/speed/-1");
@@ -45,6 +45,15 @@ function tap(){
 	}
 	
 }
+function colorange(){
+	time = colorval(); 
+	printms($("#colorval"),time);
+}
+function colorval(){
+	var range = $("#colorange").val();
+	return 4000 + Math.round(176000 * range / 100);
+}
+
 function speedrange(){
 	var time = $("#speedsel").val();
 	var range = $("#speedrange").val();
@@ -89,6 +98,10 @@ function printms(o,v){
 		v = v / 1000;
 		u="s";
 	}
+	if(v>=60){
+		v = Math.round(v * 100 / 60) / 100;
+		u="m";
+	}
 	o.html(v+u);
 }
 /**
@@ -97,7 +110,9 @@ function printms(o,v){
 function color(){
 	var o = $("#color");
 	colorlist(o);
-	get('/color/'+style2color(o.val()));
+	var auto = -1;
+	if($('#autocolor').hasClass("active")) auto = colorval();
+	get('/color/'+style2color(o.val())+"/"+auto);
 }
 /**
  * Apply style change to a color list 
@@ -173,6 +188,13 @@ function solostrob(){
 	else 
 		btn.addClass("active");
 	solorange();
+}
+function autocolor(){
+	var btn = $("#autocolor");
+	if(btn.hasClass("active"))
+		 btn.removeClass("active");
+	else 
+		btn.addClass("active");
 }
 function solorange(){
 	var range = $("#solorange").val();

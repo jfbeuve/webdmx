@@ -39,8 +39,7 @@ public class ShowRunnerTest {
 		DmxDimmer.MASTER.value(255);
 		show.fade(2000);
 		show.color(RGBColor.MAUVE);
-		show.color(RGBColor.AUTO);
-		show.autoColorTime=3200;
+		show.autocolor(3200);
 		show.speed(1000);
 		show.start(Show.CHASEMIX);
 		

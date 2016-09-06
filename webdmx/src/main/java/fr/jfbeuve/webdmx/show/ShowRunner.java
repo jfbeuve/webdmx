@@ -61,8 +61,8 @@ public class ShowRunner {
 
 		// AUTO COLOR
 		if(colortime==0) colortime = System.currentTimeMillis();
-		if(autocolor){
-			if(System.currentTimeMillis()-colortime>autoColorTime){
+		if(autocolor>0){
+			if(System.currentTimeMillis()-colortime>autocolor){
 				colortime = System.currentTimeMillis();
 				RGBColor before = color;
 				//next color
@@ -136,18 +136,18 @@ public class ShowRunner {
 	private RGBColor color=RGBColor.MAUVE;
 	private RGBColor[] coldcolorseq = {RGBColor.CYAN, RGBColor.MAUVE, RGBColor.VERT, RGBColor.BLEU};
 	private RGBColor[] warmcolorseq = {RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.AMBRE};
-	public long autoColorTime=20000;
-	private boolean autocolor = true;
+	private long autocolor=20000;
+	public long autocolor(){
+		return autocolor;
+	}
+	public void autocolor(long time){
+		autocolor=time;
+	}
 	private long colortime=0;
 	/**
 	 * set background color
 	 **/
 	public void color(RGBColor _color) {
-		if(_color==RGBColor.AUTO){
-			autocolor=true;
-			return;
-		}
-		autocolor=false;
 		colortime = System.currentTimeMillis();
 		color = _color;
 		
