@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import fr.jfbeuve.webdmx.dmx.DmxOverrideMgr;
 import fr.jfbeuve.webdmx.dmx.DmxDimmer;
+import fr.jfbeuve.webdmx.dmx.DmxOverrideMgr;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
+import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.show.RGBColor;
 import fr.jfbeuve.webdmx.show.Show;
 import fr.jfbeuve.webdmx.show.ShowRunner;
@@ -23,6 +24,7 @@ public class MasterController {
 	@Autowired
 	private DmxWrapper io;
 	
+	//TODO /show/{name}/{speed}/{fade}
 	@RequestMapping("/show/{name}")
 	@ResponseBody
 	public String show(@PathVariable("name") String name) {
@@ -30,6 +32,7 @@ public class MasterController {
 		else show.start(Show.valueOf(name));
 		return "OK";
 	}
+	//TODO /color/{color}/{auto}
 	@RequestMapping("/color/{color}")
 	@ResponseBody
 	public String color(@PathVariable("color") String color) {
@@ -48,10 +51,10 @@ public class MasterController {
 		show.strobospeed(time);
 		return "OK";
 	}
-	@RequestMapping("/solo/{name}/{dim}")
+	@RequestMapping("/solo/{name}/{dim}/{strob}")
 	@ResponseBody
-	public String fixture(@PathVariable("name") String name, @PathVariable("dim") String dim) {
-		show.solo(new Solo(name,dim));
+	public String fixture(@PathVariable("name") RGBFixture name, @PathVariable("dim") int dim,@PathVariable("strob") boolean strob) {
+		show.solo(new Solo(name,dim,strob));
 		return "OK";
 	}
 	@RequestMapping("/fade/{time}")

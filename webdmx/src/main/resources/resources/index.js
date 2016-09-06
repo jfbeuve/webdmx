@@ -133,7 +133,7 @@ function fixture(o){
 	var btn = $("#"+o.id);
 	if(btn.hasClass("active")){
 		 btn.removeClass("active");
-		 get("/solo/"+o.id+"/-1");
+		 get("/solo/"+o.id+"/-1/false");
 	}
 	else {
 		var a = $("#fixture>button.active");
@@ -166,13 +166,22 @@ function snap(){
 		get("/fade/0");
 	}
 }
+function solostrob(){
+	var btn = $("#solostrob");
+	if(btn.hasClass("active"))
+		 btn.removeClass("active");
+	else 
+		btn.addClass("active");
+	solorange();
+}
 function solorange(){
 	var range = $("#solorange").val();
 	var dim = Math.round(255 * range / 100);
+	var strob = $("#solostrob").hasClass("active");
 	$("#solodimval").html(dim);
 	var a = $("#fixture>button.active");
 	if (a.length>0) {
-		get("/solo/"+a.get(0).id+"/"+dim);
+		get("/solo/"+a.get(0).id+"/"+dim+"/"+strob);
 	}
 }
 

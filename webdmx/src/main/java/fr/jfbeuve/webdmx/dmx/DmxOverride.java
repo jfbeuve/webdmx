@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.show.RGBColor;
+import fr.jfbeuve.webdmx.show.Solo;
 
 public class DmxOverride {
 	@JsonProperty
@@ -27,11 +28,18 @@ public class DmxOverride {
 		color = c;
 		dimmer = d;
 	}
-	public DmxOverride(RGBFixture f, RGBColor c, int d, long fa){
+	public DmxOverride(RGBFixture f, RGBColor c, int d, long _fade){
+		this(f,c,d,_fade, false);
+	}
+	public DmxOverride(Solo solo, RGBColor c, long _fade){
+		this(solo.f,c,solo.dim,_fade, solo.strob);
+	}
+	public DmxOverride(RGBFixture f, RGBColor c, int d, long _fade, boolean _strob){
 		fixtures = new String[]{f.toString()};
 		color = c.toString();
 		dimmer = d;
-		fade = fa;
+		this.fade = _fade;
+		this.strob = _strob;
 	}
 	public DmxOverride(RGBFixture f){
 		fixtures = new String[]{f.toString()};

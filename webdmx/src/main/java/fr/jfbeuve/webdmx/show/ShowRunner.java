@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import fr.jfbeuve.webdmx.dmx.DmxCue;
 import fr.jfbeuve.webdmx.dmx.DmxOverride;
 import fr.jfbeuve.webdmx.dmx.DmxOverrideMgr;
+import fr.jfbeuve.webdmx.dmx.DmxStrob;
 
 @Component
 public class ShowRunner {
@@ -95,9 +96,17 @@ public class ShowRunner {
 			}
 		}
 	}
+	
+	@Autowired
+	private DmxStrob solostrob;
+	
 	public void strobospeed(long s){
 		strobospeed = s;
+		solostrob.speed(strobospeed);
 		if(show!=null&&show.strob()) restart();
+	}
+	public long strobospeed(){
+		return strobospeed;
 	}
 	private long timestamp=0;
 	/**
@@ -163,8 +172,8 @@ public class ShowRunner {
 	}
 	private Solo solo=null;
 	public void solo(Solo s){
-		if(solo!=null){
-			// cancel previous override
+		if(solo!=null&&(solo.f!=s.f||s.dim<0)){
+			// cancel previous override only if <> fixture
 			dmx.reset(solo.f);
 			DmxCue cue = new DmxCue();
 			cue.set(solo.f, RGBColor.BLACK);
@@ -178,7 +187,9 @@ public class ShowRunner {
 			//set new override
 			boolean strob = false;
 			if(show!=null) strob = show.strob();
-			dmx.override(new DmxOverride(s.f,strob||bgblack||blackout?color:color.solo(),s.dim, fade));
+			boolean strobChangeOnly = false;
+			if(solo!=null&&solo.f==s.f&&solo.strob!=s.strob) strobChangeOnly=true;
+			dmx.override(new DmxOverride(s,strob||bgblack||blackout?color:color.solo(),strobChangeOnly?0:fade));
 			solo = s;
 		}
 	}

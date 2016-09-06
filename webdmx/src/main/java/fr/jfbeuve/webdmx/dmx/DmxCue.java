@@ -53,7 +53,6 @@ public class DmxCue {
 	}
 	public DmxCue reset(){
 		values = new Hashtable<Integer,Integer>();
-		override = false;
 		return this;
 	}
 	/**

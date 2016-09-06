@@ -34,7 +34,9 @@ public class DmxOverrideMgr {
 		Map<Integer,Integer> values = cue.get();
 		if(!cue.override()) for(Integer ch:override) values.remove(ch);
 		
-		if(fader!=null)fader.interupt();
+		// do not interrupts regular fading for overrides
+		if(fader!=null&&fade==0&&cue.override())fader.interupt(); 
+		
 		if(fade>0){ //FADE
 			fader = new DmxFader(dmx, values);
 			fader.fade(fade);
@@ -61,6 +63,10 @@ public class DmxOverrideMgr {
 	public void reset(RGBFixture f){
 		override.removeAll(f.channels());
 	}
+	
+	@Autowired
+	private DmxStrob strob;
+	
 	public void set(DmxOverride o){
 		RGBColor c = o.color();
 		DmxCue cue = new DmxCue(true);
@@ -84,6 +90,11 @@ public class DmxOverrideMgr {
 			cue.set(f.red(), c.red()*dim/255);
 			cue.set(f.green(), c.green()*dim/255);
 			cue.set(f.blue(), c.blue()*dim/255);
+			
+			if(f.type()==FixtureType.RGB3&&o.strob())
+				strob.start(f, c, dim);
+			else
+				strob.stop(f);
 		}
 		apply(o.fade(), cue);
 	}
