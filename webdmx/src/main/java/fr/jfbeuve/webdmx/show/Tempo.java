@@ -7,40 +7,52 @@ public class Tempo implements Runnable {
 	private static final Log log = LogFactory.getLog(Tempo.class);
 	
 	private ShowRunner show;
-	private long speed;
-	private boolean stop=false;
+	private long speed=-1;
 	private Thread thread=null;
 	
-	public Tempo(ShowRunner _show, long _speed){
-		speed=_speed;
+	public Tempo(ShowRunner _show){
 		show=_show;
 	}
 	
 	@Override
 	public void run() {
 		thread = Thread.currentThread();
-		log.info("START "+show.show()+" "+speed+" "+thread);
-		while(!stop){
+		while(thread!=null){
 			try {
 				Thread.sleep(speed);
 			} catch (InterruptedException e) {
 				log.debug(e, e);
-				log.info("INTERRUPT SLEEP");
+				log.info("INTERRUPTED SLEEP");
+				return;
 			}
-			if(stop)return;
-			if(!stop){
+			if(thread!=null){
 				log.info("NEXT");
 				show.next();
-			}else
-				log.info("INTERRUPT NEXT");
+			}
 		}
+		log.info("STOPPED");
 	}
 	
-	public synchronized void stop(){
-		if(stop) return;
+	/**
+	 * starts/stops/change speed
+	 */
+	public synchronized void go(long s){
+		if(speed==s) return;
+		if(thread!=null&&speed>-1) stop();
+		speed = s;
+		if(speed>-1) start();
+	}
+	private void start(){
+		show.next();
+		Thread t = new Thread(this);
+		log.info("START "+show.show()+" "+speed+" "+t);
+		t.start();
+	}
+	private void stop(){
 		log.info("INTERRUPT ASK "+thread);	
-		if(thread==null)System.out.println("oups!");
-		stop=true;
-		thread.interrupt();
+		if(thread!=null) {
+			thread.interrupt();
+			thread=null;
+		} 
 	}
 }

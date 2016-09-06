@@ -15,7 +15,8 @@ import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @Component
 public class DmxStrob implements Runnable{
-	private Thread t;
+	//TODO Junit DmxStrob
+	private Thread t=null;
 	private Set<Entry> fc = new HashSet<Entry>();
 	private static final Log log = LogFactory.getLog(DmxStrob.class);
 	private long speed=100;
@@ -25,10 +26,6 @@ public class DmxStrob implements Runnable{
 	
 	@Autowired
 	private DmxOverrideMgr dmx;
-	
-	public DmxStrob(){
-		t = new Thread(this);
-	}
 	
 	@Override
 	public void run() {
@@ -56,12 +53,16 @@ public class DmxStrob implements Runnable{
 			
 			on=!on;
 		}
+		t=null;
 	}
 	
-	public void start(RGBFixture f, RGBColor c, int d){
+	public synchronized void start(RGBFixture f, RGBColor c, int d){
 		remove(f);
 		fc.add(new Entry(f,c,d));
-		if(!t.isAlive()) t.start();
+		if(t==null) {
+			t = new Thread(this);
+			t.start();
+		}
 	}
 	
 	public void stop(RGBFixture f){

@@ -25,6 +25,10 @@ public class ShowRunner {
 	private long fade=2000;
 	private Show show=null;
 	
+	public ShowRunner(){
+		auto = new Tempo(this);
+	}
+	
 	/**
 	 * @return true if speed>fade time
 	 */
@@ -34,13 +38,7 @@ public class ShowRunner {
 	public void fade(long time) {
 		this.fade = time;
 	}
-	/**
-	 * stops autorun
-	 * @return true if stopped, false if already stopped
-	 */
-	public synchronized void stop(){
-		if(auto!=null) auto.stop();
-	}
+	
 	/**
 	 * starts/restarts autorun
 	 */
@@ -51,16 +49,9 @@ public class ShowRunner {
 		if(show!=null&&_show!=null&&show.strob()==_show.strob()) restart=false;
 		show = _show;
 		if(show!=null) show.color(color);
-		if(restart) restart();
+		if(restart) auto.go(show.strob()?strobospeed:speed);
 	}
 	
-	private synchronized void restart(){
-		if(show==null) return;
-		stop();
-		next();
-		auto = new Tempo(this, show.strob()?strobospeed:speed);
-		new Thread(auto).start();
-	}
 	/**
 	 * applies next step
 	 */
@@ -103,7 +94,7 @@ public class ShowRunner {
 	public void strobospeed(long s){
 		strobospeed = s;
 		solostrob.speed(strobospeed);
-		if(show!=null&&show.strob()) restart();
+		if(show!=null&&show.strob()) auto.go(strobospeed);
 	}
 	public long strobospeed(){
 		return strobospeed;
@@ -118,7 +109,7 @@ public class ShowRunner {
 		if(_speed==-1){
 			// PAUSE + TAP
 			timestamp = System.currentTimeMillis();
-			stop();
+			auto.go(-1);
 			next();
 			return;
 		}
@@ -139,7 +130,7 @@ public class ShowRunner {
 			speed = _speed;
 		// dmx runs at 44hz
 		if(speed<20)speed=20;
-		if(show!=null&&!show.strob()) restart();
+		if(show!=null&&!show.strob()) auto.go(speed);
 	}
 	
 	private RGBColor color=RGBColor.MAUVE;
@@ -195,7 +186,7 @@ public class ShowRunner {
 	}
 	boolean blackout = true;
 	public void blackout(){
-		stop();
+		auto.go(-1);
 		dmx.blackout(fade);
 		blackout=true;
 	}
@@ -208,5 +199,8 @@ public class ShowRunner {
 	}
 	public Show show() {
 		return show;
+	}
+	public void stop(){
+		auto.go(-1);
 	}
 }
