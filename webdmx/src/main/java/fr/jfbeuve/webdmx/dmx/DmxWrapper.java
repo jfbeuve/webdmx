@@ -78,9 +78,11 @@ public class DmxWrapper {
 	/**
 	 * Sets all channels to 0
 	 */
-	public void blackout(DmxCue cue){
+	public DmxCue blackout(DmxOverrideMgr cue){
+		DmxCue toReturn = new DmxCue();
 		for(Integer channelId:output.keySet()){
-			cue.set(channelId, 0);
+			toReturn.set(channelId, 0);
 		}
+		return toReturn;
 	}
 }

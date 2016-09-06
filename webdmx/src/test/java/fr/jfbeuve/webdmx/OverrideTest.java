@@ -10,6 +10,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.jfbeuve.webdmx.dmx.DmxCue;
+import fr.jfbeuve.webdmx.dmx.DmxOverrideMgr;
 import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxOverride;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
@@ -22,19 +23,18 @@ public class OverrideTest {
 	@Autowired
 	private DmxWrapper dmx;
 	@Autowired
-	private DmxCue cue;
+	private DmxOverrideMgr cue;
 	
 	@Test
 	public void testOverride() throws Exception {
 		System.out.println("###### testOverride");
 		dmx.offline();
 		DmxDimmer.MASTER.value(255);
+		DmxCue values = new DmxCue();
 		
 		// SET INITIAL STATE 
-		cue.set(11,255);
-		cue.set(17,127);
-		cue.set(24,127);
-		cue.apply(0);
+		values.set(11,255).set(17,127).set(24,127);
+		cue.apply(0,values);
 		assertEquals(255,dmx.get(11).value());
 		assertEquals(127,dmx.get(17).value());
 		assertEquals(127,dmx.get(24).value());
@@ -48,10 +48,9 @@ public class OverrideTest {
 		assertEquals(200,dmx.get(25).value());
 		
 		// REGULAR DMX UPDATE DO NOT INFLUENCE OVERRIDDEN CHANNELS
-		cue.set(13,255);
-		cue.set(26,255);
-		cue.set(29,255); // the only one updated
-		cue.apply(0);
+		values.reset().set(13,255).set(26,255);
+		values.set(29,255); // the only one updated
+		cue.apply(0,values);
 		assertEquals(0,dmx.get(13).value());
 		assertEquals(0,dmx.get(26).value());
 		assertEquals(255,dmx.get(29).value()); // the only one updated
@@ -70,10 +69,8 @@ public class OverrideTest {
 		
 		// CANCEL OVERRIDES
 		cue.reset();
-		cue.set(17,100);
-		cue.set(28,100);
-		cue.set(29,100); 
-		cue.apply(0);
+		values.reset().set(17,100).set(28,100).set(29,100); 
+		cue.apply(0,values);
 		assertEquals(100,dmx.get(17).value());
 		assertEquals(100,dmx.get(28).value());
 		assertEquals(100,dmx.get(29).value()); // the only one updated

@@ -7,13 +7,14 @@ import org.springframework.stereotype.Component;
 
 import fr.jfbeuve.webdmx.dmx.DmxCue;
 import fr.jfbeuve.webdmx.dmx.DmxOverride;
+import fr.jfbeuve.webdmx.dmx.DmxOverrideMgr;
 
 @Component
 public class ShowRunner {
 	private static final Log log = LogFactory.getLog(ShowRunner.class);	
 	
 	@Autowired
-	private DmxCue dmx;
+	private DmxOverrideMgr dmx;
 	
 	private Tempo auto;
 
@@ -80,9 +81,9 @@ public class ShowRunner {
 			}
 		}
 		
-		show.next(dmx,this);
-		if(speed<fade||show.strob()) dmx.apply(0);
-		else dmx.apply(fade);
+		DmxCue cue = show.next(this);
+		if(speed<fade||show.strob()) dmx.apply(0,cue);
+		else dmx.apply(fade,cue);
 	}
 	private void autoColorNext(RGBColor[] colorseq){
 		for(int i=0;i<colorseq.length;i++){
@@ -165,8 +166,9 @@ public class ShowRunner {
 		if(solo!=null){
 			// cancel previous override
 			dmx.reset(solo.f);
-			dmx.set(solo.f, RGBColor.BLACK);
-			dmx.apply(0);
+			DmxCue cue = new DmxCue();
+			cue.set(solo.f, RGBColor.BLACK);
+			dmx.apply(0,cue);
 		}
 
 		if(s.dim<0) {

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import fr.jfbeuve.webdmx.dmx.DmxCue;
+import fr.jfbeuve.webdmx.dmx.DmxOverrideMgr;
 import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.show.RGBColor;
@@ -17,7 +17,7 @@ import fr.jfbeuve.webdmx.show.Solo;
 @Controller
 public class MasterController {
 	@Autowired
-	private DmxCue dmx;
+	private DmxOverrideMgr dmx;
 	@Autowired
 	private ShowRunner show;
 	@Autowired

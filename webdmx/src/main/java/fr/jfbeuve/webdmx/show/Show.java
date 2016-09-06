@@ -76,7 +76,8 @@ public enum Show {
 	private long timestamp = 0;
 	private int solo = 0;
 	
-	public void next(DmxCue dmx, ShowRunner run){
+	public DmxCue next(ShowRunner run){
+		
 		if(this==FADE||this==CHASE||this==CHASEMIX){
 			if(run.bgblack()&&step==0) step =1;
 		}
@@ -99,6 +100,7 @@ public enum Show {
 			log.info("STEP "+step);
 		}
 		
+		DmxCue dmx = new DmxCue();
 		for (int i=0;i<rgb.length;i++) {
 			boolean[] cue = cues[step];
 			RGBColor toColor = cue[i]?bgColor.solo():bgColor;
@@ -115,6 +117,8 @@ public enum Show {
 		step++;
 		if(step==cues.length)step=0;
 		if(this==ON||this==OFF) run.stop();
+		
+		return dmx;
 	}
 	
 	public void color(RGBColor _color) {

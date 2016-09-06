@@ -74,7 +74,7 @@ public class HttpShowControllerTest {
 		//BLACKOUT
 		entity = new TestRestTemplate().getForEntity("http://localhost/show/blackout", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
-		Thread.sleep(2000);
+		Thread.sleep(2100);
 		assertBlackout();
 	}
 	private void assertColors(RGBColor a, RGBColor b, RGBColor c, RGBColor d){

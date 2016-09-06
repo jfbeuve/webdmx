@@ -12,8 +12,9 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxCue;
+import fr.jfbeuve.webdmx.dmx.DmxDimmer;
+import fr.jfbeuve.webdmx.dmx.DmxOverrideMgr;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,25 +27,24 @@ public class DmxFaderTest {
 	private DmxWrapper dmx;
 	
 	@Autowired
-	private DmxCue cue;
+	private DmxOverrideMgr cue;
 	
 	@Test
 	public void testFader() throws Exception {
 		System.out.println("###### testFader");
 		dmx.offline();
 		dmx.dim(DmxDimmer.MASTER, 127);
+		DmxCue values = new DmxCue();
 		
 		//SNAP
-		cue.set(11,255);
-		cue.set(17,255);
-		cue.apply(0);
+		values.set(11,255).set(17,255);
+		cue.apply(0, values);
 		assertEquals(255,dmx.get(11).value());
 		assertEquals(127,dmx.get(17).value());
 
 		//FADE
-		cue.set(11,127);
-		cue.set(17,127);
-		cue.apply(2000);
+		values.reset().set(11,127).set(17,127);
+		cue.apply(2000, values);
 		Thread.sleep(1000);
 		log.info("#### ASSERT 2 "+dmx.get(11).value()+" / "+dmx.get(17).value());
 		assertTrue(dmx.get(11).value()>190&&dmx.get(11).value()<210);

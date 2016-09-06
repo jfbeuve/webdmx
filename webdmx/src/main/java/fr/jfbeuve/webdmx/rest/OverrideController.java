@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.jfbeuve.webdmx.dmx.DmxCue;
+import fr.jfbeuve.webdmx.dmx.DmxOverrideMgr;
 import fr.jfbeuve.webdmx.dmx.DmxOverride;
 
 @RestController
@@ -16,7 +16,7 @@ public class OverrideController {
 	//{"fixtures":["PAR1"],"color":"ROUGE","dimmer":255,"fade":0}
 	
 	@Autowired
-	private DmxCue cue;
+	private DmxOverrideMgr cue;
 	
 	@RequestMapping(value = "/override", method = RequestMethod.POST,consumes="application/json")
 	public ResponseEntity<String> override(@RequestBody final DmxOverride o) {
