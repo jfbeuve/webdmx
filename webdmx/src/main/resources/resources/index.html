@@ -12,26 +12,15 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
 		<title>Web DMX</title>
 		<link rel="stylesheet" href="index.css" />
+		<!--link rel="apple-touch-icon" href="apple-touch-icon-iphone.png"-->
+		<!--link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png"-->
+		<!--link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png"-->
+		<!--link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png"-->
 		<script src="jquery.min.js"></script>
 	</head>
 	<body>
 
 		<div class="section" id="master">
-			MASTER
-			<select onchange="show()" id="show" size="1">
-				<option value=""> - SHOW - </option>
-				<option value="CHASEMIX">CHASE MIX</option>
-				<option value="CHASE">CHASE</option>
-				<option value="FADE">FADING</option>
-				<option value="STROBO">STROBOSCOPE</option>
-				<option value="FLASH">FLASH</option>
-				<option value="STROBOCHASE">STROBOCHASE</option>
-				<option value="ON">FULL ON</option>
-				<option value="OFF">FULL OFF</option>
-				<option value="blackout">BLACKOUT</option>
-			</select>
-
-			<br/>
 			<div class="macro">
 				<button onclick="shown('blackout')">
 					BLACKOUT
@@ -47,6 +36,19 @@
 				</button>
 			</div>
 			<br/>
+			<select onchange="show()" id="show" size="1">
+				<option value=""> - SHOW - </option>
+				<option value="CHASEMIX">CHMIX</option>
+				<option value="CHASE">CHASE</option>
+				<option value="FADE">FADING</option>
+				<option value="STROBO">STROB</option>
+				<option value="FLASH">FLASH</option>
+				<option value="STROBOCHASE">STROBCH</option>
+				<option value="ON">FULL ON</option>
+				<option value="OFF">FULL OFF</option>
+				<option value="blackout">BLACKOUT</option>
+			</select>
+
 			<input type="range" value="100" id="masterdim" onchange="masterdim(this)"/>
 			<label id="masterdimval" class="rangelabel">255</label>
 
@@ -62,6 +64,18 @@
 		<br/>
 
 		<div class="section">
+			<div id="colorpicker">
+				<div id="red" class="red" onclick="setcolor('red')"> </div>
+				<div id="green" class="green" onclick="setcolor('green')"> </div>
+				<div id="blue" class="blue" onclick="setcolor('blue')"> </div>
+				<div id="violet" class="violet" onclick="setcolor('violet')"> </div>
+				<div id="yellow" class="yellow" onclick="setcolor('yellow')"> </div>
+				<div id="cyan" class="cyan" onclick="setcolor('cyan')"> </div>
+				<div id="orange" class="orange" onclick="setcolor('orange')"> </div>
+				<div id="white" class="white" onclick="setcolor('white')"> </div>
+				<div id="black" class="black" onclick="setcolor('black')"> </div>
+			</div>
+			<br/>
 			<select onchange="color()" id="color" size="1">
 				<option value="" class="white"> - COLOR - </option>
 				<option value="red" class="red">ROUGE</option>
@@ -80,7 +94,8 @@
 			<button onclick="autocolor()" id="autocolor" class="active">
 				AUTO
 			</button>
-			<input type="range" value="9" id="colorange" onchange="colorange()"/><label id="colorval" class="rangelabel">20s</label>
+			<input type="range" value="9" id="colorange" onchange="colorange()"/>
+			<label id="colorval" class="rangelabel">20s</label>
 		</div>
 		<div class="section" id="solo">
 			SOLO

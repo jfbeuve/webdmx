@@ -110,9 +110,14 @@ function printms(o,v){
 function color(){
 	var o = $("#color");
 	colorlist(o);
+	if(o.val()=="") return;
 	var auto = -1;
 	if($('#autocolor').hasClass("active")) auto = colorval();
 	get('/color/'+style2color(o.val())+"/"+auto);
+}
+function setcolor(c){
+	$("#color").val(c);
+	color();
 }
 /**
  * Apply style change to a color list 
