@@ -14,6 +14,9 @@ import fr.jfbeuve.webdmx.dmx.DmxOverrideMgr;
 import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxOverride;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
+import fr.jfbeuve.webdmx.fixture.RGBFixture;
+import fr.jfbeuve.webdmx.show.RGBColor;
+import fr.jfbeuve.webdmx.show.Solo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Start.class)
@@ -74,6 +77,25 @@ public class OverrideTest {
 		assertEquals(100,dmx.get(17).value());
 		assertEquals(100,dmx.get(28).value());
 		assertEquals(100,dmx.get(29).value()); // the only one updated
+		
+		// SOLO STROB
+		Solo s = new Solo(RGBFixture.PAR1,255,true);
+		cue.override(new DmxOverride(s,RGBColor.ROUGE,0));
+		Thread.sleep(1);
+		System.out.println("SOLO STROB ASSERT 1");
+		assertEquals(255,dmx.get(24).value());
+		Thread.sleep(100);
+		System.out.println("SOLO STROB ASSERT 2");
+		assertEquals(0,dmx.get(24).value());
+		Thread.sleep(100);
+		System.out.println("SOLO STROB ASSERT 3");
+		assertEquals(255,dmx.get(24).value());
+		Thread.sleep(100);
+		System.out.println("SOLO STROB ASSERT 4");
+		assertEquals(0,dmx.get(24).value());
+		
+		// TEST END
+		cue.blackout(0);
 	}
 
 }

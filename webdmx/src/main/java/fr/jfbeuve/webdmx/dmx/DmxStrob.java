@@ -1,8 +1,8 @@
 package fr.jfbeuve.webdmx.dmx;
 
-import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,7 +17,7 @@ import fr.jfbeuve.webdmx.show.ShowRunner;
 public class DmxStrob implements Runnable{
 	//TODO Junit DmxStrob
 	private Thread t=null;
-	private Set<Entry> fc = new HashSet<Entry>();
+	private Map<RGBFixture, Entry> fc = new Hashtable<RGBFixture, Entry>();
 	private static final Log log = LogFactory.getLog(DmxStrob.class);
 	private long speed=100;
 	
@@ -36,7 +36,7 @@ public class DmxStrob implements Runnable{
 		while(!fc.isEmpty()){
 			cue.reset();
 			
-			for(Entry e: fc){ 
+			for(Entry e: fc.values()){ 
 				if(on){ 
 					cue.set(e.f.red(), e.r);
 					cue.set(e.f.green(), e.g);
@@ -58,7 +58,7 @@ public class DmxStrob implements Runnable{
 	
 	public synchronized void start(RGBFixture f, RGBColor c, int d){
 		remove(f);
-		fc.add(new Entry(f,c,d));
+		fc.put(f,new Entry(f,c,d));
 		if(t==null) {
 			t = new Thread(this);
 			t.start();
@@ -70,11 +70,7 @@ public class DmxStrob implements Runnable{
 	}
 	
 	private void remove(RGBFixture f){
-		Iterator<Entry> iter = fc.iterator();
-		while(iter.hasNext()){
-			Entry e = iter.next();
-			if(e.f==f) iter.remove();
-		}
+		fc.remove(f);
 	}
 	
 	public class Entry {
