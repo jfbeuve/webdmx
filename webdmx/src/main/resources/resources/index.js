@@ -184,11 +184,11 @@ function style2color(style) {
 /**
  * ajax post and style change on override fixture select/unselect
  */
-function fixture(o) {
-	var btn = $("#" + o.id);
+function fixture(name) {
+	var btn = $("#" + name);
 	if (btn.hasClass("active")) {
 		btn.removeClass("active");
-		get("/solo/" + o.id + "/-1/false");
+		get("/solo/" + name + "/-1/false");
 	} else {
 		var a = $("#fixture>button.active");
 		if (a.length > 0) {
@@ -277,6 +277,17 @@ function masterdim(o) {
 	$("#masterdimval").html(val);
 }
 
+function setcolortap(name){
+	$("#"+name).bind("tap", function(e) {
+		setcolor(name);
+	});
+}
+
+function setfixturetap(name){
+	$("#"+name).bind("tap", function(e) {
+		fixture(name);
+	});
+}
 
 $("#man").bind("tap", function(e) {
 	man();
@@ -284,5 +295,52 @@ $("#man").bind("tap", function(e) {
 
 $("#tap").bind("tap", function(e) {
 	tap();
+});
+
+$("#blackout").bind("tap", function(e) {
+	shown('blackout');
+});
+
+$("#flash").bind("tap", function(e) {
+	shown('FLASH');
+});
+
+$("#snapshow").bind("tap", function(e) {
+	snapshow();
+});
+
+$("#fadeshow").bind("tap", function(e) {
+	fadeshow();
+});
+
+setcolortap('red');
+setcolortap('green');
+setcolortap('blue');
+setcolortap('violet');
+setcolortap('yellow');
+setcolortap('cyan');
+setcolortap('orange');
+setcolortap('white');
+setcolortap('black');
+
+$("#bgblack").bind("tap", function(e) {
+	bgblack();
+});
+
+$("#autocolor").bind("tap", function(e) {
+	autocolor();
+});
+
+setfixturetap('PAR1');
+setfixturetap('PAR2');
+setfixturetap('PAR3');
+setfixturetap('PAR4');
+
+$("#solostrob").bind("tap", function(e) {
+	solostrob();
+});
+
+$("#snap").bind("tap", function(e) {
+	snap();
 });
 

@@ -25,16 +25,16 @@
 
 		<div class="section" id="master">
 			<div class="macro">
-				<button onclick="shown('blackout')">
+				<button id="blackout">
 					BLACKOUT
 				</button>
-				<button onclick="shown('FLASH')">
+				<button id="flash">
 					FLASH
 				</button>
-				<button onclick="snapshow()">
+				<button id="snapshow">
 					SNAP
 				</button>
-				<button onclick="fadeshow()">
+				<button id="fadeshow">
 					FADE
 				</button>
 			</div>
@@ -68,15 +68,15 @@
 
 		<div class="section">
 			<div id="colorpicker">
-				<div id="red" class="red" onclick="setcolor('red')"> </div>
-				<div id="green" class="green" onclick="setcolor('green')"> </div>
-				<div id="blue" class="blue" onclick="setcolor('blue')"> </div>
-				<div id="violet" class="violet" onclick="setcolor('violet')"> </div>
-				<div id="yellow" class="yellow" onclick="setcolor('yellow')"> </div>
-				<div id="cyan" class="cyan" onclick="setcolor('cyan')"> </div>
-				<div id="orange" class="orange" onclick="setcolor('orange')"> </div>
-				<div id="white" class="white" onclick="setcolor('white')"> </div>
-				<div id="black" class="black" onclick="setcolor('black')"> </div>
+				<div id="red" class="red"> </div>
+				<div id="green" class="green"> </div>
+				<div id="blue" class="blue"> </div>
+				<div id="violet" class="violet"> </div>
+				<div id="yellow" class="yellow"> </div>
+				<div id="cyan" class="cyan"> </div>
+				<div id="orange" class="orange"> </div>
+				<div id="white" class="white"> </div>
+				<div id="black" class="black"> </div>
 			</div>
 			<br/>
 			<select onchange="color()" id="color" size="1" style="display: none">
@@ -91,10 +91,10 @@
 				<option value="white" class="white">BLANC</option>
 				<option value="black" class="black">NOIR</option>
 			</select>
-			<button onclick="bgblack()" id="bgblack">
+			<button id="bgblack">
 				&#9788;
 			</button>
-			<button onclick="autocolor()" id="autocolor">
+			<button id="autocolor">
 				AUTO
 			</button>
 			<input type="range" value="9" id="colorange" onchange="colorange()"/>
@@ -103,22 +103,22 @@
 		<div class="section" id="solo">
 			SOLO
 			<div id="fixture">
-				<button id="PAR1" onclick="fixture(this)">
+				<button id="PAR1">
 					1
 				</button>
-				<button id="PAR2" onclick="fixture(this)">
+				<button id="PAR2">
 					2
 				</button>
-				<button id="PAR3" onclick="fixture(this)">
+				<button id="PAR3">
 					3
 				</button>
-				<button id="PAR4" onclick="fixture(this)">
+				<button id="PAR4">
 					4
 				</button>
 			</div>
 			<input type="range" value="100" id="solorange" onchange="solorange()"/>
 			<label id="solodimval" class="rangelabel">255</label>
-			<button onclick="solostrob()" id="solostrob">
+			<button id="solostrob">
 				&#9889;
 			</button>
 		</div>
@@ -152,7 +152,7 @@
 			</select>
 			<input type="range" value="50" id="faderange" onchange="faderange()"/>
 			<label id="fadeval" class="rangelabel">1s</label>
-			<button onclick="snap()" id="snap">
+			<button id="snap">
 				SNAP
 			</button>
 		</div>
