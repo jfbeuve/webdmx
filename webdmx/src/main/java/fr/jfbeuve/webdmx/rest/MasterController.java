@@ -32,11 +32,16 @@ public class MasterController {
 		else show.start(Show.valueOf(name));
 		return "OK";
 	}
-	@RequestMapping("/color/{color}/{auto}")
+	@RequestMapping("/color/{color}")
 	@ResponseBody
-	public String color(@PathVariable("color") RGBColor color, @PathVariable("auto") long auto) {
-		show.autocolor(auto);
+	public String color(@PathVariable("color") RGBColor color) {
 		show.color(color);
+		return "OK";
+	}
+	@RequestMapping("/autocolor/{time}")
+	@ResponseBody
+	public String color(@PathVariable("time") long time) {
+		show.autocolor(time);
 		return "OK";
 	}
 	@RequestMapping("/speed/{time}")

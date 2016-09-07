@@ -33,6 +33,10 @@ button:click {
 	position: absolute;
 	right: 20px;
 }
+#solostrob{
+	position: absolute;
+	right: 20px;
+}
 #tap {
 	top: 110px;
 }

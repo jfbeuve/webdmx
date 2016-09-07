@@ -128,10 +128,7 @@ function color() {
 	colorlist(o);
 	if (o.val() == "")
 		return;
-	var auto = -1;
-	if ($('#autocolor').hasClass("active"))
-		auto = colorval();
-	get('/color/' + style2color(o.val()) + "/" + auto);
+	get('/color/' + style2color(o.val()));
 }
 
 function setcolor(c) {
@@ -235,10 +232,19 @@ function solostrob() {
 
 function autocolor() {
 	var btn = $("#autocolor");
-	if (btn.hasClass("active"))
+	if (btn.hasClass("active")){
 		btn.removeClass("active");
-	else
+		get('/autocolor/-1');
+	}else{
 		btn.addClass("active");
+		get('/autocolor/'+colorval());
+	}
+}
+function autocolorupd() {
+	var btn = $("#autocolor");
+	if (btn.hasClass("active")){
+		get('/autocolor/'+colorval());
+	}
 }
 
 function solorange() {

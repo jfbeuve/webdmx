@@ -164,7 +164,7 @@ public class ShowRunner {
 	private Solo solo=null;
 	public void solo(Solo s){
 		if(solo!=null&&(solo.f!=s.f||s.dim<0)){
-			// cancel previous override only if <> fixture
+			// cancel previous override
 			dmx.reset(solo.f);
 			DmxCue cue = new DmxCue();
 			cue.set(solo.f, RGBColor.BLACK);

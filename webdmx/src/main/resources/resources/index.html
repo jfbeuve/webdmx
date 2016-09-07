@@ -79,7 +79,7 @@
 				<div id="black" class="black" onclick="setcolor('black')"> </div>
 			</div>
 			<br/>
-			<select onchange="color()" id="color" size="1">
+			<select onchange="color()" id="color" size="1" style="display: none">
 				<option value="" class="white"> - COLOR - </option>
 				<option value="red" class="red">ROUGE</option>
 				<option value="green" class="green">VERT</option>
@@ -98,7 +98,7 @@
 				AUTO
 			</button>
 			<input type="range" value="9" id="colorange" onchange="colorange()"/>
-			<label id="colorval" class="rangelabel">20s</label>
+			<label id="colorval" class="rangelabel" onchange="autocolorupd()">20s</label>
 		</div>
 		<div class="section" id="solo">
 			SOLO

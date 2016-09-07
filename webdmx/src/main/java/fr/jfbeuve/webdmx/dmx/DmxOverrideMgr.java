@@ -91,10 +91,12 @@ public class DmxOverrideMgr {
 			cue.set(f.green(), c.green()*dim/255);
 			cue.set(f.blue(), c.blue()*dim/255);
 			
-			if(f.type()==FixtureType.RGB3&&o.strob())
-				strob.start(f, c, dim);
-			else
-				strob.stop(f);
+			if(f.type()==FixtureType.RGB3){
+				if(o.strob())
+					strob.start(f, c, dim);
+				else
+					strob.stop(f);
+			}
 		}
 		apply(o.fade(), cue);
 	}
@@ -102,6 +104,7 @@ public class DmxOverrideMgr {
 		DmxCue cue = new DmxCue();
 		for (RGBFixture f : o.fixtures()) {
 			override.removeAll(f.channels());
+			strob.stop(f);
 			if(f==RGBFixture.LEFT){
 				cue.set(f,RGBColor.BLACK);
 				apply(0, cue);

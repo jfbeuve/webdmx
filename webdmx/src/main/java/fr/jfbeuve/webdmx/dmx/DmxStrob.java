@@ -1,7 +1,6 @@
 package fr.jfbeuve.webdmx.dmx;
 
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -15,7 +14,6 @@ import fr.jfbeuve.webdmx.show.ShowRunner;
 
 @Component
 public class DmxStrob implements Runnable{
-	//TODO Junit DmxStrob
 	private Thread t=null;
 	private Map<RGBFixture, Entry> fc = new Hashtable<RGBFixture, Entry>();
 	private static final Log log = LogFactory.getLog(DmxStrob.class);
