@@ -23,12 +23,13 @@ public class DmxFader implements Runnable{
 			int currentValue = dmx.get(channel).value();
 			int targetValue = end.get(channel);
 			int value = targetValue - currentValue;
-			diff.put(channel, value);
+			if(currentValue!=targetValue) diff.put(channel, value);
 		}
 	}
 	public void fade(long _time){
 		time = _time;
-		log.info("FADING ASK "+time);
+		if(diff.isEmpty()) log.info("NOTHING TO FADE "+time);
+		else log.info("FADING ASK "+time);
 		thread = new Thread(this);
 		thread.start();
 	}
@@ -36,6 +37,10 @@ public class DmxFader implements Runnable{
 	private boolean done = false;
 	
 	public void run() {
+		if(diff.isEmpty()){
+			done=true;
+			return;
+		}
 		log.info("FADING START "+time+" "+thread);
 		long start = System.currentTimeMillis();
 		while(!done&&(System.currentTimeMillis()<start+time)){

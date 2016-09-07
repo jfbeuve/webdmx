@@ -17,7 +17,9 @@
 		<!--link rel="apple-touch-icon" sizes="76x76" href="touch-icon-ipad.png"-->
 		<!--link rel="apple-touch-icon" sizes="120x120" href="touch-icon-iphone-retina.png"-->
 		<!--link rel="apple-touch-icon" sizes="152x152" href="touch-icon-ipad-retina.png"-->
+		<link rel="apple-touch-icon" href="icon.gif">
 		<script src="jquery.min.js"></script>
+		<script src="tappy.js"></script>
 	</head>
 	<body>
 
@@ -54,10 +56,10 @@
 			<label id="masterdimval" class="rangelabel">255</label>
 
 			<div class="group">
-				<button onclick="man()" id="man">
+				<button id="man">
 					MAN
 				</button>
-				<button onclick="tap()" id="tap">
+				<button id="tap">
 					TAP
 				</button>
 			</div>
@@ -92,7 +94,7 @@
 			<button onclick="bgblack()" id="bgblack">
 				&#9788;
 			</button>
-			<button onclick="autocolor()" id="autocolor" class="active">
+			<button onclick="autocolor()" id="autocolor">
 				AUTO
 			</button>
 			<input type="range" value="9" id="colorange" onchange="colorange()"/>

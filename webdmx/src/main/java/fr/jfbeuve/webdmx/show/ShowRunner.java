@@ -82,7 +82,7 @@ public class ShowRunner {
 			if(color==colorseq[i]){
 				int a = i+1;
 				if(a==colorseq.length) a=0;
-				color = colorseq[i+1];
+				color = colorseq[a];
 				break;
 			}
 		}
@@ -136,7 +136,7 @@ public class ShowRunner {
 	private RGBColor color=RGBColor.MAUVE;
 	private RGBColor[] coldcolorseq = {RGBColor.CYAN, RGBColor.MAUVE, RGBColor.VERT, RGBColor.BLEU};
 	private RGBColor[] warmcolorseq = {RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.AMBRE};
-	private long autocolor=20000;
+	private long autocolor=-1;
 	public long autocolor(){
 		return autocolor;
 	}
