@@ -53,13 +53,17 @@ function tap() {
 }
 
 function colorange() {
-	time = colorval();
+	var btn = $("#autocolor");
+	var time = colorval();
+	if (btn.hasClass("active")){
+		get('/autocolor/'+time);
+	}
 	printms($("#colorval"), time);
 }
 
 function colorval() {
 	var range = $("#colorange").val();
-	return 4000 + Math.round(176000 * range / 100);
+	return Math.round(40000 * range / 100);
 }
 
 function speedrange() {
@@ -237,12 +241,6 @@ function autocolor() {
 		get('/autocolor/-1');
 	}else{
 		btn.addClass("active");
-		get('/autocolor/'+colorval());
-	}
-}
-function autocolorupd() {
-	var btn = $("#autocolor");
-	if (btn.hasClass("active")){
 		get('/autocolor/'+colorval());
 	}
 }

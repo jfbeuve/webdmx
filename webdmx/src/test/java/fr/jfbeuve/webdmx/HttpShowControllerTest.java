@@ -45,9 +45,9 @@ public class HttpShowControllerTest {
 		Show.CHASEMIX.reset();
 		
 		//SHOW
-		ResponseEntity<String> entity = new TestRestTemplate().getForEntity("http://localhost/speed/1000", String.class);
+		ResponseEntity<String> entity = new TestRestTemplate().getForEntity("http://localhost:8080/speed/1000", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
-		entity = new TestRestTemplate().getForEntity("http://localhost/show/CHASEMIX", String.class);
+		entity = new TestRestTemplate().getForEntity("http://localhost:8080/show/CHASEMIX", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		log.info("###### ASSERT 1");
 		assertColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE); //1
@@ -56,14 +56,14 @@ public class HttpShowControllerTest {
 		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.CYAN); //2
 		
 		//COLOR
-		entity = new TestRestTemplate().getForEntity("http://localhost/color/ROUGE", String.class);
+		entity = new TestRestTemplate().getForEntity("http://localhost:8080/color/ROUGE", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		Thread.sleep(1000);
 		log.info("###### ASSERT 3");
 		assertColors(RGBColor.ROUGE, RGBColor.JAUNE, RGBColor.JAUNE, RGBColor.ROUGE); //3
 		
 		//TAP
-		entity = new TestRestTemplate().getForEntity("http://localhost/speed/400", String.class);
+		entity = new TestRestTemplate().getForEntity("http://localhost:8080/speed/400", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		log.info("###### ASSERT 4");
 		assertColors(RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.JAUNE, RGBColor.ROUGE); //4
@@ -72,7 +72,7 @@ public class HttpShowControllerTest {
 		assertColors(RGBColor.ROUGE, RGBColor.JAUNE, RGBColor.ROUGE, RGBColor.JAUNE); //5
 		
 		//BLACKOUT
-		entity = new TestRestTemplate().getForEntity("http://localhost/show/blackout", String.class);
+		entity = new TestRestTemplate().getForEntity("http://localhost:8080/show/blackout", String.class);
 		assertEquals(HttpStatus.OK, entity.getStatusCode());
 		Thread.sleep(2100);
 		assertBlackout();

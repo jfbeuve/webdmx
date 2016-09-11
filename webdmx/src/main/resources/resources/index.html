@@ -97,8 +97,8 @@
 			<button id="autocolor">
 				AUTO
 			</button>
-			<input type="range" value="9" id="colorange" onchange="colorange()"/>
-			<label id="colorval" class="rangelabel" onchange="autocolorupd()">20s</label>
+			<input type="range" value="50" id="colorange" onchange="colorange()"/>
+			<label id="colorval" class="rangelabel">20s</label>
 		</div>
 		<div class="section" id="solo">
 			SOLO
@@ -125,34 +125,34 @@
 
 		<div class="section" id="speed">
 			SPEED
-			<select onchange="speedsel()" id="speedsel">
-				<option value="100">100ms</option>
+			<select onchange="speedsel()" id="speedsel" style="display: none">
 				<option value="400">400ms</option>
-				<option value="1000">1s</option>
 				<option value="4000" selected="selected">4s</option>
-				<option value="30000">30s</option>
 			</select>
-			<input type="range" value="50" id="speedrange" onchange="speedrange()"/>
-			<label id="speedval" class="rangelabel">4s</label>
-			<br/>
-			STROB
-			<input type="range" value="100" id="stroborange" onchange="strobospeed()"/>
-			<label id="stroboval" class="rangelabel">100ms</label>
+			<div class="container">
+				<input type="range" value="50" id="speedrange" onchange="speedrange()"/>
+				<label id="speedval" class="newrangelabel">4s</label>
+			</div>
+			<div class="container">
+				<input type="range" value="100" id="stroborange" onchange="strobospeed()"/>
+				<div class="newrangelabel">&#9889;<label id="stroboval">100ms</label></div>
+			</div>
 		</div>
 		<br/>
 		<div class="section" id="fade">
-			FADE TIME
-			<select onchange="fadesel()" id="fadesel">
+			FADE
+			<select onchange="fadesel()" id="fadesel" style="display: none">
 				<option value="0">0s</option>
-				<option value="500">500ms</option>
 				<option value="2000" selected="selected">2s</option>
 				<option value="5000">5s</option>
 				<option value="10000">10s</option>
 				<option value="30000">30s</option>
 			</select>
-			<input type="range" value="50" id="faderange" onchange="faderange()"/>
-			<label id="fadeval" class="rangelabel">1s</label>
-			<button id="snap">
+			<div class="container">
+				<input type="range" value="50" id="faderange" onchange="faderange()"/>
+				<label id="fadeval" class="rangelabel">2s</label>
+			</div>
+			<button id="snap" style="display: none">
 				SNAP
 			</button>
 		</div>
