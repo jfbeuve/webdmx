@@ -49,10 +49,7 @@ function tap() {
 		$("#speedsel").val("");
 		speedtap = Date.now() - timestamp;
 		timestamp = Date.now();
-		if (speedtap > 10000)
-			speedtap = 0;
-		else
-			printms($("#speedval"), speedtap);
+		printms($("#speedval"), speedtap);
 	}
 
 }

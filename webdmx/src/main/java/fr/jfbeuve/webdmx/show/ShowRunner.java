@@ -118,7 +118,7 @@ public class ShowRunner {
 				// adjust speed
 				long newspeed =  System.currentTimeMillis() - timestamp;
 				timestamp = System.currentTimeMillis();
-				if(newspeed<10000) speed = newspeed;
+				speed = newspeed;
 			} else {
 				// record timestamp
 				timestamp = System.currentTimeMillis();
