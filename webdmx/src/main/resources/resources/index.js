@@ -14,24 +14,65 @@ function shown(name) {
 	show();
 }
 
+var snaprec = {
+	tap:-1,
+	speedsel : 400,
+	speedrange: 50,
+};
+
+var faderec = {
+	tap:-1,
+	speedsel : 4000,
+	speedrange: 50,
+};
+
+function taprec(time){
+	console.log('taprec.'+curshow+'('+time+')');
+	if(curshow=="snap") snaprec.tap = time;
+	if(curshow=="fade") faderec.tap = time;
+}
+
+function speedrec(range, sel){
+	if(curshow=="snap") {
+		console.log('snaprec('+range+','+sel+')');
+		snaprec.speedrange = range;
+		snaprec.speedsel = sel;
+	}
+	if(curshow=="fade"){
+		console.log('faderec('+range+','+sel+')');
+		faderec.speedrange = range;
+		faderec.speedsel = sel;
+	} 
+}
+
+var curshow = "other";
+
 function snapshow() {
-	$("#speedsel").val("400");
-	fadeshowspeedrange = showspeedrange;
-	showspeedrange = snapshowspeedrange;
-	speedsel();
+	curshow="snap";
+	if(snaprec.tap>-1){ 
+		speedtap = snaprec.tap;
+		$("#speedsel").val("");
+		$("#speedrange").val(50);
+	}else{
+		$("#speedsel").val(snaprec.speedsel);
+		$("#speedrange").val(snaprec.speedrange);
+	}
+	speedrange();
 	shown('CHASEMIX');
 }
 
-var fadeshowspeedrange = 50;
-var snapshowspeedrange = 50;
-var showspeedrange = 50;
-
 function fadeshow() {
+	curshow="fade";
+	if(faderec.tap>-1){ 
+		speedtap = faderec.tap;
+		$("#speedsel").val("");
+		$("#speedrange").val(50);
+	}else {
+		$("#speedsel").val(faderec.speedsel);
+		$("#speedrange").val(faderec.speedrange);
+	}
+	speedrange();
 	if ($("#snap").hasClass("active")) snap();
-	$("#speedsel").val("4000");
-	snapshowspeedrange = showspeedrange;
-	showspeedrange = fadeshowspeedrange;
-	speedsel();
 	shown('CHASEMIX');
 }
 
@@ -49,7 +90,8 @@ function tap() {
 		$("#speedsel").val("");
 		speedtap = Date.now() - timestamp;
 		timestamp = Date.now();
-		printms($("#speedval"), speedtap);
+		$("#speedrange").val(50);
+		speedrange();
 	}
 
 }
@@ -71,8 +113,13 @@ function colorval() {
 function speedrange() {
 	var time = $("#speedsel").val();
 	var range = $("#speedrange").val();
-	if (speedtap > 0 && time == "")
+	speedrec(range,time);
+	if (speedtap > 0 && time == null){
 		time = speedtap;
+		taprec(time);
+	} else {
+		taprec(-1);
+	};
 	if (time != "") {
 		if (range == 0)
 			range = 1;
@@ -90,7 +137,7 @@ function strobospeed() {
 }
 
 function speedsel() {
-	$("#speedrange").val(showspeedrange);
+	$("#speedrange").val(50);
 	speedrange();
 }
 
