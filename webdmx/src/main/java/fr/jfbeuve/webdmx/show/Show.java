@@ -79,7 +79,7 @@ public enum Show {
 	public DmxCue next(ShowRunner run){
 		
 		if(this==FADE||this==CHASE||this==CHASEMIX){
-			if(run.bgblack()&&step==0) step =1;
+			if((run.bgblack()||bgColor==RGBColor.BLACK)&&step==0) step =1;
 		}
 		
 		if(this==CHASEMIX&&run.fade()){
