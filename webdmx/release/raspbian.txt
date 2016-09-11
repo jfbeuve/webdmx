@@ -16,6 +16,15 @@ Append to /etc/wpa_supplicant/wpa_supplicant.conf
 network={
         ssid="JFBOX"
         psk="01043A0480C483A7E09A37A6FF"
+        id_str="home"
+        priority=1
+}
+
+network={
+        ssid="JFMIX"
+        psk="canaljfb"
+        id_str="mix"
+        priority=2
 }
 
 sudo reboot

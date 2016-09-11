@@ -62,6 +62,7 @@ public class DmxOverrideMgr {
 	 */
 	public void reset(RGBFixture f){
 		override.removeAll(f.channels());
+		strob.stop(f);
 	}
 	
 	@Autowired
