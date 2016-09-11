@@ -16,17 +16,22 @@ function shown(name) {
 
 function snapshow() {
 	$("#speedsel").val("400");
+	fadeshowspeedrange = showspeedrange;
+	showspeedrange = snapshowspeedrange;
 	speedsel();
 	shown('CHASEMIX');
 }
 
+var fadeshowspeedrange = 50;
+var snapshowspeedrange = 50;
+var showspeedrange = 50;
+
 function fadeshow() {
-	if ($("#snap").hasClass("active"))
-		snap();
+	if ($("#snap").hasClass("active")) snap();
 	$("#speedsel").val("4000");
+	snapshowspeedrange = showspeedrange;
+	showspeedrange = fadeshowspeedrange;
 	speedsel();
-	$("#fadesel").val("2000");
-	fadesel();
 	shown('CHASEMIX');
 }
 
@@ -88,7 +93,7 @@ function strobospeed() {
 }
 
 function speedsel() {
-	$("#speedrange").val(50);
+	$("#speedrange").val(showspeedrange);
 	speedrange();
 }
 
