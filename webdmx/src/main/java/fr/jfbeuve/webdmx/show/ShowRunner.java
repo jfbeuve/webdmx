@@ -163,24 +163,28 @@ public class ShowRunner {
 	}
 	private Solo solo=null;
 	public void solo(Solo s){
-		if(solo!=null&&(solo.f!=s.f||s.dim<0)){
+		boolean cancel = s.dim<0;
+		boolean change = solo!=null&&solo.f!=s.f; 
+		
+		if(cancel||change){
 			// cancel previous override
 			dmx.reset(solo.f);
 			DmxCue cue = new DmxCue();
 			cue.set(solo.f, RGBColor.BLACK);
-			dmx.apply(0,cue);
+			if(change) dmx.apply(0,cue);
+			if(cancel) {
+				dmx.apply(fade,cue);
+				solo = null;
+			}
 		}
 
-		if(s.dim<0) {
-			// cancel override only
-			solo = null;
-		} else {
+		if(!cancel) {
 			//set new override
 			boolean strob = false;
 			if(show!=null) strob = show.strob();
 			boolean strobChangeOnly = false;
 			if(solo!=null&&solo.f==s.f&&solo.strob!=s.strob) strobChangeOnly=true;
-			dmx.override(new DmxOverride(s,strob||bgblack||blackout?color:color.solo(),strobChangeOnly?0:fade));
+			dmx.override(new DmxOverride(s,strob||bgblack||blackout?color:color.solo(),strobChangeOnly||change?0:fade));
 			solo = s;
 		}
 	}

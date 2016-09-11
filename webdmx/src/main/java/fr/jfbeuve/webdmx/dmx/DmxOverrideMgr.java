@@ -21,7 +21,7 @@ public class DmxOverrideMgr {
 	@Autowired
 	private ShowRunner show;
 	
-	private DmxFader fader;
+	private DmxFader fader,solofader;
 	
 	private Set<Integer> override = new HashSet<Integer>();
 	
@@ -38,14 +38,21 @@ public class DmxOverrideMgr {
 		if(fader!=null&&fade==0&&cue.override())fader.interupt(); 
 		
 		if(fade>0){ //FADE
-			fader = new DmxFader(dmx, values);
-			fader.fade(fade);
+			if(cue.override()){
+				solofader = new DmxFader(dmx, values);
+				solofader.fade(fade);
+			}else{
+				fader = new DmxFader(dmx, values);
+				fader.fade(fade);
+			}
 		}else{ //SNAP
 			dmx.set(values);
 		}
 	}
+	
 	public void blackout(long time){
 		if(fader!=null)fader.interupt();
+		if(solofader!=null)solofader.interupt();
 		reset();
 		DmxCue cue = dmx.blackout(this);
 		apply(time,cue);

@@ -10,12 +10,13 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.jfbeuve.webdmx.dmx.DmxCue;
-import fr.jfbeuve.webdmx.dmx.DmxOverrideMgr;
 import fr.jfbeuve.webdmx.dmx.DmxDimmer;
 import fr.jfbeuve.webdmx.dmx.DmxOverride;
+import fr.jfbeuve.webdmx.dmx.DmxOverrideMgr;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.show.RGBColor;
+import fr.jfbeuve.webdmx.show.ShowRunner;
 import fr.jfbeuve.webdmx.show.Solo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,6 +28,8 @@ public class OverrideTest {
 	private DmxWrapper dmx;
 	@Autowired
 	private DmxOverrideMgr cue;
+	@Autowired
+	private ShowRunner run;
 	
 	@Test
 	public void testOverride() throws Exception {
@@ -97,5 +100,4 @@ public class OverrideTest {
 		// TEST END
 		cue.blackout(0);
 	}
-
 }
