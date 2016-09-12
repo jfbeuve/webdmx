@@ -182,6 +182,7 @@ function color() {
 	if (o.val() == "")
 		return;
 	get('/color/' + style2color(o.val()));
+	//TODO disable bgblack if color = black
 }
 
 function setcolor(c) {

@@ -90,7 +90,7 @@ public enum Show {
 		if(this==STROBOCHASE){
 			log.info("STEP "+step+ " SOLO "+solo);
 			if(timestamp==0) System.currentTimeMillis();
-			if(System.currentTimeMillis()-timestamp>4000){
+			if(System.currentTimeMillis()-timestamp>run.speed()){
 				timestamp = System.currentTimeMillis();
 				solo++;
 				if(solo>3) solo=0;

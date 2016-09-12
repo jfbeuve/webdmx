@@ -132,6 +132,10 @@ public class ShowRunner {
 		if(show!=null&&!show.strob()) auto.go(speed);
 	}
 	
+	public long speed(){
+		return speed;
+	}
+	
 	private RGBColor color=RGBColor.MAUVE;
 	private RGBColor[] colorseq = {RGBColor.CYAN, RGBColor.MAUVE, RGBColor.VERT, RGBColor.BLEU,RGBColor.JAUNE, RGBColor.ROUGE};
 	private long autocolor=-1;
