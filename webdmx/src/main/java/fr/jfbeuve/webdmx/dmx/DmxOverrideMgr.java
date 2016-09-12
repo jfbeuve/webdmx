@@ -34,14 +34,13 @@ public class DmxOverrideMgr {
 		Map<Integer,Integer> values = cue.get();
 		if(!cue.override()) for(Integer ch:override) values.remove(ch);
 		
-		// do not interrupts regular fading for overrides
-		if(fader!=null&&fade==0&&cue.override())fader.interupt(); 
-		
 		if(fade>0){ //FADE
 			if(cue.override()){
+				if(solofader!=null) solofader.interupt();
 				solofader = new DmxFader(dmx, values);
 				solofader.fade(fade);
 			}else{
+				if(fader!=null) fader.interupt();
 				fader = new DmxFader(dmx, values);
 				fader.fade(fade);
 			}
