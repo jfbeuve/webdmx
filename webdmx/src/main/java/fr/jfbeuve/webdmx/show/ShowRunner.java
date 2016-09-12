@@ -122,7 +122,6 @@ public class ShowRunner {
 			} else {
 				// record timestamp
 				timestamp = System.currentTimeMillis();
-				next();
 				return;
 			}
 		}else
@@ -175,7 +174,10 @@ public class ShowRunner {
 			cue.set(solo.f, RGBColor.BLACK);
 			if(change) dmx.apply(0,cue);
 			if(cancel) {
-				dmx.apply(fade,cue);
+				if(!auto.isRunning()||fade()) 
+					dmx.apply(fade,cue);
+				else 
+					dmx.apply(0,cue);
 				solo = null;
 			}
 		}
@@ -186,14 +188,14 @@ public class ShowRunner {
 			if(show!=null) strob = show.strob();
 			boolean strobChangeOnly = false;
 			if(solo!=null&&solo.f==s.f&&solo.strob!=s.strob) strobChangeOnly=true;
-			dmx.override(new DmxOverride(s,strob||bgblack||blackout?color:color.solo(),strobChangeOnly||change?0:fade));
+			dmx.override(new DmxOverride(s,strob||bgblack||blackout?color:color.solo(),strobChangeOnly||change||(auto.isRunning()&&!fade())?0:fade));
 			solo = s;
 		}
 	}
 	boolean blackout = true;
 	public void blackout(){
 		auto.go(-1);
-		dmx.blackout(fade);
+		dmx.blackout(fade()?fade:0);
 		blackout=true;
 	}
 	private boolean bgblack = false;

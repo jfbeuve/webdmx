@@ -27,6 +27,7 @@ var faderec = {
 };
 
 function taprec(time){
+	if(curshow=="fade") return;
 	console.log('taprec.'+curshow+'('+time+')');
 	if(curshow=="snap") snaprec.tap = time;
 	if(curshow=="fade") faderec.tap = time;
@@ -52,8 +53,9 @@ function snapshow() {
 	if(snaprec.tap>-1){ 
 		speedtap = snaprec.tap;
 		$("#speedsel").val("");
-		$("#speedrange").val(50);
+		$("#speedrange").val(snaprec.speedrange);
 	}else{
+		speedtap = -1;
 		$("#speedsel").val(snaprec.speedsel);
 		$("#speedrange").val(snaprec.speedrange);
 	}
@@ -66,13 +68,15 @@ function fadeshow() {
 	if(faderec.tap>-1){ 
 		speedtap = faderec.tap;
 		$("#speedsel").val("");
-		$("#speedrange").val(50);
+		$("#speedrange").val(faderec.speedrange);
 	}else {
+		speedtap = -1;
 		$("#speedsel").val(faderec.speedsel);
 		$("#speedrange").val(faderec.speedrange);
 	}
 	speedrange();
 	if ($("#snap").hasClass("active")) snap();
+	if ($("#bgblack").hasClass("active")) bgblack();
 	shown('CHASEMIX');
 }
 
@@ -91,7 +95,8 @@ function tap() {
 		speedtap = Date.now() - timestamp;
 		timestamp = Date.now();
 		$("#speedrange").val(50);
-		speedrange();
+		taprec(speedtap);
+		printms($("#speedval"), speedtap);
 	}
 
 }
@@ -116,14 +121,13 @@ function speedrange() {
 	speedrec(range,time);
 	if (speedtap > 0 && time == null){
 		time = speedtap;
-		taprec(time);
 	} else {
 		taprec(-1);
-	};
+	}
 	if (time != "") {
 		if (range == 0)
 			range = 1;
-		time = time * range / 50;
+		time = Math.round(time * range / 50);
 		get("/speed/" + time);
 		printms($("#speedval"), time);
 	}
