@@ -33,6 +33,7 @@ public class DmxFaderTest {
 	public void testFader() throws Exception {
 		System.out.println("###### testFader");
 		dmx.offline();
+		cue.blackout(0);
 		dmx.dim(DmxDimmer.MASTER, 127);
 		DmxCue values = new DmxCue();
 		
@@ -47,7 +48,7 @@ public class DmxFaderTest {
 		cue.apply(2000, values);
 		Thread.sleep(1000);
 		log.info("#### ASSERT 2 "+dmx.get(11).value()+" / "+dmx.get(17).value());
-		assertTrue(dmx.get(11).value()>190&&dmx.get(11).value()<210);
+		assertTrue(dmx.get(11).value()>180&&dmx.get(11).value()<200);
 		Thread.sleep(2500);
 		log.info("#### ASSERT 3 "+dmx.get(11).value()+" / "+dmx.get(17).value());
 		assertEquals(127,dmx.get(11).value());

@@ -9,6 +9,7 @@ public class Tempo implements Runnable {
 	private ShowRunner show;
 	private long speed=-1;
 	private Thread thread=null;
+	private boolean stop = false;
 	
 	public Tempo(ShowRunner _show){
 		show=_show;
@@ -18,16 +19,14 @@ public class Tempo implements Runnable {
 	public void run() {
 		thread = Thread.currentThread();
 		log.info("STARTING "+show.show()+" "+speed+" "+thread);
-		while(thread!=null){
+		stop=false;
+		while(!stop){
 			show.next();
 			try {
 				Thread.sleep(speed);
 			} catch (InterruptedException e) {
 				log.info("INTERRUPTED "+thread);
 				log.debug(e, e);
-				thread=null;
-				log.info("STOPPED");
-				return;
 			}
 		}
 		thread=null;
@@ -39,9 +38,9 @@ public class Tempo implements Runnable {
 	 */
 	public synchronized void go(long s){
 		if(speed==s) return;
-		if(thread!=null&&speed>-1) stop();
+		if(thread!=null) stop();
 		speed = s;
-		if(speed>-1) begin();
+		if(speed>0) begin();
 	}
 	private void begin(){
 		Thread t = new Thread(this);
@@ -55,11 +54,11 @@ public class Tempo implements Runnable {
 				log.debug(e, e);
 			}
 		}
-		
 	}
 	private void stop(){
 		log.info("INTERRUPT ASK "+thread);	
 		if(thread!=null) {
+			stop=true;
 			thread.interrupt();
 			while(thread!=null){
 				try {

@@ -13,11 +13,18 @@ public class DmxFader implements Runnable{
 	private long time;
 	
 	private Map<Integer,Integer> end;
-	private Map<Integer,Integer> diff = new HashMap<Integer,Integer>();
+	private Map<Integer,Integer> diff;
 	
-	public DmxFader(DmxWrapper _dmx, Map<Integer,Integer> _target){
+	public DmxFader(DmxWrapper _dmx){
 		dmx = _dmx;
+	}
+	
+	public synchronized void fade(long _time, Map<Integer,Integer> _target){
+		if(thread!=null) stop();
+		
 		end = _target;
+		time = _time;
+		diff = new HashMap<Integer,Integer>();
 		
 		for (Integer channel : end.keySet()) {
 			int currentValue = dmx.get(channel).value();
@@ -25,65 +32,72 @@ public class DmxFader implements Runnable{
 			int value = targetValue - currentValue;
 			if(currentValue!=targetValue) diff.put(channel, value);
 		}
+		
+		if(diff.isEmpty()) 
+			log.info("NOTHING TO FADE "+time);
+		else 
+			begin();
 	}
-	public void fade(long _time){
-		time = _time;
-		if(diff.isEmpty()) log.info("NOTHING TO FADE "+time);
-		else log.info("FADING ASK "+time);
-		thread = new Thread(this);
-		thread.start();
-	}
+	
 	private Thread thread=null;
-	private boolean done = false;
+	private boolean stop=false;
 	
 	public void run() {
-		if(diff.isEmpty()){
-			done=true;
-			return;
-		}
+		thread = Thread.currentThread();
 		log.info("FADING START "+time+" "+thread);
+		stop=false;
 		long start = System.currentTimeMillis();
-		while(!done&&(System.currentTimeMillis()<start+time)){
+		while(!stop&&(System.currentTimeMillis()<start+time)){
 			int rate = (int) ((System.currentTimeMillis() - start) * 255 / time);
-			log.debug("FADING "+rate+ "/255 ("+done+")");
+			log.debug("FADING "+rate+ "/255");
 			Map<Integer,Integer> values = new HashMap<Integer,Integer>();
 			for (Integer channel : diff.keySet()) {
 				int targetValue = end.get(channel);
 				int gap = diff.get(channel);
 				int newValue = targetValue - gap + gap*rate/255;
 				values.put(channel,newValue);
-				if(done){
-					log.info("INTERRUPT FADING at "+(System.currentTimeMillis()-start)+" / "+time);
-					return;
-				}
 			}
 			dmx.set(values);
 			try {
 				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				log.debug(e,e);
-				log.info("INTERRUPT SLEEP at "+(System.currentTimeMillis()-start)+" / "+time);
-				return;
-			}
-			if(done){
-				log.info("INTERRUPT AFTER SLEEP at "+(System.currentTimeMillis()-start)+" / "+time);
-				return;
+				log.info("INTERRUPTED at "+(System.currentTimeMillis()-start)+" / "+time);
 			}
 		}
 		
-		//ends up forcing final values in case step<>1 and i never ends up being 255
-		if(!done){
-			dmx.set(end);
-		}else{
-			log.info("INTERRUPT END");
-		}
+		//ends up forcing final values 
+		dmx.set(end);
 		log.info("FADING END");
-		done=true;
+		thread = null;
 	}
-	public void interupt(){
-		if(done)return;
-		log.info("INTERRUPT ASK "+thread);
-		done = true;
+	private void begin(){
+		Thread t = new Thread(this);
+		t.start();
+		while(thread==null){
+			try {
+				Thread.sleep(1);
+				log.debug("WAITING on "+thread+" TO START...");
+			} catch (InterruptedException e) {
+				log.debug(e, e);
+			}
+		}
+	}
+	private void stop(){
+		log.info("INTERRUPT ASK "+thread);	
+		stop=true;
 		thread.interrupt();
+		while(thread!=null){
+			try {
+				Thread.sleep(1);
+				log.debug("WAITING on "+thread+" TO STOP...");
+			} catch (InterruptedException e) {
+				log.debug(e, e);
+			}
+		}
 	}
+	public boolean running(){
+		return thread!=null;
+	}
+	
 }
