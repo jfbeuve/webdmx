@@ -172,7 +172,10 @@ public class ShowRunner {
 			dmx.reset(solo.f);
 			DmxCue cue = new DmxCue();
 			cue.set(solo.f, RGBColor.BLACK);
-			dmx.apply(0,cue);
+			if(cancel&&blackout&&!change) 
+				dmx.apply(fade,cue); // allow fade out
+			else 
+				dmx.apply(0,cue);
 			if(cancel) solo = null;
 		}
 
@@ -180,7 +183,7 @@ public class ShowRunner {
 			//set new override
 			boolean strob = false;
 			if(show!=null) strob = show.strob();
-			dmx.override(new DmxOverride(s,strob||bgblack||blackout?color:color.solo(),blackout&&!change?fade:0));
+			dmx.override(new DmxOverride(s,strob||bgblack||blackout?color:color.solo(),blackout&&!change?fade:0)); // allow fade in
 			solo = s;
 		}
 	}

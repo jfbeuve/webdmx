@@ -16,23 +16,21 @@ public class Tempo implements Runnable {
 	
 	@Override
 	public void run() {
-		if(thread!=null) {
-			log.warn("START "+show.show()+" "+speed+" "+thread+" ABORT!!");
-			return;
-		}
 		thread = Thread.currentThread();
-		log.info("START "+show.show()+" "+speed+" "+thread);
+		log.info("STARTING "+show.show()+" "+speed+" "+thread);
 		while(thread!=null){
-			log.info("NEXT");
 			show.next();
 			try {
 				Thread.sleep(speed);
 			} catch (InterruptedException e) {
+				log.info("INTERRUPTED "+thread);
 				log.debug(e, e);
-				log.info("INTERRUPTED SLEEP");
+				thread=null;
+				log.info("STOPPED");
 				return;
 			}
 		}
+		thread=null;
 		log.info("STOPPED");
 	}
 	
@@ -46,16 +44,24 @@ public class Tempo implements Runnable {
 		if(speed>-1) begin();
 	}
 	private void begin(){
-		//FIXME make this thread safe : we sometimes create two threads!!
 		Thread t = new Thread(this);
 		log.info("START "+show.show()+" "+speed+" "+t);
 		t.start();
+		while(thread==null){
+			try {
+				Thread.sleep(1);
+				log.debug("WAITING on "+thread+" TO START...");
+			} catch (InterruptedException e) {
+				log.debug(e, e);
+			}
+		}
+		
 	}
 	private void stop(){
 		log.info("INTERRUPT ASK "+thread);	
 		if(thread!=null) {
 			thread.interrupt();
-			while(thread.isAlive()){
+			while(thread!=null){
 				try {
 					Thread.sleep(1);
 					log.debug("WAITING on "+thread+" TO STOP...");
@@ -63,7 +69,6 @@ public class Tempo implements Runnable {
 					log.debug(e, e);
 				}
 			}
-			thread=null;
 		} 
 	}
 	public boolean isRunning(){

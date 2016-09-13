@@ -35,6 +35,7 @@ public class SoloTest {
 		dmx.offline();
 		DmxDimmer.MASTER.value(255);
 		run.fade(100);
+		run.blackout();
 		
 		// ON fade
 		Solo s = new Solo(RGBFixture.PAR1,255,false);
@@ -47,16 +48,15 @@ public class SoloTest {
 		// SWITCH SNAP
 		s = new Solo(RGBFixture.PAR2,255,false);
 		run.solo(s);
-		Thread.sleep(1);
 		assertEquals(0,dmx.get(24).value());
 		assertEquals(255,dmx.get(27).value());
 		
 		// OFF fade
 		s = new Solo(RGBFixture.PAR2,-1,false);
 		run.solo(s);
-		Thread.sleep(70);
+		Thread.sleep(75);
 		assertTrue(dmx.get(27).value()>0);
-		Thread.sleep(70);
+		Thread.sleep(75);
 		assertEquals(0,dmx.get(27).value());
 		
 		cue.blackout(0);

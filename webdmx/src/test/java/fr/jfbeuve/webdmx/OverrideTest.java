@@ -84,16 +84,15 @@ public class OverrideTest {
 		// SOLO STROB
 		Solo s = new Solo(RGBFixture.PAR1,255,true);
 		cue.override(new DmxOverride(s,RGBColor.ROUGE,0));
-		Thread.sleep(1);
 		System.out.println("SOLO STROB ASSERT 1");
 		assertEquals(255,dmx.get(24).value());
-		Thread.sleep(100);
+		Thread.sleep(101);
 		System.out.println("SOLO STROB ASSERT 2");
 		assertEquals(0,dmx.get(24).value());
-		Thread.sleep(100);
+		Thread.sleep(101);
 		System.out.println("SOLO STROB ASSERT 3");
 		assertEquals(255,dmx.get(24).value());
-		Thread.sleep(100);
+		Thread.sleep(101);
 		System.out.println("SOLO STROB ASSERT 4");
 		assertEquals(0,dmx.get(24).value());
 		

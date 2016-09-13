@@ -45,14 +45,12 @@ public class ShowRunnerTest {
 		show.speed(1000);
 		show.start(Show.CHASEMIX);
 		
-		Thread.sleep(1);
 		log.info("###### ASSERT 1");
 		assertColors(RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.MAUVE);
 		Thread.sleep(1200);
 		log.info("###### ASSERT 2");
 		assertColors(RGBColor.CYAN, RGBColor.MAUVE, RGBColor.MAUVE, RGBColor.CYAN);
 		show.speed(500);
-		Thread.sleep(1);
 		log.info("###### ASSERT 3");
 		assertColors(RGBColor.MAUVE, RGBColor.CYAN, RGBColor.CYAN, RGBColor.MAUVE);
 		Thread.sleep(600);
