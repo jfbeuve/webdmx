@@ -24,7 +24,7 @@ public class MasterController {
 	@Autowired
 	private DmxWrapper io;
 	
-	//TODO /show/{name}/{speed}/{fade}
+	//NOTE /show/{name}/{speed}/{fade}
 	@RequestMapping("/show/{name}")
 	@ResponseBody
 	public String show(@PathVariable("name") String name) {

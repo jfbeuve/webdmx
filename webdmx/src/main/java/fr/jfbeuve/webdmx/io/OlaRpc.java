@@ -19,11 +19,11 @@ public class OlaRpc implements IOWrapper {
 	@Override
 	synchronized public void send(int[] data) {
 		try {
-			//TODO if(ola==null) ola = new OlaClient();
+			//NOTE if(ola==null) ola = new OlaClient();
 		} catch (Exception e) {
 			log.error(e,e);
 		}
-		//TODO ola.sendDmx(0, data);
+		//NOTE ola.sendDmx(0, data);
 	}
 
 }

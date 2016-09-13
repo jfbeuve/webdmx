@@ -61,7 +61,7 @@ public class Start {
 		return null;
 	}
 	public static void test(String host) {
-		//TODO instantiate WinDll if running on windows and host = localhost
+		//NOTE instantiate WinDll if running on windows and host = localhost
 		IOWrapper dmx = new OlaWeb(host);
 		int[] data = new int[512];
 		
