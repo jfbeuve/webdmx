@@ -40,7 +40,7 @@ public class DmxOverrideMgr {
 			values.remove(ch);
 		}
 		
-		if(fade==0||(fader.running()&&cue.override())) //SNAP
+		if(fade==0||cue.override()) //SNAP
 			dmx.set(values); 
 		else //FADE
 			fader.fade(fade,values);

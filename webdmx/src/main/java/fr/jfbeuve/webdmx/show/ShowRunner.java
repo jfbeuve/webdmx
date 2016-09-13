@@ -166,7 +166,11 @@ public class ShowRunner {
 	public void solo(Solo s){
 		boolean cancel = s.dim<0;
 		boolean change = solo!=null&&solo.f!=s.f; 
-		
+
+		//TODO if change and fade() or blackout : fade(solo+s) -- FADE CHANGE
+		//TODO if cancel and fade() or blackout : fade(solo) -- FADE OUT
+		//TODO if !cancel and !change and (fade() or blackout) : fade(s) -- FADE IN
+
 		if(cancel||change){
 			// cancel previous override
 			dmx.reset(solo.f);
@@ -185,7 +189,7 @@ public class ShowRunner {
 			//set new override
 			boolean strob = false;
 			if(show!=null) strob = show.strob();
-			dmx.override(new DmxOverride(s,strob||bgblack||blackout?color:color.solo(),blackout&&!change?fade:0)); // allow fade in
+			dmx.override(new DmxOverride(s,strob||bgblack||blackout?color:color.solo(),blackout&&!change?fade:0)); 
 			solo = s;
 		}
 	}
