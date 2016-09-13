@@ -29,7 +29,18 @@ public class DmxChannel {
 	 * @return current value after dimmer
 	 */
 	public int value(){
-		return value(value);
+		return value(true);
+	}
+	
+	/**
+	 * @return current value after dimmer
+	 * @param dim after dimmer if true, before dimmer if false
+	 */
+	public int value(boolean dim){
+		if(dim)
+			return value(value);
+		else 
+			return value;
 	}
 	
 	public int channel(){

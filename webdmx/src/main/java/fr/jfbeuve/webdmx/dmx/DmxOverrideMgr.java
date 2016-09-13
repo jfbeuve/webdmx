@@ -1,8 +1,7 @@
 package fr.jfbeuve.webdmx.dmx;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,9 @@ public class DmxOverrideMgr {
 	
 	private DmxFader fader;
 	
-	private Set<Integer> override = new HashSet<Integer>();
+	//private Set<Integer> override = new HashSet<Integer>();
+	private Map<Integer,Integer> ov = new HashMap<Integer,Integer>();
+	
 	
 	/**
 	 * apply dmx values
@@ -33,7 +34,11 @@ public class DmxOverrideMgr {
 		if(fader==null) fader = new DmxFader(dmx);
 		
 		Map<Integer,Integer> values = cue.get();
-		if(!cue.override()) for(Integer ch:override) values.remove(ch);
+		if(!cue.override()) for(Integer ch:ov.keySet()){
+			// removes overridden values and archives regular values for overridden channels
+			ov.put(ch, values.get(ch));
+			values.remove(ch);
+		}
 		
 		if(fade==0||(fader.running()&&cue.override())) //SNAP
 			dmx.set(values); 
@@ -51,14 +56,21 @@ public class DmxOverrideMgr {
 	 * cancel override
 	 */
 	public void reset(){
-		override = new HashSet<Integer>();
+		//override = new HashSet<Integer>();
+		ov = new HashMap<Integer,Integer>();
 	}
 	/** 
-	 * cancel override
+	 * cancel override and restores regular values
 	 */
 	public void reset(RGBFixture f){
-		override.removeAll(f.channels());
+		//override.removeAll(f.channels());
 		strob.stop(f);
+		DmxCue cue = new DmxCue();
+		for(Integer ch:f.channels()){
+			cue.set(ch, ov.get(ch));
+			ov.remove(ch);
+		}
+		apply(0, cue);
 	}
 	
 	@Autowired
@@ -68,11 +80,13 @@ public class DmxOverrideMgr {
 		RGBColor c = o.color();
 		DmxCue cue = new DmxCue(true);
 		for (RGBFixture f : o.fixtures()) {
-			override.addAll(f.channels());
-			
+			//override.addAll(f.channels());
+			for(Integer ch:f.channels()){
+				// archives regular values
+				ov.put(ch, dmx.get(ch).value(false));
+			}
 			int dim = o.dimmer();
 			if(c==RGBColor.BLACK) dim = 0;
-			
 			
 			if(f.type()==FixtureType.RGB7){
 				int strob = (o.strob()?255:0);
@@ -98,15 +112,8 @@ public class DmxOverrideMgr {
 		apply(o.fade(), cue);
 	}
 	public void reset(DmxOverride o){
-		DmxCue cue = new DmxCue();
-		for (RGBFixture f : o.fixtures()) {
-			override.removeAll(f.channels());
-			strob.stop(f);
-			if(f==RGBFixture.LEFT){
-				cue.set(f,RGBColor.BLACK);
-				apply(0, cue);
-			}
-		}
+		for (RGBFixture f : o.fixtures()) 
+			reset(f);
 	}
 	
 	public void override(DmxOverride o){
@@ -114,7 +121,8 @@ public class DmxOverrideMgr {
 		else set(o);
 	}
 	public boolean isOverridden(int channel){
-		return override.contains(channel);
+		//return override.contains(channel);
+		return ov.containsKey(channel);
 	}
 
 }

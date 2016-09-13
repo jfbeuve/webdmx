@@ -170,13 +170,15 @@ public class ShowRunner {
 		if(cancel||change){
 			// cancel previous override
 			dmx.reset(solo.f);
-			DmxCue cue = new DmxCue();
+			/*
+			 DmxCue cue = new DmxCue();
 			cue.set(solo.f, RGBColor.BLACK);
-			if(cancel&&blackout&&!change) 
+			if(cancel&&blackout)
 				dmx.apply(fade,cue); // allow fade out
 			else 
 				dmx.apply(0,cue);
-			if(cancel) solo = null;
+			*/
+			solo = null;
 		}
 
 		if(!cancel) {
