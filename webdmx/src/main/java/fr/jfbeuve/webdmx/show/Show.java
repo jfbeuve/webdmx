@@ -24,11 +24,10 @@ public enum Show {
 		{true,true,true,true} 
 	},true),
 	CHASE(new boolean[][]{
-			{false,false,false,false},
-			{false,true, false, false},
-			{false,false, false, true},
 			{true,false, false, false},
-			{false,false, true, false}
+			{false,true, false, false},
+			{false,false, true, false},
+			{false,false, false, true}
 	},false),
 	STROBOCHASE(new boolean[][]{
 			{false,false, false, false},

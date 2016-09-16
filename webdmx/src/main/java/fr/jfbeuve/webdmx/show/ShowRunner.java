@@ -189,7 +189,8 @@ public class ShowRunner {
 			//set new override
 			boolean strob = false;
 			if(show!=null) strob = show.strob();
-			dmx.override(new DmxOverride(s,strob||bgblack||blackout?color:color.solo(),blackout&&!change?fade:0)); 
+			//dmx.override(new DmxOverride(s,strob||bgblack||blackout?color:color.solo(),blackout&&!change?fade:0));
+			dmx.override(new DmxOverride(s,RGBColor.WHITE,0));
 			solo = s;
 		}
 	}
