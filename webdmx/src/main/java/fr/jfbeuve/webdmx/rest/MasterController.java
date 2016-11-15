@@ -83,4 +83,13 @@ public class MasterController {
 		io.dim(DmxDimmer.MASTER, value);
 		return "OK";
 	}
+	/**
+	 * set master dimmer value 0/255
+	 **/
+	@RequestMapping("/init")
+	@ResponseBody
+	public Init speed() {
+		return init;
+	}
+	private Init init = new Init();
 }

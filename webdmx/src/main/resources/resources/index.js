@@ -396,3 +396,22 @@ $("#snap").bind("tap", function(e) {
 	snap();
 });
 
+/* INIT */
+
+var val;
+$.ajax({
+	url : '/init',
+	dataType : 'application/json',
+	contentType : 'application/json',
+	method: 'POST',
+	cache : false,
+	success : function(data) {
+		val=JSON.parse(data);
+	}.bind(this)
+});
+
+console.log(val);
+
+//TODO initialize buttons and drop down lists
+//TODO replace drop down lists by preset buttons
+
