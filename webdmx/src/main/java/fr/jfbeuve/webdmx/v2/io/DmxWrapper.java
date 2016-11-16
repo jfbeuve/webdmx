@@ -1,7 +1,5 @@
 package fr.jfbeuve.webdmx.v2.io;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -10,10 +8,10 @@ import fr.jfbeuve.webdmx.io.OlaWeb;
 
 @Component
 public class DmxWrapper {
-	private static final Log log = LogFactory.getLog(DmxWrapper.class);
+	//private static final Log log = LogFactory.getLog(DmxWrapper.class);
 	
 	private int[] data;
-	private RgbFixture[] led = {new RgbFixture(24),new RgbFixture(27),new RgbFixture(30),new RgbFixture(33)};
+	private RgbFixture[] scene = {new RgbFixture(24),new RgbFixture(27),new RgbFixture(30),new RgbFixture(33)};
 	
 	private DmxFader fader;
 	
@@ -34,25 +32,27 @@ public class DmxWrapper {
 		offline = true;
 	}
 	
-	public void set(int fixture, int r, int g, int b, int dim, long fade){
-		led[fixture].set(r,g,b,dim,fade);
+	public void set(Scene sc){
+		for(SceneFixture f:sc.fixtures)
+			scene[f.id].set(f);
 		fader.start();
 	}
 	
-	public void color(int fixture, int r, int g, int b, long fade){
-		led[fixture].color(r,g,b,fade);
+	/**
+	 * sets overrides
+	 */
+	public void set(SceneOverride o){
+		for(SceneFixture f:o.override)
+			scene[f.id].override(f);
+		for(int i=0;i<o.reset.length;i++)
+			scene[o.reset[i]].reset();
 		fader.start();
 	}
-	
-	public void dim(int fixture, int dim, long fade){
-		led[fixture].dim(dim,fade);
-		fader.start();
-	}
-	
+
 	boolean fade(){
 		boolean completed = true;
-		for(int i=0;i<led.length;i++)
-			if(led[i].apply(data)==false) completed=false;
+		for(int i=0;i<scene.length;i++)
+			if(scene[i].apply(data)==false) completed=false;
 		if(!offline) io.send(data);
 		return completed; 
 	}

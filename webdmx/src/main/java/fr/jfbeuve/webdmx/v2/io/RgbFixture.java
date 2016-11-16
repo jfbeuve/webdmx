@@ -1,70 +1,58 @@
 package fr.jfbeuve.webdmx.v2.io;
 
 public class RgbFixture {
-	private DmxChannel redChannel, greenChannel, blueChannel;
-	private int redChannelId, greenChannelId, blueChannelId;
-	private int redVal,greenVal,blueVal,dimmer;
+	private RgbChannel red, green, blue;
 	
 	RgbFixture(int channel){
-		redChannelId = channel;
-		greenChannelId = channel + 1;
-		blueChannelId = channel + 2;
-		redChannel = new DmxChannel();
-		greenChannel = new DmxChannel();
-		blueChannel = new DmxChannel();
-		redVal = 0;
-		greenVal = 0;
-		blueVal = 0;
-		dimmer = 0;
+		red = new RgbChannel(channel);
+		green = new RgbChannel(channel+1);
+		blue = new RgbChannel(channel+2);
 	}
 	/**
+	 * set dmx values to this fixture
 	 * @param DMX RED 0-255
 	 * @param DMX GREEN 0-255
 	 * @param DMX BLUE 0-255
 	 * @param DIMMER 0-100
 	 * @param FADE TIME IN MS
 	 */
-	void set(int r,int g, int b, int dim, long time){
-		redVal = r;
-		greenVal = g;
-		blueVal = b;
-		dim(dim,time);
-	}
-	/**
-	 * @param DMX RED 0-255
-	 * @param DMX GREEN 0-255
-	 * @param DMX BLUE 0-255
-	 * @param FADE TIME IN MS
-	 */
-	void color(int r,int g, int b, long time){
-		redVal = r;
-		greenVal = g;
-		blueVal = b;
-		dim(dimmer,time);
-	}
-	/**
-	 * @param DIMMER 0-100
-	 * @param FADE TIME IN MS
-	 */	
-	void dim(int dim, long time){
-		dimmer = dim;
-		redChannel.set(redVal*dim/100, time);
-		greenChannel.set(greenVal*dim/100, time);
-		blueChannel.set(blueVal*dim/100, time);
-		completed = false;
+	void set(SceneFixture f){
+		red.set(f.r,f.dim, f.fade);
+		green.set(f.g,f.dim, f.fade);
+		blue.set(f.b,f.dim, f.fade);
+		//TODO implement f.strob
 	}
 	
-	private boolean completed = true;
+	/**
+	 * set override for this fixture
+	 */
+	void override(SceneFixture f){
+		red.override(f.r, f.dim, f.fade);
+		green.override(f.g, f.dim, f.fade);
+		blue.override(f.b, f.dim, f.fade);
+	}
+	
+	/**
+	 * reset override for this fixture
+	 */
+	void reset(){
+		red.reset();
+		green.reset();
+		blue.reset();
+	}
+	
 	/**
 	 * Applies dmx values
-	 * @return true if no change 
+	 * @return true if all fading completed 
 	 */
 	boolean apply(int[] output){
-		if(completed) return true;
-		output[redChannelId]=redChannel.get();
-		output[greenChannelId]=greenChannel.get();
-		output[blueChannelId]=blueChannel.get();
-		if(redChannel.isCompleted()&&greenChannel.isCompleted()&&blueChannel.isCompleted()) completed = true;
-		return false;
+		red.apply(output);
+		green.apply(output);
+		blue.apply(output);
+				
+		if(	red.isCompleted()&&green.isCompleted()&&blue.isCompleted()) 
+			return true;
+		else 
+			return false;
 	}
 }

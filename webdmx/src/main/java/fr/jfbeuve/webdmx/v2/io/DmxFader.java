@@ -6,7 +6,8 @@ import org.apache.commons.logging.LogFactory;
 public class DmxFader implements Runnable{
 	private static final Log log = LogFactory.getLog(DmxFader.class);
 	private DmxWrapper dmx;
-	boolean completed = true;
+	boolean done = true;
+	boolean update = false;
 	
 	DmxFader(DmxWrapper _dmx){
 		dmx = _dmx;
@@ -14,19 +15,27 @@ public class DmxFader implements Runnable{
 	
 	@Override
 	public void run() {
-		completed = false;
-		while(!completed){
+		done = false;
+		while(!done&&!update){
+			update = false;
+			
+			done = dmx.fade();
+			
 			try {
-				completed = dmx.fade();
 				Thread.sleep(20);
 			} catch (InterruptedException e) {
-				log.debug(e,e);
+				log.error(e,e);
+				break;
 			}
 		}
+		done=true;
 	}
 
-	void start(){
-		if(!completed) return;
+	synchronized void start(){
+		if(!done) {
+			update = true;
+			return;
+		}
 		new Thread(this).start();
 	}
 }

@@ -7,9 +7,9 @@ public class DmxChannel {
 	private long startTime, fadeTime, steps;
 	private int startStep;
 
-	DmxChannel(){
-		dmxVal = 0;
-		endVal = 0;
+	DmxChannel(int val){
+		dmxVal = val;
+		endVal = val;
 	}
 	
 	void set(int val, long time){
