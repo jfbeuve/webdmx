@@ -16,20 +16,20 @@ public class RgbFixture {
 	 * @param DIMMER 0-100
 	 * @param FADE TIME IN MS
 	 */
-	void set(SceneFixture f){
-		red.set(f.r,f.dim, f.fade);
-		green.set(f.g,f.dim, f.fade);
-		blue.set(f.b,f.dim, f.fade);
+	void set(SceneFixture f, long fade){
+		red.set(f.r,f.dim, fade);
+		green.set(f.g,f.dim, fade);
+		blue.set(f.b,f.dim, fade);
 		//TODO implement f.strob
 	}
 	
 	/**
 	 * set override for this fixture
 	 */
-	void override(SceneFixture f){
-		red.override(f.r, f.dim, f.fade);
-		green.override(f.g, f.dim, f.fade);
-		blue.override(f.b, f.dim, f.fade);
+	void override(SceneFixture f, long fade){
+		red.override(f.r, f.dim, fade);
+		green.override(f.g, f.dim, fade);
+		blue.override(f.b, f.dim, fade);
 	}
 	
 	/**

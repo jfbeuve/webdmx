@@ -29,10 +29,15 @@ public class DmxChannel {
 		//no fading
 		if(dmxVal == endVal) return endVal;
 		
-		return getByLog();
+		return getByLin();
 	}
+	/**
+	 * fade using a scale rather than %
+	 */
 	private int getByLog(){
+		
 		long time = System.currentTimeMillis();
+		
 		if(time>startTime+fadeTime){
 			// fading end
 			dmxVal = endVal;
@@ -40,13 +45,14 @@ public class DmxChannel {
 		}
 		
 		// ratio by scale
-		//TODO use float?
 		int step = startStep + (int) ((time-startTime)*steps/fadeTime) ; 
 		dmxVal = scale[step];
 		
 		return dmxVal;
 	}
-	
+	/**
+	 * fade using %
+	 */
 	private int getByLin(){
 		long time = System.currentTimeMillis();
 		if(time>startTime+fadeTime){
@@ -56,7 +62,6 @@ public class DmxChannel {
 		}
 		
 		// ratio linear 
-		//TODO use float?
 		dmxVal = startVal + (endVal-startVal) * ((int)(time-startTime)) / (int)fadeTime;
 		
 		return dmxVal;

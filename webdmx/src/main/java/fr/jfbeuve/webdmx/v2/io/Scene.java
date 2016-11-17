@@ -2,13 +2,15 @@ package fr.jfbeuve.webdmx.v2.io;
 
 public class Scene {
 	public SceneFixture[] fixtures;
+	public long fade=0;
 	/* {
 	 *   fixtures: [
-	 *   	{id:1, r:255, g:0, b:0, dim:20, fade:1000, strob:false},
-	 *   	{id:2, r:255, g:0, b:0, dim:20, fade:1000, strob:false},
-	 *      {id:3, r:255, g:255, b:255, dim:10, fade:1000, strob:false},
-	 *      {id:4, r:255, g:0, b:0, dim:20, fade:1000, strob:false}
-	 *   ]
+	 *   	{id:1, r:255, g:0, b:0, dim:20, strob:0},
+	 *   	{id:2, r:255, g:0, b:0, dim:20, strob:0},
+	 *      {id:3, r:255, g:255, b:255, dim:10, strob:0},
+	 *      {id:4, r:255, g:0, b:0, dim:20, strob:0}
+	 *   ],
+	 *   fade: 200
 	 * }
 	 */
 }
