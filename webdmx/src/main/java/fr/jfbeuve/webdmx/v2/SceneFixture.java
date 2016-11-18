@@ -1,4 +1,4 @@
-package fr.jfbeuve.webdmx.v2.io;
+package fr.jfbeuve.webdmx.v2;
 
 public class SceneFixture {
 		public int id, dim; 

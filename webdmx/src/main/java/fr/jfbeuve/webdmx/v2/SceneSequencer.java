@@ -1,4 +1,4 @@
-package fr.jfbeuve.webdmx.v2.io;
+package fr.jfbeuve.webdmx.v2;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,6 +10,7 @@ public class SceneSequencer implements Runnable{
 	private boolean stop=false;
 	private int i=0;
 	private long speed = 300;
+	private long timestamp=0;
 	
 	@Autowired
 	private DmxWrapper dmx;
@@ -18,8 +19,7 @@ public class SceneSequencer implements Runnable{
 	public void run() {
 		try {
 			while(!stop){
-				if(i>=seq.scenes.length) i=0;
-				dmx.set(seq.scenes[i++]);
+				next();
 				Thread.sleep(speed);
 			}
 		} catch (InterruptedException e) {
@@ -30,23 +30,41 @@ public class SceneSequencer implements Runnable{
 	 * 0 STOP
 	 * > speed in ms
 	 */
-	private synchronized void speed(long s){
+	public synchronized void speed(long s){
 		stop();
 		if(s==0) return;
 		speed = s;
 		start();
 	}
 	
+	/**
+	 * @deprecated prefer tap measure on client side
+	 */
 	public void tap(){
-		//TODO implement
+		if(timestamp>0){
+			// adjust speed
+			long newspeed =  System.currentTimeMillis() - timestamp;
+			timestamp = System.currentTimeMillis();
+			if(newspeed<20)newspeed=20; // dmx runs at 44hz
+			speed(newspeed);
+		} else {
+			// record timestamp
+			timestamp = System.currentTimeMillis();
+		}
 	}
+	
 	public void man(){
-		//TODO implement
+		speed(0);
+		next();
+	}
+	private void next(){
+		if(i>=seq.scenes.length) i=0;
+		dmx.set(seq.scenes[i++]);
 	}
 	public void pause(){
 		speed(0);
 	}
-	void play (SceneSequence s){
+	public void play (SceneSequence s){
 		i=0;
 		seq = s;
 		if(t==null) speed(speed);
