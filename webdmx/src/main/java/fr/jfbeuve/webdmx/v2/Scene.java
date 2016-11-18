@@ -1,6 +1,14 @@
 package fr.jfbeuve.webdmx.v2;
 
 public class Scene {
+	public Scene(){}
+	/**
+	 * JUnit constructor
+	 */
+	public Scene(SceneFixture[] fxt, long fad){
+		fixtures = fxt;
+		fade=fad;
+	}
 	public SceneFixture[] fixtures;
 	public long fade=0;
 	/* {

@@ -68,4 +68,10 @@ public class DmxWrapper {
 		}
 		fader.start();
 	}
+	/**
+	 * @return dmx values for JUnit purpose
+	 */
+	public int[] read(){
+		return data;
+	}
 }
