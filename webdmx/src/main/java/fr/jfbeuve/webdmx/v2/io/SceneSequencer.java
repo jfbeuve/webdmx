@@ -26,17 +26,30 @@ public class SceneSequencer implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	
-	public synchronized void speed(long s){
+	/**
+	 * 0 STOP
+	 * > speed in ms
+	 */
+	private synchronized void speed(long s){
 		stop();
 		if(s==0) return;
 		speed = s;
 		start();
 	}
 	
-	void set (SceneSequence s){
+	public void tap(){
+		//TODO implement
+	}
+	public void man(){
+		//TODO implement
+	}
+	public void pause(){
+		speed(0);
+	}
+	void play (SceneSequence s){
 		i=0;
 		seq = s;
+		if(t==null) speed(speed);
 	}
 	
 	private void stop(){

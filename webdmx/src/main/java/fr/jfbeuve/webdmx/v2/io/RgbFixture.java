@@ -1,12 +1,12 @@
 package fr.jfbeuve.webdmx.v2.io;
 
 public class RgbFixture {
-	private RgbChannel red, green, blue;
+	private DmxChannel red, green, blue;
 	
 	RgbFixture(int channel){
-		red = new RgbChannel(channel);
-		green = new RgbChannel(channel+1);
-		blue = new RgbChannel(channel+2);
+		red = new DmxChannel(channel);
+		green = new DmxChannel(channel+1);
+		blue = new DmxChannel(channel+2);
 	}
 	/**
 	 * set dmx values to this fixture
@@ -26,19 +26,19 @@ public class RgbFixture {
 	/**
 	 * set override for this fixture
 	 */
-	void override(SceneFixture f, long fade){
-		red.override(f.r, f.dim, fade);
-		green.override(f.g, f.dim, fade);
-		blue.override(f.b, f.dim, fade);
+	void override(SceneFixture f, long fade, int layer){
+		red.override(f.r, f.dim, fade, layer);
+		green.override(f.g, f.dim, fade, layer);
+		blue.override(f.b, f.dim, fade, layer);
 	}
 	
 	/**
 	 * reset override for this fixture
 	 */
-	void reset(){
-		red.reset();
-		green.reset();
-		blue.reset();
+	void reset(int layer){
+		red.reset(layer);
+		green.reset(layer);
+		blue.reset(layer);
 	}
 	
 	/**
@@ -46,13 +46,11 @@ public class RgbFixture {
 	 * @return true if all fading completed 
 	 */
 	boolean apply(int[] output){
-		red.apply(output);
-		green.apply(output);
-		blue.apply(output);
+		boolean done = true;
+		if(!red.apply(output)) done = false;
+		if(!green.apply(output)) done = false;
+		if(!blue.apply(output)) done = false;
 				
-		if(	red.isCompleted()&&green.isCompleted()&&blue.isCompleted()) 
-			return true;
-		else 
-			return false;
+		return done;
 	}
 }

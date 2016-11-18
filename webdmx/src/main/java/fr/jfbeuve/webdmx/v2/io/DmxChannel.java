@@ -1,73 +1,45 @@
 package fr.jfbeuve.webdmx.v2.io;
 
 public class DmxChannel {
-	private final static int[] scale = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,30,40,50,60,70,80,90,100,150,200,255};
+	private DmxLayer[] dmx = new DmxLayer[3];
+	private int layer = 0;
+	private int channel, value;
 	
-	private int startVal, endVal, dmxVal;
-	private long startTime, fadeTime, steps;
-	private int startStep;
-	
-	DmxChannel(int val){
-		dmxVal = val;
-		endVal = val;
-	}
-	
-	void set(int val, long time){
-		startTime = System.currentTimeMillis();
-		startVal = dmxVal;
-		endVal = val;
-		fadeTime = time;
+	DmxChannel(int ch){
+		channel=ch;
 		
-		int endStep = 0;
-		for(int i=0;i<scale.length;i++){
-			if(startVal<=scale[i]) startStep = i;
-			if(endVal<=scale[i]) endStep = i;
-		}
-		steps = endStep - startStep;
+		dmx[0] = new DmxLayer(0);
+		for(int i=1;i<dmx.length;i++) dmx[i]=null;
+				
+		value = 0;
 	}
-	int get(){
-		//no fading
-		if(dmxVal == endVal) return endVal;
-		
-		return getByLin();
-	}
+	
 	/**
-	 * fade using a scale rather than %
+	 * @param v dmx value
+	 * @param d dimmer %
+	 * @param f fading time in ms
 	 */
-	private int getByLog(){
-		
-		long time = System.currentTimeMillis();
-		
-		if(time>startTime+fadeTime){
-			// fading end
-			dmxVal = endVal;
-			return dmxVal;
-		}
-		
-		// ratio by scale
-		int step = startStep + (int) ((time-startTime)*steps/fadeTime) ; 
-		dmxVal = scale[step];
-		
-		return dmxVal;
-	}
-	/**
-	 * fade using %
-	 */
-	private int getByLin(){
-		long time = System.currentTimeMillis();
-		if(time>startTime+fadeTime){
-			// fading end
-			dmxVal = endVal;
-			return dmxVal;
-		}
-		
-		// ratio linear 
-		dmxVal = startVal + (endVal-startVal) * ((int)(time-startTime)) / (int)fadeTime;
-		
-		return dmxVal;
+	void set(int v, int d, long f){
+		value = v;
+		dmx[0].set(v*d/100, f);
 	}
 	
-	boolean isCompleted(){
-		return dmxVal == endVal;
+	void reset(int _layer){
+		if(_layer<1||_layer>dmx.length)return;
+		dmx[_layer]=null;
+		while(dmx[layer]==null) layer--;
 	}
+	
+	void override(int v, int d, long f, int _layer){
+		if(_layer<1||_layer>dmx.length)return;
+		if(dmx[_layer]==null) dmx[_layer] = new DmxLayer(dmx[0].get());
+		dmx[_layer].set((v<0?value:v)*d/100, f);
+		if(layer<_layer)layer=_layer;
+	}
+	
+	boolean apply(int[] output){
+		output[channel]=dmx[layer].get();		
+		return dmx[layer].isCompleted();
+	}
+
 }

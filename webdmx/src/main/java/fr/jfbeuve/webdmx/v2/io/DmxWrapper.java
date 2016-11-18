@@ -43,9 +43,9 @@ public class DmxWrapper {
 	 */
 	public void set(SceneOverride o){
 		for(SceneFixture f:o.override)
-			scene[f.id].override(f,o.fade);
+			scene[f.id].override(f,o.fade, o.layer);
 		for(int i=0;i<o.reset.length;i++)
-			scene[o.reset[i]].reset();
+			scene[o.reset[i]].reset(o.layer);
 		fader.start();
 	}
 
