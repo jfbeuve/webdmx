@@ -23,11 +23,28 @@ public class DmxChannel {
 		value = v;
 		dmx[0].set(v*d/100, f);
 	}
-	
+	/**
+	 * reset a layer of override
+	 * reset ALL override layers
+	 */
 	void reset(int _layer){
-		if(_layer<1||_layer>dmx.length)return;
+		if(_layer==-1) {
+			reset();
+			return;
+		}
+		
+		if(_layer<1||_layer>dmx.length) return;
+		
 		dmx[_layer]=null;
 		while(dmx[layer]==null) layer--;
+	}
+	/**
+	 * reset all layers of overrides
+	 */
+	private void reset(){
+		for(int i=1;i<dmx.length;i++)
+			dmx[i]=null;
+		layer=0;
 	}
 	
 	void override(int v, int d, long f, int _layer){

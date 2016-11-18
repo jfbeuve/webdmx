@@ -11,7 +11,7 @@ public class DmxWrapper {
 	//private static final Log log = LogFactory.getLog(DmxWrapper.class);
 	
 	private int[] data;
-	private RGBFixture[] scene = {new RGBFixture(24),new RGBFixture(27),new RGBFixture(30),new RGBFixture(33)};
+	private RGBFixture[] scene;
 	
 	private DmxFader fader;
 	
@@ -19,9 +19,14 @@ public class DmxWrapper {
 		data = new int[512];
 		for(int i=0;i<512;i++) data[i]=0;
 		
+		scene[0]=new RGBFixture(24);
+		scene[1]=new RGBFixture(27);
+		scene[2]=new RGBFixture(30);
+		scene[3]=new RGBFixture(33);
+		
 		fader=new DmxFader(this);
 	}
-	
+
 	@Autowired
 	public OlaWeb io;
 	
@@ -55,5 +60,12 @@ public class DmxWrapper {
 			if(scene[i].apply(data)==false) completed=false;
 		if(!offline) io.send(data);
 		return completed; 
+	}
+	public void blackout(long fade){
+		for(int i=0;i<scene.length;i++){
+			scene[i].reset(-1);
+			scene[i].set(new SceneFixture(i), fade);
+		}
+		fader.start();
 	}
 }

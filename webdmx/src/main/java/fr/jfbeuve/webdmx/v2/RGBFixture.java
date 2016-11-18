@@ -20,7 +20,6 @@ public class RGBFixture {
 		red.set(f.r,f.dim, fade);
 		green.set(f.g,f.dim, fade);
 		blue.set(f.b,f.dim, fade);
-		//TODO implement f.strob
 	}
 	
 	/**
@@ -40,7 +39,7 @@ public class RGBFixture {
 		green.reset(layer);
 		blue.reset(layer);
 	}
-	
+		
 	/**
 	 * Applies dmx values
 	 * @return true if all fading completed 
