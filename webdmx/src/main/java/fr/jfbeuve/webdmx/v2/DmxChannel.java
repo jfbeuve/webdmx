@@ -1,6 +1,11 @@
 package fr.jfbeuve.webdmx.v2;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class DmxChannel {
+	private static final Log log = LogFactory.getLog(DmxChannel.class);
+	
 	private DmxLayer[] dmx = new DmxLayer[3];
 	private int layer = 0;
 	private int channel, value;
@@ -55,7 +60,12 @@ public class DmxChannel {
 	}
 	
 	boolean apply(int[] output){
-		output[channel]=dmx[layer].get();		
+		int was = output[channel];
+		output[channel]=dmx[layer].get();
+		if(log.isDebugEnabled()){
+			if(was!=output[channel])
+				log.debug(channel+"="+output[channel]);
+		}
 		return dmx[layer].isCompleted();
 	}
 

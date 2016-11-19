@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OlaWeb implements IOWrapper {
+public class OlaWeb {
 	private static final Log log = LogFactory.getLog(OlaWeb.class);
 	private HttpURLConnection con;
 	
@@ -24,12 +24,10 @@ public class OlaWeb implements IOWrapper {
 		host = _host;
 	}
 
-	@Override
 	public void disconnect() {
 		con.disconnect();	
 	}
 
-	@Override
 	synchronized public void send(int[] data) {
 		StringBuffer param = new StringBuffer("u=0&d=");
 		for (int i = 0; i < data.length; i++) {

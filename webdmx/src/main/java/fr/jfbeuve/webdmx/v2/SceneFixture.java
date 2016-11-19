@@ -29,4 +29,7 @@ public class SceneFixture {
 	public SceneFixture(){
 		r=-1;g=-1;b=-1;strob=0;
 	}
+	public String toString(){
+		return "["+(r*dim/100)+" "+(g*dim/100)+" "+(g*dim/100)+(strob>0?" S":"")+"]";
+	}
 }

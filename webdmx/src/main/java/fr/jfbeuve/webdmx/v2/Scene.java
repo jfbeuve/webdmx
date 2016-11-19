@@ -21,4 +21,11 @@ public class Scene {
 	 *   fade: 200
 	 * }
 	 */
+	public String toString(){
+		StringBuffer s = new StringBuffer();
+		for(int i=0;i<fixtures.length;i++)
+			s.append(fixtures[i]);
+		s.append(" fade="+fade);
+		return s.toString();
+	}
 }

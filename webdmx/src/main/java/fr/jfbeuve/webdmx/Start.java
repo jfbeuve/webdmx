@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import fr.jfbeuve.webdmx.io.IOWrapper;
 import fr.jfbeuve.webdmx.io.OlaWeb;
 
 
@@ -61,8 +60,7 @@ public class Start {
 		return null;
 	}
 	public static void test(String host) {
-		//NOTE instantiate WinDll if running on windows and host = localhost
-		IOWrapper dmx = new OlaWeb(host);
+		OlaWeb dmx = new OlaWeb(host);
 		int[] data = new int[512];
 		
 		boolean exit=false;
@@ -142,7 +140,7 @@ public class Start {
 
 	public static void strob(String _speed) throws Exception{
 		long speed = Long.parseLong(_speed);
-		IOWrapper dmx = new OlaWeb("localhost");
+		OlaWeb dmx = new OlaWeb("localhost");
 		int[] data = new int[30];
 		boolean black=false;
 		while(true){

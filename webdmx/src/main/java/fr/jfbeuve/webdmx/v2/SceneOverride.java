@@ -15,4 +15,15 @@ public class SceneOverride {
 	 *   layer: 1
 	 * }
 	 */
+	public String toString(){
+		StringBuffer s = new StringBuffer();
+		s.append("LAYER "+layer+" SET ");
+		for(int i=0;i<override.length;i++)
+			s.append(override[i]);
+		s.append(" RESET ");
+		for(int i=0;i<reset.length;i++)
+			s.append((i>0?",":"")+reset[i]);
+		s.append(" fade="+fade);
+		return s.toString();
+	}
 }

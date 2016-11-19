@@ -2,6 +2,8 @@ package fr.jfbeuve.webdmx.v2;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,8 @@ import fr.jfbeuve.webdmx.Start;
 @SpringApplicationConfiguration(classes = Start.class)
 @DirtiesContext
 public class DmxWrapperTest {
-
+	private static final Log log = LogFactory.getLog(DmxWrapperTest.class);
+	
 	@Autowired
 	private DmxWrapper dmx;
 	@Autowired
@@ -37,7 +40,10 @@ public class DmxWrapperTest {
 	}
 	static final SceneFixture[] ALLRED = {new SceneFixture(0,100,255,0,0,0),new SceneFixture(1,100,255,0,0,0),new SceneFixture(2,100,255,0,0,0),new SceneFixture(3,100,255,0,0,0)};
 	
-	private void assertscene(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4){
+	private void assertscene(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4) throws Exception{
+		Thread.sleep(20);
+		log.info("<ASSERT>");
+		
 		assertEquals(r1,dmx.read()[24]);
 		assertEquals(g1,dmx.read()[25]);
 		assertEquals(b1,dmx.read()[26]);

@@ -7,13 +7,7 @@
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
         </encoder>
     </appender>
-    <logger name="fr.jfbeuve.webdmx.dmx.DmxFader" level="INFO" additivity="false">
-            <appender-ref ref="STDOUT" />
-    </logger>
-       <logger name="fr.jfbeuve.webdmx.show.Tempo" level="INFO" additivity="false">
-            <appender-ref ref="STDOUT" />
-    </logger>
-    <logger name="fr.jfbeuve.webdmx.dmx.DmxWrapper" level="INFO" additivity="false">
+    <logger name="fr.jfbeuve.webdmx" level="DEBUG" additivity="false">
             <appender-ref ref="STDOUT" />
     </logger>
     <!-- By default, the level of the root level is set to DEBUG -->
