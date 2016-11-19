@@ -35,6 +35,7 @@ public class DmxWrapperTest {
 		// ASSERT BLACKOUT
 		assertscene(0,0,0,0,0,0,0,0,0,0,0,0);
 		
+		// ALL RED
 		dmx.set(new Scene(ALLRED,0));
 		assertscene(255,0,0,255,0,0,255,0,0,255,0,0);
 	}

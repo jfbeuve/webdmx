@@ -7,42 +7,57 @@ public class DmxFader implements Runnable{
 	private static final Log log = LogFactory.getLog(DmxFader.class);
 	
 	private DmxWrapper dmx;
-	boolean done, update;
+	boolean done, stale;
 	private Thread t;
 	
 	DmxFader(DmxWrapper _dmx){
 		dmx = _dmx;
+		stale=false;
 		done=true;
 	}
 	
 	@Override
 	public void run() {
-		done = false; update = false;
-		while(!done&&!update){
-			log.debug("LOOP done="+done+" update="+update);
-			update = false;
-			
+		log.debug("NEW THREAD");
+		done=false;
+		while(true){
+			log.debug("LOOP");
+
+			stale = true;
 			done = dmx.fade();
+			stale = false;
+			if(done)break;
 			
 			try {
-				if(!done) Thread.sleep(20);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				log.error(e,e);
 				done=true;
 			}
 		}
+		log.debug("END THREAD");
 	}
-
 	synchronized void start(){
-		if(done){
-			try {
-				if(t!=null) while(t.isAlive()) Thread.sleep(1);
+		if(t==null){
+			// first time
+			t = new Thread(this);
+			t.start();
+			return;
+		}
+		try {
+			if(stale){
+				while(stale) Thread.sleep(1);
+			}
+			
+			if(done){
+				while(t.isAlive()) Thread.sleep(1);
 				t = new Thread(this);
 				t.start();
-			} catch (InterruptedException e) {
-				log.error(e,e);
+				return;
 			}
-		}else 
-			update = true;
+		} catch (InterruptedException e) {
+			log.error(e,e);
+			return;
+		}
 	}
 }
