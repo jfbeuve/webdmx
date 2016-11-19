@@ -29,24 +29,44 @@ public class DmxWrapperTest {
 	private Sequencer seq;
 	
 	@Test
-	public void test() throws Exception {
+	public void layer1snap() throws Exception {
 		
 		// INIT
 		dmx.offline();
-		seq.pause();
 		dmx.blackout(0);
 
 		// ASSERT BLACKOUT
+		Thread.sleep(20);
 		assertscene(0,0,0,0,0,0,0,0,0,0,0,0);
 		
 		// ALL RED
-		dmx.set(new Scene(ALLRED,0));
-		assertscene(255,0,0,255,0,0,255,0,0,255,0,0);
-	}
-	static final FixtureState[] ALLRED = {new FixtureState(0,100,255,0,0,false),new FixtureState(1,100,255,0,0,false),new FixtureState(2,100,255,0,0,false),new FixtureState(3,100,255,0,0,false)};
-	
-	private void assertscene(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4) throws Exception{
+		dmx.set(new Scene(RGBW,0));
 		Thread.sleep(20);
+		assertscene(255,0,0,0,255,0,0,0,255,127,127,127);
+	}
+	@Test
+	public void layer1fade() throws Exception {
+		
+		// INIT
+		dmx.offline();
+		dmx.blackout(0);
+
+		// ASSERT BLACKOUT
+		Thread.sleep(20);
+		assertscene(0,0,0,0,0,0,0,0,0,0,0,0);
+		
+		// FADE IN
+		dmx.set(new Scene(RGBW,100));
+		Thread.sleep(50);
+		//TODO assert 50% assertscene(160,0,0,0,160,0,0,0,160,80,80,80);
+		Thread.sleep(50);
+		assertscene(255,0,0,0,255,0,0,0,255,127,127,127);
+		
+		//TODO assert FADE OUT
+	}
+	static final FixtureState[] RGBW = {new FixtureState(0,100,255,0,0,false),new FixtureState(1,100,0,255,0,false),new FixtureState(2,100,0,0,255,false),new FixtureState(3,50,255,255,255,false)};
+	
+	private void assertscene(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4){
 		log.info("<ASSERT>");
 		
 		assertEquals(r1,dmx.read()[24]);

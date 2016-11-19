@@ -42,7 +42,6 @@ public class LiveController {
 	}
 	@RequestMapping("/live/blackout/{time}")
 	public Object blackout(@PathVariable("time") Long time) {
-		chase.pause();
 		dmx.blackout(time);
 		return null;
 	}

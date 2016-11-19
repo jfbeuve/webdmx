@@ -11,10 +11,14 @@ import fr.jfbeuve.webdmx.io.OlaWeb;
 import fr.jfbeuve.webdmx.sc.Scene;
 import fr.jfbeuve.webdmx.sc.FixtureState;
 import fr.jfbeuve.webdmx.sc.Override;
+import fr.jfbeuve.webdmx.sc.Sequencer;
 
 @Component
 public class DmxWrapper {
 	private static final Log log = LogFactory.getLog(DmxWrapper.class);
+	
+	@Autowired
+	private Sequencer chase;
 	
 	private int[] data;
 	private RGBFixture[] fixture;
@@ -72,6 +76,7 @@ public class DmxWrapper {
 	}
 	public void blackout(long fade){
 		log.info("BLACKOUT");
+		chase.pause();
 		for(int i=0;i<fixture.length;i++){
 			fixture[i].reset(-1);
 			fixture[i].set(new FixtureState(i), fade);
