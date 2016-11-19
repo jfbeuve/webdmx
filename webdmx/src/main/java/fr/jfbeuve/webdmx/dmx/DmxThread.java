@@ -3,15 +3,15 @@ package fr.jfbeuve.webdmx.dmx;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class DmxFader implements Runnable{
-	private static final Log log = LogFactory.getLog(DmxFader.class);
+public class DmxThread implements Runnable{
+	private static final Log log = LogFactory.getLog(DmxThread.class);
 	
 	private DmxWrapper dmx;
 	boolean done, stale;
 	private Thread t;
 	private int strob;
 	
-	DmxFader(DmxWrapper _dmx){
+	DmxThread(DmxWrapper _dmx){
 		dmx = _dmx;
 		stale=false;
 		done=true;
@@ -20,10 +20,10 @@ public class DmxFader implements Runnable{
 	
 	@Override
 	public void run() {
-		log.debug("NEW THREAD");
+		log.debug("NEW DMX THREAD");
 		done=false;
 		while(true){
-			log.debug("LOOP");
+			log.debug("DMX LOOP");
 			if(strob>7)strob=0;
 
 			stale = true;
@@ -38,9 +38,10 @@ public class DmxFader implements Runnable{
 				done=true;
 			}
 		}
-		log.debug("END THREAD");
+		log.debug("END DMX THREAD");
 	}
 	synchronized void start(){
+		log.debug("DMX START");
 		if(t==null){
 			// first time
 			t = new Thread(this);

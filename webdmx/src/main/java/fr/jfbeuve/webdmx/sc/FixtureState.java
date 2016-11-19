@@ -30,6 +30,6 @@ public class FixtureState {
 		r=-1;g=-1;b=-1;strob=false;
 	}
 	public String toString(){
-		return "["+(r*dim/100)+" "+(g*dim/100)+" "+(g*dim/100)+(strob?" S":"")+"]";
+		return "[#"+id+" D"+dim+" "+r+" "+g+" "+b+(strob?" S":"")+"]";
 	}
 }

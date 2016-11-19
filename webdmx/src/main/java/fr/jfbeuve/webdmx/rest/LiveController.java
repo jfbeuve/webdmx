@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.sc.Scene;
 import fr.jfbeuve.webdmx.sc.Override;
-import fr.jfbeuve.webdmx.sc.Sequence;
 import fr.jfbeuve.webdmx.sc.Sequencer;
 
 @RestController
@@ -27,11 +26,11 @@ public class LiveController {
 	}
 	@RequestMapping(value = "/live/override", method = RequestMethod.POST,consumes="application/json")
 	public Object override(@RequestBody final Override o) {
-		dmx.set(o);
+		dmx.override(o);
 		return null;
 	}
 	@RequestMapping(value = "/live/sequence", method = RequestMethod.POST,consumes="application/json")
-	public Object override(@RequestBody final Sequence s) {
+	public Object override(@RequestBody final Scene[] s) {
 		chase.play(s);
 		return null;
 	}

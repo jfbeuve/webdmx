@@ -15,12 +15,23 @@ public class Override {
 	 *   layer: 1
 	 * }
 	 */
+	public Override(){
+		reset = new int[0];
+	}
+	
+	public Override(Scene scene, int[] _reset, int _layer){
+		override=scene.fixtures;
+		reset=_reset;
+		fade=scene.fade;
+		layer=_layer;
+	}
+	
 	public String toString(){
 		StringBuffer s = new StringBuffer();
-		s.append("LAYER "+layer+" SET ");
+		s.append("OVERRIDE LAYER "+layer+" SET ");
 		for(int i=0;i<override.length;i++)
 			s.append(override[i]);
-		s.append(" RESET ");
+		if(reset.length>0) s.append(" RESET ");
 		for(int i=0;i<reset.length;i++)
 			s.append((i>0?",":"")+reset[i]);
 		s.append(" fade="+fade);

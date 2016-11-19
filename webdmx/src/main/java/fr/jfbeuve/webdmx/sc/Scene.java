@@ -1,14 +1,7 @@
 package fr.jfbeuve.webdmx.sc;
 
 public class Scene {
-	public Scene(){}
-	/**
-	 * JUnit constructor
-	 */
-	public Scene(FixtureState[] fxt, long fad){
-		fixtures = fxt;
-		fade=fad;
-	}
+	
 	public FixtureState[] fixtures;
 	public long fade=0;
 	/* {
@@ -21,6 +14,14 @@ public class Scene {
 	 *   fade: 200
 	 * }
 	 */
+	public Scene(){
+		fixtures = new FixtureState[0];
+		fade = 0;
+	}
+		public Scene(FixtureState[] fxt, long fad){
+		fixtures = fxt;
+		fade=fad;
+	}
 	public String toString(){
 		StringBuffer s = new StringBuffer();
 		for(int i=0;i<fixtures.length;i++)

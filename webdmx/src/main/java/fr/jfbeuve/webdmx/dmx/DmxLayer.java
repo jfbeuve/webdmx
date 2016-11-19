@@ -34,17 +34,12 @@ public class DmxLayer {
 	int get(boolean flash){
 		if(strob&&!flash)
 			return 0;
-		else
-			return val();
-	}
-	private int val(){
+		
+		if (fadeTime == 0)
+			dmxVal = endVal;
+		
 		if(dmxVal == endVal) 
 			return endVal;
-		
-		if (fadeTime == 0){
-			dmxVal = endVal;
-			return endVal;
-		}
 		
 		return getByLin();
 	}
@@ -74,10 +69,10 @@ public class DmxLayer {
 	 */
 	private int getByLin(){
 		long time = System.currentTimeMillis();
-		if(time>startTime+fadeTime){
+		if(time>=startTime+fadeTime){
 			// fading end
 			dmxVal = endVal;
-			return dmxVal;
+			return endVal;
 		}
 		
 		// ratio linear 
@@ -85,8 +80,10 @@ public class DmxLayer {
 		
 		return dmxVal;
 	}
-	
-	boolean isCompleted(){
+	/**
+	 * @return true if nothing to do
+	 */
+	boolean done(){
 		if(strob) return false;
 		return dmxVal == endVal;
 	}

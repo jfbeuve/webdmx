@@ -1,5 +1,7 @@
 package fr.jfbeuve.webdmx.sc;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -7,22 +9,28 @@ import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 
 @Component
 public class Sequencer implements Runnable{
-	private Sequence seq;
+	private static final Log log = LogFactory.getLog(Sequencer.class);
+	
+	private Scene[] scenes;
 	private Thread t;
 	private boolean stop=false;
 	private int i=0;
 	private long speed = 300;
-	private long timestamp=0;
+	private int[] reset = new int[0];
 	
 	@Autowired
 	private DmxWrapper dmx;
 	
 	public void run() {
 		try {
+			log.debug("SEQUENCE START");
 			while(!stop){
+				long time = System.currentTimeMillis();
 				next();
-				Thread.sleep(speed);
+				long sleep = speed-System.currentTimeMillis()+time;
+				if(sleep>0) Thread.sleep(sleep);
 			}
+			log.debug("SEQUENCE END");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -32,26 +40,11 @@ public class Sequencer implements Runnable{
 	 * > speed in ms
 	 */
 	public synchronized void speed(long s){
+		log.debug("SPEED "+s);
 		stop();
 		if(s==0) return;
 		speed = s;
 		start();
-	}
-	
-	/**
-	 * @deprecated prefer tap measure on client side
-	 */
-	public void tap(){
-		if(timestamp>0){
-			// adjust speed
-			long newspeed =  System.currentTimeMillis() - timestamp;
-			timestamp = System.currentTimeMillis();
-			if(newspeed<20)newspeed=20; // dmx runs at 44hz
-			speed(newspeed);
-		} else {
-			// record timestamp
-			timestamp = System.currentTimeMillis();
-		}
 	}
 	
 	public void man(){
@@ -59,15 +52,25 @@ public class Sequencer implements Runnable{
 		next();
 	}
 	private void next(){
-		if(i>=seq.scenes.length) i=0;
-		dmx.set(seq.scenes[i++]);
+		log.debug("SEQUENCE NEXT STEP");
+		if(i>=scenes.length) i=0;
+		dmx.override(new Override(scenes[i++], reset, 1));
+		
+		reset = new int[scenes[i-1].fixtures.length];
+		for(int r=0;r<reset.length;r++){
+			reset[r]=scenes[i-1].fixtures[r].id;
+		}
 	}
 	public void pause(){
 		speed(0);
+		if(reset.length>0){
+			dmx.override(new Override(new Scene(), reset, 1));
+			reset = new int[0];
+		}
 	}
-	public void play (Sequence s){
+	public void play (Scene[] s){
 		i=0;
-		seq = s;
+		scenes = s;
 		if(t==null) speed(speed);
 	}
 	

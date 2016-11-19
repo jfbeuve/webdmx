@@ -67,7 +67,7 @@ public class DmxChannel {
 			if(was!=output[channel])
 				log.debug(channel+"="+output[channel]);
 		}
-		return dmx[layer].isCompleted();
+		return dmx[layer].done();
 	}
 
 }

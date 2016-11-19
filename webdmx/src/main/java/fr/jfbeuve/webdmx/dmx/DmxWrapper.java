@@ -23,7 +23,7 @@ public class DmxWrapper {
 	private int[] data;
 	private RGBFixture[] fixture;
 	
-	private DmxFader fader;
+	private DmxThread fader;
 	
 	public DmxWrapper(){
 		data = new int[512];
@@ -35,7 +35,7 @@ public class DmxWrapper {
 		fixture[2]=new RGBFixture(30);
 		fixture[3]=new RGBFixture(33);
 		
-		fader=new DmxFader(this);
+		fader=new DmxThread(this);
 	}
 
 	@Autowired
@@ -58,7 +58,7 @@ public class DmxWrapper {
 	/**
 	 * sets overrides
 	 */
-	public void set(Override o){
+	public void override(Override o){
 		log.debug(o);
 		for(FixtureState f:o.override)
 			fixture[f.id].override(f,o.fade, o.layer);
