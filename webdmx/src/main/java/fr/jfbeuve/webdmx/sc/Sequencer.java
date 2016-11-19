@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 
 @Component
-public class SceneSequencer implements Runnable{
-	private SceneSequence seq;
+public class Sequencer implements Runnable{
+	private Sequence seq;
 	private Thread t;
 	private boolean stop=false;
 	private int i=0;
@@ -17,7 +17,6 @@ public class SceneSequencer implements Runnable{
 	@Autowired
 	private DmxWrapper dmx;
 	
-	@Override
 	public void run() {
 		try {
 			while(!stop){
@@ -66,7 +65,7 @@ public class SceneSequencer implements Runnable{
 	public void pause(){
 		speed(0);
 	}
-	public void play (SceneSequence s){
+	public void play (Sequence s){
 		i=0;
 		seq = s;
 		if(t==null) speed(speed);

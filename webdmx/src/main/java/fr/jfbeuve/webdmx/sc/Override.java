@@ -1,7 +1,7 @@
 package fr.jfbeuve.webdmx.sc;
 
-public class SceneOverride {
-	public SceneFixture[] override;
+public class Override {
+	public FixtureState[] override;
 	public int[] reset;
 	public long fade = 0;
 	public int layer=1;
