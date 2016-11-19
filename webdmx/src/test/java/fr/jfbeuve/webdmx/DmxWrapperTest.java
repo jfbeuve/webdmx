@@ -1,4 +1,4 @@
-package fr.jfbeuve.webdmx.v2;
+package fr.jfbeuve.webdmx;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,6 +12,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.jfbeuve.webdmx.Start;
+import fr.jfbeuve.webdmx.dmx.DmxWrapper;
+import fr.jfbeuve.webdmx.sc.Scene;
+import fr.jfbeuve.webdmx.sc.SceneFixture;
+import fr.jfbeuve.webdmx.sc.SceneSequencer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Start.class)

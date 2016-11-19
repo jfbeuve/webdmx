@@ -1,4 +1,4 @@
-package fr.jfbeuve.webdmx.v2;
+package fr.jfbeuve.webdmx.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -6,6 +6,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import fr.jfbeuve.webdmx.dmx.DmxWrapper;
+import fr.jfbeuve.webdmx.sc.Scene;
+import fr.jfbeuve.webdmx.sc.SceneOverride;
+import fr.jfbeuve.webdmx.sc.SceneSequence;
+import fr.jfbeuve.webdmx.sc.SceneSequencer;
 
 @RestController
 public class LiveController {

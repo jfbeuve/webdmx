@@ -1,4 +1,4 @@
-package fr.jfbeuve.webdmx.v2;
+package fr.jfbeuve.webdmx.sc;
 
 public class SceneSequence {
 	public Scene[] scenes;

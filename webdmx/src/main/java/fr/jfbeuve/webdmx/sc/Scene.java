@@ -1,4 +1,4 @@
-package fr.jfbeuve.webdmx.v2;
+package fr.jfbeuve.webdmx.sc;
 
 public class Scene {
 	public Scene(){}

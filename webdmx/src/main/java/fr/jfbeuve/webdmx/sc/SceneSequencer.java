@@ -1,7 +1,9 @@
-package fr.jfbeuve.webdmx.v2;
+package fr.jfbeuve.webdmx.sc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 
 @Component
 public class SceneSequencer implements Runnable{

@@ -1,4 +1,4 @@
-package fr.jfbeuve.webdmx.v2;
+package fr.jfbeuve.webdmx.dmx;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.io.OlaWeb;
+import fr.jfbeuve.webdmx.sc.Scene;
+import fr.jfbeuve.webdmx.sc.SceneFixture;
+import fr.jfbeuve.webdmx.sc.SceneOverride;
 
 @Component
 public class DmxWrapper {

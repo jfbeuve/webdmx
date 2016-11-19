@@ -1,4 +1,4 @@
-package fr.jfbeuve.webdmx.v2;
+package fr.jfbeuve.webdmx.dmx;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,7 +10,7 @@ public class DmxChannel {
 	private int layer = 0;
 	private int channel, value;
 	
-	DmxChannel(int ch){
+	public DmxChannel(int ch){
 		channel=ch;
 		
 		dmx[0] = new DmxLayer(0);
@@ -24,7 +24,7 @@ public class DmxChannel {
 	 * @param d dimmer %
 	 * @param f fading time in ms
 	 */
-	void set(int v, int d, long f){
+	public void set(int v, int d, long f){
 		value = v;
 		dmx[0].set(v*d/100, f);
 	}
@@ -32,7 +32,7 @@ public class DmxChannel {
 	 * reset a layer of override
 	 * reset ALL override layers
 	 */
-	void reset(int _layer){
+	public void reset(int _layer){
 		if(_layer==-1) {
 			reset();
 			return;
@@ -52,14 +52,14 @@ public class DmxChannel {
 		layer=0;
 	}
 	
-	void override(int v, int d, long f, int _layer){
+	public void override(int v, int d, long f, int _layer){
 		if(_layer<1||_layer>dmx.length)return;
 		if(dmx[_layer]==null) dmx[_layer] = new DmxLayer(dmx[0].get());
 		dmx[_layer].set((v<0?value:v)*d/100, f);
 		if(layer<_layer)layer=_layer;
 	}
 	
-	boolean apply(int[] output){
+	public boolean apply(int[] output){
 		int was = output[channel];
 		output[channel]=dmx[layer].get();
 		if(log.isDebugEnabled()){

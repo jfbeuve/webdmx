@@ -1,4 +1,4 @@
-package fr.jfbeuve.webdmx.v2;
+package fr.jfbeuve.webdmx.dmx;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
