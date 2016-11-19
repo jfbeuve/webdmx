@@ -20,18 +20,18 @@ public class RGBFixture {
 	 * @param FADE TIME IN MS
 	 */
 	public void set(FixtureState f, long fade){
-		red.set(f.r,f.dim, fade);
-		green.set(f.g,f.dim, fade);
-		blue.set(f.b,f.dim, fade);
+		red.set(f.r,f.dim, f.strob, fade);
+		green.set(f.g,f.dim, f.strob, fade);
+		blue.set(f.b,f.dim, f.strob, fade);
 	}
 	
 	/**
 	 * set override for this fixture
 	 */
 	public void override(FixtureState f, long fade, int layer){
-		red.override(f.r, f.dim, fade, layer);
-		green.override(f.g, f.dim, fade, layer);
-		blue.override(f.b, f.dim, fade, layer);
+		red.override(f.r, f.dim, f.strob, fade, layer);
+		green.override(f.g, f.dim, f.strob, fade, layer);
+		blue.override(f.b, f.dim, f.strob, fade, layer);
 	}
 	
 	/**
@@ -47,11 +47,11 @@ public class RGBFixture {
 	 * Applies dmx values
 	 * @return true if all fading completed 
 	 */
-	public boolean apply(int[] output){
+	public boolean apply(int[] output, boolean strob){
 		boolean done = true;
-		if(!red.apply(output)) done = false;
-		if(!green.apply(output)) done = false;
-		if(!blue.apply(output)) done = false;
+		if(!red.apply(output, strob)) done = false;
+		if(!green.apply(output, strob)) done = false;
+		if(!blue.apply(output, strob)) done = false;
 				
 		return done;
 	}

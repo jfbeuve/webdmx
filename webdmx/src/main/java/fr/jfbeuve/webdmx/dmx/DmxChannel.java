@@ -13,7 +13,7 @@ public class DmxChannel {
 	public DmxChannel(int ch){
 		channel=ch;
 		
-		dmx[0] = new DmxLayer(0);
+		dmx[0] = new DmxLayer(0,false);
 		for(int i=1;i<dmx.length;i++) dmx[i]=null;
 				
 		value = 0;
@@ -24,9 +24,10 @@ public class DmxChannel {
 	 * @param d dimmer %
 	 * @param f fading time in ms
 	 */
-	public void set(int v, int d, long f){
+	public void set(int v, int d, boolean strob, long f){
 		value = v;
 		dmx[0].set(v*d/100, f);
+		dmx[0].strob(false);
 	}
 	/**
 	 * reset a layer of override
@@ -52,16 +53,16 @@ public class DmxChannel {
 		layer=0;
 	}
 	
-	public void override(int v, int d, long f, int _layer){
+	public void override(int v, int d, boolean strob, long f, int _layer){
 		if(_layer<1||_layer>dmx.length)return;
-		if(dmx[_layer]==null) dmx[_layer] = new DmxLayer(dmx[0].get());
+		if(dmx[_layer]==null) dmx[_layer] = new DmxLayer(dmx[0].get(true),strob);
 		dmx[_layer].set((v<0?value:v)*d/100, f);
 		if(layer<_layer)layer=_layer;
 	}
 	
-	public boolean apply(int[] output){
+	public boolean apply(int[] output, boolean strob){
 		int was = output[channel];
-		output[channel]=dmx[layer].get();
+		output[channel]=dmx[layer].get(strob);
 		if(log.isDebugEnabled()){
 			if(was!=output[channel])
 				log.debug(channel+"="+output[channel]);

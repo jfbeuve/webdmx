@@ -9,11 +9,13 @@ public class DmxFader implements Runnable{
 	private DmxWrapper dmx;
 	boolean done, stale;
 	private Thread t;
+	private int strob;
 	
 	DmxFader(DmxWrapper _dmx){
 		dmx = _dmx;
 		stale=false;
 		done=true;
+		strob = 0;
 	}
 	
 	@Override
@@ -22,9 +24,10 @@ public class DmxFader implements Runnable{
 		done=false;
 		while(true){
 			log.debug("LOOP");
+			if(strob>7)strob=0;
 
 			stale = true;
-			done = dmx.fade();
+			done = dmx.apply(strob<4);
 			stale = false;
 			if(done)break;
 			

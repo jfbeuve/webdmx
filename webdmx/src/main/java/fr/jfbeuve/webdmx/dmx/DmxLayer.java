@@ -8,12 +8,12 @@ public class DmxLayer {
 	//private int startStep;
 	//private long steps;
 	
-	private long stroboSpeed=0;
-	private long stroboTime=0;
+	boolean strob;
 	
-	DmxLayer(int val){
+	DmxLayer(int val, boolean s){
 		dmxVal = val;
 		endVal = val;
+		strob=s;
 	}
 	
 	void set(int val, long time){
@@ -31,18 +31,11 @@ public class DmxLayer {
 		steps = endStep - startStep;
 		*/
 	}
-	int get(){
-		if(stroboSpeed>0){
-			long time = System.currentTimeMillis()-stroboTime;
-			if(time>stroboSpeed)
-				return 0;
-			if(time>stroboSpeed*2)
-				stroboTime = time;
+	int get(boolean flash){
+		if(strob&&!flash)
+			return 0;
+		else
 			return val();
-		} else
-			return val();
-		
-		
 	}
 	private int val(){
 		if(dmxVal == endVal) 
@@ -94,11 +87,11 @@ public class DmxLayer {
 	}
 	
 	boolean isCompleted(){
-		if(stroboSpeed>0) return false;
+		if(strob) return false;
 		return dmxVal == endVal;
 	}
 	
-	void strob(long s){
-		stroboSpeed = s;
+	void strob(boolean s){
+		strob=s;
 	}
 }

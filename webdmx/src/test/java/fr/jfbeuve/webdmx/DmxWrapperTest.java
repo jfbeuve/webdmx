@@ -43,7 +43,7 @@ public class DmxWrapperTest {
 		dmx.set(new Scene(ALLRED,0));
 		assertscene(255,0,0,255,0,0,255,0,0,255,0,0);
 	}
-	static final FixtureState[] ALLRED = {new FixtureState(0,100,255,0,0,0),new FixtureState(1,100,255,0,0,0),new FixtureState(2,100,255,0,0,0),new FixtureState(3,100,255,0,0,0)};
+	static final FixtureState[] ALLRED = {new FixtureState(0,100,255,0,0,false),new FixtureState(1,100,255,0,0,false),new FixtureState(2,100,255,0,0,false),new FixtureState(3,100,255,0,0,false)};
 	
 	private void assertscene(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4) throws Exception{
 		Thread.sleep(20);

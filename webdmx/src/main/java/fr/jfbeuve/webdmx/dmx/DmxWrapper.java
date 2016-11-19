@@ -63,10 +63,10 @@ public class DmxWrapper {
 		fader.start();
 	}
 
-	boolean fade(){
+	boolean apply(boolean strob){
 		boolean completed = true;
 		for(int i=0;i<fixture.length;i++)
-			if(fixture[i].apply(data)==false) completed=false;
+			if(fixture[i].apply(data, strob)==false) completed=false;
 		if(!offline) io.send(data);
 		return completed; 
 	}
