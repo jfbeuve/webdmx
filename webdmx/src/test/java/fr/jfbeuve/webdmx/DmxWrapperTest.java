@@ -1,6 +1,7 @@
 package fr.jfbeuve.webdmx;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,61 +29,84 @@ public class DmxWrapperTest {
 	@Autowired
 	private Sequencer seq;
 	
-	@Test
-	public void layer1snap() throws Exception {
-		
+	private void init() throws Exception{
 		// INIT
 		dmx.offline();
 		dmx.blackout(0);
 
 		// ASSERT BLACKOUT
 		Thread.sleep(20);
-		assertscene(0,0,0,0,0,0,0,0,0,0,0,0);
+		assertRGB(0,0,0,0,0,0,0,0,0,0,0,0);
+	}
+	
+	@Test
+	public void layer1snap() throws Exception {
+		init();
 		
 		// ALL RED
 		dmx.set(new Scene(RGBW,0));
 		Thread.sleep(20);
-		assertscene(255,0,0,0,255,0,0,0,255,127,127,127);
+		assertRGB(255,0,0,0,255,0,0,0,255,127,127,127);
 	}
+	
 	@Test
 	public void layer1fade() throws Exception {
-		
-		// INIT
-		dmx.offline();
-		dmx.blackout(0);
-
-		// ASSERT BLACKOUT
-		Thread.sleep(20);
-		assertscene(0,0,0,0,0,0,0,0,0,0,0,0);
+		init();
 		
 		// FADE IN
 		dmx.set(new Scene(RGBW,100));
 		Thread.sleep(50);
-		//TODO assert 50% assertscene(160,0,0,0,160,0,0,0,160,80,80,80);
+		assertRGBlower(200,0,0,0,200,0,0,0,200,100,100,100);
+		assertRGBhigher(100,0,0,0,100,0,0,0,100,50,50,50);
 		Thread.sleep(50);
-		assertscene(255,0,0,0,255,0,0,0,255,127,127,127);
+		assertRGB(255,0,0,0,255,0,0,0,255,127,127,127);
 		
-		//TODO assert FADE OUT
+		// FADE OUT
+		dmx.set(new Scene(BLACKOUT,100));
+		Thread.sleep(50);
+		assertRGBlower(200,0,0,0,200,0,0,0,200,100,100,100);
+		assertRGBhigher(100,0,0,0,100,0,0,0,100,50,50,50);
+		Thread.sleep(50);
+		assertRGB(0,0,0,0,0,0,0,0,0,0,0,0);
 	}
 	static final FixtureState[] RGBW = {new FixtureState(0,100,255,0,0,false),new FixtureState(1,100,0,255,0,false),new FixtureState(2,100,0,0,255,false),new FixtureState(3,50,255,255,255,false)};
+	static final FixtureState[] BLACKOUT = {new FixtureState(0,0,0,0,0,false),new FixtureState(1,0,0,0,0,false),new FixtureState(2,0,0,0,0,false),new FixtureState(3,0,0,0,0,false)};
 	
-	private void assertscene(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4){
-		log.info("<ASSERT>");
-		
-		assertEquals(r1,dmx.read()[24]);
-		assertEquals(g1,dmx.read()[25]);
-		assertEquals(b1,dmx.read()[26]);
-		
-		assertEquals(r2,dmx.read()[27]);
-		assertEquals(g2,dmx.read()[28]);
-		assertEquals(b2,dmx.read()[29]);
-		
-		assertEquals(r3,dmx.read()[30]);
-		assertEquals(g3,dmx.read()[31]);
-		assertEquals(b3,dmx.read()[32]);
-		
-		assertEquals(r4,dmx.read()[33]);
-		assertEquals(g4,dmx.read()[34]);
-		assertEquals(b4,dmx.read()[35]);
+	private void assertRGB(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4){
+		assertRGB(24,r1,g1,b1);
+		assertRGB(27,r2,g2,b2);
+		assertRGB(30,r3,g3,b3);
+		assertRGB(33,r4,g4,b4);
 	}
+	private void assertRGB(int ch, int r, int g, int b){
+		log.info("<ASSERT "+ch+" r="+r+" g="+g+" b="+b+">");
+		assertEquals(r,dmx.read()[ch]);
+		assertEquals(g,dmx.read()[ch+1]);
+		assertEquals(b,dmx.read()[ch+2]);
+	}
+	private void assertRGBlower(int ch, int r, int g, int b){
+		log.info("<ASSERT "+ch+" r<"+r+" g<"+g+" b<"+b+">");
+		assertTrue(r>=dmx.read()[ch]);
+		assertTrue(g>=dmx.read()[ch+1]);
+		assertTrue(b>=dmx.read()[ch+2]);
+	}
+	private void assertRGBlower(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4){
+		assertRGBlower(24,r1,g1,b1);
+		assertRGBlower(27,r2,g2,b2);
+		assertRGBlower(30,r3,g3,b3);
+		assertRGBlower(33,r4,g4,b4);
+	}
+	private void assertRGBhigher(int ch, int r, int g, int b){
+		log.info("<ASSERT "+ch+" r>"+r+" g>"+g+" b>"+b+">");
+		assertTrue(r<=dmx.read()[ch]);
+		assertTrue(g<=dmx.read()[ch+1]);
+		assertTrue(b<=dmx.read()[ch+2]);
+	}
+	private void assertRGBhigher(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4){
+		assertRGBhigher(24,r1,g1,b1);
+		assertRGBhigher(27,r2,g2,b2);
+		assertRGBhigher(30,r3,g3,b3);
+		assertRGBhigher(33,r4,g4,b4);
+	}
+	
 }
