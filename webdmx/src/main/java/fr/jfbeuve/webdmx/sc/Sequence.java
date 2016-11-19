@@ -1,5 +1,5 @@
 package fr.jfbeuve.webdmx.sc;
 
-public class SceneSequence {
+public class Sequence {
 	public Scene[] scenes;
 }

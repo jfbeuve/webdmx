@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.io.OlaWeb;
 import fr.jfbeuve.webdmx.sc.Scene;
-import fr.jfbeuve.webdmx.sc.SceneFixture;
-import fr.jfbeuve.webdmx.sc.SceneOverride;
+import fr.jfbeuve.webdmx.sc.FixtureState;
+import fr.jfbeuve.webdmx.sc.Override;
 
 @Component
 public class DmxWrapper {
@@ -46,7 +46,7 @@ public class DmxWrapper {
 	
 	public void set(Scene sc){
 		log.debug("SET "+sc);
-		for(SceneFixture f:sc.fixtures)
+		for(FixtureState f:sc.fixtures)
 			fixture[f.id].set(f,sc.fade);
 		fader.start();
 	}
@@ -54,9 +54,9 @@ public class DmxWrapper {
 	/**
 	 * sets overrides
 	 */
-	public void set(SceneOverride o){
+	public void set(Override o){
 		log.debug(o);
-		for(SceneFixture f:o.override)
+		for(FixtureState f:o.override)
 			fixture[f.id].override(f,o.fade, o.layer);
 		for(int i=0;i<o.reset.length;i++)
 			fixture[o.reset[i]].reset(o.layer);
@@ -74,7 +74,7 @@ public class DmxWrapper {
 		log.info("BLACKOUT");
 		for(int i=0;i<fixture.length;i++){
 			fixture[i].reset(-1);
-			fixture[i].set(new SceneFixture(i), fade);
+			fixture[i].set(new FixtureState(i), fade);
 		}
 		fader.start();
 	}

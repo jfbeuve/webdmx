@@ -1,7 +1,7 @@
 package fr.jfbeuve.webdmx.fixture;
 
 import fr.jfbeuve.webdmx.dmx.DmxChannel;
-import fr.jfbeuve.webdmx.sc.SceneFixture;
+import fr.jfbeuve.webdmx.sc.FixtureState;
 
 public class RGBFixture {
 	private DmxChannel red, green, blue;
@@ -19,7 +19,7 @@ public class RGBFixture {
 	 * @param DIMMER 0-100
 	 * @param FADE TIME IN MS
 	 */
-	public void set(SceneFixture f, long fade){
+	public void set(FixtureState f, long fade){
 		red.set(f.r,f.dim, fade);
 		green.set(f.g,f.dim, fade);
 		blue.set(f.b,f.dim, fade);
@@ -28,7 +28,7 @@ public class RGBFixture {
 	/**
 	 * set override for this fixture
 	 */
-	public void override(SceneFixture f, long fade, int layer){
+	public void override(FixtureState f, long fade, int layer){
 		red.override(f.r, f.dim, fade, layer);
 		green.override(f.g, f.dim, fade, layer);
 		blue.override(f.b, f.dim, fade, layer);

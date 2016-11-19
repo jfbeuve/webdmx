@@ -5,11 +5,11 @@ public class Scene {
 	/**
 	 * JUnit constructor
 	 */
-	public Scene(SceneFixture[] fxt, long fad){
+	public Scene(FixtureState[] fxt, long fad){
 		fixtures = fxt;
 		fade=fad;
 	}
-	public SceneFixture[] fixtures;
+	public FixtureState[] fixtures;
 	public long fade=0;
 	/* {
 	 *   fixtures: [
