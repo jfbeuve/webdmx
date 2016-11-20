@@ -50,19 +50,19 @@ public class DmxWrapperTest {
 		init();
 		
 		// FADE IN
-		dmx.set(new Scene(RGBW,100));
-		Thread.sleep(60);
-		assertRGBlower(200,0,0,0,200,0,0,0,200,100,100,100);
-		assertRGBhigher(70,0,0,0,70,0,0,0,70,30,30,30);
-		Thread.sleep(60);
+		dmx.set(new Scene(RGBW,500));
+		Thread.sleep(250);
+		assertRGBlower(150,0,0,0,150,0,0,0,150,75,75,75);
+		assertRGBhigher(100,0,0,0,100,0,0,0,100,50,50,50);
+		Thread.sleep(300);
 		assertRGB(255,0,0,0,255,0,0,0,255,127,127,127);
 		
 		// FADE OUT
-		dmx.set(new Scene(BLACKOUT,100));
-		Thread.sleep(60);
-		assertRGBlower(200,0,0,0,200,0,0,0,200,100,100,100);
-		assertRGBhigher(90,0,0,0,90,0,0,0,90,40,40,40);
-		Thread.sleep(60);
+		dmx.set(new Scene(BLACKOUT,500));
+		Thread.sleep(250);
+		assertRGBlower(150,0,0,0,150,0,0,0,150,75,75,75);
+		assertRGBhigher(100,0,0,0,100,0,0,0,100,50,50,50);
+		Thread.sleep(300);
 		assertRGB(0,0,0,0,0,0,0,0,0,0,0,0);
 	}
 	

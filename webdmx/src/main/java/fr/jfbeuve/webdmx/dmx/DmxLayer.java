@@ -92,7 +92,7 @@ public class DmxLayer {
 		
 		int ratio = (int) ((time-startTime) * 100 / fadeTime);
 		log.debug(ratio+"%");
-		dmxVal = startVal + (endVal-startVal) * (ratio / 100);
+		dmxVal = startVal + (endVal-startVal) * ratio / 100;
 		
 		return dmxVal;
 	}

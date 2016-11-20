@@ -11,7 +11,7 @@ import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 public class Sequencer implements Runnable{
 	private static final Log log = LogFactory.getLog(Sequencer.class);
 	
-	private Scene[] scenes;
+	private Scene[] scenes={};
 	private Thread t;
 	private boolean stop=false;
 	private int i=0;
@@ -25,10 +25,11 @@ public class Sequencer implements Runnable{
 		try {
 			log.debug("SEQUENCE START");
 			while(!stop){
-				long time = System.currentTimeMillis();
+				//long time = System.currentTimeMillis();
 				next();
-				long sleep = speed-System.currentTimeMillis()+time;
-				if(sleep>0) Thread.sleep(sleep);
+				//long sleep = speed-System.currentTimeMillis()+time;
+				//if(sleep>0) Thread.sleep(sleep);
+				 Thread.sleep(speed);
 			}
 			log.debug("SEQUENCE END");
 		} catch (InterruptedException e) {
@@ -44,7 +45,7 @@ public class Sequencer implements Runnable{
 		stop();
 		if(s==0) return;
 		speed = s;
-		start();
+		if(scenes.length>0) start();
 	}
 	
 	public void man(){

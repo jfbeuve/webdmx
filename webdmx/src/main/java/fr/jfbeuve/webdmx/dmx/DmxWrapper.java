@@ -25,7 +25,7 @@ public class DmxWrapper {
 	private int[] data;
 	private RGBFixture[] fixture;
 	
-	private DmxThread fader;
+	private DmxThread thread;
 	
 	public DmxWrapper(){
 		data = new int[512];
@@ -37,7 +37,7 @@ public class DmxWrapper {
 		fixture[2]=new RGBFixture(30);
 		fixture[3]=new RGBFixture(33);
 		
-		fader=new DmxThread(this);
+		thread=new DmxThread(this);
 	}
 
 	@Autowired
@@ -56,7 +56,7 @@ public class DmxWrapper {
 		log.debug("SET "+sc);
 		for(RGBFixtureState f:sc.fixtures)
 			fixture[f.id].set(f,sc.fade);
-		fader.start();
+		thread.apply();
 	}
 	/**
 	 * sets directly values to dmx channels
@@ -64,7 +64,7 @@ public class DmxWrapper {
 	public void set(Map<Integer,Integer> values){
 		for(Map.Entry<Integer,Integer> entry:values.entrySet())
 			data[entry.getKey()]=entry.getValue();
-		fader.start();
+		thread.apply();
 	}
 	/**
 	 * overrides scene
@@ -75,7 +75,7 @@ public class DmxWrapper {
 			fixture[f.id].override(f,o.fade, o.layer);
 		for(int i=0;i<o.reset.length;i++)
 			fixture[o.reset[i]].reset(o.layer);
-		fader.start();
+		thread.apply();
 	}
 
 	boolean apply(boolean strob){
@@ -93,7 +93,7 @@ public class DmxWrapper {
 			fixture[i].reset(-1);
 			fixture[i].set(new RGBFixtureState(i), fade);
 		}
-		fader.start();
+		thread.apply();
 	}
 	/**
 	 * @return dmx values for JUnit purpose

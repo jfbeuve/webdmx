@@ -40,7 +40,7 @@ public class DmxThread implements Runnable{
 		}
 		log.debug("END DMX THREAD");
 	}
-	synchronized void start(){
+	synchronized void apply(){
 		log.debug("DMX START");
 		if(t==null){
 			// first time
