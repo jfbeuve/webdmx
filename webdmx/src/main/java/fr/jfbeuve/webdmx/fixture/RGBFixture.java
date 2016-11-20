@@ -1,7 +1,7 @@
 package fr.jfbeuve.webdmx.fixture;
 
 import fr.jfbeuve.webdmx.dmx.DmxChannel;
-import fr.jfbeuve.webdmx.sc.FixtureState;
+import fr.jfbeuve.webdmx.sc.RGBFixtureState;
 
 public class RGBFixture {
 	private DmxChannel red, green, blue;
@@ -19,7 +19,7 @@ public class RGBFixture {
 	 * @param DIMMER 0-100
 	 * @param FADE TIME IN MS
 	 */
-	public void set(FixtureState f, long fade){
+	public void set(RGBFixtureState f, long fade){
 		red.set(f.r,f.dim, f.strob, fade);
 		green.set(f.g,f.dim, f.strob, fade);
 		blue.set(f.b,f.dim, f.strob, fade);
@@ -28,7 +28,7 @@ public class RGBFixture {
 	/**
 	 * set override for this fixture
 	 */
-	public void override(FixtureState f, long fade, int layer){
+	public void override(RGBFixtureState f, long fade, int layer){
 		red.override(f.r, f.dim, f.strob, fade, layer);
 		green.override(f.g, f.dim, f.strob, fade, layer);
 		blue.override(f.b, f.dim, f.strob, fade, layer);
@@ -43,15 +43,14 @@ public class RGBFixture {
 		blue.reset(layer);
 	}
 		
-	/**
-	 * Applies dmx values
-	 * @return true if all fading completed 
+	/* (non-Javadoc)
+	 * @see fr.jfbeuve.webdmx.fixture.IFixture#apply(int[], boolean, long)
 	 */
-	public boolean apply(int[] output, boolean strob){
+	public boolean apply(int[] output, boolean strob, long timestamp){
 		boolean done = true;
-		if(!red.apply(output, strob)) done = false;
-		if(!green.apply(output, strob)) done = false;
-		if(!blue.apply(output, strob)) done = false;
+		if(!red.apply(output, strob, timestamp)) done = false;
+		if(!green.apply(output, strob, timestamp)) done = false;
+		if(!blue.apply(output, strob, timestamp)) done = false;
 				
 		return done;
 	}

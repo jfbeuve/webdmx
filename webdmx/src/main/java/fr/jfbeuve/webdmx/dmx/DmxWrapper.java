@@ -1,5 +1,7 @@
 package fr.jfbeuve.webdmx.dmx;
 
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,7 @@ import org.springframework.stereotype.Component;
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.io.OlaWeb;
 import fr.jfbeuve.webdmx.sc.Scene;
-import fr.jfbeuve.webdmx.sc.FixtureState;
+import fr.jfbeuve.webdmx.sc.RGBFixtureState;
 import fr.jfbeuve.webdmx.sc.Override;
 import fr.jfbeuve.webdmx.sc.Sequencer;
 
@@ -47,20 +49,29 @@ public class DmxWrapper {
 	public void offline() {
 		offline = true;
 	}
-	
+	/**
+	 * sets scene to layer 0
+	 */
 	public void set(Scene sc){
 		log.debug("SET "+sc);
-		for(FixtureState f:sc.fixtures)
+		for(RGBFixtureState f:sc.fixtures)
 			fixture[f.id].set(f,sc.fade);
 		fader.start();
 	}
-	
 	/**
-	 * sets overrides
+	 * sets directly values to dmx channels
+	 */
+	public void set(Map<Integer,Integer> values){
+		for(Map.Entry<Integer,Integer> entry:values.entrySet())
+			data[entry.getKey()]=entry.getValue();
+		fader.start();
+	}
+	/**
+	 * overrides scene
 	 */
 	public void override(Override o){
 		log.debug(o);
-		for(FixtureState f:o.override)
+		for(RGBFixtureState f:o.override)
 			fixture[f.id].override(f,o.fade, o.layer);
 		for(int i=0;i<o.reset.length;i++)
 			fixture[o.reset[i]].reset(o.layer);
@@ -68,9 +79,10 @@ public class DmxWrapper {
 	}
 
 	boolean apply(boolean strob){
+		long timestamp = System.currentTimeMillis();
 		boolean completed = true;
 		for(int i=0;i<fixture.length;i++)
-			if(fixture[i].apply(data, strob)==false) completed=false;
+			if(fixture[i].apply(data, strob, timestamp)==false) completed=false;
 		if(!offline) io.send(data);
 		return completed; 
 	}
@@ -79,7 +91,7 @@ public class DmxWrapper {
 		chase.pause();
 		for(int i=0;i<fixture.length;i++){
 			fixture[i].reset(-1);
-			fixture[i].set(new FixtureState(i), fade);
+			fixture[i].set(new RGBFixtureState(i), fade);
 		}
 		fader.start();
 	}

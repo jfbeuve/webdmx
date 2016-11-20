@@ -2,7 +2,7 @@ package fr.jfbeuve.webdmx.sc;
 
 public class Scene {
 	
-	public FixtureState[] fixtures;
+	public RGBFixtureState[] fixtures;
 	public long fade=0;
 	/* {
 	 *   fixtures: [
@@ -15,10 +15,10 @@ public class Scene {
 	 * }
 	 */
 	public Scene(){
-		fixtures = new FixtureState[0];
+		fixtures = new RGBFixtureState[0];
 		fade = 0;
 	}
-		public Scene(FixtureState[] fxt, long fad){
+		public Scene(RGBFixtureState[] fxt, long fad){
 		fixtures = fxt;
 		fade=fad;
 	}

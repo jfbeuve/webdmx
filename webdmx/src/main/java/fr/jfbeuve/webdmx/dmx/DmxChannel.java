@@ -55,14 +55,14 @@ public class DmxChannel {
 	
 	public void override(int v, int d, boolean strob, long f, int _layer){
 		if(_layer<1||_layer>dmx.length)return;
-		if(dmx[_layer]==null) dmx[_layer] = new DmxLayer(dmx[0].get(true),strob);
+		if(dmx[_layer]==null) dmx[_layer] = new DmxLayer(dmx[0].val(),strob);
 		dmx[_layer].set((v<0?value:v)*d/100, f);
 		if(layer<_layer)layer=_layer;
 	}
 	
-	public boolean apply(int[] output, boolean strob){
+	public boolean apply(int[] output, boolean strob, long timestamp){
 		int was = output[channel];
-		output[channel]=dmx[layer].get(strob);
+		output[channel]=dmx[layer].next(strob, timestamp);
 		if(log.isDebugEnabled()){
 			if(was!=output[channel])
 				log.debug(channel+"="+output[channel]);

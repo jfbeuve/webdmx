@@ -13,7 +13,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
-import fr.jfbeuve.webdmx.sc.FixtureState;
+import fr.jfbeuve.webdmx.sc.RGBFixtureState;
 import fr.jfbeuve.webdmx.sc.Scene;
 import fr.jfbeuve.webdmx.sc.Sequencer;
 
@@ -88,14 +88,14 @@ public class DmxWrapperTest {
 	
 	//TODO strob, solo
 	
-	static final FixtureState[] RGBW = {new FixtureState(0,100,255,0,0,false),new FixtureState(1,100,0,255,0,false),new FixtureState(2,100,0,0,255,false),new FixtureState(3,50,255,255,255,false)};
-	static final FixtureState[] ALLRED50 = {new FixtureState(0,50,255,0,0,false),new FixtureState(1,50,255,0,0,false),new FixtureState(2,50,255,0,0,false),new FixtureState(3,50,255,0,0,false)};
-	static final FixtureState[] BLACKOUT = {new FixtureState(0,0,0,0,0,false),new FixtureState(1,0,0,0,0,false),new FixtureState(2,0,0,0,0,false),new FixtureState(3,0,0,0,0,false)};
+	static final RGBFixtureState[] RGBW = {new RGBFixtureState(0,100,255,0,0,false),new RGBFixtureState(1,100,0,255,0,false),new RGBFixtureState(2,100,0,0,255,false),new RGBFixtureState(3,50,255,255,255,false)};
+	static final RGBFixtureState[] ALLRED50 = {new RGBFixtureState(0,50,255,0,0,false),new RGBFixtureState(1,50,255,0,0,false),new RGBFixtureState(2,50,255,0,0,false),new RGBFixtureState(3,50,255,0,0,false)};
+	static final RGBFixtureState[] BLACKOUT = {new RGBFixtureState(0,0,0,0,0,false),new RGBFixtureState(1,0,0,0,0,false),new RGBFixtureState(2,0,0,0,0,false),new RGBFixtureState(3,0,0,0,0,false)};
 	
-	static final FixtureState[] CHASE1 = {new FixtureState(0,100,-1,-1,-1,false)};
-	static final FixtureState[] CHASE2 = {new FixtureState(1,100,-1,-1,-1,false)};
-	static final FixtureState[] CHASE3 = {new FixtureState(2,100,-1,-1,-1,false)};
-	static final FixtureState[] CHASE4 = {new FixtureState(3,100,-1,-1,-1,false)};
+	static final RGBFixtureState[] CHASE1 = {new RGBFixtureState(0,100,-1,-1,-1,false)};
+	static final RGBFixtureState[] CHASE2 = {new RGBFixtureState(1,100,-1,-1,-1,false)};
+	static final RGBFixtureState[] CHASE3 = {new RGBFixtureState(2,100,-1,-1,-1,false)};
+	static final RGBFixtureState[] CHASE4 = {new RGBFixtureState(3,100,-1,-1,-1,false)};
 	static final Scene[] CHASE = {new Scene(CHASE1,0),new Scene(CHASE2,0),new Scene(CHASE3,0),new Scene(CHASE4,0)};
 	
 	private void assertRGB(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4){

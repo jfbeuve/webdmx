@@ -1,6 +1,10 @@
 package fr.jfbeuve.webdmx.dmx;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class DmxLayer {
+	private static final Log log = LogFactory.getLog(DmxLayer.class);
 	//private final static int[] scale = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,30,40,50,60,70,80,90,100,150,200,255};
 	
 	private int startVal, endVal, dmxVal;
@@ -15,7 +19,10 @@ public class DmxLayer {
 		endVal = val;
 		strob=s;
 	}
-	
+	/**
+	 * @param val : target dmx value
+	 * @param time : fade time
+	 */
 	void set(int val, long time){
 		startTime = System.currentTimeMillis();
 		startVal = dmxVal;
@@ -31,7 +38,10 @@ public class DmxLayer {
 		steps = endStep - startStep;
 		*/
 	}
-	int get(boolean flash){
+	/**
+	 * @return next dmx value for this channel
+	 */
+	int next(boolean flash, long timestamp){
 		if(strob&&!flash)
 			return 0;
 		
@@ -41,7 +51,13 @@ public class DmxLayer {
 		if(dmxVal == endVal) 
 			return endVal;
 		
-		return getByLin();
+		return getByLin(timestamp);
+	}
+	/**
+	 * @return current dmx value for this channel
+	 */
+	int val(){
+		return dmxVal;
 	}
 	/*
 	 * fade using a scale rather than %
@@ -67,16 +83,16 @@ public class DmxLayer {
 	/**
 	 * fade using %
 	 */
-	private int getByLin(){
-		long time = System.currentTimeMillis();
+	private int getByLin(long time){
 		if(time>=startTime+fadeTime){
 			// fading end
 			dmxVal = endVal;
 			return endVal;
 		}
 		
-		// ratio linear 
-		dmxVal = startVal + (endVal-startVal) * ((int)(time-startTime)) / (int)fadeTime;
+		int ratio = (int) ((time-startTime) * 100 / fadeTime);
+		log.debug(ratio+"%");
+		dmxVal = startVal + (endVal-startVal) * (ratio / 100);
 		
 		return dmxVal;
 	}

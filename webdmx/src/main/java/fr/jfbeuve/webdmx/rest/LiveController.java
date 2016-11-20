@@ -1,5 +1,7 @@
 package fr.jfbeuve.webdmx.rest;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +34,11 @@ public class LiveController {
 	@RequestMapping(value = "/live/sequence", method = RequestMethod.POST,consumes="application/json")
 	public Object override(@RequestBody final Scene[] s) {
 		chase.play(s);
+		return null;
+	}
+	@RequestMapping(value = "/live/data", method = RequestMethod.POST,consumes="application/json")
+	public Object override(@RequestBody final Map<Integer,Integer> v) {
+		dmx.set(v);
 		return null;
 	}
 	@RequestMapping("/live/speed/{time}")
