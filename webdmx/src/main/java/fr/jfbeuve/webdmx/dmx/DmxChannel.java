@@ -27,7 +27,7 @@ public class DmxChannel {
 	public void set(int v, int d, boolean strob, long f){
 		value = v;
 		dmx[0].set(v*d/100, f);
-		dmx[0].strob(false);
+		dmx[0].strob(strob);
 	}
 	/**
 	 * reset a layer of override

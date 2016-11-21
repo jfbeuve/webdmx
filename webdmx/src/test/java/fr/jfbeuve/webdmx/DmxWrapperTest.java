@@ -86,9 +86,28 @@ public class DmxWrapperTest {
 		assertRGB(127,0,0,127,0,0,127,0,0,255,0,0);
 	}
 	
+	@Test
+	public void strob() throws Exception {
+		init();
+		
+		dmx.set(new Scene(STR0B0,0));
+		Thread.sleep(20);
+		assertRGB(24,255,255,255);
+		Thread.sleep(80);
+		assertRGB(24,0,0,0);
+		Thread.sleep(80);
+		assertRGB(24,255,255,255);
+		Thread.sleep(80);
+		assertRGB(24,0,0,0);
+		
+		init();
+	}
+	
+	
 	//TODO strob, solo
 	
 	static final RGBFixtureState[] RGBW = {new RGBFixtureState(0,100,255,0,0,false),new RGBFixtureState(1,100,0,255,0,false),new RGBFixtureState(2,100,0,0,255,false),new RGBFixtureState(3,50,255,255,255,false)};
+	static final RGBFixtureState[] STR0B0 = {new RGBFixtureState(0,100,255,255,255,true)};
 	static final RGBFixtureState[] ALLRED50 = {new RGBFixtureState(0,50,255,0,0,false),new RGBFixtureState(1,50,255,0,0,false),new RGBFixtureState(2,50,255,0,0,false),new RGBFixtureState(3,50,255,0,0,false)};
 	static final RGBFixtureState[] BLACKOUT = {new RGBFixtureState(0,0,0,0,0,false),new RGBFixtureState(1,0,0,0,0,false),new RGBFixtureState(2,0,0,0,0,false),new RGBFixtureState(3,0,0,0,0,false)};
 	

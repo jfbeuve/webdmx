@@ -43,9 +43,6 @@ public class RGBFixture {
 		blue.reset(layer);
 	}
 		
-	/* (non-Javadoc)
-	 * @see fr.jfbeuve.webdmx.fixture.IFixture#apply(int[], boolean, long)
-	 */
 	public boolean apply(int[] output, boolean strob, long timestamp){
 		boolean done = true;
 		if(!red.apply(output, strob, timestamp)) done = false;

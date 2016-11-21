@@ -9,25 +9,28 @@ public class DmxThread implements Runnable{
 	private DmxWrapper dmx;
 	boolean done, stale;
 	private Thread t;
-	private int strob;
 	
 	DmxThread(DmxWrapper _dmx){
 		dmx = _dmx;
 		stale=false;
 		done=true;
-		strob = 0;
 	}
 	
 	@Override
 	public void run() {
 		log.debug("NEW DMX THREAD");
 		done=false;
+		long strobT = 0;
 		while(true){
-			log.debug("DMX LOOP");
-			if(strob>7)strob=0;
+			long time = System.currentTimeMillis();
+			boolean strob = true;
+			if(time-strobT>160) strobT=time;
+			if(time-strobT>80) strob = false;
+			
+			log.debug("DMX LOOP "+strob);
 
 			stale = true;
-			done = dmx.apply(strob<4);
+			done = dmx.apply(strob);
 			stale = false;
 			if(done)break;
 			
