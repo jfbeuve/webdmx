@@ -12,7 +12,7 @@ import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.io.OlaWeb;
 import fr.jfbeuve.webdmx.sc.Scene;
 import fr.jfbeuve.webdmx.sc.RGBFixtureState;
-import fr.jfbeuve.webdmx.sc.Override;
+import fr.jfbeuve.webdmx.sc.ScOverride;
 import fr.jfbeuve.webdmx.sc.Sequencer;
 
 @Component
@@ -69,7 +69,7 @@ public class DmxWrapper {
 	/**
 	 * overrides scene
 	 */
-	public void override(Override o){
+	public void override(ScOverride o){
 		log.debug(o);
 		for(RGBFixtureState f:o.override)
 			fixture[f.id].override(f,o.fade, o.layer);

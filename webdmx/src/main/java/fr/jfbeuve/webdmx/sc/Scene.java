@@ -2,8 +2,11 @@ package fr.jfbeuve.webdmx.sc;
 
 public class Scene {
 	
-	public RGBFixtureState[] fixtures;
+	// TODO replace RGBFixtureState[] by Sequence (RGBFixtureState[], name, speed)
+	public RGBFixtureState[] fixtures; 
 	public long fade=0;
+	//TODO add scene name
+	
 	/* {
 	 *   fixtures: [
 	 *   	{id:1, r:255, g:0, b:0, dim:20, strob:0},

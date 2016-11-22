@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.sc.Scene;
-import fr.jfbeuve.webdmx.sc.Override;
+import fr.jfbeuve.webdmx.sc.ScOverride;
 import fr.jfbeuve.webdmx.sc.Sequencer;
 
 @RestController
@@ -23,11 +23,12 @@ public class LiveController {
 	
 	@RequestMapping(value = "/live/scene", method = RequestMethod.POST,consumes="application/json")
 	public Object scene(@RequestBody final Scene s) {
+		//TODO get speed at the same time
 		dmx.set(s);
 		return null;
 	}
 	@RequestMapping(value = "/live/override", method = RequestMethod.POST,consumes="application/json")
-	public Object override(@RequestBody final Override o) {
+	public Object override(@RequestBody final ScOverride o) {
 		dmx.override(o);
 		return null;
 	}

@@ -55,7 +55,7 @@ public class Sequencer implements Runnable{
 	private void next(){
 		log.debug("SEQUENCE NEXT STEP");
 		if(i>=scenes.length) i=0;
-		dmx.override(new Override(scenes[i++], reset, 1));
+		dmx.override(new ScOverride(scenes[i++], reset, 1));
 		
 		reset = new int[scenes[i-1].fixtures.length];
 		for(int r=0;r<reset.length;r++){
@@ -65,7 +65,7 @@ public class Sequencer implements Runnable{
 	public void pause(){
 		speed(0);
 		if(reset.length>0){
-			dmx.override(new Override(new Scene(), reset, 1));
+			dmx.override(new ScOverride(new Scene(), reset, 1));
 			reset = new int[0];
 		}
 	}

@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.sc.RGBFixtureState;
+import fr.jfbeuve.webdmx.sc.ScOverride;
 import fr.jfbeuve.webdmx.sc.Scene;
 import fr.jfbeuve.webdmx.sc.Sequencer;
 
@@ -84,6 +85,8 @@ public class DmxWrapperTest {
 		assertRGB(127,0,0,127,0,0,255,0,0,127,0,0);
 		Thread.sleep(100);
 		assertRGB(127,0,0,127,0,0,127,0,0,255,0,0);
+		
+		init();
 	}
 	
 	@Test
@@ -103,19 +106,40 @@ public class DmxWrapperTest {
 		init();
 	}
 	
-	
-	//TODO strob, solo
+	@Test
+	public void solo() throws Exception {
+		init();
+		
+		dmx.set(new Scene(ALLRED50,0));
+		Thread.sleep(20);
+		assertRGB(127,0,0,127,0,0,127,0,0,127,0,0);
+		
+		seq.play(CHASE);
+		seq.speed(100);
+		Thread.sleep(20);
+		assertRGB(255,0,0,127,0,0,127,0,0,127,0,0);
+		dmx.override(SET_SOLO);
+		Thread.sleep(100);
+		assertRGB(200,200,200,255,0,0,127,0,0,127,0,0);
+		Thread.sleep(100);
+		assertRGB(200,200,200,127,0,0,255,0,0,127,0,0);
+		dmx.override(RESET_SOLO);
+		Thread.sleep(100);
+		assertRGB(127,0,0,127,0,0,127,0,0,255,0,0);
+	}
 	
 	static final RGBFixtureState[] RGBW = {new RGBFixtureState(0,100,255,0,0,false),new RGBFixtureState(1,100,0,255,0,false),new RGBFixtureState(2,100,0,0,255,false),new RGBFixtureState(3,50,255,255,255,false)};
 	static final RGBFixtureState[] STR0B0 = {new RGBFixtureState(0,100,255,255,255,true)};
 	static final RGBFixtureState[] ALLRED50 = {new RGBFixtureState(0,50,255,0,0,false),new RGBFixtureState(1,50,255,0,0,false),new RGBFixtureState(2,50,255,0,0,false),new RGBFixtureState(3,50,255,0,0,false)};
 	static final RGBFixtureState[] BLACKOUT = {new RGBFixtureState(0,0,0,0,0,false),new RGBFixtureState(1,0,0,0,0,false),new RGBFixtureState(2,0,0,0,0,false),new RGBFixtureState(3,0,0,0,0,false)};
 	
-	static final RGBFixtureState[] CHASE1 = {new RGBFixtureState(0,100,-1,-1,-1,false)};
-	static final RGBFixtureState[] CHASE2 = {new RGBFixtureState(1,100,-1,-1,-1,false)};
-	static final RGBFixtureState[] CHASE3 = {new RGBFixtureState(2,100,-1,-1,-1,false)};
-	static final RGBFixtureState[] CHASE4 = {new RGBFixtureState(3,100,-1,-1,-1,false)};
-	static final Scene[] CHASE = {new Scene(CHASE1,0),new Scene(CHASE2,0),new Scene(CHASE3,0),new Scene(CHASE4,0)};
+	static final Scene[] CHASE = {new Scene(new RGBFixtureState[]{new RGBFixtureState(0,100,-1,-1,-1,false)},0),
+		new Scene(new RGBFixtureState[]{new RGBFixtureState(1,100,-1,-1,-1,false)},0),
+		new Scene(new RGBFixtureState[]{new RGBFixtureState(2,100,-1,-1,-1,false)},0),
+		new Scene(new RGBFixtureState[]{new RGBFixtureState(3,100,-1,-1,-1,false)},0)};
+	
+	static final ScOverride SET_SOLO = new ScOverride(new Scene(new RGBFixtureState[]{new RGBFixtureState(0,100,200,200,200,false)},0),new int[0],2);
+	static final ScOverride RESET_SOLO = new ScOverride(new Scene(new RGBFixtureState[0] ,0),new int[]{0},2);
 	
 	private void assertRGB(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4){
 		assertRGB(24,r1,g1,b1);
