@@ -53,7 +53,7 @@ public class DmxWrapper {
 	 * sets scene to layer 0
 	 */
 	public void set(Scene sc){
-		log.debug("SET "+sc);
+		log.info("SET "+sc);
 		for(RGBFixtureState f:sc.fixtures)
 			fixture[f.id].set(f,sc.fade);
 		thread.apply();
@@ -70,7 +70,7 @@ public class DmxWrapper {
 	 * overrides scene
 	 */
 	public void override(ScOverride o){
-		log.debug(o);
+		log.info(o);
 		for(RGBFixtureState f:o.override)
 			fixture[f.id].override(f,o.fade, o.layer);
 		for(int i=0;i<o.reset.length;i++)

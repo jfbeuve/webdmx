@@ -64,7 +64,7 @@ public class DmxChannel {
 		int was = output[channel];
 		output[channel]=dmx[layer].next(strob, timestamp);
 		if(was!=output[channel])
-			log.debug(channel+"="+output[channel]);
+			log.info(channel+"="+output[channel]);
 		return dmx[layer].done();
 	}
 
