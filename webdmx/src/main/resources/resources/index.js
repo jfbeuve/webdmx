@@ -334,7 +334,11 @@ function setcolortap(name){
 		setcolor(name);
 	});
 }
-
+function setfntap(name, fn){
+	$("#"+name).bind("tap", function(e) {
+		fn(name);
+	});
+}
 function setfixturetap(name){
 	$("#"+name).bind("tap", function(e) {
 		fixture(name);
