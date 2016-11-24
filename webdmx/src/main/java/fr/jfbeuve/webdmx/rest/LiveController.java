@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
-import fr.jfbeuve.webdmx.sc.Scene;
+import fr.jfbeuve.webdmx.preset.SequencePreset;
 import fr.jfbeuve.webdmx.sc.ScOverride;
+import fr.jfbeuve.webdmx.sc.Scene;
 import fr.jfbeuve.webdmx.sc.Sequencer;
 
 @RestController
@@ -51,5 +52,9 @@ public class LiveController {
 	public Object blackout(@PathVariable("time") Long time) {
 		dmx.blackout(time);
 		return null;
+	}
+	@RequestMapping("/sequence.json")
+	public Object override() {
+		return new SequencePreset();
 	}
 }
