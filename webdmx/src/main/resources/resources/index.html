@@ -39,29 +39,28 @@
 		<br/>
 
 		<div class="section">
-			<select id="leadid" onchange="leadid()">
-				<option value="0">1</option>
-				<option value="1">2</option>
-				<option value="2">3</option>
-				<option value="3">4</option>
-			</select>
-
-			<input id="color" class="jscolor" value="000000" onchange="color()">
-			<button id="lead">LEAD</button> <!-- TODO on/off -->
+			
+			<div id="settings">
+				<select id="leadid" onchange="leadid()">
+					<option value="0">1</option>
+					<option value="1">2</option>
+					<option value="2">3</option>
+					<option value="3">4</option>
+				</select>
+	
+				<input id="color" class="jscolor" value="000000" onchange="color()">
+				<button id="coloradd" onclick="coloradd()">+</button>
+				<button id="colordel" onclick="colordel()">-</button>
+			</div>
+			
+			<button id="lead">&#9788;</button> 
 			<div class="container">
 				<input type="range" id="colordim" onchange="colordim()"/>
 				<label id="colordimval" class="rangelabel">-</label>
 			</div>
 			<button id="colorstrob">&#9889;</button>
 			<br/>
-			<div id="colorpicker">
-				<div id="orange" style="background-color:rgb(255,127,0)"> </div>
-				<div id="jaune" style="background-color:rgb(255,255,0)"> </div>
-				<div id="cyan" style="background-color:rgb(0,255,255)"> </div>
-				<div id="magenta" style="background-color:rgb(255,0,255)"> </div>
-				<div id="white" style="background-color:rgb(255,255,255)"> </div>
-				<div id="black" style="background-color:rgb(0,0,0)"> </div>
-			</div>
+			<div id="colorpicker"> <!-- DYNAMIC CONTENT--> </div>
 		</div>
 		<div class="section" id="solo">
 			SOLO

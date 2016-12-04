@@ -22,7 +22,14 @@ function stop() {
 }
 function blackout() {
 	get("/live/blackout/"+fade());
-	//TODO disable solo, set color to black
+	
+	// RESET COLOR
+	setcolor('000000');
+	
+	// RESET SOLO
+	var a = $("#fixture>button.active");
+	if (a.length > 0) a.removeClass('active');
+	localStorage.solo='';
 }
 
 var timestamp = 0;
@@ -106,6 +113,10 @@ function color(){
 	localStorage.color=$("#color").val();
 	scene();
 }
+function setcolor(c){
+	document.getElementById('color').jscolor.fromString(c);
+	color();	
+}
 function leadid(){
 	localStorage.leadid=$("#leadid").val();
 	scene();
@@ -162,8 +173,48 @@ $('#color').val(localStorage.color);
 if (typeof(localStorage.leadid) === "undefined") localStorage.leadid = 0;
 $('#leadid').val(localStorage.leadid);
 
+var colors = ['ff8000','ffff00','00ffff','ff00ff', 'ffffff', '000000'];
+if (typeof(localStorage.colors) === "undefined") localStorage.colors = JSON.stringify(colors);
+colors = JSON.parse(localStorage.colors);
+console.log(colors);
+
 //TODO bind presets
 // TODO bind colors
+
+/*
+ * COLORS
+ */
+
+function colorpresets(){
+	var html = '';
+	for (var i = 0; i < colors.length; i++) {
+	    html = html + '<div id="'+colors[i]+'" style="background-color:#'+colors[i]+'" onclick="setcolor(\''+colors[i]+'\')"> </div>';
+	}
+	$("#colorpicker").html(html);
+}
+colorpresets();
+
+function coloradd(){
+	var c = $("#color").val().toLowerCase();
+	var exists = false;
+	for (var i = 0; i < colors.length; i++) {
+		if(colors[i]==c) exists=true;
+	}
+	if(!exists)colors.push(c);
+	localStorage.colors = JSON.stringify(colors);
+	colorpresets();
+}
+
+function colordel(){
+	var c = $("#color").val().toLowerCase();
+	var newcolors = [];
+	for (var i = 0; i < colors.length; i++) {
+		if(colors[i]!=c||i<6) newcolors.push(colors[i]);
+	}
+	colors=newcolors;
+	localStorage.colors = JSON.stringify(colors);
+	colorpresets();
+}
 
 /*
  * EVENTS
