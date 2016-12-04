@@ -88,7 +88,7 @@ public class DmxWrapper {
 	}
 	public void blackout(long fade){
 		log.info("BLACKOUT");
-		chase.pause();
+		chase.speed(-1);
 		for(int i=0;i<fixture.length;i++){
 			fixture[i].reset(-1);
 			fixture[i].set(new RGBFixtureState(i), fade);

@@ -34,15 +34,20 @@ public class LiveController {
 		return null;
 	}
 	@RequestMapping(value = "/live/sequence", method = RequestMethod.POST,consumes="application/json")
-	public Object override(@RequestBody final Scene[] s) {
+	public Object sequence(@RequestBody final Scene[] s) {
 		chase.play(s);
 		return null;
 	}
 	@RequestMapping(value = "/live/data", method = RequestMethod.POST,consumes="application/json")
-	public Object override(@RequestBody final Map<Integer,Integer> v) {
+	public Object data(@RequestBody final Map<Integer,Integer> v) {
 		dmx.set(v);
 		return null;
 	}
+	/**
+	 * speed in ms
+	 * 0 =  pause + next
+	 * -1 = stop
+	 */
 	@RequestMapping("/live/speed/{time}")
 	public Object speed(@PathVariable("time") Long time) {
 		chase.speed(time);

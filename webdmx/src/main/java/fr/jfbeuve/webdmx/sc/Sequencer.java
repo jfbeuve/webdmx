@@ -37,20 +37,21 @@ public class Sequencer implements Runnable{
 		}
 	}
 	/**
-	 * 0 STOP
-	 * > speed in ms
+	 * -1 STOP (PAUSE + REST overrides)
+	 * 0 PAUSE + NEXT
+	 * 0+ speed in ms
 	 */
 	public synchronized void speed(long s){
 		log.debug("SPEED "+s);
 		stop();
-		if(s==0) return;
-		speed = s;
-		if(scenes.length>0) start();
-	}
-	
-	public void man(){
-		speed(0);
-		next();
+		if(s<=0) {
+			if(s==0&&scenes.length>0) next(); // MAN
+			if(s==-1) cancel(); // STOP
+		}else{
+			// SPEED
+			speed = s;
+			if(scenes.length>0) start();
+		}
 	}
 	private void next(){
 		log.debug("SEQUENCE NEXT STEP");
@@ -62,8 +63,7 @@ public class Sequencer implements Runnable{
 			reset[r]=scenes[i-1].fixtures[r].id;
 		}
 	}
-	public void pause(){
-		speed(0);
+	private void cancel(){
 		if(reset.length>0){
 			dmx.override(new ScOverride(new Scene(), reset, 1));
 			reset = new int[0];

@@ -27,26 +27,24 @@ button:click {
     background-color: #4CAF50;
     color: white;
 }
-#tap, #man{
+.command{
+	position: absolute;
+	right: 20px;
+	bottom: 20px
+}
+.command button{
 	height: 80px;
-	width: 120px;
+	/*width: 120px;*/
+}
+#fixture>button{
+	width: 80px;
+}
+#solostrob, #colorstrob{
 	position: absolute;
 	right: 20px;
+	width: 80px;
 }
-#solostrob{
-	position: absolute;
-	right: 20px;
-}
-#tap {
-	top: 110px;
-}
-#man{
-	top: 20px;
-}
-#snap{
-	position: absolute;
-	right: 20px;
-}
+
 .macro button{
 	height: 80px;
 }
@@ -54,62 +52,14 @@ button:click {
     background-color: grey;
     color: white;
 }
-select{
-    border: 1px solid lightgrey;
-    padding: 6px 6px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-    background:white;
-	color: dimgrey;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 30px;
-}
-.red{
-	background:red;
-	color: white;
-}
-.green{
-	background:green;
-	color: white;
-}
-.blue{
-	background:blue;
-	color: white;
-}
-.violet{
-	background:violet;
-	color: white;
-}
-.cyan{
-	background:cyan;
-	color: white;
-}
-.yellow{
-	background:yellow;
-	color: black;
-}
-.orange{
-	background:orange;
-	color: black;
-}
-.white{
-	background:white;
-	color: black;
-}
-.black{
-	background:black;
-	color: white;
-}
+
 .section{
 	border: 1px solid lightgrey;
 	padding: 6px 6px;
 	margin: 4px 2px;
 	width: 98%;
 }
-.group{
-	border: 0px;
-}
+
 div{
 	display: inline-block;
 }
@@ -120,7 +70,7 @@ div{
 	height: 80px;
 	width: 80px;
 }
-#colorpicker>div.black {
+#colorpicker>div {
 	border: 1px solid lightgrey;
 }
 input[type=range] {
@@ -130,13 +80,13 @@ input[type=range] {
   vertical-align:middle;
 }
 input[type=range]::-webkit-slider-runnable-track {
-  height: 50px;
+  height: 70px;
   background: white;
   border-radius: 5px;
 }
 input[type=range]::-webkit-slider-thumb {
-  height: 50px;
-  width: 50px;
+  height: 70px;
+  width: 70px;
   border-radius: 5px;
   background: grey;
   -webkit-appearance: none;

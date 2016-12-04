@@ -13,71 +13,76 @@
 		<link rel="apple-touch-icon" href="icon.gif">
 		<script src="jquery.min.js"></script>
 		<script src="tappy.js"></script>
+		<script src="jscolor.min.js"></script>
 	</head>
 	<body>
 
 		<div class="section" id="master">
 			
-			<div class="preset"> <!-- TODO build dynamically from /sequence.json -->
-				<button id="blackout">BLACKOUT</button>
-				<button id="chase">CHASE</button>
-				<button id="wchase">1234+</button>
-				<button id="bchase">1234-</button>
+			<div class="preset"> 
+				<button id="fchase">1324</button>
+				<button id="schase">10302040</button>
+				<button id="wchase">W1234</button>
+				<button id="bchase">B1234</button>
+				<button id="flash">1/0</button>
+				<!-- TODO build dynamically from /sequence.json -->
 			</div>
 
-
-			<div class="group">
-				<button id="man">MAN</button>
+			<div class="command">
+				<button id="blackout">BLACKOUT</button>
+				<button id="stop">STOP</button>
+				<button id="next">NEXT</button>
 				<button id="tap">TAP</button>
-				<button id="pause">PAUSE</button>
 			</div>
 			
 		</div>
 		<br/>
 
 		<div class="section">
-			<div id="colorpicker"> <!-- TODO build dynamically from /colors.json -->
-				<div id="violet" class="violet"> </div>
-				<div id="yellow" class="yellow"> </div>
-				<div id="cyan" class="cyan"> </div>
-				<div id="orange" class="orange"> </div>
-				<div id="white" class="white"> </div>
-				<div id="black" class="black"> </div>
+			<select id="leadid" onchange="leadid()">
+				<option value="0">1</option>
+				<option value="1">2</option>
+				<option value="2">3</option>
+				<option value="3">4</option>
+			</select>
+
+			<input id="color" class="jscolor" value="000000" onchange="color()">
+			<button id="lead">LEAD</button> <!-- TODO on/off -->
+			<div class="container">
+				<input type="range" id="colordim" onchange="colordim()"/>
+				<label id="colordimval" class="rangelabel">-</label>
 			</div>
 			<button id="colorstrob">&#9889;</button>
-			<button id="lead">LEAD</button> <!-- TODO on/off -->
 			<br/>
-			
-			<input type="range" value="20" id="colordim" onchange="colordim(this)"/>
-			<label id="colordimval" class="rangelabel">20%</label>
-
+			<div id="colorpicker">
+				<div id="orange" style="background-color:rgb(255,127,0)"> </div>
+				<div id="jaune" style="background-color:rgb(255,255,0)"> </div>
+				<div id="cyan" style="background-color:rgb(0,255,255)"> </div>
+				<div id="magenta" style="background-color:rgb(255,0,255)"> </div>
+				<div id="white" style="background-color:rgb(255,255,255)"> </div>
+				<div id="black" style="background-color:rgb(0,0,0)"> </div>
+			</div>
 		</div>
 		<div class="section" id="solo">
 			SOLO
 			<div id="fixture">
-				<button id="PAR1">
-					1
-				</button>
-				<button id="PAR2">
-					2
-				</button>
-				<button id="PAR3">
-					3
-				</button>
-				<button id="PAR4">
-					4
-				</button>
+				<button id="PAR1">1</button>
+				<button id="PAR2">2</button>
+				<button id="PAR3">3</button>
+				<button id="PAR4">4</button>
 			</div>
-			<input type="range" value="100" id="solorange" onchange="solorange()"/>
-			<label id="solodimval" class="rangelabel">100%</label>
+			<div class="container">
+				<input type="range" id="solodim" onchange="solodim()"/>
+				<label id="solodimval" class="rangelabel">-</label>
+			</div>
 			<button id="solostrob">&#9889;</button>
 		</div>
 		<br/>
 		<div class="section" id="fade">
 			FADE
 			<div class="container">
-				<input type="range" value="40" id="faderange" onchange="faderange()"/>
-				<label id="fadeval" class="rangelabel">2s</label>
+				<input type="range" value="40" id="faderange" onchange="fade()"/>
+				<label id="fadeval" class="rangelabel">-</label>
 			</div>
 		</div>
 		<br/>
