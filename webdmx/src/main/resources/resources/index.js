@@ -179,7 +179,32 @@ if (typeof(localStorage.colors) === "undefined") localStorage.colors = JSON.stri
 localStorage.colors = JSON.stringify(customcolors);
 customcolors = JSON.parse(localStorage.colors);
 
-//TODO bind presets
+/*
+ * PRESETS
+ */
+
+var presetnames = {'fchase':'1324','schase':'10302040','flash':'1/0','wchase':'W1234','bchase':'B1234'};
+var presets = {};
+$.ajax({
+	url : '/live/sequence.json',
+	dataType : 'text',
+	cache : false,
+	success : function(data) {
+		presets = JSON.parse(data);
+		var html = '';
+		for(name in presets){
+			var displayname = presetnames[name];
+			if(typeof(displayname) === "undefined") displayname = name;
+			html = html + '<button id="'+name+'" onclick="preset(\''+name+'\')">'+displayname+'</button>';
+		}
+		$("#presets").html(html);
+	}.bind(this)
+});
+
+function preset(name){
+	console.log(name);
+	//TODO POST /live/play
+}
 
 /*
  * COLORS

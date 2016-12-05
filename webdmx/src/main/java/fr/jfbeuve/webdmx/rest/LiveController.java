@@ -33,8 +33,8 @@ public class LiveController {
 		dmx.override(o);
 		return null;
 	}
-	@RequestMapping(value = "/live/sequence", method = RequestMethod.POST,consumes="application/json")
-	public Object sequence(@RequestBody final Scene[] s) {
+	@RequestMapping(value = "/live/play", method = RequestMethod.POST,consumes="application/json")
+	public Object play(@RequestBody final Scene[] s) {
 		chase.play(s);
 		return null;
 	}
@@ -58,8 +58,8 @@ public class LiveController {
 		dmx.blackout(time);
 		return null;
 	}
-	@RequestMapping("/sequence.json")
-	public Object override() {
+	@RequestMapping("/live/sequence.json")
+	public Object sequence() {
 		return new SequencePreset();
 	}
 }
