@@ -97,9 +97,8 @@ div{
 #colorpicker>div {
 	height: 80px;
 	width: 80px;
-}
-#colorpicker>div {
 	border: 1px solid lightgrey;
+	font-size: 20px;
 }
 input[type=range] {
   -webkit-appearance: none;

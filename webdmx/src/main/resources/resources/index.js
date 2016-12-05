@@ -173,13 +173,13 @@ $('#color').val(localStorage.color);
 if (typeof(localStorage.leadid) === "undefined") localStorage.leadid = 0;
 $('#leadid').val(localStorage.leadid);
 
-var colors = ['ff8000','ffff00','00ffff','ff00ff', 'ffffff', '000000'];
-if (typeof(localStorage.colors) === "undefined") localStorage.colors = JSON.stringify(colors);
-colors = JSON.parse(localStorage.colors);
-console.log(colors);
+var factorycolors = ['ff8000','ffff00','00ffff','ff00ff', 'ffffff', '000000','ff4000','00ff40','0040ff'];
+var customcolors = [];
+if (typeof(localStorage.colors) === "undefined") localStorage.colors = JSON.stringify(customcolors);
+localStorage.colors = JSON.stringify(customcolors);
+customcolors = JSON.parse(localStorage.colors);
 
 //TODO bind presets
-// TODO bind colors
 
 /*
  * COLORS
@@ -187,8 +187,11 @@ console.log(colors);
 
 function colorpresets(){
 	var html = '';
-	for (var i = 0; i < colors.length; i++) {
-	    html = html + '<div id="'+colors[i]+'" style="background-color:#'+colors[i]+'" onclick="setcolor(\''+colors[i]+'\')"> </div>';
+	for (var i = 0; i < factorycolors.length; i++) {
+	    html = html + '<div id="'+factorycolors[i]+'" style="background-color:#'+factorycolors[i]+'" onclick="setcolor(\''+factorycolors[i]+'\')">'+factorycolors[i]+'</div>';
+	}
+	for (var i = 0; i < customcolors.length; i++) {
+	    html = html + '<div id="'+customcolors[i]+'" style="background-color:#'+customcolors[i]+'" onclick="setcolor(\''+customcolors[i]+'\')">'+customcolors[i]+'</div>';
 	}
 	$("#colorpicker").html(html);
 }
@@ -197,22 +200,25 @@ colorpresets();
 function coloradd(){
 	var c = $("#color").val().toLowerCase();
 	var exists = false;
-	for (var i = 0; i < colors.length; i++) {
-		if(colors[i]==c) exists=true;
+	for (var i = 0; i < factorycolors.length; i++) {
+		if(factorycolors[i]==c) exists=true;
 	}
-	if(!exists)colors.push(c);
-	localStorage.colors = JSON.stringify(colors);
+	for (var i = 0; i < customcolors.length; i++) {
+		if(customcolors[i]==c) exists=true;
+	}
+	if(!exists)customcolors.push(c);
+	localStorage.colors = JSON.stringify(customcolors);
 	colorpresets();
 }
 
 function colordel(){
 	var c = $("#color").val().toLowerCase();
 	var newcolors = [];
-	for (var i = 0; i < colors.length; i++) {
-		if(colors[i]!=c||i<6) newcolors.push(colors[i]);
+	for (var i = 0; i < customcolors.length; i++) {
+		if(customcolors[i]!=c) newcolors.push(customcolors[i]);
 	}
-	colors=newcolors;
-	localStorage.colors = JSON.stringify(colors);
+	customcolors=newcolors;
+	localStorage.colors = JSON.stringify(customcolors);
 	colorpresets();
 }
 
