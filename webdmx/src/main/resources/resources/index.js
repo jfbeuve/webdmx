@@ -87,6 +87,9 @@ function solo(name) {
 		}
 		btn.addClass("active");
 		localStorage.solo=name;
+		
+		// disable lead
+		if($("#lead").hasClass("active")) lead();
 	}
 	override();
 }
@@ -94,6 +97,9 @@ function solo(name) {
 function solostrob(on) {
 	console.log('solostrob '+on);
 	override();
+}
+function solosnap(on) {
+	console.log('solosnap '+on);
 }
 function solodim(){
 	localStorage.solodim = $("#solodim").val();
@@ -104,7 +110,38 @@ function solodim(){
  * POST override change
  */
 function override(){
-	//TODO POST /live/override
+	var dim = $("#solodim").val();
+	var strob = $("#solostrob").hasClass("active");
+	var solosnap = $("#solosnap").hasClass("active");
+	var o = {"override":[{"id":0,"dim":0,"r":0,"g":0,"b":0,"strob":false}],"reset":[],"fade":0,"layer":2};
+		
+	// SOLO ID
+	var f = $("#fixture>button");
+	for (var i = 0; i < f.length; i++) {
+		if(f.hasClass("active")){
+			o.override[0].id=i;
+			o.override[0].dim=dim;
+			o.override[0].r=255;
+			o.override[0].g=255;
+			o.override[0].b=255;
+			o.override[0].strob = strob;
+		} else {
+			o.reset.push(i);
+		}
+	}
+	
+	if(!solosnap){
+		o.fade=fade();
+	}
+	
+	// HTTP POST
+	$.ajax({
+		  type: "POST",
+	      url: "/live/override",
+	      data: JSON.stringify(o),
+	      contentType: 'application/json',
+	      cache: false
+		});
 }
 /*
  * SCENE
@@ -128,6 +165,13 @@ function colorstrob(on){
 
 function lead(on){
 	console.log('lead '+on);
+	if(on){
+		// CANCEL SOLO
+		var a = $("#fixture>button.active");
+		if (a.length > 0) {
+			solo(a[0].id);
+		}
+	}
 	scene();
 }
 
@@ -137,16 +181,50 @@ function colordim(){
 	$("#colordimval").html(localStorage.colordim+'%');
 }
 
+
 /**
  * POST scene change
  */
 function scene(){
 	var colorhex = $("#color").val();
+	var c = hexToRgb(colorhex);
+	
 	var leadid = $("#leadid").val();
 	var lead = $("#lead").hasClass("active");
 	var strob = $("#colorstrob").hasClass("active");
 	var dim = $("#colordim").val();
-	//TODO POST /live/scene
+	
+	var sc = {"fixtures":[{"id":0,"dim":0,"r":0,"g":0,"b":0,"strob":false},{"id":1,"dim":0,"r":0,"g":0,"b":0,"strob":false},{"id":2,"dim":0,"r":0,"g":0,"b":0,"strob":false},{"id":3,"dim":0,"r":0,"g":0,"b":0,"strob":false}],"fade":0};
+	
+	// BG COLOR, DIMMER, STROB
+	for (var i = 0; i < sc.fixtures.length; i++) {
+		sc.fixtures[i].r = c.r;
+		sc.fixtures[i].g = c.g;
+		sc.fixtures[i].b = c.b;
+		sc.fixtures[i].dim = dim;
+		sc.fixtures[i].strob = strob;
+	}
+	
+	// FADE
+	sc.fade = fade();
+	
+	// LEAD
+	if(lead){
+		sc.fixtures[leadid].r = 255;
+		sc.fixtures[leadid].g = 255;
+		sc.fixtures[leadid].b = 255;
+		sc.fixtures[leadid].dim = dim/2;
+		sc.fixtures[leadid].strob=false;
+	}
+	
+	// HTTP POST
+	$.ajax({
+		  type: "POST",
+	      url: "/live/scene",
+	      data: JSON.stringify(sc),
+	      contentType: 'application/json',
+	      cache: false
+		});
 }
 
 /*
@@ -203,7 +281,28 @@ $.ajax({
 
 function preset(name){
 	console.log(name);
-	//TODO POST /live/play
+	
+	var p = presets[name];
+	
+	// override dimmmer for bchase, wchase, fire, flash with color dimmer
+	if(name=='flash'||name=='wchase'||name=='bchase'||name=='fire'){
+		var dim = $("#colordim").val();
+		for (var step = 0; step < p.length; step++) {
+			for (var fixture = 0; fixture < p[step].fixtures.length; fixture++) {
+				p[step].fixtures[fixture].dim = dim;
+			}
+		}
+	}
+	console.log(p);
+	
+	// HTTP POST
+	$.ajax({
+		  type: "POST",
+	      url: "/live/play",
+	      data: JSON.stringify(p),
+	      contentType: 'application/json',
+	      cache: false
+		});
 }
 
 /*
@@ -245,6 +344,15 @@ function colordel(){
 	customcolors=newcolors;
 	localStorage.colors = JSON.stringify(customcolors);
 	colorpresets();
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
 }
 
 /*
@@ -296,6 +404,7 @@ bind('blackout');
 bindhold('solostrob');
 bindhold('colorstrob');
 bindhold('lead');
+bindhold('solosnap');
 
 bindsolo('PAR1');
 bindsolo('PAR2');

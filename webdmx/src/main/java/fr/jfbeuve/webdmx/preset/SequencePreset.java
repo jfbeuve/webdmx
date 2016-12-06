@@ -3,6 +3,7 @@ package fr.jfbeuve.webdmx.preset;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.jfbeuve.webdmx.sc.RGBFixtureState;
+import fr.jfbeuve.webdmx.sc.ScOverride;
 import fr.jfbeuve.webdmx.sc.Scene;
 
 /**
@@ -43,27 +44,27 @@ public class SequencePreset {
 	public Scene[] wchase = {
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,100,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false)
+				new RGBFixtureState(1,0,255,255,255,false),
+				new RGBFixtureState(2,0,255,255,255,false),
+				new RGBFixtureState(3,0,255,255,255,false)
 		},0),
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,100,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false)
+				new RGBFixtureState(1,100,255,255,255,false),
+				new RGBFixtureState(2,0,255,255,255,false),
+				new RGBFixtureState(3,0,255,255,255,false)
 		},0),
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,100,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false)
+				new RGBFixtureState(1,0,255,255,255,false),
+				new RGBFixtureState(2,100,255,255,255,false),
+				new RGBFixtureState(3,0,255,255,255,false)
 		},0),
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,100,255,255,255,false)
+				new RGBFixtureState(1,0,255,255,255,false),
+				new RGBFixtureState(2,0,255,255,255,false),
+				new RGBFixtureState(3,100,255,255,255,false)
 		},0)};
 	
 	/**
@@ -72,31 +73,55 @@ public class SequencePreset {
 	public Scene[] bchase = {
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,100,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false)
+				new RGBFixtureState(1,0,255,255,255,false),
+				new RGBFixtureState(2,0,255,255,255,false),
+				new RGBFixtureState(3,0,255,255,255,false)
 		},0),
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,100,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false)
+				new RGBFixtureState(1,100,255,255,255,false),
+				new RGBFixtureState(2,0,255,255,255,false),
+				new RGBFixtureState(3,0,255,255,255,false)
 		},0),
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,100,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false)
+				new RGBFixtureState(1,0,255,255,255,false),
+				new RGBFixtureState(2,100,255,255,255,false),
+				new RGBFixtureState(3,0,255,255,255,false)
 		},0),
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(0,100,255,255,255,false)
+				new RGBFixtureState(1,0,255,255,255,false),
+				new RGBFixtureState(2,0,255,255,255,false),
+				new RGBFixtureState(3,100,255,255,255,false)
 		},0)};
+	public Scene[] fire = {
+			new Scene(new RGBFixtureState[]{
+					new RGBFixtureState(0,100,255,40,0,false),
+					new RGBFixtureState(1,100,255,255,0,false),
+					new RGBFixtureState(2,100,255,40,0,false),
+					new RGBFixtureState(3,100,255,255,0,false)
+			},0),
+			new Scene(new RGBFixtureState[]{
+					new RGBFixtureState(0,100,255,255,0,false),
+					new RGBFixtureState(1,100,255,40,0,false),
+					new RGBFixtureState(2,100,255,255,0,false),
+					new RGBFixtureState(3,100,255,40,0,false)
+			},0)};
 	
 	public static void main(String[] args) throws Exception{
+		Scene sc = new Scene(new RGBFixtureState[]{
+				new RGBFixtureState(0,0,0,0,0,false),
+				new RGBFixtureState(1,0,0,0,0,false),
+				new RGBFixtureState(2,0,0,0,0,false),
+				new RGBFixtureState(3,0,0,0,0,false)
+		},0);
+		ScOverride o = new ScOverride(new Scene(new RGBFixtureState[]{new RGBFixtureState(0,0,0,0,0,false)},0),new int[0],2);
+		
 		ObjectMapper mapper = new ObjectMapper();
-		System.out.println(mapper.writeValueAsString(new SequencePreset()));
+		System.out.println("SCENE "+mapper.writeValueAsString(sc));
+		System.out.println();
+		System.out.println("OVERRIDE "+mapper.writeValueAsString(o));
+		
 	}
 }

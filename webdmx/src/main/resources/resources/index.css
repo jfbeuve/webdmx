@@ -140,4 +140,11 @@ input[type=range]::-webkit-slider-thumb {
 .container{
 	position: relative;	
 }
+.nmsection{
+	font-size: 15px;
+	position: relative;
+	top: -52px;
+	background-color: black;
+	padding: 1px 5px;
+}
 
