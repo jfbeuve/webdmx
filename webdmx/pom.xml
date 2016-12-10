@@ -11,7 +11,8 @@
 	<groupId>fr.jfbeuve</groupId>
 	<name>Spring Boot Jetty Sample</name>
 	<description>Spring Boot Jetty Sample</description>
-	<version>1.0.1</version>
+	<version>2.0</version>
+	<packaging>jar</packaging>
 	<properties>
 		<main.basedir>${basedir}/../..</main.basedir>
 	</properties>
@@ -37,13 +38,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- dependency>
-			<groupId>com.juanjo</groupId>
-			<artifactId>opendmx</artifactId>
-			<version>2008.05.22</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/opendmx/OpenDmx.jar</systemPath>
-		</dependency-->
 	</dependencies>
 	<build>
 		<finalName>webdmx</finalName>
@@ -51,8 +45,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+     			   <mainClass>fr.jfbeuve.webdmx.Start</mainClass>
+			    </configuration>
+			    <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
 			</plugin>
-			<plugin>
+			<!-- plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
 					<archive>
@@ -64,7 +68,7 @@
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 				</configuration>
-			</plugin>
+			</plugin-->
 			<plugin>
 				<dependencies>
 					<dependency>
