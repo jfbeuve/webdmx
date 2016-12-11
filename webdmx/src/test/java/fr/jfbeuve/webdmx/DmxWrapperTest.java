@@ -149,12 +149,14 @@ public class DmxWrapperTest {
 	}
 	private void assertRGB(int ch, int r, int g, int b){
 		log.info("<ASSERT "+ch+" r="+r+" g="+g+" b="+b+">");
+		ch = ch-1;
 		assertEquals(r,dmx.read()[ch]);
 		assertEquals(g,dmx.read()[ch+1]);
 		assertEquals(b,dmx.read()[ch+2]);
 	}
 	private void assertRGBlower(int ch, int r, int g, int b){
 		log.info("<ASSERT "+ch+" r<"+r+" g<"+g+" b<"+b+">");
+		ch = ch-1;
 		assertTrue(r>=dmx.read()[ch]);
 		assertTrue(g>=dmx.read()[ch+1]);
 		assertTrue(b>=dmx.read()[ch+2]);
@@ -167,6 +169,7 @@ public class DmxWrapperTest {
 	}
 	private void assertRGBhigher(int ch, int r, int g, int b){
 		log.info("<ASSERT "+ch+" r>"+r+" g>"+g+" b>"+b+">");
+		ch = ch-1;
 		assertTrue(r<=dmx.read()[ch]);
 		assertTrue(g<=dmx.read()[ch+1]);
 		assertTrue(b<=dmx.read()[ch+2]);

@@ -20,6 +20,7 @@ public class DmxLayer {
 		strob=s;
 	}
 	/**
+	 * fade to the new target value 
 	 * @param val : target dmx value
 	 * @param time : fade time
 	 */
@@ -27,6 +28,26 @@ public class DmxLayer {
 		startTime = System.currentTimeMillis();
 		startVal = dmxVal;
 		endVal = val;
+		fadeTime = time;
+		
+		/*
+		int endStep = 0;
+		for(int i=0;i<scale.length;i++){
+			if(startVal<=scale[i]) startStep = i;
+			if(endVal<=scale[i]) endStep = i;
+		}
+		steps = endStep - startStep;
+		*/
+	}
+	/**
+	 * fade to the old target value
+	 * @param val : current dmx value
+	 * @param time : fade time
+	 */
+	void reset(int val, long time){
+		startTime = System.currentTimeMillis();
+		startVal = val;
+		dmxVal = val;
 		fadeTime = time;
 		
 		/*

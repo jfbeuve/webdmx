@@ -35,36 +35,44 @@ public class SequencePreset {
 		new Scene(new RGBFixtureState[]{},0)};
 	
 	public Scene[] flash = {
-			new Scene(new RGBFixtureState[]{new RGBFixtureState(0,100,255,255,255,false)},0),
-			new Scene(new RGBFixtureState[]{},0)};
+			new Scene(new RGBFixtureState[]{
+					new RGBFixtureState(0,-1,255,255,255,false),
+					new RGBFixtureState(1,-1,255,255,255,false),
+					new RGBFixtureState(2,-1,255,255,255,false),
+					new RGBFixtureState(3,-1,255,255,255,false)},0),
+			new Scene(new RGBFixtureState[]{
+					new RGBFixtureState(0,0,0,0,0,false),
+					new RGBFixtureState(1,0,0,0,0,false),
+					new RGBFixtureState(2,0,0,0,0,false),
+					new RGBFixtureState(3,0,0,0,0,false)},0)};
 	
 	/**
 	 * WHITE CHASE (ALL BLACK BUT 1,2,3,4)
 	 */
 	public Scene[] wchase = {
 		new Scene(new RGBFixtureState[]{
-				new RGBFixtureState(0,100,255,255,255,false),
+				new RGBFixtureState(0,-1,255,255,255,false),
 				new RGBFixtureState(1,0,255,255,255,false),
 				new RGBFixtureState(2,0,255,255,255,false),
 				new RGBFixtureState(3,0,255,255,255,false)
 		},0),
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(1,100,255,255,255,false),
+				new RGBFixtureState(1,-1,255,255,255,false),
 				new RGBFixtureState(2,0,255,255,255,false),
 				new RGBFixtureState(3,0,255,255,255,false)
 		},0),
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,255,255,255,false),
 				new RGBFixtureState(1,0,255,255,255,false),
-				new RGBFixtureState(2,100,255,255,255,false),
+				new RGBFixtureState(2,-1,255,255,255,false),
 				new RGBFixtureState(3,0,255,255,255,false)
 		},0),
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,255,255,255,false),
 				new RGBFixtureState(1,0,255,255,255,false),
 				new RGBFixtureState(2,0,255,255,255,false),
-				new RGBFixtureState(3,100,255,255,255,false)
+				new RGBFixtureState(3,-1,255,255,255,false)
 		},0)};
 	
 	/**
@@ -72,41 +80,41 @@ public class SequencePreset {
 	 */
 	public Scene[] bchase = {
 		new Scene(new RGBFixtureState[]{
-				new RGBFixtureState(0,100,255,255,255,false),
-				new RGBFixtureState(1,0,255,255,255,false),
-				new RGBFixtureState(2,0,255,255,255,false),
-				new RGBFixtureState(3,0,255,255,255,false)
+				new RGBFixtureState(0,0,255,255,255,false),
+				new RGBFixtureState(1,-1,255,255,255,false),
+				new RGBFixtureState(2,-1,255,255,255,false),
+				new RGBFixtureState(3,-1,255,255,255,false)
 		},0),
 		new Scene(new RGBFixtureState[]{
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(1,100,255,255,255,false),
-				new RGBFixtureState(2,0,255,255,255,false),
-				new RGBFixtureState(3,0,255,255,255,false)
+				new RGBFixtureState(0,-1,255,255,255,false),
+				new RGBFixtureState(1,0,255,255,255,false),
+				new RGBFixtureState(2,-1,255,255,255,false),
+				new RGBFixtureState(3,-1,255,255,255,false)
 		},0),
 		new Scene(new RGBFixtureState[]{
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(1,0,255,255,255,false),
-				new RGBFixtureState(2,100,255,255,255,false),
-				new RGBFixtureState(3,0,255,255,255,false)
+				new RGBFixtureState(0,-1,255,255,255,false),
+				new RGBFixtureState(1,-1,255,255,255,false),
+				new RGBFixtureState(2,0,255,255,255,false),
+				new RGBFixtureState(3,-1,255,255,255,false)
 		},0),
 		new Scene(new RGBFixtureState[]{
-				new RGBFixtureState(0,0,255,255,255,false),
-				new RGBFixtureState(1,0,255,255,255,false),
-				new RGBFixtureState(2,0,255,255,255,false),
-				new RGBFixtureState(3,100,255,255,255,false)
+				new RGBFixtureState(0,-1,255,255,255,false),
+				new RGBFixtureState(1,-1,255,255,255,false),
+				new RGBFixtureState(2,-1,255,255,255,false),
+				new RGBFixtureState(3,0,255,255,255,false)
 		},0)};
 	public Scene[] fire = {
 			new Scene(new RGBFixtureState[]{
-					new RGBFixtureState(0,100,255,40,0,false),
-					new RGBFixtureState(1,100,255,255,0,false),
-					new RGBFixtureState(2,100,255,40,0,false),
-					new RGBFixtureState(3,100,255,255,0,false)
+					new RGBFixtureState(0,-1,255,40,0,false),
+					new RGBFixtureState(1,-1,255,255,0,false),
+					new RGBFixtureState(2,-1,255,40,0,false),
+					new RGBFixtureState(3,-1,255,255,0,false)
 			},0),
 			new Scene(new RGBFixtureState[]{
-					new RGBFixtureState(0,100,255,255,0,false),
-					new RGBFixtureState(1,100,255,40,0,false),
-					new RGBFixtureState(2,100,255,255,0,false),
-					new RGBFixtureState(3,100,255,40,0,false)
+					new RGBFixtureState(0,-1,255,255,0,false),
+					new RGBFixtureState(1,-1,255,40,0,false),
+					new RGBFixtureState(2,-1,255,255,0,false),
+					new RGBFixtureState(3,-1,255,40,0,false)
 			},0)};
 	
 	public static void main(String[] args) throws Exception{

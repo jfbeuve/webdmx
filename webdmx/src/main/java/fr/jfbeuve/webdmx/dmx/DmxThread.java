@@ -20,12 +20,12 @@ public class DmxThread implements Runnable{
 	public void run() {
 		log.debug("NEW DMX THREAD");
 		done=false;
-		long strobT = 0;
+		int strobCount=0;
 		while(true){
-			long time = System.currentTimeMillis();
 			boolean strob = true;
-			if(time-strobT>160) strobT=time;
-			if(time-strobT>80) strob = false;
+			if(strobCount>5) strobCount=0;
+			if(strobCount>2) strob = false;
+			strobCount++;
 			
 			log.debug("DMX LOOP "+strob);
 

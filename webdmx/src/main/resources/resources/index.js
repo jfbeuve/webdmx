@@ -89,7 +89,7 @@ function solo(name) {
 		localStorage.solo=name;
 		
 		// disable lead
-		if($("#lead").hasClass("active")) lead();
+		if($("#lead").hasClass("active")) holdbtn('lead');
 	}
 	override();
 }
@@ -113,18 +113,14 @@ function override(){
 	var dim = $("#solodim").val();
 	var strob = $("#solostrob").hasClass("active");
 	var solosnap = $("#solosnap").hasClass("active");
-	var o = {"override":[{"id":0,"dim":0,"r":0,"g":0,"b":0,"strob":false}],"reset":[],"fade":0,"layer":2};
+	var o = {"override":[],"reset":[],"fade":0,"layer":2};
 		
 	// SOLO ID
 	var f = $("#fixture>button");
 	for (var i = 0; i < f.length; i++) {
-		if(f.hasClass("active")){
-			o.override[0].id=i;
-			o.override[0].dim=dim;
-			o.override[0].r=255;
-			o.override[0].g=255;
-			o.override[0].b=255;
-			o.override[0].strob = strob;
+		var btn = $('#'+f[i].id);
+		if(btn.hasClass("active")){
+			o.override.push({'id':i,'dim':dim,'r':255,'g':255,'b':255,'strob':strob});
 		} else {
 			o.reset.push(i);
 		}
@@ -254,7 +250,6 @@ $('#leadid').val(localStorage.leadid);
 var factorycolors = ['ff8000','ffff00','00ffff','ff00ff', 'ffffff', '000000','ff4000','00ff40','0040ff'];
 var customcolors = [];
 if (typeof(localStorage.colors) === "undefined") localStorage.colors = JSON.stringify(customcolors);
-localStorage.colors = JSON.stringify(customcolors);
 customcolors = JSON.parse(localStorage.colors);
 
 /*
@@ -282,17 +277,17 @@ $.ajax({
 function preset(name){
 	console.log(name);
 	
-	var p = presets[name];
+	var p = JSON.parse(JSON.stringify(presets[name]));
 	
-	// override dimmmer for bchase, wchase, fire, flash with color dimmer
-	if(name=='flash'||name=='wchase'||name=='bchase'||name=='fire'){
-		var dim = $("#colordim").val();
-		for (var step = 0; step < p.length; step++) {
-			for (var fixture = 0; fixture < p[step].fixtures.length; fixture++) {
-				p[step].fixtures[fixture].dim = dim;
-			}
+	// override dimmmer if required
+	var dim = $("#colordim").val();
+	console.log(dim);
+	for (var step = 0; step < p.length; step++) {
+		for (var fixture = 0; fixture < p[step].fixtures.length; fixture++) {
+			if(p[step].fixtures[fixture].dim==-1) p[step].fixtures[fixture].dim = dim;
 		}
 	}
+	
 	console.log(p);
 	
 	// HTTP POST

@@ -37,10 +37,10 @@ public class RGBFixture {
 	/**
 	 * reset override for this fixture
 	 */
-	public void reset(int layer){
-		red.reset(layer);
-		green.reset(layer);
-		blue.reset(layer);
+	public void reset(int layer, long time){
+		red.reset(layer,time);
+		green.reset(layer,time);
+		blue.reset(layer,time);
 	}
 		
 	public boolean apply(int[] output, boolean strob, long timestamp){

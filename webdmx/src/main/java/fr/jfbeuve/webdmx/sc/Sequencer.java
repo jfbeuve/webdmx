@@ -1,5 +1,7 @@
 package fr.jfbeuve.webdmx.sc;
 
+import java.util.ArrayList;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,8 @@ public class Sequencer implements Runnable{
 	private Thread t;
 	private boolean stop=false;
 	private int i=0;
-	private long speed = 300;
-	private int[] reset = new int[0];
+	private long speed = 200;
+	private ArrayList<Integer> reset = new ArrayList<Integer>();
 	
 	@Autowired
 	private DmxWrapper dmx;
@@ -56,17 +58,29 @@ public class Sequencer implements Runnable{
 	private void next(){
 		log.debug("SEQUENCE NEXT STEP");
 		if(i>=scenes.length) i=0;
-		dmx.override(new ScOverride(scenes[i++], reset, 1));
 		
-		reset = new int[scenes[i-1].fixtures.length];
-		for(int r=0;r<reset.length;r++){
-			reset[r]=scenes[i-1].fixtures[r].id;
+		for(RGBFixtureState f: scenes[i].fixtures){
+			reset.remove(Integer.valueOf(f.id));
 		}
+		int[] toReset = new int[reset.size()];
+		for(int i=0;i<reset.size();i++) toReset[i]=reset.get(i);
+		
+		dmx.override(new ScOverride(scenes[i],toReset, 1));
+		
+		reset = new ArrayList<Integer>();
+		for(int r=0;r<scenes[i].fixtures.length;r++){
+			reset.add(scenes[i].fixtures[r].id);
+		}
+		
+		i++;
 	}
 	private void cancel(){
-		if(reset.length>0){
-			dmx.override(new ScOverride(new Scene(), reset, 1));
-			reset = new int[0];
+		if(!reset.isEmpty()){
+			int[] toReset = new int[reset.size()];
+			for(int i=0;i<reset.size();i++) toReset[i]=reset.get(i);
+			
+			dmx.override(new ScOverride(new Scene(), toReset, 1));
+			reset = new ArrayList<Integer>();
 		}
 	}
 	public void play (Scene[] s){
