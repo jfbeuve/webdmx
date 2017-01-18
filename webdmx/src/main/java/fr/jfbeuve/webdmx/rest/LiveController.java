@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.jfbeuve.webdmx.dmx.DmxWrapper;
 import fr.jfbeuve.webdmx.preset.SequencePreset;
 import fr.jfbeuve.webdmx.sc.ScOverride;
+import fr.jfbeuve.webdmx.sc.ScSequence;
 import fr.jfbeuve.webdmx.sc.Scene;
 import fr.jfbeuve.webdmx.sc.Sequencer;
 
@@ -34,7 +35,7 @@ public class LiveController {
 		return null;
 	}
 	@RequestMapping(value = "/live/play", method = RequestMethod.POST,consumes="application/json")
-	public Object play(@RequestBody final Scene[] s) {
+	public Object play(@RequestBody final ScSequence s) {
 		chase.play(s);
 		return null;
 	}

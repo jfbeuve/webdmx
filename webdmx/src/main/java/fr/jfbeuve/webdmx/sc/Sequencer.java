@@ -83,10 +83,13 @@ public class Sequencer implements Runnable{
 			reset = new ArrayList<Integer>();
 		}
 	}
-	public void play (Scene[] s){
+	public void play (ScSequence s){
 		i=0;
-		scenes = s;
-		if(t==null) speed(speed);
+		scenes = s.scenes;
+		if(s.speed>-1) 
+			speed(s.speed);
+		else if(t==null)
+			speed(speed);
 	}
 	
 	private void stop(){
