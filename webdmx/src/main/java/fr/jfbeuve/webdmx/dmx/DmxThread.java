@@ -20,22 +20,21 @@ public class DmxThread implements Runnable{
 	public void run() {
 		log.debug("NEW DMX THREAD");
 		done=false;
-		int strobCount=0;
+		
+		boolean strob = false;
 		while(true){
-			boolean strob = true;
-			if(strobCount>5) strobCount=0;
-			if(strobCount>2) strob = false;
-			strobCount++;
+			strob = !strob;
 			
 			log.debug("DMX LOOP "+strob);
 
 			stale = true;
-			done = dmx.apply(strob);
+			DmxChannelStatus status = dmx.apply(strob);
+			done = status == DmxChannelStatus.DONE;
 			stale = false;
 			if(done)break;
 			
 			try {
-				Thread.sleep(20);
+				Thread.sleep(status==DmxChannelStatus.STROB?80:20);
 			} catch (InterruptedException e) {
 				log.error(e,e);
 				done=true;

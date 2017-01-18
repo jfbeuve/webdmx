@@ -120,9 +120,10 @@ public class DmxLayer {
 	/**
 	 * @return true if nothing to do
 	 */
-	boolean done(){
-		if(strob) return false;
-		return dmxVal == endVal;
+	DmxChannelStatus done(){
+		if(strob) return DmxChannelStatus.STROB;
+		if(dmxVal == endVal) return DmxChannelStatus.DONE;
+		else return DmxChannelStatus.RUNNING;
 	}
 	
 	void strob(boolean s){

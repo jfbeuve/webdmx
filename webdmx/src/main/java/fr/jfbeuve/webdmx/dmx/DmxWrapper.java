@@ -85,14 +85,16 @@ public class DmxWrapper {
 		thread.apply();
 	}
 
-	boolean apply(boolean strob){
+	DmxChannelStatus apply(boolean strob){
 		long timestamp = System.currentTimeMillis();
-		boolean completed = true;
-		for(int i=0;i<fixture.length;i++)
-			if(fixture[i].apply(data, strob, timestamp)==false) completed=false;
+		DmxChannelStatus status = DmxChannelStatus.DONE;
+		for(int i=0;i<fixture.length;i++){
+			DmxChannelStatus cs = fixture[i].apply(data, strob, timestamp);
+			status = status.merge(cs);
+		}
 		if(!offline) io.send(data);
-		//if(offline) monitor();
-		return completed; 
+		//TODO if(offline&&!test) monitor();
+		return status; 
 	}
 	public void blackout(long fade){
 		log.info("BLACKOUT");

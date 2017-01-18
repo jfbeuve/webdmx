@@ -1,6 +1,7 @@
 package fr.jfbeuve.webdmx.fixture;
 
 import fr.jfbeuve.webdmx.dmx.DmxChannel;
+import fr.jfbeuve.webdmx.dmx.DmxChannelStatus;
 import fr.jfbeuve.webdmx.sc.RGBFixtureState;
 
 public class RGBFixture {
@@ -43,12 +44,18 @@ public class RGBFixture {
 		blue.reset(layer,time);
 	}
 		
-	public boolean apply(int[] output, boolean strob, long timestamp){
-		boolean done = true;
-		if(!red.apply(output, strob, timestamp)) done = false;
-		if(!green.apply(output, strob, timestamp)) done = false;
-		if(!blue.apply(output, strob, timestamp)) done = false;
+	public DmxChannelStatus apply(int[] output, boolean strob, long timestamp){
+		DmxChannelStatus status = DmxChannelStatus.DONE;
+		
+		DmxChannelStatus rs = red.apply(output, strob, timestamp);
+		status = status.merge(rs);
+		
+		DmxChannelStatus gs = green.apply(output, strob, timestamp);
+		status = status.merge(gs);
+		
+		DmxChannelStatus bs = blue.apply(output, strob, timestamp);
+		status = status.merge(bs);
 				
-		return done;
+		return status;
 	}
 }

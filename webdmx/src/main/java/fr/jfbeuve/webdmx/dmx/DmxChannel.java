@@ -65,7 +65,7 @@ public class DmxChannel {
 		if(layer<_layer)layer=_layer;
 	}
 	
-	public boolean apply(int[] output, boolean strob, long timestamp){
+	public DmxChannelStatus apply(int[] output, boolean strob, long timestamp){
 		int was = output[channel-1];
 		output[channel-1]=dmx[layer].next(strob, timestamp);
 		if(was!=output[channel-1])
