@@ -144,7 +144,6 @@ function override(){
  */
 function color(){
 	localStorage.color=$("#color").val();
-	$('#revcol').css('background-color','#ff0000');
 	scene();
 }
 function setcolor(c){
@@ -178,11 +177,23 @@ function colordim(){
 	$("#colordimval").html(localStorage.colordim+'%');
 }
 
+function setrevcol(){
+	var revcolval = $("#color").val();
+	var c = hexToRgb(revcolval);
+	
+	// YELLOW
+	if(c.r==255&&c.b==0) revcolval = 'FFFF00';
+	
+	//$('#revcol').css('background-color','rgb('+r+','+g+','+b+')');
+	$('#revcol').css('background-color','#'+revcolval);
+}
 
 /**
  * POST scene change
  */
 function scene(){
+	setrevcol();
+	
 	var colorhex = $("#color").val();
 	var c = hexToRgb(colorhex);
 	
@@ -243,7 +254,7 @@ if(localStorage.solo!='') $('#'+localStorage.solo).addClass("active");
 if (typeof(localStorage.speed) === "undefined") localStorage.speed = 200;
 
 if (typeof(localStorage.color) === "undefined") localStorage.color = '000000';
-$('#color').val(localStorage.color);
+$('#color').val(localStorage.color); setrevcol();
 
 if (typeof(localStorage.leadid) === "undefined") localStorage.leadid = 0;
 $('#leadid').val(localStorage.leadid);

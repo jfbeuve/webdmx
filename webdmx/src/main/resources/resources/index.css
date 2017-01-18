@@ -94,17 +94,20 @@ div{
 .block div{
 	display: block;
 }
-#colorpicker>div {
+#colorpicker>div{
 	height: 80px;
 	width: 80px;
 	border: 1px solid lightgrey;
 	font-size: 20px;
 }
-#revcol {
+div#revcol{
 	height: 80px;
 	width: 80px;
 	border: 1px solid lightgrey;
 	font-size: 20px;
+	position: absolute;
+	left: 20px;
+	bottom: 20px;
 }
 input[type=range] {
   -webkit-appearance: none;
