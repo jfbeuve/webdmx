@@ -12,7 +12,6 @@ import fr.jfbeuve.webdmx.sc.Scene;
  */
 
 public class SequencePreset {
-	//TODO UI always override speed-1
 	/**
 	 * FAST CHASE (MAX DIMMER 1,3,2,4)
 	 */
@@ -69,7 +68,7 @@ public class SequencePreset {
 					new RGBFixtureState(1,0,0,0,0,false),
 					new RGBFixtureState(2,0,0,0,0,false),
 					new RGBFixtureState(3,0,0,0,0,false)},500)}
-	,1000);
+	,500);
 	/**
 	 * FULL ON / FULL OFF 80ms 
 	 */

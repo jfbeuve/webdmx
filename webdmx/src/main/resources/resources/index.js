@@ -144,6 +144,7 @@ function override(){
  */
 function color(){
 	localStorage.color=$("#color").val();
+	$('#revcol').css('background-color','#ff0000');
 	scene();
 }
 function setcolor(c){
@@ -239,7 +240,7 @@ $("#faderange").val(localStorage.fade); fade();
 if (typeof(localStorage.solo) === "undefined") localStorage.solo = '';
 if(localStorage.solo!='') $('#'+localStorage.solo).addClass("active");
 
-if (typeof(localStorage.speed) === "undefined") localStorage.speed = 300;
+if (typeof(localStorage.speed) === "undefined") localStorage.speed = 200;
 
 if (typeof(localStorage.color) === "undefined") localStorage.color = '000000';
 $('#color').val(localStorage.color);
@@ -287,6 +288,9 @@ function preset(name){
 			if(p.scenes[step].fixtures[fixture].dim==-1) p.scenes[step].fixtures[fixture].dim = dim;
 		}
 	}
+	
+	// override speed if required
+	if(p.speed==-1) p.speed=localStorage.speed;
 	
 	console.log(p);
 	

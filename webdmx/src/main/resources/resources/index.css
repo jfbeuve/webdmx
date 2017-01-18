@@ -100,6 +100,12 @@ div{
 	border: 1px solid lightgrey;
 	font-size: 20px;
 }
+#revcol {
+	height: 80px;
+	width: 80px;
+	border: 1px solid lightgrey;
+	font-size: 20px;
+}
 input[type=range] {
   -webkit-appearance: none;
   width: 380px;
