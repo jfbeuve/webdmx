@@ -12,7 +12,6 @@ import fr.jfbeuve.webdmx.sc.Scene;
  */
 
 public class SequencePreset {
-	//TODO javascript change sequence parsing
 	//TODO UI always override speed-1
 	/**
 	 * FAST CHASE (MAX DIMMER 1,3,2,4)

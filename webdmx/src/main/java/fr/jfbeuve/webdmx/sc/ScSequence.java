@@ -2,7 +2,10 @@ package fr.jfbeuve.webdmx.sc;
 
 public class ScSequence {
 	public Scene[] scenes;
-	long speed;
+	public long speed;
+	public ScSequence(){
+		this(new Scene[]{});
+	}
 	public ScSequence(Scene[] s){
 		this(s,-1);
 	}

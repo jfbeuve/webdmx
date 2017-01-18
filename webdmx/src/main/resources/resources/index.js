@@ -282,9 +282,9 @@ function preset(name){
 	// override dimmmer if required
 	var dim = $("#colordim").val();
 	console.log(dim);
-	for (var step = 0; step < p.length; step++) {
-		for (var fixture = 0; fixture < p[step].fixtures.length; fixture++) {
-			if(p[step].fixtures[fixture].dim==-1) p[step].fixtures[fixture].dim = dim;
+	for (var step = 0; step < p.scenes.length; step++) {
+		for (var fixture = 0; fixture < p.scenes[step].fixtures.length; fixture++) {
+			if(p.scenes[step].fixtures[fixture].dim==-1) p.scenes[step].fixtures[fixture].dim = dim;
 		}
 	}
 	

@@ -25,7 +25,6 @@ public class LiveController {
 	
 	@RequestMapping(value = "/live/scene", method = RequestMethod.POST,consumes="application/json")
 	public Object scene(@RequestBody final Scene s) {
-		//TODO get speed at the same time
 		dmx.set(s);
 		return null;
 	}
