@@ -13,18 +13,18 @@ import fr.jfbeuve.webdmx.sc.Scene;
 
 public class SequencePreset {
 	/**
-	 * FAST CHASE (MAX DIMMER 1,3,2,4)
+	 * dimmer CHASE without gaps (MAX DIMMER 1,3,2,4)
 	 */
-	public ScSequence fastchase = new ScSequence(new Scene[]{
+	public ScSequence chas = new ScSequence(new Scene[]{
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(0,100,-1,-1,-1,false)},0),
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(2,100,-1,-1,-1,false)},0),
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(1,100,-1,-1,-1,false)},0),
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(3,100,-1,-1,-1,false)},0)});
 	
 	/**
-	 * SLOW CHASE (MAX DIMMER 1,0,3,0,2,0,4,0)
+	 * dimmer CHASE with gaps (MAX DIMMER 1,0,3,0,2,0,4,0)
 	 */
-	public ScSequence slowchase = new ScSequence(new Scene[]{
+	public ScSequence gap = new ScSequence(new Scene[]{
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(0,100,-1,-1,-1,false)},0),
 		new Scene(new RGBFixtureState[]{},0),
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(2,100,-1,-1,-1,false)},0),
@@ -33,31 +33,11 @@ public class SequencePreset {
 		new Scene(new RGBFixtureState[]{},0),
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(3,100,-1,-1,-1,false)},0),
 		new Scene(new RGBFixtureState[]{},0)});
-	/**
-	 * FAST STROB CHASE
-	 */
-	public ScSequence sfastchase = new ScSequence(new Scene[]{
-		new Scene(new RGBFixtureState[]{new RGBFixtureState(0,100,-1,-1,-1,false)},0),
-		new Scene(new RGBFixtureState[]{new RGBFixtureState(2,100,-1,-1,-1,false)},0),
-		new Scene(new RGBFixtureState[]{new RGBFixtureState(1,100,-1,-1,-1,false)},0),
-		new Scene(new RGBFixtureState[]{new RGBFixtureState(3,100,-1,-1,-1,false)},0)});
 	
 	/**
-	 * SLOW STROB CHASE 
+	 * FULL ON / FULL OFF 1s = applause
 	 */
-	public ScSequence sslowchase = new ScSequence(new Scene[]{
-		new Scene(new RGBFixtureState[]{new RGBFixtureState(0,100,-1,-1,-1,false)},0),
-		new Scene(new RGBFixtureState[]{},0),
-		new Scene(new RGBFixtureState[]{new RGBFixtureState(2,100,-1,-1,-1,false)},0),
-		new Scene(new RGBFixtureState[]{},0),
-		new Scene(new RGBFixtureState[]{new RGBFixtureState(1,100,-1,-1,-1,false)},0),
-		new Scene(new RGBFixtureState[]{},0),
-		new Scene(new RGBFixtureState[]{new RGBFixtureState(3,100,-1,-1,-1,false)},0),
-		new Scene(new RGBFixtureState[]{},0)});
-	/**
-	 * FULL ON / FULL OFF 1s 
-	 */
-	public ScSequence flash = new ScSequence(new Scene[]{
+	public ScSequence apl = new ScSequence(new Scene[]{
 			new Scene(new RGBFixtureState[]{
 					new RGBFixtureState(0,-1,255,255,255,false),
 					new RGBFixtureState(1,-1,255,255,255,false),
@@ -69,10 +49,11 @@ public class SequencePreset {
 					new RGBFixtureState(2,0,0,0,0,false),
 					new RGBFixtureState(3,0,0,0,0,false)},500)}
 	,500);
+	
 	/**
-	 * FULL ON / FULL OFF 80ms 
+	 * FULL ON / FULL OFF 80ms = strob
 	 */
-	public ScSequence sflash = new ScSequence(new Scene[]{
+	public ScSequence strb = new ScSequence(new Scene[]{
 			new Scene(new RGBFixtureState[]{
 					new RGBFixtureState(0,-1,255,255,255,false),
 					new RGBFixtureState(1,-1,255,255,255,false),
@@ -84,11 +65,38 @@ public class SequencePreset {
 					new RGBFixtureState(2,0,0,0,0,false),
 					new RGBFixtureState(3,0,0,0,0,false)},0)}
 	,80);
-
 	/**
-	 * WHITE CHASE (ALL BLACK BUT 1,2,3,4)
+	 * 100% dim CHASE at strob speed (ALL BLACK BUT 1,2,3,4)
 	 */
-	public ScSequence wchase = new ScSequence(new Scene[]{
+	public ScSequence flsh = new ScSequence(new Scene[]{
+		new Scene(new RGBFixtureState[]{
+				new RGBFixtureState(0,100,-1,-1,-1,false),
+				new RGBFixtureState(1,0,-1,-1,-1,false),
+				new RGBFixtureState(2,0,-1,-1,-1,false),
+				new RGBFixtureState(3,0,-1,-1,-1,false)
+		},0),
+		new Scene(new RGBFixtureState[]{
+				new RGBFixtureState(0,0,-1,-1,-1,false),
+				new RGBFixtureState(1,100,-1,-1,-1,false),
+				new RGBFixtureState(2,0,-1,-1,-1,false),
+				new RGBFixtureState(3,0,-1,-1,-1,false)
+		},0),
+		new Scene(new RGBFixtureState[]{
+				new RGBFixtureState(0,0,-1,-1,-1,false),
+				new RGBFixtureState(1,0,-1,-1,-1,false),
+				new RGBFixtureState(2,100,-1,-1,-1,false),
+				new RGBFixtureState(3,0,-1,-1,-1,false)
+		},0),
+		new Scene(new RGBFixtureState[]{
+				new RGBFixtureState(0,0,-1,-1,-1,false),
+				new RGBFixtureState(1,0,-1,-1,-1,false),
+				new RGBFixtureState(2,0,-1,-1,-1,false),
+				new RGBFixtureState(3,100,-1,-1,-1,false)
+		},0)},80);
+	/**
+	 * light CHASE (ALL BLACK BUT 1,2,3,4)
+	 */
+	public ScSequence sol = new ScSequence(new Scene[]{
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,-1,-1,-1,-1,false),
 				new RGBFixtureState(1,0,-1,-1,-1,false),
@@ -117,7 +125,7 @@ public class SequencePreset {
 	/**
 	 * BLACK CHASE (ALL WHITE BUT 1,2,3,4)
 	 */
-	public ScSequence bchase = new ScSequence(new Scene[]{
+	public ScSequence hol = new ScSequence(new Scene[]{
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,-1,-1,-1,false),
 				new RGBFixtureState(1,-1,-1,-1,-1,false),
@@ -143,8 +151,8 @@ public class SequencePreset {
 				new RGBFixtureState(3,0,-1,-1,-1,false)
 		},0)});
 	
-	//TODO replace yellow/red by color/reverse
-	public ScSequence fire = new ScSequence(new Scene[]{
+	// yellow to be overridden by main color and red by reverse color on client side
+	public ScSequence fir = new ScSequence(new Scene[]{
 			new Scene(new RGBFixtureState[]{
 					new RGBFixtureState(0,-1,255,40,0,false),
 					new RGBFixtureState(1,-1,255,255,0,false),
@@ -157,6 +165,21 @@ public class SequencePreset {
 					new RGBFixtureState(2,-1,255,255,0,false),
 					new RGBFixtureState(3,-1,255,40,0,false)
 			},0)});
+	
+	// yellow to be overridden by main color and red by reverse color on client side	
+	public ScSequence wav = new ScSequence(new Scene[]{
+			new Scene(new RGBFixtureState[]{
+					new RGBFixtureState(0,-1,255,40,0,false),
+					new RGBFixtureState(1,-1,255,255,0,false),
+					new RGBFixtureState(2,-1,255,40,0,false),
+					new RGBFixtureState(3,-1,255,255,0,false)
+			},4000),
+			new Scene(new RGBFixtureState[]{
+					new RGBFixtureState(0,-1,255,255,0,false),
+					new RGBFixtureState(1,-1,255,40,0,false),
+					new RGBFixtureState(2,-1,255,255,0,false),
+					new RGBFixtureState(3,-1,255,40,0,false)
+			},4000)},16000);
 	
 	public static void main(String[] args) throws Exception{
 		Scene sc = new Scene(new RGBFixtureState[]{

@@ -17,18 +17,21 @@
 	</head>
 	<body>
 		<div id="revcol">revcol</div>
-		<div class="section" id="master">
-			
-			<div id="presets"> <!-- DYNAMIC CONTENT--> </div>
-			
-			<div class="command">
-				<button id="blackout">BLACKOUT</button>
-				<button id="stop">STOP</button>
-				<button id="next">NEXT</button>
-				<button id="tap">TAP</button>
-			</div>
-			
+		<div id="fade">
+			<input type="range" value="40" id="faderange" onchange="fade()"/>
+			<label id="fadeval" class="rangelabel">-</label>
 		</div>
+		<div class="command">
+			<button id="blackout">X</button>
+			<button id="stop"><i class="material-icons">stop</i></button>
+			<button id="next"><i class="material-icons">skip_next</i></button>
+			<button id="tap">&#9835;</button>
+		</div>
+			
+		<div class="section">
+			<div id="presets"> <!-- DYNAMIC CONTENT--> </div>
+		</div>
+		
 		<br/>
 
 		<div class="section">
@@ -43,15 +46,18 @@
 	
 				<input id="color" class="jscolor" value="000000" onchange="color()">
 				<button id="coloradd" onclick="coloradd()">+</button>
+				<button id="colorclear" onclick="colorclear()">clr</button>
 				<button id="colordel" onclick="colordel()">-</button>
 			</div>
 			
-			<button id="lead">&#9788;</button> 
 			<div class="container">
 				<input type="range" id="colordim" onchange="colordim()"/>
 				<label id="colordimval" class="rangelabel">-</label>
 			</div>
-			<button id="colorstrob">&#9889;</button>
+			<div class="inlinecmd">
+				<button id="colorstrob">&#9889;</button>
+				<button id="lead">&#9819;</button>
+			</div>
 			<br/>
 			<div id="colorpicker"> <!-- DYNAMIC CONTENT--> </div>
 		</div>
@@ -66,18 +72,11 @@
 				<input type="range" id="solodim" onchange="solodim()"/>
 				<label id="solodimval" class="rangelabel">-</label>
 			</div>
-			<button id="solostrob">&#9889;</button>
-		</div>
-		<br/>
-		<div class="section" id="fade">
-			<button id="solosnap">SOLO SNAP</button>
-			FADE
-			<div class="container">
-				<input type="range" value="40" id="faderange" onchange="fade()"/>
-				<label id="fadeval" class="rangelabel">-</label>
+			<div class="inlinecmd">
+				<button id="solosnap">&#9808;</button>
+				<button id="solostrob">&#9889;</button>
 			</div>
 		</div>
-		<br/>
 
 		<script src="index.js"></script>
 	</body>

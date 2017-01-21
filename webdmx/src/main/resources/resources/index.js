@@ -67,7 +67,7 @@ function printms(o, v) {
 			u = "m";
 		}
 	}
-	o.html(v + u);
+	o.html('fade ' + v + u);
 }
 /*
  * OVERRIDE
@@ -178,14 +178,25 @@ function colordim(){
 }
 
 function setrevcol(){
-	var revcolval = $("#color").val();
+	var col = $("#color").val();
+	col = getrevcol(col);
+	$('#revcol').css('background-color','#'+col);
+}
+
+function getrevcol(col){
+	var revcolval = col;
 	var c = hexToRgb(revcolval);
 	
-	// YELLOW
-	if(c.r==255&&c.b==0) revcolval = 'FFFF00';
+	if(c.r>127&&c.g<128&&c.b<128) revcolval = 'FFFF00'; 
+	if(c.r>127&&c.g>127&&c.b<128) revcolval = 'FF4000'; 
+	if(c.r>127&&c.g<128&&c.b>127) revcolval = '00FFFF'; 
+	if(c.r<128&&c.g>127&&c.b>127) revcolval = 'FF00FF'; 
+	if(c.r<128&&c.g<128&&c.b>127) revcolval = '00FF40';
+	if(c.r<128&&c.g>127&&c.b<128) revcolval = '0040FF';
+	if(c.r<128&&c.g<128&&c.b<128) revcolval = 'FFFFFF';  
+	if(c.r>127&&c.g>127&&c.b>127) revcolval = '000000';
 	
-	//$('#revcol').css('background-color','rgb('+r+','+g+','+b+')');
-	$('#revcol').css('background-color','#'+revcolval);
+	return revcolval;	
 }
 
 /**
@@ -268,7 +279,7 @@ customcolors = JSON.parse(localStorage.colors);
  * PRESETS
  */
 
-var presetnames = {'fchase':'1324','schase':'10302040','flash':'1/0','wchase':'W1234','bchase':'B1234'};
+var presetnames = {};
 var presets = {};
 $.ajax({
 	url : '/live/sequence.json',
@@ -291,19 +302,47 @@ function preset(name){
 	
 	var p = JSON.parse(JSON.stringify(presets[name]));
 	
-	// override dimmmer if required
+	// override dimmmer when required
 	var dim = $("#colordim").val();
-	console.log(dim);
+	
 	for (var step = 0; step < p.scenes.length; step++) {
 		for (var fixture = 0; fixture < p.scenes[step].fixtures.length; fixture++) {
 			if(p.scenes[step].fixtures[fixture].dim==-1) p.scenes[step].fixtures[fixture].dim = dim;
 		}
 	}
 	
-	// override speed if required
+	// override speed when required
 	if(p.speed==-1) p.speed=localStorage.speed;
 	
-	console.log(p);
+	// override colors when required
+	if(name=='fir'||name=='wav'){
+		var col = hexToRgb($("#color").val()); 
+		var rev = hexToRgb(getrevcol($("#color").val()));
+		p.scenes[0].fixtures[0].r = col.r;
+		p.scenes[0].fixtures[0].g = col.g;
+		p.scenes[0].fixtures[0].b = col.b;
+		p.scenes[0].fixtures[2].r = col.r;
+		p.scenes[0].fixtures[2].g = col.g;
+		p.scenes[0].fixtures[2].b = col.b;
+		p.scenes[1].fixtures[1].r = col.r;
+		p.scenes[1].fixtures[1].g = col.g;
+		p.scenes[1].fixtures[1].b = col.b;
+		p.scenes[1].fixtures[3].r = col.r;
+		p.scenes[1].fixtures[3].g = col.g;
+		p.scenes[1].fixtures[3].b = col.b;
+		p.scenes[1].fixtures[0].r = rev.r;
+		p.scenes[1].fixtures[0].g = rev.g;
+		p.scenes[1].fixtures[0].b = rev.b;
+		p.scenes[1].fixtures[2].r = rev.r;
+		p.scenes[1].fixtures[2].g = rev.g;
+		p.scenes[1].fixtures[2].b = rev.b;
+		p.scenes[0].fixtures[1].r = rev.r;
+		p.scenes[0].fixtures[1].g = rev.g;
+		p.scenes[0].fixtures[1].b = rev.b;
+		p.scenes[0].fixtures[3].r = rev.r;
+		p.scenes[0].fixtures[3].g = rev.g;
+		p.scenes[0].fixtures[3].b = rev.b;
+	}
 	
 	// HTTP POST
 	$.ajax({
@@ -352,6 +391,12 @@ function colordel(){
 		if(customcolors[i]!=c) newcolors.push(customcolors[i]);
 	}
 	customcolors=newcolors;
+	localStorage.colors = JSON.stringify(customcolors);
+	colorpresets();
+}
+
+function colorclear(){
+	customcolors = [];
 	localStorage.colors = JSON.stringify(customcolors);
 	colorpresets();
 }
