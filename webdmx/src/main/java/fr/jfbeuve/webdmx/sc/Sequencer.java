@@ -65,6 +65,7 @@ public class Sequencer implements Runnable{
 		int[] toReset = new int[reset.size()];
 		for(int i=0;i<reset.size();i++) toReset[i]=reset.get(i);
 		
+		if(speed<scenes[i].fade) scenes[i].fade = speed; 
 		dmx.override(new ScOverride(scenes[i],toReset, 1));
 		
 		reset = new ArrayList<Integer>();

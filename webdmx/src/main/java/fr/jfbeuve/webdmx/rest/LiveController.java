@@ -1,5 +1,6 @@
 package fr.jfbeuve.webdmx.rest;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +39,18 @@ public class LiveController {
 		chase.play(s);
 		return null;
 	}
-	@RequestMapping(value = "/live/data", method = RequestMethod.POST,consumes="application/json")
-	public Object data(@RequestBody final Map<Integer,Integer> v) {
+	@RequestMapping(value = "/live/write", method = RequestMethod.POST,consumes="application/json")
+	public Object write(@RequestBody final Map<Integer,Integer> v) {
 		dmx.set(v);
 		return null;
+	}
+	@RequestMapping(value = "/live/read", method = RequestMethod.POST,consumes="application/json")
+	public Object read(@RequestBody final int[] channels) {
+		Map<Integer,Integer> output = new HashMap<Integer, Integer>();
+		for(int ch:channels){
+			output.put(ch,dmx.read()[ch]);
+		}
+		return output;
 	}
 	/**
 	 * speed in ms

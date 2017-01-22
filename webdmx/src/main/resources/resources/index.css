@@ -65,7 +65,7 @@ select{
 #presets>button {
     margin: 5px;
 }
-#fixture>button, div.inlinecmd>button{
+#fixture>button, div.inlinecmd>button, #sw1, #sw2, #sw3, #sw4{
 	width: 80px;
 	height: 70px;
 }
@@ -171,4 +171,12 @@ input[type=range]::-webkit-slider-thumb {
 	top: -52px;
 	background-color: black;
 	padding: 1px 5px;
+}
+#disco{
+	position: absolute;
+	left: 40px;
+	top: 40px;
+	width: 90%;
+	z-index: 10;
+	background-color: black;
 }

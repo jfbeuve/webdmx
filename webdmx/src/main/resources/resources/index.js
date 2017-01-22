@@ -275,6 +275,40 @@ var customcolors = [];
 if (typeof(localStorage.colors) === "undefined") localStorage.colors = JSON.stringify(customcolors);
 customcolors = JSON.parse(localStorage.colors);
 
+if (typeof(localStorage.disco) === "undefined") localStorage.disco = false;
+if(localStorage.disco=='true') $('#disco').show(); else $('#disco').hide(); 
+
+if (typeof(localStorage.strobdim) === "undefined") localStorage.strobdim = 100;
+$("#strobdim").val(localStorage.strobdim); $("#strobdimval").html('dim '+localStorage.strobdim+'%');
+
+if (typeof(localStorage.strobdepth) === "undefined") localStorage.strobdepth = 80;
+$("#strobdepth").val(localStorage.strobdepth); $("#strobdepthval").html('depth '+localStorage.strobdepth+'%');
+
+// INIT DISCO SWITCH AND STROB
+//TODO set real dmx channels
+$.ajax({
+	type: "POST",
+    url: "/live/read",
+    data: JSON.stringify([11,14,15,16,17]), 
+    contentType: 'application/json',
+	dataType : 'text',
+	cache : false,
+	success : function(data) {
+		//console.log(data);
+		var o = JSON.parse(data);
+		initdmxbtn(o['11'],$('#strob'));
+		initdmxbtn(o['14'],$('#sw1'));
+		initdmxbtn(o['15'],$('#sw2'));
+		initdmxbtn(o['16'],$('#sw3'));
+		initdmxbtn(o['17'],$('#sw4'));
+	}.bind(this)
+});
+
+function initdmxbtn(val,btn){
+	if(val>0) btn.addClass('active');
+	else btn.removeClass('active');
+}
+
 /*
  * PRESETS
  */
@@ -465,3 +499,78 @@ bindsolo('PAR1');
 bindsolo('PAR2');
 bindsolo('PAR3');
 bindsolo('PAR4');
+
+/*
+ * DISCO
+ */ 
+function disco(){
+	$('#disco').toggle();
+	localStorage.disco = localStorage.disco=='false';
+}
+function strobreset(){
+	localStorage.strobdim = 100;
+	$("#strobdim").val(localStorage.strobdim);
+	$("#strobdimval").html('dim '+localStorage.strobdim+'%');
+
+	localStorage.strobdepth = 80;
+	$("#strobdepth").val(localStorage.strobdepth); 
+	$("#strobdepthval").html('depth '+localStorage.strobdepth+'%');
+}
+function dmxwrite(data){
+	$.ajax({
+		  type: "POST",
+	      url: "/live/write",
+	      data: JSON.stringify(data),
+	      contentType: 'application/json',
+	      cache: false
+		});
+}
+function strob(){
+	var btn = $('#strob');
+	if (btn.hasClass("active")) {
+		btn.removeClass("active");
+		dmxwrite({11:0,12:0}); //TODO finialize dmx address
+	} else {
+		btn.addClass("active");
+		var depth = $("#strobdepth").val() * 255 / 100;
+		var dim = $("#strobdim").val() * 255 / 100;
+		dmxwrite({11:dim,12:depth}); //TODO finialize dmx address
+	}
+}
+
+function switchall(fire){
+	if(fire){
+		$('#sw1').addClass("active");
+		$('#sw2').addClass("active");
+		$('#sw3').addClass("active");
+		$('#sw4').addClass("active");
+		dmxwrite({14:255,15:255,16:255,17:255}); //TODO finialize dmx address
+	} else {
+		$('#sw1').removeClass("active");
+		$('#sw2').removeClass("active");
+		$('#sw3').removeClass("active");
+		$('#sw4').removeClass("active");
+		dmxwrite({14:0,15:0,16:0,17:0}); //TODO finialize dmx address
+	}
+}
+function switchx(vx){
+	var btn = $('#sw'+vx);
+	var dmx = vx + 13; //TODO finialize dmx address
+	var data = {};
+	if (btn.hasClass("active")) {
+		btn.removeClass("active");
+		 data[dmx]=0;
+	} else {
+		btn.addClass("active");
+		data[dmx]=255;
+	}
+	dmxwrite(data);
+}
+function strobdepth(){
+	localStorage.strobdepth = $("#strobdepth").val(); 
+	$("#strobdepthval").html('depth '+localStorage.strobdepth+'%');
+}
+function strobdim(){
+	localStorage.strobdim = $("#strobdim").val();
+	$("#strobdimval").html('dim '+localStorage.strobdim+'%');
+}

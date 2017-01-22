@@ -16,7 +16,30 @@
 		<script src="jscolor.min.js"></script>
 	</head>
 	<body>
-		<div id="revcol">revcol</div>
+		<div id="disco">
+			<div class="section" id="strobsection">
+				<button id="strob" onclick="strob()">STROB</button>
+				<button onclick="strobreset()">CLR</button>
+				<div class="container" id="strobdimslider">
+					<input type="range" id="strobdim" onchange="strobdim()"/>
+					<label id="strobdimval" class="rangelabel">-</label>
+				</div>
+				<div class="container" id="strobdephtslider">
+					<input type="range" id="strobdepth" onchange="strobdepth()"/>
+					<label id="strobdepthval" class="rangelabel">-</label>
+				</div>
+			</div>
+			<div class="section">
+				SWITCH
+				<button onclick="switchall(true)">ON</button>
+				<button onclick="switchall(false)">OFF</button>
+				<button id="sw1" onclick="switchx(1)">1</button>
+				<button id="sw2" onclick="switchx(2)">2</button>
+				<button id="sw3" onclick="switchx(3)">3</button>
+				<button id="sw4" onclick="switchx(4)">4</button>
+			</div>
+		</div>
+		<div id="revcol" onclick="disco()">reverse</div>
 		<div id="fade">
 			<input type="range" value="40" id="faderange" onchange="fade()"/>
 			<label id="fadeval" class="rangelabel">-</label>
@@ -77,7 +100,7 @@
 				<button id="solostrob">S</button>
 			</div>
 		</div>
-
+		
 		<script src="index.js"></script>
 	</body>
 </html>
