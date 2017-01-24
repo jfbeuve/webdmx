@@ -281,8 +281,8 @@ if(localStorage.disco=='true') $('#disco').show(); else $('#disco').hide();
 if (typeof(localStorage.strobdim) === "undefined") localStorage.strobdim = 100;
 $("#strobdim").val(localStorage.strobdim); $("#strobdimval").html('dim '+localStorage.strobdim+'%');
 
-if (typeof(localStorage.strobdepth) === "undefined") localStorage.strobdepth = 80;
-$("#strobdepth").val(localStorage.strobdepth); $("#strobdepthval").html('depth '+localStorage.strobdepth+'%');
+if (typeof(localStorage.strobospeed) === "undefined") localStorage.strobospeed = 80;
+$("#strobospeed").val(localStorage.strobospeed); $("#strobospeedval").html('speed '+localStorage.strobospeed+'%');
 
 // INIT DISCO SWITCH AND STROB
 //TODO set real dmx channels
@@ -512,9 +512,9 @@ function strobreset(){
 	$("#strobdim").val(localStorage.strobdim);
 	$("#strobdimval").html('dim '+localStorage.strobdim+'%');
 
-	localStorage.strobdepth = 80;
-	$("#strobdepth").val(localStorage.strobdepth); 
-	$("#strobdepthval").html('depth '+localStorage.strobdepth+'%');
+	localStorage.strobospeed = 80;
+	$("#strobospeed").val(localStorage.strobospeed); 
+	$("#strobospeedval").html('speed '+localStorage.strobospeed+'%');
 }
 function dmxwrite(data){
 	$.ajax({
@@ -532,9 +532,9 @@ function strob(){
 		dmxwrite({11:0,12:0}); //TODO finialize dmx address
 	} else {
 		btn.addClass("active");
-		var depth = $("#strobdepth").val() * 255 / 100;
+		var speed = $("#strobospeed").val() * 255 / 100;
 		var dim = $("#strobdim").val() * 255 / 100;
-		dmxwrite({11:dim,12:depth}); //TODO finialize dmx address
+		dmxwrite({11:dim,12:speed}); //TODO finialize dmx address
 	}
 }
 
@@ -566,9 +566,9 @@ function switchx(vx){
 	}
 	dmxwrite(data);
 }
-function strobdepth(){
-	localStorage.strobdepth = $("#strobdepth").val(); 
-	$("#strobdepthval").html('depth '+localStorage.strobdepth+'%');
+function strobospeed(){
+	localStorage.strobospeed = $("#strobospeed").val(); 
+	$("#strobospeedval").html('speed '+localStorage.strobospeed+'%');
 }
 function strobdim(){
 	localStorage.strobdim = $("#strobdim").val();
