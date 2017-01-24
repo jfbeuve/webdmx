@@ -96,13 +96,13 @@ public class DmxWrapperTest {
 		
 		dmx.set(new Scene(STR0B0,0));
 		Thread.sleep(20);
-		assertRGB(24,255,255,255);
+		assertRGB(CH1,255,255,255);
 		Thread.sleep(80);
-		assertRGB(24,0,0,0);
+		assertRGB(CH1,0,0,0);
 		Thread.sleep(80);
-		assertRGB(24,255,255,255);
+		assertRGB(CH1,255,255,255);
 		Thread.sleep(80);
-		assertRGB(24,0,0,0);
+		assertRGB(CH1,0,0,0);
 		
 		init();
 	}
@@ -143,10 +143,10 @@ public class DmxWrapperTest {
 	static final ScOverride RESET_SOLO = new ScOverride(new Scene(new RGBFixtureState[0] ,0),new int[]{0},2);
 	
 	private void assertRGB(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4){
-		assertRGB(24,r1,g1,b1);
-		assertRGB(27,r2,g2,b2);
-		assertRGB(30,r3,g3,b3);
-		assertRGB(33,r4,g4,b4);
+		assertRGB(CH1,r1,g1,b1);
+		assertRGB(CH2,r2,g2,b2);
+		assertRGB(CH3,r3,g3,b3);
+		assertRGB(CH4,r4,g4,b4);
 	}
 	private void assertRGB(int ch, int r, int g, int b){
 		log.info("<ASSERT "+ch+" r="+r+" g="+g+" b="+b+">");
@@ -163,10 +163,10 @@ public class DmxWrapperTest {
 		assertTrue(b>=dmx.read()[ch+2]);
 	}
 	private void assertRGBlower(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4){
-		assertRGBlower(24,r1,g1,b1);
-		assertRGBlower(27,r2,g2,b2);
-		assertRGBlower(30,r3,g3,b3);
-		assertRGBlower(33,r4,g4,b4);
+		assertRGBlower(CH1,r1,g1,b1);
+		assertRGBlower(CH2,r2,g2,b2);
+		assertRGBlower(CH3,r3,g3,b3);
+		assertRGBlower(CH4,r4,g4,b4);
 	}
 	private void assertRGBhigher(int ch, int r, int g, int b){
 		log.info("<ASSERT "+ch+" r>"+r+" g>"+g+" b>"+b+">");
@@ -176,10 +176,10 @@ public class DmxWrapperTest {
 		assertTrue(b<=dmx.read()[ch+2]);
 	}
 	private void assertRGBhigher(int r1, int g1, int b1, int r2, int g2, int b2,int r3, int g3, int b3,int r4, int g4, int b4){
-		assertRGBhigher(24,r1,g1,b1);
-		assertRGBhigher(27,r2,g2,b2);
-		assertRGBhigher(30,r3,g3,b3);
-		assertRGBhigher(33,r4,g4,b4);
+		assertRGBhigher(CH1,r1,g1,b1);
+		assertRGBhigher(CH2,r2,g2,b2);
+		assertRGBhigher(CH3,r3,g3,b3);
+		assertRGBhigher(CH4,r4,g4,b4);
 	}
-	
+	private static final int CH1 = 2, CH2 = 7, CH3 = 12, CH4 = 17;
 }

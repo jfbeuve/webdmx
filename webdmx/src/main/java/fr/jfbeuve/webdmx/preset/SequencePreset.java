@@ -12,6 +12,7 @@ import fr.jfbeuve.webdmx.sc.Scene;
  */
 
 public class SequencePreset {
+	//TODO add bistro, sync, slow, music presets + move presets to overlay
 	/**
 	 * dimmer CHASE without gaps (MAX DIMMER 1,3,2,4)
 	 */
@@ -180,6 +181,25 @@ public class SequencePreset {
 					new RGBFixtureState(2,-1,255,255,0,false),
 					new RGBFixtureState(3,-1,255,40,0,false)
 			},4000)},16000);
+	
+	//TODO BISTRO =  RGBA * 7
+	public ScSequence bistro = new ScSequence(new Scene[]{
+			new Scene(new RGBFixtureState[]{
+					new RGBFixtureState(0,-1,255,0,0,false),
+					new RGBFixtureState(1,-1,255,255,0,false),
+					new RGBFixtureState(2,-1,255,255,0,false),
+					new RGBFixtureState(3,-1,255,0,0,false)},4000),
+			new Scene(new RGBFixtureState[]{
+					new RGBFixtureState(0,-1,255,255,0,false),
+					new RGBFixtureState(1,-1,255,0,0,false),
+					new RGBFixtureState(2,-1,255,0,0,false),
+					new RGBFixtureState(3,-1,255,255,0,false)},4000),
+			new Scene(new RGBFixtureState[]{
+					new RGBFixtureState(0,-1,255,255,0,false),
+					new RGBFixtureState(1,-1,255,0,0,false),
+					new RGBFixtureState(2,-1,255,0,0,false),
+					new RGBFixtureState(3,-1,255,255,0,false)},4000),
+			},16000);
 	
 	public static void main(String[] args) throws Exception{
 		Scene sc = new Scene(new RGBFixtureState[]{

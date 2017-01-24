@@ -284,23 +284,32 @@ $("#strobdim").val(localStorage.strobdim); $("#strobdimval").html('dim '+localSt
 if (typeof(localStorage.strobospeed) === "undefined") localStorage.strobospeed = 80;
 $("#strobospeed").val(localStorage.strobospeed); $("#strobospeedval").html('speed '+localStorage.strobospeed+'%');
 
+if (typeof(localStorage.autospeed) === "undefined") localStorage.autospeed = 0;
+$("#autospeed").val(localStorage.autospeed); autospeed();
+
+if (typeof(localStorage.autospel) === "undefined") localStorage.autosel = 128;
+$("#autosel").val(localStorage.autosel);
+
 // INIT DISCO SWITCH AND STROB
-//TODO set real dmx channels
 $.ajax({
 	type: "POST",
     url: "/live/read",
-    data: JSON.stringify([11,14,15,16,17]), 
+    data: JSON.stringify([1,6,11,16,21,22,23,24,25,26]), 
     contentType: 'application/json',
 	dataType : 'text',
 	cache : false,
 	success : function(data) {
 		//console.log(data);
 		var o = JSON.parse(data);
-		initdmxbtn(o['11'],$('#strob'));
-		initdmxbtn(o['14'],$('#sw1'));
-		initdmxbtn(o['15'],$('#sw2'));
-		initdmxbtn(o['16'],$('#sw3'));
-		initdmxbtn(o['17'],$('#sw4'));
+		initdmxbtn(o['26'],$('#strob'));
+		initdmxbtn(o['21'],$('#sw1'));
+		initdmxbtn(o['22'],$('#sw2'));
+		initdmxbtn(o['23'],$('#sw3'));
+		initdmxbtn(o['24'],$('#sw4'));
+		initdmxbtn(o['1'],$('#auto1'));
+		initdmxbtn(o['6'],$('#auto2'));
+		initdmxbtn(o['11'],$('#auto3'));
+		initdmxbtn(o['16'],$('#auto4'));
 	}.bind(this)
 });
 
@@ -512,7 +521,7 @@ function strobreset(){
 	$("#strobdim").val(localStorage.strobdim);
 	$("#strobdimval").html('dim '+localStorage.strobdim+'%');
 
-	localStorage.strobospeed = 80;
+	localStorage.strobospeed = 90;
 	$("#strobospeed").val(localStorage.strobospeed); 
 	$("#strobospeedval").html('speed '+localStorage.strobospeed+'%');
 }
@@ -529,12 +538,12 @@ function strob(){
 	var btn = $('#strob');
 	if (btn.hasClass("active")) {
 		btn.removeClass("active");
-		dmxwrite({11:0,12:0}); //TODO finialize dmx address
+		dmxwrite({25:0,26:0}); 
 	} else {
 		btn.addClass("active");
 		var speed = $("#strobospeed").val() * 255 / 100;
 		var dim = $("#strobdim").val() * 255 / 100;
-		dmxwrite({11:dim,12:speed}); //TODO finialize dmx address
+		dmxwrite({25:speed,26:dim}); 
 	}
 }
 
@@ -544,18 +553,18 @@ function switchall(fire){
 		$('#sw2').addClass("active");
 		$('#sw3').addClass("active");
 		$('#sw4').addClass("active");
-		dmxwrite({14:255,15:255,16:255,17:255}); //TODO finialize dmx address
+		dmxwrite({21:255,22:255,23:255,24:255}); 
 	} else {
 		$('#sw1').removeClass("active");
 		$('#sw2').removeClass("active");
 		$('#sw3').removeClass("active");
 		$('#sw4').removeClass("active");
-		dmxwrite({14:0,15:0,16:0,17:0}); //TODO finialize dmx address
+		dmxwrite({21:0,22:0,23:0,24:0}); 
 	}
 }
 function switchx(vx){
 	var btn = $('#sw'+vx);
-	var dmx = vx + 13; //TODO finialize dmx address
+	var dmx = vx + 20; 
 	var data = {};
 	if (btn.hasClass("active")) {
 		btn.removeClass("active");
@@ -573,4 +582,86 @@ function strobospeed(){
 function strobdim(){
 	localStorage.strobdim = $("#strobdim").val();
 	$("#strobdimval").html('dim '+localStorage.strobdim+'%');
+}
+/*
+ * AUTO
+ */
+function autocolor(enable){
+	if(enable){
+		$('#auto1').addClass("active");
+		$('#auto2').addClass("active");
+		$('#auto3').addClass("active");
+		$('#auto4').addClass("active");
+	} else {
+		$('#auto1').removeClass("active");
+		$('#auto2').removeClass("active");
+		$('#auto3').removeClass("active");
+		$('#auto4').removeClass("active");
+	}
+	sendautocolor();
+}
+function autosel(){
+	localStorage.autosel = $("#autosel").val();
+	sendautocolor();
+}
+function autospeed(){
+	var speed = $("#autospeed").val();
+	localStorage.autospeed = speed;
+	if(speed==100) $("#autospeedval").html('music speed'); 
+	else $("#autospeedval").html('speed '+localStorage.autospeed+'%');
+	
+	var a = $("button.active[id^=auto]")
+	if (a.length > 0) {
+		sendautocolor();
+	}
+}
+function autocolorbtn(id){
+	var btn = $('#auto'+id);
+	if (btn.hasClass("active")) {
+		btn.removeClass("active");
+	} else {
+		btn.addClass("active");
+	}
+	sendautocolor();
+}
+function sendautocolor(){
+	var macro = $("#autosel").val();
+	
+	var speed = $("#autospeed").val();
+	if(speed==100) speed = 200;
+	else if(speed>0) speed = 11 + 91 * speed / 99;
+	
+	var data = {1:0,5:0,6:0,10:0,11:0,15:0,16:0,20:0};
+	if($('#auto1').hasClass("active")) {
+		data['1']=macro; data['5']=speed;
+	} 
+	if($('#auto2').hasClass("active")) {
+		data['6']=macro; data['10']=speed;
+	} 
+	if($('#auto3').hasClass("active")) {
+		data['11']=macro; data['15']=speed;
+	} 
+	if($('#auto4').hasClass("active")) {
+		data['16']=macro; data['20']=speed;
+	} 
+	dmxwrite(data);
+}
+function slow(){
+	var btn = $("button.active[id^=auto]")
+	for (var i = 0; i < btn.length; i++) {
+		$('#'+btn[i].id).removeClass('active');
+	}
+	var btn = $("button.active[id^=sw]")
+	for (var i = 0; i < btn.length; i++) {
+		$('#'+btn[i].id).removeClass('active');
+	}
+	$('#sw3').addClass("active");
+	$('#strob').removeClass('active');
+	var dimblue = 100;
+	dmxwrite({1:0,2:0,3:0,4:dimblue,5:0,
+		6:0,7:0,8:0,9:dimblue,10:0,
+		11:0,12:0,13:0,14:dimblue,15:0,
+		16:0,17:0,18:0,19:dimblue,20:0,
+		21:0,22:0,23:255,24:0,
+		26:0,27:0,});
 }

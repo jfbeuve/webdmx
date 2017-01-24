@@ -39,10 +39,10 @@ public class DmxWrapper {
 		for(int i=0;i<512;i++) data[i]=0;
 		
 		fixture=new RGBFixture[4];
-		fixture[0]=new RGBFixture(24);
-		fixture[1]=new RGBFixture(27);
-		fixture[2]=new RGBFixture(30);
-		fixture[3]=new RGBFixture(33);
+		fixture[0]=new RGBFixture(2);
+		fixture[1]=new RGBFixture(7);
+		fixture[2]=new RGBFixture(12);
+		fixture[3]=new RGBFixture(17);
 		
 		thread=new DmxThread(this);
 	}
