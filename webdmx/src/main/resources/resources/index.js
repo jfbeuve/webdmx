@@ -130,6 +130,8 @@ function override(){
 		o.fade=fade();
 	}
 	
+	autocolor(false);
+	
 	// HTTP POST
 	$.ajax({
 		  type: "POST",
@@ -235,6 +237,8 @@ function scene(){
 		sc.fixtures[leadid].dim = dim/2;
 		sc.fixtures[leadid].strob=false;
 	}
+	
+	autocolor(false);
 	
 	// HTTP POST
 	$.ajax({
@@ -386,6 +390,8 @@ function preset(name){
 		p.scenes[0].fixtures[3].g = rev.g;
 		p.scenes[0].fixtures[3].b = rev.b;
 	}
+	
+	autocolor(false);
 	
 	// HTTP POST
 	$.ajax({
@@ -587,6 +593,10 @@ function strobdim(){
  * AUTO
  */
 function autocolor(enable){
+	var nbactive = $("button.active[id^=auto]").length;
+	if(enable&&nbactive==4) return;
+	if(!enable&&nbactive==0) return;
+	
 	if(enable){
 		$('#auto1').addClass("active");
 		$('#auto2').addClass("active");
