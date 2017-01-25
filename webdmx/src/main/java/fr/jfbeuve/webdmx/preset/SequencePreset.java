@@ -12,11 +12,10 @@ import fr.jfbeuve.webdmx.sc.Scene;
  */
 
 public class SequencePreset {
-	//TODO add bistro, sync, slow, music presets + move presets to overlay
 	/**
 	 * dimmer CHASE without gaps (MAX DIMMER 1,3,2,4)
 	 */
-	public ScSequence chas = new ScSequence(new Scene[]{
+	public ScSequence chase = new ScSequence(new Scene[]{
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(0,100,-1,-1,-1,false)},0),
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(2,100,-1,-1,-1,false)},0),
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(1,100,-1,-1,-1,false)},0),
@@ -38,7 +37,7 @@ public class SequencePreset {
 	/**
 	 * FULL ON / FULL OFF 1s = applause
 	 */
-	public ScSequence apl = new ScSequence(new Scene[]{
+	public ScSequence appl = new ScSequence(new Scene[]{
 			new Scene(new RGBFixtureState[]{
 					new RGBFixtureState(0,-1,255,255,255,false),
 					new RGBFixtureState(1,-1,255,255,255,false),
@@ -54,7 +53,7 @@ public class SequencePreset {
 	/**
 	 * FULL ON / FULL OFF 80ms = strob
 	 */
-	public ScSequence strb = new ScSequence(new Scene[]{
+	public ScSequence strob = new ScSequence(new Scene[]{
 			new Scene(new RGBFixtureState[]{
 					new RGBFixtureState(0,-1,255,255,255,false),
 					new RGBFixtureState(1,-1,255,255,255,false),
@@ -69,7 +68,7 @@ public class SequencePreset {
 	/**
 	 * 100% dim CHASE at strob speed (ALL BLACK BUT 1,2,3,4)
 	 */
-	public ScSequence flsh = new ScSequence(new Scene[]{
+	public ScSequence flash = new ScSequence(new Scene[]{
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,100,-1,-1,-1,false),
 				new RGBFixtureState(1,0,-1,-1,-1,false),
@@ -97,7 +96,7 @@ public class SequencePreset {
 	/**
 	 * light CHASE (ALL BLACK BUT 1,2,3,4)
 	 */
-	public ScSequence sol = new ScSequence(new Scene[]{
+	public ScSequence solo = new ScSequence(new Scene[]{
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,-1,-1,-1,-1,false),
 				new RGBFixtureState(1,0,-1,-1,-1,false),
@@ -126,7 +125,7 @@ public class SequencePreset {
 	/**
 	 * BLACK CHASE (ALL WHITE BUT 1,2,3,4)
 	 */
-	public ScSequence hol = new ScSequence(new Scene[]{
+	public ScSequence hole = new ScSequence(new Scene[]{
 		new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,-1,-1,-1,false),
 				new RGBFixtureState(1,-1,-1,-1,-1,false),
@@ -153,7 +152,7 @@ public class SequencePreset {
 		},0)});
 	
 	// yellow to be overridden by main color and red by reverse color on client side
-	public ScSequence fir = new ScSequence(new Scene[]{
+	public ScSequence fire = new ScSequence(new Scene[]{
 			new Scene(new RGBFixtureState[]{
 					new RGBFixtureState(0,-1,255,40,0,false),
 					new RGBFixtureState(1,-1,255,255,0,false),
@@ -168,7 +167,7 @@ public class SequencePreset {
 			},0)});
 	
 	// yellow to be overridden by main color and red by reverse color on client side	
-	public ScSequence wav = new ScSequence(new Scene[]{
+	public ScSequence wave = new ScSequence(new Scene[]{
 			new Scene(new RGBFixtureState[]{
 					new RGBFixtureState(0,-1,255,40,0,false),
 					new RGBFixtureState(1,-1,255,255,0,false),
@@ -182,25 +181,22 @@ public class SequencePreset {
 					new RGBFixtureState(3,-1,255,40,0,false)
 			},4000)},16000);
 	
-	//TODO BISTRO =  RGBA * 7
 	public ScSequence bistro = new ScSequence(new Scene[]{
-			new Scene(new RGBFixtureState[]{
-					new RGBFixtureState(0,-1,255,0,0,false),
-					new RGBFixtureState(1,-1,255,255,0,false),
-					new RGBFixtureState(2,-1,255,255,0,false),
-					new RGBFixtureState(3,-1,255,0,0,false)},4000),
-			new Scene(new RGBFixtureState[]{
-					new RGBFixtureState(0,-1,255,255,0,false),
-					new RGBFixtureState(1,-1,255,0,0,false),
-					new RGBFixtureState(2,-1,255,0,0,false),
-					new RGBFixtureState(3,-1,255,255,0,false)},4000),
-			new Scene(new RGBFixtureState[]{
-					new RGBFixtureState(0,-1,255,255,0,false),
-					new RGBFixtureState(1,-1,255,0,0,false),
-					new RGBFixtureState(2,-1,255,0,0,false),
-					new RGBFixtureState(3,-1,255,255,0,false)},4000),
+			new Scene(bistrofxt(PresetColor.RED,PresetColor.YELLOW),4000),
+			new Scene(bistrofxt(PresetColor.GREEN,PresetColor.CYAN),4000),
+			new Scene(bistrofxt(PresetColor.BLUE,PresetColor.VIOLET),4000),
+			new Scene(bistrofxt(PresetColor.YELLOW,PresetColor.RED),4000)
 			},16000);
 	
+	private static RGBFixtureState[] bistrofxt(PresetColor c1, PresetColor c2){
+		return new RGBFixtureState[]{
+				new RGBFixtureState(0,-1,c1.r,c1.g,c1.b,false),
+				new RGBFixtureState(1,-1,c2.r,c2.g,c2.b,false),
+				new RGBFixtureState(2,-1,c2.r,c2.g,c2.b,false),
+				new RGBFixtureState(3,-1,c1.r,c1.g,c1.b,false)};
+	}
+	
+
 	public static void main(String[] args) throws Exception{
 		Scene sc = new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,0,0,0,false),

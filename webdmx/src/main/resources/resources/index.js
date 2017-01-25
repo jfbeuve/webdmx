@@ -362,7 +362,7 @@ function preset(name){
 	if(p.speed==-1) p.speed=localStorage.speed;
 	
 	// override colors when required
-	if(name=='fir'||name=='wav'){
+	if(name=='fire'||name=='wave'){
 		var col = hexToRgb($("#color").val()); 
 		var rev = hexToRgb(getrevcol($("#color").val()));
 		p.scenes[0].fixtures[0].r = col.r;
