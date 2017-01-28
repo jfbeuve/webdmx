@@ -667,11 +667,11 @@ function slow(){
 	}
 	$('#sw3').addClass("active");
 	$('#strob').removeClass('active');
-	var dimblue = 100;
+	var dimblue = 25;
 	dmxwrite({1:0,2:0,3:0,4:dimblue,5:0,
 		6:0,7:0,8:0,9:dimblue,10:0,
 		11:0,12:0,13:0,14:dimblue,15:0,
 		16:0,17:0,18:0,19:dimblue,20:0,
-		21:0,22:0,23:255,24:0,
-		26:0,27:0,});
+		21:0,22:255,23:0,24:0,
+		26:0,27:0});
 }
