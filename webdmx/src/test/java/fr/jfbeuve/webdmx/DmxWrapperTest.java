@@ -40,6 +40,18 @@ public class DmxWrapperTest {
 		assertRGB(0,0,0,0,0,0,0,0,0,0,0,0);
 	}
 	@Test
+	public void lead() throws Exception {
+		init();
+		
+		dmx.set(new Scene(LEAD,0));
+		Thread.sleep(20);
+		assertRGB(40,0,0,20,20,20,40,0,0,40,0,0);
+		
+		dmx.blackout(100);
+		Thread.sleep(130);
+		assertRGB(0,0,0,0,0,0,0,0,0,0,0,0);
+	}
+	@Test
 	public void snap() throws Exception {
 		init();
 		
@@ -129,6 +141,7 @@ public class DmxWrapperTest {
 		assertRGB(127,0,0,127,0,0,127,0,0,255,0,0);
 	}
 	
+	static final RGBFixtureState[] LEAD = {new RGBFixtureState(0,16,255,0,0,false),new RGBFixtureState(1,8,255,255,255,false),new RGBFixtureState(2,16,255,0,0,false),new RGBFixtureState(3,16,255,0,0,false)};
 	static final RGBFixtureState[] RGBW = {new RGBFixtureState(0,100,255,0,0,false),new RGBFixtureState(1,100,0,255,0,false),new RGBFixtureState(2,100,0,0,255,false),new RGBFixtureState(3,50,255,255,255,false)};
 	static final RGBFixtureState[] STR0B0 = {new RGBFixtureState(0,100,255,255,255,true)};
 	static final RGBFixtureState[] ALLRED50 = {new RGBFixtureState(0,50,255,0,0,false),new RGBFixtureState(1,50,255,0,0,false),new RGBFixtureState(2,50,255,0,0,false),new RGBFixtureState(3,50,255,0,0,false)};
