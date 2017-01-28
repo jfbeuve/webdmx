@@ -288,12 +288,6 @@ $("#strobdim").val(localStorage.strobdim); $("#strobdimval").html('dim '+localSt
 if (typeof(localStorage.strobospeed) === "undefined") localStorage.strobospeed = 80;
 $("#strobospeed").val(localStorage.strobospeed); $("#strobospeedval").html('speed '+localStorage.strobospeed+'%');
 
-if (typeof(localStorage.autospeed) === "undefined") localStorage.autospeed = 0;
-$("#autospeed").val(localStorage.autospeed); autospeed();
-
-if (typeof(localStorage.autospel) === "undefined") localStorage.autosel = 128;
-$("#autosel").val(localStorage.autosel);
-
 // INIT DISCO SWITCH AND STROB
 $.ajax({
 	type: "POST",
@@ -544,12 +538,12 @@ function strob(){
 	var btn = $('#strob');
 	if (btn.hasClass("active")) {
 		btn.removeClass("active");
-		dmxwrite({25:0,26:0}); 
+		dmxwrite({24:0,25:0}); 
 	} else {
 		btn.addClass("active");
 		var speed = $("#strobospeed").val() * 255 / 100;
 		var dim = $("#strobdim").val() * 255 / 100;
-		dmxwrite({25:speed,26:dim}); 
+		dmxwrite({24:speed,25:dim}); 
 	}
 }
 
@@ -559,18 +553,18 @@ function switchall(fire){
 		$('#sw2').addClass("active");
 		$('#sw3').addClass("active");
 		$('#sw4').addClass("active");
-		dmxwrite({21:255,22:255,23:255,24:255}); 
+		dmxwrite({20:255,21:255,22:255,23:255}); 
 	} else {
 		$('#sw1').removeClass("active");
 		$('#sw2').removeClass("active");
 		$('#sw3').removeClass("active");
 		$('#sw4').removeClass("active");
-		dmxwrite({21:0,22:0,23:0,24:0}); 
+		dmxwrite({20:0,21:0,22:0,23:0}); 
 	}
 }
 function switchx(vx){
 	var btn = $('#sw'+vx);
-	var dmx = vx + 20; 
+	var dmx = vx + 19; 
 	var data = {};
 	if (btn.hasClass("active")) {
 		btn.removeClass("active");
@@ -610,21 +604,7 @@ function autocolor(enable){
 	}
 	sendautocolor();
 }
-function autosel(){
-	localStorage.autosel = $("#autosel").val();
-	sendautocolor();
-}
-function autospeed(){
-	var speed = $("#autospeed").val();
-	localStorage.autospeed = speed;
-	if(speed==100) $("#autospeedval").html('music speed'); 
-	else $("#autospeedval").html('speed '+localStorage.autospeed+'%');
-	
-	var a = $("button.active[id^=auto]")
-	if (a.length > 0) {
-		sendautocolor();
-	}
-}
+
 function autocolorbtn(id){
 	var btn = $('#auto'+id);
 	if (btn.hasClass("active")) {
@@ -635,43 +615,46 @@ function autocolorbtn(id){
 	sendautocolor();
 }
 function sendautocolor(){
-	var macro = $("#autosel").val();
+	var macro = 255;
+	var speed=255;
 	
-	var speed = $("#autospeed").val();
-	if(speed==100) speed = 200;
-	else if(speed>0) speed = 11 + 91 * speed / 99;
-	
-	var data = {1:0,5:0,6:0,10:0,11:0,15:0,16:0,20:0};
+	var data = {0:0,4:0,5:0,9:0,10:0,14:0,15:0,19:0};
 	if($('#auto1').hasClass("active")) {
-		data['1']=macro; data['5']=speed;
+		data['0']=macro; data['4']=speed;
 	} 
 	if($('#auto2').hasClass("active")) {
-		data['6']=macro; data['10']=speed;
+		data['5']=macro; data['9']=speed;
 	} 
 	if($('#auto3').hasClass("active")) {
-		data['11']=macro; data['15']=speed;
+		data['10']=macro; data['14']=speed;
 	} 
 	if($('#auto4').hasClass("active")) {
-		data['16']=macro; data['20']=speed;
+		data['15']=macro; data['19']=speed;
 	} 
 	dmxwrite(data);
 }
 function slow(){
-	var btn = $("button.active[id^=auto]")
-	for (var i = 0; i < btn.length; i++) {
-		$('#'+btn[i].id).removeClass('active');
-	}
+	autocolor(false);
+	
 	var btn = $("button.active[id^=sw]")
 	for (var i = 0; i < btn.length; i++) {
 		$('#'+btn[i].id).removeClass('active');
 	}
+	
 	$('#sw3').addClass("active");
 	$('#strob').removeClass('active');
-	var dimblue = 25;
-	dmxwrite({1:0,2:0,3:0,4:dimblue,5:0,
-		6:0,7:0,8:0,9:dimblue,10:0,
-		11:0,12:0,13:0,14:dimblue,15:0,
-		16:0,17:0,18:0,19:dimblue,20:0,
-		21:0,22:255,23:0,24:0,
-		26:0,27:0});
+	
+	var data = {"fixtures":[{"id":0,"dim":10,"r":0,"g":0,"b":255,"strob":false},
+		{"id":1,"dim":10,"r":0,"g":0,"b":255,"strob":false},
+		{"id":2,"dim":10,"r":0,"g":0,"b":255,"strob":false},
+		{"id":3,"dim":10,"r":0,"g":0,"b":255,"strob":false}],"fade":500};
+	
+	$.ajax({
+		  type: "POST",
+	      url: "/live/scene",
+	      data: JSON.stringify(data),
+	      contentType: 'application/json',
+	      cache: false
+		});
+	dmxwrite({20:0,21:255,22:0,23:0}); 
 }
