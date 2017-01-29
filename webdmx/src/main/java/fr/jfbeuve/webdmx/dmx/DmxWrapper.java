@@ -103,6 +103,7 @@ public class DmxWrapper {
 			fixture[i].reset(-1,fade);
 			fixture[i].set(new RGBFixtureState(i), fade);
 		}
+		for(int i=0;i<512;i++) data[i]=0;
 		thread.apply();
 	}
 	/**
