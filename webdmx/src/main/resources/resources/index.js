@@ -24,7 +24,8 @@ function blackout() {
 	get("/live/blackout/"+fade());
 	
 	// RESET COLOR
-	setcolor('000000');
+	document.getElementById('color').jscolor.fromString('000000');
+	localStorage.color=$("#color").val();
 	
 	// RESET SOLO
 	var a = $("#fixture>button.active");
