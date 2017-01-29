@@ -39,10 +39,10 @@ public class SequencePreset {
 	 */
 	public ScSequence appl = new ScSequence(new Scene[]{
 			new Scene(new RGBFixtureState[]{
-					new RGBFixtureState(0,-1,255,255,255,false),
-					new RGBFixtureState(1,-1,255,255,255,false),
-					new RGBFixtureState(2,-1,255,255,255,false),
-					new RGBFixtureState(3,-1,255,255,255,false)},500),
+					new RGBFixtureState(0,-1,-1,-1,-1,false),
+					new RGBFixtureState(1,-1,-1,-1,-1,false),
+					new RGBFixtureState(2,-1,-1,-1,-1,false),
+					new RGBFixtureState(3,-1,-1,-1,-1,false)},500),
 			new Scene(new RGBFixtureState[]{
 					new RGBFixtureState(0,0,0,0,0,false),
 					new RGBFixtureState(1,0,0,0,0,false),
@@ -55,10 +55,10 @@ public class SequencePreset {
 	 */
 	public ScSequence strob = new ScSequence(new Scene[]{
 			new Scene(new RGBFixtureState[]{
-					new RGBFixtureState(0,-1,255,255,255,false),
-					new RGBFixtureState(1,-1,255,255,255,false),
-					new RGBFixtureState(2,-1,255,255,255,false),
-					new RGBFixtureState(3,-1,255,255,255,false)},0),
+					new RGBFixtureState(0,-1,-1,-1,-1,false),
+					new RGBFixtureState(1,-1,-1,-1,-1,false),
+					new RGBFixtureState(2,-1,-1,-1,-1,false),
+					new RGBFixtureState(3,-1,-1,-1,-1,false)},0),
 			new Scene(new RGBFixtureState[]{
 					new RGBFixtureState(0,0,0,0,0,false),
 					new RGBFixtureState(1,0,0,0,0,false),

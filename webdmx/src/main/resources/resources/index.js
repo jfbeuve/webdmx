@@ -191,11 +191,11 @@ function getrevcol(col){
 	var c = hexToRgb(revcolval);
 	
 	if(c.r>127&&c.g<128&&c.b<128) revcolval = 'FFFF00'; 
-	if(c.r>127&&c.g>127&&c.b<128) revcolval = 'FF4000'; 
+	if(c.r>127&&c.g>127&&c.b<128) revcolval = 'FF2000'; 
 	if(c.r>127&&c.g<128&&c.b>127) revcolval = '00FFFF'; 
 	if(c.r<128&&c.g>127&&c.b>127) revcolval = 'FF00FF'; 
-	if(c.r<128&&c.g<128&&c.b>127) revcolval = '00FF40';
-	if(c.r<128&&c.g>127&&c.b<128) revcolval = '0040FF';
+	if(c.r<128&&c.g<128&&c.b>127) revcolval = '00FF20';
+	if(c.r<128&&c.g>127&&c.b<128) revcolval = '0020FF';
 	if(c.r<128&&c.g<128&&c.b<128) revcolval = 'FFFFFF';  
 	if(c.r>127&&c.g>127&&c.b>127) revcolval = '000000';
 	
@@ -275,7 +275,7 @@ $('#color').val(localStorage.color); setrevcol();
 if (typeof(localStorage.leadid) === "undefined") localStorage.leadid = 0;
 $('#leadid').val(localStorage.leadid);
 
-var factorycolors = ['ff8000','ffff00','00ffff','ff00ff','ff4000','00ff40','0040ff','ffff20','ffffff', '000000','ff0000','00ff00','0000ff'];
+var factorycolors = ['ff8000','ffff00','00ffff','ff00ff','ff2000','00ff20','0020ff','ffff20','ffffff', '000000','ff0000','00ff00','0000ff'];
 var customcolors = [];
 if (typeof(localStorage.colors) === "undefined") localStorage.colors = JSON.stringify(customcolors);
 customcolors = JSON.parse(localStorage.colors);
