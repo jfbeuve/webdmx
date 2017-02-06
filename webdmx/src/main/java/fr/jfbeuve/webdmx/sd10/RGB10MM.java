@@ -2,48 +2,42 @@ package fr.jfbeuve.webdmx.sd10;
 
 import fr.jfbeuve.webdmx.preset.PresetColor;
 
-public class RGB10MM {
-	private int redChannel,greenChannel,blueChannel,macroChannel,strobChannel,dimmerChannel, modeChannel;
-	private int redValue,greenValue,blueValue,dimmer;
+public class RGB10MM extends Fixture{
+	private static final int RED=0, GREEN=1, BLUE=2, MACRO=3, STROB=4, MODE=5, DIM=6;
+
 	public RGB10MM(int ch){
-		
-		redChannel=ch;
-		greenChannel=ch+1;
-		blueChannel=ch+2;
-		macroChannel = ch+3;
-		strobChannel = ch+4;
-		modeChannel = ch+5;
-		dimmerChannel= ch+6;
-		
-		redValue=0;
-		greenValue=0;
-		blueValue=0;
-		dimmer=0;
+		super(ch);
+		val = new int[]{0,0,0,0,0,0,0};
 	}
+
 	public RGB10MM color(PresetColor c,int dim){
-		dimmer = dim;
-		redValue=c.r;
-		greenValue=c.g;
-		blueValue=c.b;
+		val[DIM] = dim;
+		val[RED]=c.r;
+		val[GREEN]=c.g;
+		val[BLUE]=c.b;
 		if(c==PresetColor.RED){
-			greenValue=0;
+			val[GREEN]=0;
 		}
 		if(c==PresetColor.GREEN){
-			blueValue=0;
+			val[BLUE]=0;
 		}
 		if(c==PresetColor.BLUE){
-			greenValue=0;
+			val[GREEN]=0;
 		}
 		return this;
 	}
-	public void set(int[] data){
-		data[dimmerChannel]=dimmer;
-		data[redChannel]=redValue;
-		data[greenChannel]=greenValue;
-		data[blueChannel]=blueValue;
-		System.out.println(toString());
+	public RGB10MM music(){
+		//TODO implement
+		return this;
 	}
 	public String toString(){
-		return "RGB10MM R "+redValue*dimmer/100+" G "+greenValue*dimmer/100+" B "+blueValue*dimmer/100;
+		//TODO if MUSIC return "RGB10MM = MUSIC";
+		if(val[MACRO]==0&&val[STROB]==0&&val[MODE]==0)
+			return "RGB10MM R "+val(RED)+" G "+val(GREEN)+" B "+val(BLUE);
+		else
+			return "RGB10MM "+super.toString();
+	}
+	private int val(int ch){
+		return val[ch]*val[DIM]/100;
 	}
 }

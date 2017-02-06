@@ -659,3 +659,5 @@ function slow(){
 		});
 	dmxwrite({20:0,21:255,22:0,23:0}); 
 }
+//TODO onchange strob dim/speed if strob on fire dmx
+//TODO on slow end, back to music led (i.e. leave light blue)

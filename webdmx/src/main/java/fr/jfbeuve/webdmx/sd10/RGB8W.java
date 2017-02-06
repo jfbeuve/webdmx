@@ -2,39 +2,29 @@ package fr.jfbeuve.webdmx.sd10;
 
 import fr.jfbeuve.webdmx.preset.PresetColor;
 
-public class RGB8W {
-	private int redChannel,greenChannel,blueChannel,macroChannel, speedChannel;
-	private int redValue,greenValue,blueValue,macroValue, speedValue, dimmer;
+public class RGB8W extends Fixture{
+	private static final int RED=1,GREEN=2,BLUE=3,MACRO=0,SPEED=4;
 	public RGB8W(int ch){
-		macroChannel = ch;
-		redChannel=ch+1;
-		greenChannel=ch+2;
-		blueChannel=ch+3;
-		speedChannel=ch+4;
-		
-		macroValue=0;
-		redValue=0;
-		greenValue=0;
-		blueValue=0;
-		speedValue=0;
-		dimmer=0;
+		super(ch);
+		val = new int[]{0,0,0,0,0};
 	}
 	public RGB8W color(PresetColor c,int dim){
-		dimmer=dim;
-		redValue=c.r;
-		greenValue=c.g;
-		blueValue=c.b;
+		val[RED]=c.r*dim/100;
+		val[GREEN]=c.g*dim/100;
+		val[BLUE]=c.b*dim/100;
 		return this;
 	}
-	public void set(int[] data){
-		data[macroChannel]=macroValue;
-		data[redChannel]=redValue*dimmer/100;
-		data[greenChannel]=greenValue*dimmer/100;
-		data[blueChannel]=blueValue*dimmer/100;
-		data[speedChannel]=speedValue;
-		System.out.println(toString());
+	public RGB8W music(){
+		val[MACRO]=255;
+		val[SPEED]=255;
+		return this;
 	}
 	public String toString(){
-		return "RGB"+(speedChannel/5)+" R "+redValue*dimmer/100+" G "+greenValue*dimmer/100+" B "+blueValue*dimmer/100+" MACRO "+macroValue+" SPEED "+speedValue;
+		if(val[MACRO]==0&&val[SPEED]==0)
+			return "RGB"+(1+ch/5)+" R "+val[RED]+" G "+val[GREEN]+" B "+val[BLUE];
+		else if(val[MACRO]==0&&val[SPEED]==0)
+			return "RGB"+(1+ch/5)+" MUSIC";
+		else
+			return "RGB"+(1+ch/5)+" "+super.toString();
 	}
 }
