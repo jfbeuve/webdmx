@@ -41,7 +41,7 @@ button:click {
 	width: 120px;
 	height: 40px;
 }
-#settings>button{
+#settings>button, #strobreset{
 	height: 40px;
 	padding: 10px 10px;
 	font-size: 20px;
@@ -179,4 +179,13 @@ input[type=range]::-webkit-slider-thumb {
 	width: 90%;
 	z-index: 10;
 	background-color: black;
+}
+#strobsection>div{
+	width: 400px;
+}
+#strobsection>div>label{
+	position: absolute;
+	left: 150px;
+	top: 20px;
+	width: 200px;
 }

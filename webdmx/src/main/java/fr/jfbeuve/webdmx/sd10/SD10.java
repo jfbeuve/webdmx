@@ -2,8 +2,6 @@ package fr.jfbeuve.webdmx.sd10;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 import fr.jfbeuve.webdmx.io.OlaWeb;
 import fr.jfbeuve.webdmx.preset.PresetColor;
@@ -15,26 +13,38 @@ public class SD10 {
     private static final SWITCH SWITCH = new SWITCH(20);
     private static final RGB10MM LED = new RGB10MM(30);
     
-	private static final Map<String, String> NAME = new HashMap<String, String>(){
-        {
-            put("P1", "disco");
-            put("S1", "strobo");
-            put("P2", "slow");
-            put("S2", "music");
-            put("P3", "bistro");
-            put("S3", "sync");
-            put("blackout", "blackout");
-        }
-    };
     private int[] data = new int[512];
-
+    private int step=0;
+    private int dim=100;
+    
     public SD10(String host){
     	if(host!=null) io = new OlaWeb(host);
     }
 	public static void main(String[] args) throws Exception {
 		if(args.length==0){
-			for(Map.Entry<String,String> e:NAME.entrySet())
-				System.out.println(e.getKey()+" - "+e.getValue());
+			Method[] mm = SD10.class.getMethods();
+			for(Method m:mm){
+				if(m.getParameterCount()==0&&m.getDeclaringClass().equals(SD10.class)){
+					StringBuilder s = new StringBuilder();
+					s.append(m.getName());
+					
+					switch(m.getName()){
+						case "disco":s.append(" -> P1");break;
+						case "strob":s.append(" -> S1");break;
+						case "slow":s.append(" -> P2");break;
+						case "music":s.append(" -> S2");break;
+						case "bistro":s.append(" -> P3");break;
+						case "sync":s.append(" -> S3");break;
+						case "bistroled":s.append(" -> P4");break;
+						case "syncled":s.append(" -> S4");break;
+						case "triolite":s.append(" -> P5");break;
+						case "trio":s.append(" -> S5");break;
+						default:
+					}
+						
+					System.out.println(s.toString());
+				}
+			}
 			return;
 		}
 		String host = null;
@@ -108,7 +118,7 @@ public class SD10 {
 		RGB4.color(c,dim).set(data);
 		DICRO.color(c,dim*7).set(data);
 	}
-	private int step=0;
+	
 	private void syncstep(PresetColor bg, PresetColor c) throws IOException{
 		System.out.println("** STEP "+step++);
 		bgcolor(bg,100);
@@ -180,6 +190,10 @@ public class SD10 {
 		syncstep(PresetColor.CYAN,PresetColor.VIOLET);
 		syncstep(PresetColor.VIOLET,PresetColor.CYAN);	
 	}
+	public void triolite() throws IOException{
+		dim=20;
+		trio();
+	}
 	public void trio() throws IOException{
 		triosteps(PresetColor.CYAN,PresetColor.VIOLET);
 		triosteps(PresetColor.VIOLET,PresetColor.CYAN);
@@ -188,7 +202,7 @@ public class SD10 {
 		triosteps(PresetColor.BLUE,PresetColor.GREEN);
 		triosteps(PresetColor.GREEN,PresetColor.BLUE);
 	}
-	public void triosteps(PresetColor bg, PresetColor c) throws IOException{
+	private void triosteps(PresetColor bg, PresetColor c) throws IOException{
 		triostep(c,bg,bg);
 		triostep(bg,c,bg);
 		triostep(bg,bg,c);
@@ -196,9 +210,9 @@ public class SD10 {
 	}
 	private void triostep(PresetColor c1, PresetColor c2, PresetColor c3) throws IOException{
 		System.out.println("** STEP "+step++);
-		RGB1.color(c1,100).set(data);
-		RGB2.color(c2,100).set(data);
-		RGB3.color(c3,100).set(data);
+		RGB1.color(c1,dim).set(data);
+		RGB2.color(c2,dim).set(data);
+		RGB3.color(c3,dim).set(data);
 		dmxapply();
 		System.in.read();
 	}

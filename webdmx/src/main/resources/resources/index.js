@@ -131,7 +131,7 @@ function override(){
 		o.fade=fade();
 	}
 	
-	autocolor(false);
+	disableautocolor();
 	
 	// HTTP POST
 	$.ajax({
@@ -239,7 +239,7 @@ function scene(){
 		sc.fixtures[leadid].strob=false;
 	}
 	
-	autocolor(false);
+	disableautocolor();
 	
 	// HTTP POST
 	$.ajax({
@@ -305,10 +305,7 @@ $.ajax({
 		initdmxbtn(o['22'],$('#sw2'));
 		initdmxbtn(o['23'],$('#sw3'));
 		initdmxbtn(o['24'],$('#sw4'));
-		initdmxbtn(o['1'],$('#auto1'));
-		initdmxbtn(o['6'],$('#auto2'));
-		initdmxbtn(o['11'],$('#auto3'));
-		initdmxbtn(o['16'],$('#auto4'));
+		initdmxbtn(o['1']+o['6']+o['11']+o['16'],$('#discobtn'));
 	}.bind(this)
 });
 
@@ -487,12 +484,12 @@ function holdbtn(name) {
 		// SWITCH OFF
 		btn.removeClass("active");
 		localStorage[name]=false;
-		window[name](false);
+		if(typeof(window[name]) === 'function') window[name](false);
 	}else{
 		// SWITCH ON
 		btn.addClass("active");
 		localStorage[name]=true;
-		window[name](true);
+		if(typeof(window[name]) === 'function') window[name](true);
 	}
 }
 
@@ -504,6 +501,11 @@ bindhold('solostrob');
 bindhold('colorstrob');
 bindhold('lead');
 bindhold('solosnap');
+
+bindhold('auto1');
+bindhold('auto2');
+bindhold('auto3');
+bindhold('auto4');
 
 bindsolo('PAR1');
 bindsolo('PAR2');
@@ -522,9 +524,11 @@ function strobreset(){
 	$("#strobdim").val(localStorage.strobdim);
 	$("#strobdimval").html('dim '+localStorage.strobdim+'%');
 
-	localStorage.strobospeed = 90;
+	localStorage.strobospeed = 91;
 	$("#strobospeed").val(localStorage.strobospeed); 
 	$("#strobospeedval").html('speed '+localStorage.strobospeed+'%');
+	
+	if ($('#strob').hasClass("active")) strobon();
 }
 function dmxwrite(data){
 	$.ajax({
@@ -542,27 +546,16 @@ function strob(){
 		dmxwrite({24:0,25:0}); 
 	} else {
 		btn.addClass("active");
-		var speed = $("#strobospeed").val() * 255 / 100;
-		var dim = $("#strobdim").val() * 255 / 100;
-		dmxwrite({24:speed,25:dim}); 
+		strobon();
 	}
+}
+function strobon(){
+	var speed = $("#strobospeed").val() * 255 / 100;
+	var dim = $("#strobdim").val() * 255 / 100;
+	$('#discobtn').removeClass("active");
+	dmxwrite({0:0,4:0,5:0,9:0,10:0,14:0,15:0,19:0,24:speed,25:dim}); 
 }
 
-function switchall(fire){
-	if(fire){
-		$('#sw1').addClass("active");
-		$('#sw2').addClass("active");
-		$('#sw3').addClass("active");
-		$('#sw4').addClass("active");
-		dmxwrite({20:255,21:255,22:255,23:255}); 
-	} else {
-		$('#sw1').removeClass("active");
-		$('#sw2').removeClass("active");
-		$('#sw3').removeClass("active");
-		$('#sw4').removeClass("active");
-		dmxwrite({20:0,21:0,22:0,23:0}); 
-	}
-}
 function switchx(vx){
 	var btn = $('#sw'+vx);
 	var dmx = vx + 19; 
@@ -576,67 +569,61 @@ function switchx(vx){
 	}
 	dmxwrite(data);
 }
+function switchoff(){
+	dmxwrite({0:0,4:0,5:0,9:0,10:0,14:0,15:0,19:0,20:0,21:0,22:0,23:0,24:0,25:0}); 
+	$('#strob').removeClass('active');
+	$('#discobtn').removeClass('active');
+	$('#sw1').removeClass('active');
+	$('#sw2').removeClass('active');
+	$('#sw3').removeClass('active');
+	$('#sw4').removeClass('active');
+}
+
 function strobospeed(){
 	localStorage.strobospeed = $("#strobospeed").val(); 
 	$("#strobospeedval").html('speed '+localStorage.strobospeed+'%');
+	if ($('#strob').hasClass("active")) strobon();
 }
 function strobdim(){
 	localStorage.strobdim = $("#strobdim").val();
 	$("#strobdimval").html('dim '+localStorage.strobdim+'%');
+	if ($('#strob').hasClass("active")) strobon();
 }
 /*
  * AUTO
  */
-function autocolor(enable){
-	var nbactive = $("button.active[id^=auto]").length;
-	if(enable&&nbactive==4) return;
-	if(!enable&&nbactive==0) return;
-	
-	if(enable){
-		$('#auto1').addClass("active");
-		$('#auto2').addClass("active");
-		$('#auto3').addClass("active");
-		$('#auto4').addClass("active");
-	} else {
-		$('#auto1').removeClass("active");
-		$('#auto2').removeClass("active");
-		$('#auto3').removeClass("active");
-		$('#auto4').removeClass("active");
-	}
-	sendautocolor();
+function disableautocolor(){
+	if($('#discobtn').hasClass('active')) sendautocolor(false);
 }
 
-function autocolorbtn(id){
-	var btn = $('#auto'+id);
-	if (btn.hasClass("active")) {
-		btn.removeClass("active");
-	} else {
-		btn.addClass("active");
-	}
-	sendautocolor();
-}
-function sendautocolor(){
+function sendautocolor(enable){
 	var macro = 255;
-	var speed=255;
+	var speed = 255;
 	
 	var data = {0:0,4:0,5:0,9:0,10:0,14:0,15:0,19:0};
-	if($('#auto1').hasClass("active")) {
+	if(enable){
+		// put all switch on in addition to par led music
+		data = {0:0,4:0,5:0,9:0,10:0,14:0,15:0,19:0,20:255,21:255,22:255,23:255};
+		$('#sw1').addClass('active');
+		$('#sw2').addClass('active');
+		$('#sw3').addClass('active');
+		$('#sw4').addClass('active');
+	}
+	if(enable&&$('#auto1').hasClass("active")) {
 		data['0']=macro; data['4']=speed;
 	} 
-	if($('#auto2').hasClass("active")) {
+	if(enable&&$('#auto2').hasClass("active")) {
 		data['5']=macro; data['9']=speed;
 	} 
-	if($('#auto3').hasClass("active")) {
+	if(enable&&$('#auto3').hasClass("active")) {
 		data['10']=macro; data['14']=speed;
 	} 
-	if($('#auto4').hasClass("active")) {
+	if(enable&&$('#auto4').hasClass("active")) {
 		data['15']=macro; data['19']=speed;
-	} 
+	}
 	dmxwrite(data);
 }
 function slow(){
-	autocolor(false);
-	
 	var btn = $("button.active[id^=sw]")
 	for (var i = 0; i < btn.length; i++) {
 		$('#'+btn[i].id).removeClass('active');
@@ -644,6 +631,7 @@ function slow(){
 	
 	$('#sw3').addClass("active");
 	$('#strob').removeClass('active');
+	$('#discobtn').removeClass('active');
 	
 	var data = {"fixtures":[{"id":0,"dim":10,"r":0,"g":0,"b":255,"strob":false},
 		{"id":1,"dim":10,"r":0,"g":0,"b":255,"strob":false},
@@ -657,7 +645,19 @@ function slow(){
 	      contentType: 'application/json',
 	      cache: false
 		});
-	dmxwrite({20:0,21:255,22:0,23:0}); 
+	
+	dmxwrite({0:0,4:0,5:0,9:0,10:0,14:0,15:0,19:0,20:0,21:255,22:0,23:0}); 
 }
-//TODO onchange strob dim/speed if strob on fire dmx
-//TODO on slow end, back to music led (i.e. leave light blue)
+function discobtn(){
+	var btn = $('#discobtn');
+	if(btn.hasClass('active')){
+		btn.removeClass("active");
+		// disable par led music
+		sendautocolor(false);
+	}else{
+		// disable strob, enable all switches, set led disco
+		btn.addClass("active");
+		$('#strob').removeClass("active");
+		sendautocolor(true);
+	}
+}

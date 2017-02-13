@@ -1,23 +1,17 @@
 package fr.jfbeuve.webdmx.sd10;
 
-public class STROB {
-	int dimChannel, speedChannel;
-	int dimValue, speedValue;
+public class STROB extends Fixture{
+	private static final int  SPEED=0,DIM=1;
 	public STROB(int ch){
-		dimChannel=ch+1;
-		speedChannel=ch;
+		super(ch);
+		val = new int[]{0,0};
 	}
 	public STROB set(){
-		dimValue = 255;
-		speedValue = 225; 
+		val[DIM] = 255;
+		val[SPEED] = 230; //was 225
 		return this;
 	}
-	public void set(int[] data){
-		data[dimChannel]=dimValue;
-		data[speedChannel]=speedValue;
-		System.out.println(toString());
-	}
 	public String toString(){
-		return "STROB DIM "+dimValue+" SPEED "+speedValue;
+		return "STROB DIM "+val[DIM]+" SPEED "+val[SPEED];
 	}
 }

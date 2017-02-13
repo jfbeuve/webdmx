@@ -18,35 +18,33 @@
 	<body>
 		<div id="disco">
 			<div class="section" id="strobsection">
-				<button id="strob" onclick="strob()">STROB</button>
-				<button onclick="strobreset()">CLR</button>
+				<button onclick="strobreset()" id="strobreset">reset</button>
 				<div class="container" id="strobdimslider">
 					<input type="range" id="strobdim" onchange="strobdim()"/>
 					<label id="strobdimval" class="rangelabel">-</label>
 				</div>
-				<div class="container" id="strobdephtslider">
+				<div class="container" id="strobospeedslider">
 					<input type="range" id="strobospeed" onchange="strobospeed()"/>
 					<label id="strobospeedval" class="rangelabel">-</label>
 				</div>
 			</div>
 			<div class="section">
-				SWITCH
-				<button onclick="switchall(true)">ALL</button>
-				<button onclick="switchall(false)">NONE</button>
+				SW
 				<button id="sw1" onclick="switchx(1)">1</button>
 				<button id="sw2" onclick="switchx(2)">2</button>
 				<button id="sw3" onclick="switchx(3)">3</button>
 				<button id="sw4" onclick="switchx(4)">4</button>
+				<button id="strob" onclick="strob()">STROB</button>
+				<button onclick="switchoff()">OFF</button>
 			</div>
 			<div class="section">
-				AUTO
-				<button onclick="autocolor(true)">ALL</button>
-				<button onclick="autocolor(false)">NONE</button>
-				<button id="auto1" onclick="autocolorbtn(1)">1</button>
-				<button id="auto2" onclick="autocolorbtn(2)">2</button>
-				<button id="auto3" onclick="autocolorbtn(3)">3</button>
-				<button id="auto4" onclick="autocolorbtn(4)">4</button>
+				LED
+				<button id="auto1">1</button>
+				<button id="auto2">2</button>
+				<button id="auto3">3</button>
+				<button id="auto4">4</button>
 				<button onclick="slow()">SLOW</button>
+				<button onclick="discobtn()" id="discobtn">DISCO</button>
 			</div>
 		</div>
 		<div id="revcol" onclick="disco()">reverse</div>
