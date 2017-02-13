@@ -42,13 +42,13 @@ public class SequencePreset {
 					new RGBFixtureState(0,-1,-1,-1,-1,false),
 					new RGBFixtureState(1,-1,-1,-1,-1,false),
 					new RGBFixtureState(2,-1,-1,-1,-1,false),
-					new RGBFixtureState(3,-1,-1,-1,-1,false)},500),
+					new RGBFixtureState(3,-1,-1,-1,-1,false)},400),
 			new Scene(new RGBFixtureState[]{
 					new RGBFixtureState(0,0,0,0,0,false),
 					new RGBFixtureState(1,0,0,0,0,false),
 					new RGBFixtureState(2,0,0,0,0,false),
-					new RGBFixtureState(3,0,0,0,0,false)},500)}
-	,500);
+					new RGBFixtureState(3,0,0,0,0,false)},400)}
+	,400);
 	
 	/**
 	 * FULL ON / FULL OFF 80ms = strob
@@ -195,8 +195,53 @@ public class SequencePreset {
 				new RGBFixtureState(2,-1,c2.r,c2.g,c2.b,false),
 				new RGBFixtureState(3,-1,c1.r,c1.g,c1.b,false)};
 	}
+	private static RGBFixtureState[] triofxt(PresetColor c1, PresetColor c2,PresetColor c3){
+		return new RGBFixtureState[]{
+				new RGBFixtureState(0,-1,c1.r,c1.g,c1.b,false),
+				new RGBFixtureState(1,-1,c2.r,c2.g,c2.b,false),
+				new RGBFixtureState(2,-1,c3.r,c3.g,c3.b,false),
+				new RGBFixtureState(3,0,0,0,0,false)};
+	}
 	
-
+	public ScSequence trio = new ScSequence(new Scene[]{
+			new Scene(triofxt(PresetColor.VIOLET,PresetColor.CYAN,PresetColor.CYAN),0),
+			new Scene(triofxt(PresetColor.CYAN,PresetColor.VIOLET,PresetColor.CYAN),0),
+			new Scene(triofxt(PresetColor.CYAN,PresetColor.CYAN,PresetColor.VIOLET),0),
+			new Scene(triofxt(PresetColor.CYAN,PresetColor.VIOLET,PresetColor.CYAN),0),
+			new Scene(triofxt(PresetColor.VIOLET,PresetColor.CYAN,PresetColor.CYAN),0),
+			
+			new Scene(triofxt(PresetColor.CYAN,PresetColor.VIOLET,PresetColor.VIOLET),0),
+			new Scene(triofxt(PresetColor.VIOLET,PresetColor.CYAN,PresetColor.VIOLET),0),
+			new Scene(triofxt(PresetColor.VIOLET,PresetColor.VIOLET,PresetColor.CYAN),0),
+			new Scene(triofxt(PresetColor.VIOLET,PresetColor.CYAN,PresetColor.VIOLET),0),
+			new Scene(triofxt(PresetColor.CYAN,PresetColor.VIOLET,PresetColor.VIOLET),0),
+			
+			new Scene(triofxt(PresetColor.YELLOW,PresetColor.RED,PresetColor.RED),0),
+			new Scene(triofxt(PresetColor.RED,PresetColor.YELLOW,PresetColor.RED),0),
+			new Scene(triofxt(PresetColor.RED,PresetColor.RED,PresetColor.YELLOW),0),
+			new Scene(triofxt(PresetColor.RED,PresetColor.YELLOW,PresetColor.RED),0),
+			new Scene(triofxt(PresetColor.YELLOW,PresetColor.RED,PresetColor.RED),0),
+			
+			new Scene(triofxt(PresetColor.RED,PresetColor.YELLOW,PresetColor.YELLOW),0),
+			new Scene(triofxt(PresetColor.YELLOW,PresetColor.RED,PresetColor.YELLOW),0),
+			new Scene(triofxt(PresetColor.YELLOW,PresetColor.YELLOW,PresetColor.RED),0),
+			new Scene(triofxt(PresetColor.YELLOW,PresetColor.RED,PresetColor.YELLOW),0),
+			new Scene(triofxt(PresetColor.RED,PresetColor.YELLOW,PresetColor.YELLOW),0),
+			
+			new Scene(triofxt(PresetColor.GREEN,PresetColor.BLUE,PresetColor.BLUE),0),
+			new Scene(triofxt(PresetColor.BLUE,PresetColor.GREEN,PresetColor.BLUE),0),
+			new Scene(triofxt(PresetColor.BLUE,PresetColor.BLUE,PresetColor.GREEN),0),
+			new Scene(triofxt(PresetColor.BLUE,PresetColor.GREEN,PresetColor.BLUE),0),
+			new Scene(triofxt(PresetColor.GREEN,PresetColor.BLUE,PresetColor.BLUE),0),
+			
+			new Scene(triofxt(PresetColor.BLUE,PresetColor.GREEN,PresetColor.GREEN),0),
+			new Scene(triofxt(PresetColor.GREEN,PresetColor.BLUE,PresetColor.GREEN),0),
+			new Scene(triofxt(PresetColor.GREEN,PresetColor.GREEN,PresetColor.BLUE),0),
+			new Scene(triofxt(PresetColor.GREEN,PresetColor.BLUE,PresetColor.GREEN),0),
+			new Scene(triofxt(PresetColor.BLUE,PresetColor.GREEN,PresetColor.GREEN),0),
+			
+			},500);
+	
 	public static void main(String[] args) throws Exception{
 		Scene sc = new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,0,0,0,false),

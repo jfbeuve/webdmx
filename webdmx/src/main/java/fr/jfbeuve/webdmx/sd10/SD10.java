@@ -207,6 +207,7 @@ public class SD10 {
 		triostep(bg,c,bg);
 		triostep(bg,bg,c);
 		triostep(bg,c,bg);
+		triostep(c,bg,bg);
 	}
 	private void triostep(PresetColor c1, PresetColor c2, PresetColor c3) throws IOException{
 		System.out.println("** STEP "+step++);
