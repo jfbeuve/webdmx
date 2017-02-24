@@ -26,8 +26,13 @@ public class SD10 {
 			for(Method m:mm){
 				if(m.getParameterCount()==0&&m.getDeclaringClass().equals(SD10.class)){
 					StringBuilder s = new StringBuilder();
+					
+					Address p = m.getAnnotation(Address.class);
+					if(p!=null) s.append(p.value()+" - ");
+					
 					s.append(m.getName());
 					
+					/*
 					switch(m.getName()){
 						case "disco":s.append(" -> P1");break;
 						case "strob":s.append(" -> S1");break;
@@ -40,7 +45,7 @@ public class SD10 {
 						case "triolite":s.append(" -> P5");break;
 						case "trio":s.append(" -> S5");break;
 						default:
-					}
+					}*/
 						
 					System.out.println(s.toString());
 				}
@@ -55,6 +60,7 @@ public class SD10 {
 	/**
 	 * DICRO/LED RGBA + ALL SWITCHS ON
 	 */
+	@Address("P1")
 	public void disco() throws IOException{
 		discostep(PresetColor.R);
 		discostep(PresetColor.G);
@@ -70,6 +76,7 @@ public class SD10 {
 	/**
 	 * ALL SWITCHS ON, STROBO, NO DICRO/LED 
 	 */
+	@Address("S1")
 	public void strob() throws IOException{
 		SWITCH.set(true,true,true,true).set(data);
 		STROB.set().set(data);
@@ -79,6 +86,7 @@ public class SD10 {
 	/**
 	 * LIGHT RGB LED/DICRO, ONLY SWITCH #2 ON 
 	 */
+	@Address("P2")
 	public void slow() throws IOException{
 		SWITCH.set(false,true,false,false).set(data);
 		colorall(PresetColor.B,3);
@@ -94,6 +102,7 @@ public class SD10 {
 	/**
 	 * DICRO/LED1/LED3 RGBA + LED10MM/LED2/LED3 REVERSE COLOR 
 	 */
+	@Address("S3")
 	public void sync() throws IOException{
 		syncstep(PresetColor.RED,PresetColor.YELLOW);
 		syncstep(PresetColor.GREEN,PresetColor.ORANGE);
@@ -138,6 +147,7 @@ public class SD10 {
 	private void dmxapply(){
 		if(io!=null) io.send(data);
 	}
+	@Address("S2")
 	public void music() throws IOException{
 		SWITCH.set(true,true,true,true).set(data);
 		RGB1.music().set(data);
@@ -152,6 +162,7 @@ public class SD10 {
 		syncstep(PresetColor.BLUE,c);
 		syncstep(PresetColor.YELLOW,c);
 	}
+	@Address("P3")
 	public void bistro() throws IOException{
 		bistrostep(PresetColor.RED);
 		bistrostep(PresetColor.GREEN);
@@ -172,6 +183,7 @@ public class SD10 {
 		syncstep(PresetColor.CYAN,c);
 		syncstep(PresetColor.WHITE,c);
 	}
+	@Address("P4")
 	public void bistroled() throws IOException{
 		bistroledstep(PresetColor.RED);
 		bistroledstep(PresetColor.GREEN);
@@ -182,6 +194,7 @@ public class SD10 {
 		bistroledstep(PresetColor.CYAN);
 		bistroledstep(PresetColor.WHITE);
 	}
+	@Address("S4")
 	public void syncled() throws IOException{
 		syncstep(PresetColor.RED,PresetColor.YELLOW);
 		syncstep(PresetColor.YELLOW,PresetColor.RED);
@@ -190,10 +203,12 @@ public class SD10 {
 		syncstep(PresetColor.CYAN,PresetColor.VIOLET);
 		syncstep(PresetColor.VIOLET,PresetColor.CYAN);	
 	}
+	@Address("P5")
 	public void triolite() throws IOException{
 		dim=20;
 		trio();
 	}
+	@Address("S5")
 	public void trio() throws IOException{
 		triosteps(PresetColor.CYAN,PresetColor.VIOLET);
 		triosteps(PresetColor.VIOLET,PresetColor.CYAN);
@@ -217,4 +232,5 @@ public class SD10 {
 		dmxapply();
 		System.in.read();
 	}
+	//TODO insert P2+1 DISCOLED (+WIZARD MUSIC), insert S2+1 WIZARD (MUSIC), ADD WIZARD MUSIC to P1, S1, S2 ADD WIZARD SLOW to P2
 }
