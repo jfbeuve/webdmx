@@ -21,6 +21,7 @@ public class SequencePreset {
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(1,100,-1,-1,-1,false)},0),
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(3,100,-1,-1,-1,false)},0)});
 	
+	public ScSequence color = new ScSequence(new Scene[]{});	
 	/**
 	 * dimmer CHASE with gaps (MAX DIMMER 1,0,3,0,2,0,4,0)
 	 */
@@ -243,18 +244,22 @@ public class SequencePreset {
 			},500);
 	
 	public static void main(String[] args) throws Exception{
-		Scene sc = new Scene(new RGBFixtureState[]{
+		Scene sc4 = new Scene(new RGBFixtureState[]{
 				new RGBFixtureState(0,0,0,0,0,false),
 				new RGBFixtureState(1,0,0,0,0,false),
 				new RGBFixtureState(2,0,0,0,0,false),
 				new RGBFixtureState(3,0,0,0,0,false)
 		},0);
+		Scene sc1 = new Scene(new RGBFixtureState[]{
+				new RGBFixtureState(0,0,0,0,0,false)
+		},0);
 		ScOverride o = new ScOverride(new Scene(new RGBFixtureState[]{new RGBFixtureState(0,0,0,0,0,false)},0),new int[0],2);
 		
 		ObjectMapper mapper = new ObjectMapper();
-		System.out.println("SCENE "+mapper.writeValueAsString(sc));
+		//System.out.println("SCENE "+mapper.writeValueAsString(sc));
 		System.out.println();
-		System.out.println("OVERRIDE "+mapper.writeValueAsString(o));
-		
+		//System.out.println("OVERRIDE "+mapper.writeValueAsString(o));
+		//System.out.println("CHASE "+mapper.writeValueAsString(new SequencePreset().chase));
+		System.out.println("SCENE "+mapper.writeValueAsString(sc1));
 	}
 }

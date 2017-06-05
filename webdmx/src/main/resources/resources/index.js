@@ -145,6 +145,7 @@ function override(){
 /*
  * SCENE
  */
+ 
 function color(){
 	localStorage.color=$("#color").val();
 	scene();
@@ -205,6 +206,7 @@ function getrevcol(col){
 /**
  * POST scene change
  */
+//TODO implement rear par led10mmm x2 (L & R) id 5 & 6
 function scene(){
 	setrevcol();
 	
@@ -381,6 +383,20 @@ function preset(name){
 		p.scenes[0].fixtures[3].r = rev.r;
 		p.scenes[0].fixtures[3].g = rev.g;
 		p.scenes[0].fixtures[3].b = rev.b;
+	}
+	
+	//TODO test this preset
+	if(name=='color'){
+		var col = hexToRgb($("#color").val()); 
+		var rev = hexToRgb(getrevcol($("#color").val()));
+		var lead = $("#lead").hasClass("active");
+		var leadid = $("#leadid").val();
+		
+		for (var i = 0; i < 4; i++) {
+			if(lead&&i==leadid) continue;
+			p.scenes.push({"fixtures":[{"id":i,"dim":dim,"r":rev.r,"g":rev.g,"b":rev.b,"strob":false}],"fade":0});
+		}
+		
 	}
 	
 	autocolor(false);

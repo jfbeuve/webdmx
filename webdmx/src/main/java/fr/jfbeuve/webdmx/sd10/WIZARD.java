@@ -14,4 +14,7 @@ public class WIZARD extends Fixture{
 		val = new int[]{255,255,75,30,0,0,0,0,137,11};
 		return this;
 	}
+	public String toString(){
+		return "WIZARD "+super.toString();
+	}
 }
