@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import fr.jfbeuve.webdmx.fixture.Fixture;
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.io.OlaWeb;
 import fr.jfbeuve.webdmx.sc.RGBFixtureState;
@@ -30,7 +31,7 @@ public class DmxWrapper {
 	private Sequencer chase;
 	
 	private int[] data;
-	private RGBFixture[] fixture;
+	private Fixture[] fixture;
 	
 	private DmxThread thread;
 	
@@ -38,11 +39,15 @@ public class DmxWrapper {
 		data = new int[512];
 		for(int i=0;i<512;i++) data[i]=0;
 		
-		fixture=new RGBFixture[4];
+		fixture=new Fixture[6];
+		// RGB 8W
 		fixture[0]=new RGBFixture(2);
 		fixture[1]=new RGBFixture(7);
 		fixture[2]=new RGBFixture(12);
 		fixture[3]=new RGBFixture(17);
+		// RGB 10 MM
+		fixture[4]=new RGBFixture(31);
+		fixture[5]=new RGBFixture(49);
 		
 		thread=new DmxThread(this);
 	}
