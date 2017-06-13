@@ -206,7 +206,6 @@ function getrevcol(col){
 /**
  * POST scene change
  */
-//TODO implement rear par led10mmm x2 (L & R) id 5 & 6
 function scene(){
 	setrevcol();
 	
@@ -218,7 +217,7 @@ function scene(){
 	var strob = $("#colorstrob").hasClass("active");
 	var dim = $("#colordim").val();
 	
-	var sc = {"fixtures":[{"id":0,"dim":0,"r":0,"g":0,"b":0,"strob":false},{"id":1,"dim":0,"r":0,"g":0,"b":0,"strob":false},{"id":2,"dim":0,"r":0,"g":0,"b":0,"strob":false},{"id":3,"dim":0,"r":0,"g":0,"b":0,"strob":false}],"fade":0};
+	var sc = {"fixtures":[{"id":0,"dim":0,"r":0,"g":0,"b":0,"strob":false},{"id":1,"dim":0,"r":0,"g":0,"b":0,"strob":false},{"id":2,"dim":0,"r":0,"g":0,"b":0,"strob":false},{"id":3,"dim":0,"r":0,"g":0,"b":0,"strob":false},{"id":4,"dim":0,"r":0,"g":0,"b":0,"strob":false},{"id":5,"dim":0,"r":0,"g":0,"b":0,"strob":false}],"fade":0};
 	
 	// BG COLOR, DIMMER, STROB
 	for (var i = 0; i < sc.fixtures.length; i++) {
@@ -385,8 +384,7 @@ function preset(name){
 		p.scenes[0].fixtures[3].b = rev.b;
 	}
 	
-	//TODO test this preset
-	if(name=='color'){
+	if(name=='colrev'){
 		var col = hexToRgb($("#color").val()); 
 		var rev = hexToRgb(getrevcol($("#color").val()));
 		var lead = $("#lead").hasClass("active");
@@ -399,7 +397,7 @@ function preset(name){
 		
 	}
 	
-	autocolor(false);
+	//autocolor(false);
 	
 	// HTTP POST
 	$.ajax({

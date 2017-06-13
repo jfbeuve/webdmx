@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import fr.jfbeuve.webdmx.awt.DmxMonitor;
 import fr.jfbeuve.webdmx.fixture.Fixture;
+import fr.jfbeuve.webdmx.fixture.RGBDSFixture;
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.io.OlaWeb;
 import fr.jfbeuve.webdmx.sc.RGBFixtureState;
@@ -41,8 +42,8 @@ public class DmxWrapper {
 		fixture[2]=new RGBFixture(12);
 		fixture[3]=new RGBFixture(17);
 		// RGB 10 MM
-		fixture[4]=new RGBFixture(31);
-		fixture[5]=new RGBFixture(49);
+		fixture[4]=new RGBDSFixture(31);
+		fixture[5]=new RGBDSFixture(49);
 		
 		thread=new DmxThread(this);
 	}

@@ -21,7 +21,7 @@ public class SequencePreset {
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(1,100,-1,-1,-1,false)},0),
 		new Scene(new RGBFixtureState[]{new RGBFixtureState(3,100,-1,-1,-1,false)},0)});
 	
-	public ScSequence color = new ScSequence(new Scene[]{});	
+	public ScSequence colrev = new ScSequence(new Scene[]{});	
 	/**
 	 * dimmer CHASE with gaps (MAX DIMMER 1,0,3,0,2,0,4,0)
 	 */

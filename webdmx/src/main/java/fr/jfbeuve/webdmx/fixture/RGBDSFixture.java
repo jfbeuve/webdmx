@@ -23,7 +23,8 @@ public class RGBDSFixture implements Fixture {
 		red.set(f.r,100, false, fade);
 		green.set(f.g,100, false, fade);
 		blue.set(f.b,100, false, fade);
-		dim.set(f.dim,100, false, fade);
+		//dim.set(f.dim*255/100,100, false, fade);
+		dim.set(255,100, false, fade);
 		strb.set(f.strob?255:0,100, false, 0);
 	}
 	
