@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import fr.jfbeuve.webdmx.awt.DmxMonitor;
 import fr.jfbeuve.webdmx.fixture.Fixture;
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.io.OlaWeb;
@@ -15,7 +16,6 @@ import fr.jfbeuve.webdmx.sc.RGBFixtureState;
 import fr.jfbeuve.webdmx.sc.ScOverride;
 import fr.jfbeuve.webdmx.sc.Scene;
 import fr.jfbeuve.webdmx.sc.Sequencer;
-import fr.jfbeuve.webdmx.swing.DmxMonitor;
 
 @Component
 public class DmxWrapper {
