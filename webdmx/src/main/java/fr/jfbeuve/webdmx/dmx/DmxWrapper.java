@@ -1,11 +1,6 @@
 package fr.jfbeuve.webdmx.dmx;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.util.Map;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,24 +8,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import fr.jfbeuve.webdmx.fixture.Fixture;
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.io.OlaWeb;
 import fr.jfbeuve.webdmx.sc.RGBFixtureState;
 import fr.jfbeuve.webdmx.sc.ScOverride;
 import fr.jfbeuve.webdmx.sc.Scene;
 import fr.jfbeuve.webdmx.sc.Sequencer;
+import fr.jfbeuve.webdmx.swing.DmxMonitor;
 
 @Component
 public class DmxWrapper {
 	private static final Log log = LogFactory.getLog(DmxWrapper.class);
-	private JFrame frame = null;
-	private JPanel panel = null;
+	private DmxMonitor frame = null;
 	
 	@Autowired
 	private Sequencer chase;
 	
 	private int[] data;
-	private RGBFixture[] fixture;
+	private Fixture[] fixture;
 	
 	private DmxThread thread;
 	
@@ -38,11 +34,15 @@ public class DmxWrapper {
 		data = new int[512];
 		for(int i=0;i<512;i++) data[i]=0;
 		
-		fixture=new RGBFixture[4];
+		fixture=new Fixture[6];
+		// RGB 8W
 		fixture[0]=new RGBFixture(2);
 		fixture[1]=new RGBFixture(7);
 		fixture[2]=new RGBFixture(12);
 		fixture[3]=new RGBFixture(17);
+		// RGB 10 MM
+		fixture[4]=new RGBFixture(31);
+		fixture[5]=new RGBFixture(49);
 		
 		thread=new DmxThread(this);
 	}
@@ -53,7 +53,10 @@ public class DmxWrapper {
 	@Value("${offline:false}")
 	private boolean offline;
 	
+	private boolean junit=false;
+	
 	public void offline() {
+		junit=true; // explicitly invoked only through JUNIT
 		offline = true;
 	}
 	/**
@@ -93,7 +96,7 @@ public class DmxWrapper {
 			status = status.merge(cs);
 		}
 		if(!offline) io.send(data);
-		//TODO if(offline&&!test) monitor();
+		if(offline&&!junit) monitor();
 		return status; 
 	}
 	public void blackout(long fade){
@@ -117,29 +120,8 @@ public class DmxWrapper {
 	 */
 	private void monitor(){
 		if(frame==null){
-			// INIT JFRAME
-			System.setProperty("java.awt.headless", "false"); 
-			frame = new JFrame();
-		    frame.setTitle("webdmx");
-		    frame.setSize(400, 100);
-		    frame.setLocationRelativeTo(null);
-		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		    panel = new JPanel(){
-				public void paintComponent(Graphics g){
-					g.clearRect(0, 0, 400, 100);
-					g.setColor(new Color(data[23],data[24],data[25]));
-					g.fillRect(0, 0, 100, 100);
-					g.setColor(new Color(data[26],data[27],data[28]));
-					g.fillRect(100, 0, 100, 100);
-					g.setColor(new Color(data[29],data[30],data[31]));
-					g.fillRect(200, 0, 100, 100);
-					g.setColor(new Color(data[32],data[33],data[34]));
-					g.fillRect(300, 0, 100, 100);
-				}               
-		    };
-		    frame.setContentPane(panel); 
-			frame.setVisible(true);
+			frame = new DmxMonitor(data);
 		}
-		panel.repaint();
+		frame.refresh(data);
 	}
 }
