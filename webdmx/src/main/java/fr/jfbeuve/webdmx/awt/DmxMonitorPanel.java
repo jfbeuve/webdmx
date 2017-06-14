@@ -40,12 +40,12 @@ public class DmxMonitorPanel extends JPanel {
 	    g.fillRect(300, 20, 100, 100);
 	    
 	    g.setColor(Color.black);
-	    g.drawString(data[36]*100/255+"%", 430, 17);
+	    g.drawString((data[34]>0?"S":"")+data[36]*100/255+"%", 430, 17);
 	    g.setColor(new Color(data[30],data[31],data[32]));
 	    g.fillRect(400, 20, 100, 100);
 	    
 	    g.setColor(Color.black);
-	    g.drawString(data[54]*100/255+"%", 530, 17);
+	    g.drawString((data[52]>0?"S":"")+data[54]*100/255+"%", 530, 17);
 	    g.setColor(new Color(data[48],data[49],data[50]));
 	    g.fillRect(500, 20, 100, 100);
 	  }

@@ -16,6 +16,14 @@
 		<script src="jscolor.min.js"></script>
 	</head>
 	<body>
+		<div id="reardiv">
+			<div class="section">
+				<button id="rearon">on</button>
+				<button id="rearcol">col</button>
+				<button id="rearstrob">strb</button>
+				<button id="rearprim">prim</button>
+			</div>
+		</div>
 		<div id="disco">
 			<div class="section" id="strobsection">
 				<button onclick="strobreset()" id="strobreset">reset</button>
@@ -86,6 +94,7 @@
 				<label id="colordimval" class="rangelabel">-</label>
 			</div>
 			<div class="inlinecmd">
+				<button id="reartogglebtn" onclick="reartoggle()">R</button>
 				<button id="colorstrob">S</button>
 				<button id="lead">&#9819;</button>
 			</div>
