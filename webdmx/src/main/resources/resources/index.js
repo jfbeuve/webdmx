@@ -310,6 +310,31 @@ function scene(){
 }
 
 /*
+ * OVERLAYS
+ */
+
+function togglediv(name){
+	if(localStorage.togglediv=='reardiv') scene();
+	
+	if(localStorage.togglediv==''){
+		$('#'+name).toggle();
+		localStorage.togglediv=name;
+	}else if(localStorage.togglediv==name){
+		$('#'+name).toggle();
+		localStorage.togglediv='';
+	}else{
+		$('#'+localStorage.togglediv).toggle();
+		$('#'+name).toggle();
+		localStorage.togglediv=name;
+	}
+}
+
+function initdiv(name){
+	if (typeof(localStorage.togglediv) === "undefined") localStorage.togglediv = '';
+	if(localStorage.togglediv==name) $('#'+name).show(); else $('#'+name).hide(); 
+}
+
+/*
  * DATA INIT
  */
 
@@ -338,10 +363,11 @@ var customcolors = [];
 if (typeof(localStorage.colors) === "undefined") localStorage.colors = JSON.stringify(customcolors);
 customcolors = JSON.parse(localStorage.colors);
 
-/* REAR INIT */
+initdiv('colordiv');
+initdiv('seqdiv');
+initdiv('reardiv');
 
-if (typeof(localStorage.reartoggle) === "undefined") localStorage.reartoggle = false;
-if(localStorage.reartoggle=='true') $('#reardiv').show(); else $('#reardiv').hide(); 
+/* REAR INIT */
 
 if (typeof(localStorage.reardim) === "undefined") localStorage.reardim = 100;
 $("#reardim").val(localStorage.reardim); $("#reardimval").html(localStorage.reardim+'%');
@@ -599,12 +625,6 @@ bindhold('rearon');
 bindhold('rearcol');
 bindhold('rearstrob');
 bindhold('rearprim');
-
-function reartoggle(){
-	$('#reardiv').toggle();
-	if(localStorage.reartoggle=='true') scene();
-	localStorage.reartoggle = localStorage.reartoggle=='false';
-}
 
 /*
  * DISCO

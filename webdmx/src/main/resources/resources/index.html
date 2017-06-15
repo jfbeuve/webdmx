@@ -16,17 +16,26 @@
 		<script src="jscolor.min.js"></script>
 	</head>
 	<body>
-		<div id="reardiv">
+		<div id="reardiv" class="overlay">
 			<div class="section">
 				<button id="rearon">on</button>
 				<button id="rearcol">col</button>
 				<button id="rearstrob">strb</button>
 				<button id="rearprim">prim</button>
-				<br/>
 				<div class="container">
 					<input type="range" id="reardim" onchange="reardim()"/>
 					<label id="reardimval" class="rangelabel">-</label>
 				</div>
+			</div>
+		</div>
+		<div id="colordiv" class="overlay">
+			<div class="section">
+				<div id="colorpicker"> <!-- DYNAMIC CONTENT--> </div>
+			</div>
+		</div>
+		<div id="seqdiv" class="overlay">
+			<div class="section">
+				<div id="presets"> <!-- DYNAMIC CONTENT--> </div>
 			</div>
 		</div>
 		<div id="disco">
@@ -73,7 +82,9 @@
 		</div>
 			
 		<div class="section">
-			<div id="presets"> <!-- DYNAMIC CONTENT--> </div>
+			PRESETS
+			<button onclick="togglediv('seqdiv')">SEQ</button>
+			<button onclick="togglediv('colordiv')">COL</button>
 		</div>
 		
 		<br/>
@@ -99,12 +110,10 @@
 				<label id="colordimval" class="rangelabel">-</label>
 			</div>
 			<div class="inlinecmd">
-				<button id="reartogglebtn" onclick="reartoggle()">R</button>
+				<button onclick="togglediv('reardiv')">R</button>
 				<button id="colorstrob">S</button>
 				<button id="lead">&#9819;</button>
 			</div>
-			<br/>
-			<div id="colorpicker"> <!-- DYNAMIC CONTENT--> </div>
 		</div>
 		<div class="section" id="solo">
 			<div id="fixture">
