@@ -270,7 +270,7 @@ function scene(){
 			if(rc.r<128&&rc.g<128&&rc.b>127){rc.r=0;rc.g=0;rc.b=255;}
 			if(rc.r<128&&rc.g<128&&rc.b<128){rc.r=0;rc.g=0;rc.b=0;}
 			
-			if(rc.r>127&&rc.g>127&&rc.b<128){rc.r=0;rc.g=255;rc.b=0;} // YELLOW = GREEN
+			if(rc.r>127&&rc.b<128){rc.r=255;rc.g=0;rc.b=0;} // YELLOW = RED
 			if(rc.r>127&&rc.g<128&&rc.b>127){rc.r=255;rc.g=0;rc.b=0;} // VIOLET = ROUGE 
 			if(rc.r<128&&rc.g>127&&rc.b>127){rc.r=0;rc.g=0;rc.b=255;} // CYAN = BLUE
 			if(rc.r<128&&rc.g>127&&rc.b>127){rc.r=0;rc.g=0;rc.b=255;} // WHITE = BLUE
