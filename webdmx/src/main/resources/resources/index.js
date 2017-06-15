@@ -181,6 +181,11 @@ function colordim(){
 	$("#colordimval").html(localStorage.colordim+'%');
 }
 
+function reardim(){
+	localStorage.reardim = $("#reardim").val();
+	$("#reardimval").html(localStorage.reardim+'%');
+}
+
 function setrevcol(){
 	var col = $("#color").val();
 	col = getrevcol(col);
@@ -223,8 +228,8 @@ function scene(){
 		{"id":1,"dim":0,"r":0,"g":0,"b":0,"strob":false},
 		{"id":2,"dim":0,"r":0,"g":0,"b":0,"strob":false},
 		{"id":3,"dim":0,"r":0,"g":0,"b":0,"strob":false},
-		{"id":4,"dim":100,"r":0,"g":0,"b":0,"strob":false},
-		{"id":5,"dim":100,"r":0,"g":0,"b":0,"strob":false}],
+		{"id":4,"dim":0,"r":0,"g":0,"b":0,"strob":false},
+		{"id":5,"dim":0,"r":0,"g":0,"b":0,"strob":false}],
 		"fade":0
 	};
 	
@@ -284,6 +289,11 @@ function scene(){
 			sc.fixtures[4].strob=true;
 			sc.fixtures[5].strob=true;
 		}
+		
+		// REAR DIMMER
+		var reardimval = $("#reardim").val();
+		sc.fixtures[4].dim=reardimval;
+		sc.fixtures[5].dim=reardimval;
 	}		
 	// REAR END
 	
@@ -328,8 +338,15 @@ var customcolors = [];
 if (typeof(localStorage.colors) === "undefined") localStorage.colors = JSON.stringify(customcolors);
 customcolors = JSON.parse(localStorage.colors);
 
+/* REAR INIT */
+
 if (typeof(localStorage.reartoggle) === "undefined") localStorage.reartoggle = false;
 if(localStorage.reartoggle=='true') $('#reardiv').show(); else $('#reardiv').hide(); 
+
+if (typeof(localStorage.reardim) === "undefined") localStorage.reardim = 100;
+$("#reardim").val(localStorage.reardim); $("#reardimval").html(localStorage.reardim+'%');
+
+/* DISCO INIT */
 
 if (typeof(localStorage.disco) === "undefined") localStorage.disco = false;
 if(localStorage.disco=='true') $('#disco').show(); else $('#disco').hide(); 
@@ -341,6 +358,7 @@ if (typeof(localStorage.strobospeed) === "undefined") localStorage.strobospeed =
 $("#strobospeed").val(localStorage.strobospeed); $("#strobospeedval").html('speed '+localStorage.strobospeed+'%');
 
 // INIT DISCO SWITCH AND STROB
+/*
 $.ajax({
 	type: "POST",
     url: "/live/read",
@@ -359,6 +377,7 @@ $.ajax({
 		initdmxbtn(o['1']+o['6']+o['11']+o['16'],$('#discobtn'));
 	}.bind(this)
 });
+*/
 
 function initdmxbtn(val,btn){
 	if(val>0) btn.addClass('active');
