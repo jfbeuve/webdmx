@@ -17,6 +17,8 @@ public class RGB {
 		if(max<g)max=g;
 		if(max<b)max=b;
 		
+		if(max==0) return rgbd; 
+		
 		rgbd.r = r * 255 / max;
 		rgbd.g = g * 255 / max;
 		rgbd.b = b * 255 / max;

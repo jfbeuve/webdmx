@@ -159,7 +159,10 @@ function leadid(){
 	scene();
 }
 function colorstrob(on){
-	console.log('colorstrob '+on);
+	if(on)
+		$("#rearstrob").addClass("active");
+	else
+		$("#rearstrob").removeClass("active");
 	scene();
 }
 
@@ -256,45 +259,44 @@ function scene(){
 	}
 	
 	// REAR BEGIN
-	var rc = c;
-	if($("#rearon").hasClass("active")){
-		var rc = c;
-		if($("#rearcol").hasClass("active")){
-			// REAR REVERSE COLOR
-			rc = hexToRgb(getrevcol($("#color").val()));
-		}
-		if($("#rearprim").hasClass("active")){
-			// SIMPLIFIED REAR COLOR
-			if(rc.r>127&&rc.g<128&&rc.b<128){rc.r=255;rc.g=0;rc.b=0;}
-			if(rc.r<128&&rc.g>127&&rc.b<128){rc.r=0;rc.g=255;rc.b=0;}
-			if(rc.r<128&&rc.g<128&&rc.b>127){rc.r=0;rc.g=0;rc.b=255;}
-			if(rc.r<128&&rc.g<128&&rc.b<128){rc.r=0;rc.g=0;rc.b=0;}
+	var rc = {r:c.r,g:c.g,b:c.b};
+	if(c.r>127&&c.g<128&&c.b<128){rc.r=255;rc.g=255;rc.b=0;} // RED = YELLOW
+	if(c.r<128&&c.g>127&&c.b<128){rc.r=255;rc.g=255;rc.b=0;} // GREEN = YELLOW
+	if(c.r<128&&c.g<128&&c.b>127){rc.r=255;rc.g=0;rc.b=255;} // BLUE = VIOLET
+	
+	if(c.r>127&&c.g>127&&c.b<128){rc.r=255;rc.g=0;rc.b=0;} // YELLOW/ORANGE = RED
+	if(c.r>127&&c.g<128&&c.b>127){rc.r=0;rc.g=0;rc.b=255;} // VIOLET = BLUE 
+	if(c.r<128&&c.g>127&&c.b>127){rc.r=255;rc.g=0;rc.b=255;} // CYAN = VIOLET
+	
+	if(c.r>127&&c.g>127&&c.b>127){rc.r=0;rc.g=0;rc.b=0;} // WHITE = BLACK
+
+	if($("#rgreen").hasClass("active")){
+		if(c.r<128&&c.g<129&&c.b>127){rc.r=0;rc.g=255;rc.b=0;} // BLUE = GREEN
+		if(c.r>127&&c.g>128&&c.b<128){rc.r=0;rc.g=255;rc.b=0;} // YELLOW+ = GREEN
+		if(c.r<128&&c.g>127&&c.b>127){rc.r=0;rc.g=255;rc.b=0;} // CYAN = GREEN
+		if(c.r<128&&c.g>127&&c.b<128){rc.r=0;rc.g=0;rc.b=255;} // GREEN = BLUE
+	}
+	
+	// REAR DIMMER
+	var reardimval = $("#reardim").val();
+	if(reardimval==0){rc.r=0;rc.g=0;rc.b=0;}
+	sc.fixtures[4].dim=reardimval;
+	sc.fixtures[5].dim=reardimval;
+	
+	// APPLY COLOR
+	sc.fixtures[4].r=rc.r;
+	sc.fixtures[4].g=rc.g;
+	sc.fixtures[4].b=rc.b;
+	sc.fixtures[5].r=rc.r;
+	sc.fixtures[5].g=rc.g;
+	sc.fixtures[5].b=rc.b;
+	
+	if($("#rearstrob").hasClass("active")){
+		// REAR STROB
+		sc.fixtures[4].strob=true;
+		sc.fixtures[5].strob=true;
+	}
 			
-			if(rc.r>127&&rc.b<128){rc.r=255;rc.g=0;rc.b=0;} // YELLOW = RED
-			if(rc.r>127&&rc.g<128&&rc.b>127){rc.r=255;rc.g=0;rc.b=0;} // VIOLET = ROUGE 
-			if(rc.r<128&&rc.g>127&&rc.b>127){rc.r=0;rc.g=0;rc.b=255;} // CYAN = BLUE
-			if(rc.r<128&&rc.g>127&&rc.b>127){rc.r=0;rc.g=0;rc.b=255;} // WHITE = BLUE
-		}
-		
-		// APPLY COLOR
-		sc.fixtures[4].r=rc.r;
-		sc.fixtures[4].g=rc.g;
-		sc.fixtures[4].b=rc.b;
-		sc.fixtures[5].r=rc.r;
-		sc.fixtures[5].g=rc.g;
-		sc.fixtures[5].b=rc.b;
-		
-		if($("#rearstrob").hasClass("active")){
-			// REAR STROB
-			sc.fixtures[4].strob=true;
-			sc.fixtures[5].strob=true;
-		}
-		
-		// REAR DIMMER
-		var reardimval = $("#reardim").val();
-		sc.fixtures[4].dim=reardimval;
-		sc.fixtures[5].dim=reardimval;
-	}		
 	// REAR END
 	
 	//disableautocolor();
@@ -621,10 +623,8 @@ bindsolo('PAR2');
 bindsolo('PAR3');
 bindsolo('PAR4');
 
-bindhold('rearon');
-bindhold('rearcol');
+bindhold('rgreen');
 bindhold('rearstrob');
-bindhold('rearprim');
 
 /*
  * DISCO

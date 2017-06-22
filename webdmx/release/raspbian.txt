@@ -53,7 +53,7 @@ sudo sed -i 's/enabled = false/enabled = true/' ola-ftdidmx.conf
 sudo apt-get install oracle-java8-jdk
 
 
-http://raspberrypi:9090/
+http://raspberrypi.local:9090/
 
 #AUTO START#
 
