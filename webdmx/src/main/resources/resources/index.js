@@ -441,9 +441,11 @@ function preset(name){
 	
 	// override dimmmer when required
 	var dim = $("#colordim").val();
+	var solodim = $("#solodim").val();
 	
 	for (var step = 0; step < p.scenes.length; step++) {
 		for (var fixture = 0; fixture < p.scenes[step].fixtures.length; fixture++) {
+			if(p.scenes[step].fixtures[fixture].dim==100) p.scenes[step].fixtures[fixture].dim = solodim;
 			if(p.scenes[step].fixtures[fixture].dim==-1) p.scenes[step].fixtures[fixture].dim = dim;
 		}
 	}
