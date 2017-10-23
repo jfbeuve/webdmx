@@ -9,7 +9,7 @@ public class DmxMonitor {
 		System.setProperty("java.awt.headless", "false"); 
 		frame = new JFrame();
 	    frame.setTitle("webdmx");
-	    frame.setSize(620, 160);
+	    frame.setSize(520, 280);
 	    frame.setLocationRelativeTo(null);
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    panel = new DmxMonitorPanel(data);

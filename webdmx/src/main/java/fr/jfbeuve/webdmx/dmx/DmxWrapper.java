@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import fr.jfbeuve.webdmx.awt.DmxMonitor;
+import fr.jfbeuve.webdmx.fixture.EuroliteBigParty;
 import fr.jfbeuve.webdmx.fixture.Fixture;
 import fr.jfbeuve.webdmx.fixture.RGBDSFixture;
 import fr.jfbeuve.webdmx.fixture.RGBFixture;
@@ -35,7 +36,7 @@ public class DmxWrapper {
 		data = new int[512];
 		for(int i=0;i<512;i++) data[i]=0;
 		
-		fixture=new Fixture[6];
+		fixture=new Fixture[9];
 		// RGB 8W
 		fixture[0]=new RGBFixture(2);
 		fixture[1]=new RGBFixture(7);
@@ -44,6 +45,10 @@ public class DmxWrapper {
 		// RGB 10 MM
 		fixture[4]=new RGBDSFixture(31);
 		fixture[5]=new RGBDSFixture(49);
+		// RGB Eurolite Big Party
+		fixture[6]=new EuroliteBigParty(56);
+		fixture[7]=new EuroliteBigParty(61);
+		fixture[8]=new EuroliteBigParty(66);
 		
 		thread=new DmxThread(this);
 	}

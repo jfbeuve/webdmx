@@ -6,7 +6,9 @@ import fr.jfbeuve.webdmx.sc.RGBFixtureState;
 
 public class RGBDSFixture implements Fixture {
 
-	private DmxChannel red, green, blue, dim, strb;
+	protected DmxChannel red, green, blue, dim, strb;
+	
+	protected RGBDSFixture(){};
 	
 	public RGBDSFixture(int channel){
 		red = new DmxChannel(channel);
@@ -20,11 +22,11 @@ public class RGBDSFixture implements Fixture {
 	 */
 	@Override
 	public void set(RGBFixtureState f, long fade){
-		red.set(f.r,100, false, fade);
-		green.set(f.g,100, false, fade);
-		blue.set(f.b,100, false, fade);
 		
-		//dim.set(f.dim*255/100,100, false, fade);
+		red.set(f.dim==0?0:f.r,100, false, fade);
+		green.set(f.dim==0?0:f.g,100, false, fade);
+		blue.set(f.dim==0?0:f.b,100, false, fade);
+		
 		if(f.r==0&&f.g==0&&f.b==0)
 			dim.set(0,0, false, fade);
 		else
@@ -38,9 +40,9 @@ public class RGBDSFixture implements Fixture {
 	 */
 	@Override
 	public void override(RGBFixtureState f, long fade, int layer){
-		red.override(f.r, 100, false, fade, layer);
-		green.override(f.g, 100, false, fade, layer);
-		blue.override(f.b, 100, false, fade, layer);
+		red.override(f.dim==0?0:f.r, 100, false, fade, layer);
+		green.override(f.dim==0?0:f.g, 100, false, fade, layer);
+		blue.override(f.dim==0?0:f.b, 100, false, fade, layer);
 		dim.override(f.dim*255/100, 100, false, fade, layer);
 		strb.override(f.strob?255:0, 100, false, 0, layer);
 	}

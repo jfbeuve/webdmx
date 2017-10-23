@@ -40,7 +40,7 @@ colormatrix.get = function(){
 	var c = this.col;
 	
 	if(c.r>127&&c.g<128&&c.b<128) revcolval = this.colors[0]; 
-	if(c.r>127&&c.g>127&&c.b<128) revcolval = this.colors[1]; 
+	if(c.r>127&&c.g>127&&c.b<128) revcolval = this.colors[1]; // JAUNE/ORANGE
 	if(c.r>127&&c.g<128&&c.b>127) revcolval = this.colors[2]; 
 	if(c.r<128&&c.g>127&&c.b>127) revcolval = this.colors[3]; 
 	if(c.r<128&&c.g<128&&c.b>127) revcolval = this.colors[4]; // BLEU
@@ -48,10 +48,11 @@ colormatrix.get = function(){
 	if(c.r<128&&c.g<128&&c.b<128) revcolval = this.colors[6];  
 	if(c.r>127&&c.g>127&&c.b>127) revcolval = this.colors[7];
 
-	// YELLOW OVERRIDE REV BLUE/GREEN
+	// YELLOW OVERRIDE REV BLUE/GREEN/ORANGE
 	if($('#yellowbtn').hasClass('active')){
 		if(c.r<128&&c.g<128&&c.b>127) revcolval = 'FFFF00';
 		if(c.r<128&&c.g>127&&c.b<128) revcolval = 'FFFF00';
+		if(c.r>127&&c.g<192&&c.b<128) revcolval = 'FFFF00';
 	}
 	
 	return revcolval;

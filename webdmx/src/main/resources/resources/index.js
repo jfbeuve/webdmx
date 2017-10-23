@@ -16,12 +16,15 @@ function get(url) {
  */
 function next() {
 	get("/live/speed/0");
+	localStorage.preset = '';
 }
 function stop() {
 	get("/live/speed/-1");
+	localStorage.preset = '';
 }
 function blackout() {
 	get("/live/blackout/"+settings.fadems());
+	localStorage.preset = '';
 	
 	// RESET COLOR
 	document.getElementById('color').jscolor.fromString('000000');
@@ -132,7 +135,7 @@ function color(){
 	var c = $('#color').val();
 	colormatrix.setcol(c);
 	colormatrix.init();
-	scene();	
+	scene();
 }
 function setcolor(c){
 	document.getElementById('color').jscolor.fromString(c);
