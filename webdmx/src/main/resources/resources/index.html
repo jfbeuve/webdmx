@@ -16,14 +16,40 @@
 		<script src="jscolor.min.js"></script>
 	</head>
 	<body>
-		<div id="reardiv" class="overlay">
+		<div id="setdiv" class="overlay">
 			<div class="section">
-				<button id="rgreen">G</button>
-				<button id="rearstrob">S</button>
-				<div class="container">
-					<input type="range" id="reardim" onchange="reardim()"/>
-					<label id="reardimval" class="rangelabel">-</label>
-				</div>
+				    <div class="container">
+						<input type="range" id="dfminrange" onchange="settings.range('dfmin')"/>
+						<label id="dfminrangelabel">FRONT D%</label>
+					</div>
+					<div class="container">
+						<input type="range" id="wfrontrange" onchange="settings.range('wfront')"/>
+						<label id="wfrontrangelabel">FRONT W%</label>
+					</div>
+					<div class="container">
+						<input type="range" id="ddrumrange" onchange="settings.range('ddrum')"/>
+						<label id="ddrumrangelabel">DRUM D%</label>
+					</div>
+					<div class="container">
+						<input type="range" id="wdrumrange" onchange="settings.range('wdrum')"/>
+						<label id="wdrumrangelabel">DRUM W%</label>
+					</div>
+					<div class="container">
+						<input type="range" id="dbackrange" onchange="settings.range('dback')"/>
+						<label id="dbackrangelabel">BACK D%</label>
+					</div>
+					<div class="container">
+						<input type="range" id="wbackrange" onchange="settings.range('wback')"/>
+						<label id="wbackrangelabel">BACK W%</label>
+					</div>
+					<div class="container">
+						<input type="range" id="dfmaxrange" onchange="settings.range('dfmax')"/>
+						<label id="dfmaxrangelabel">SOLO D%</label>
+					</div>
+					<div class="container">
+						<input type="range" id="faderange" onchange="settings.range('fade')"/>
+						<label id="faderangelabel">FADE s</label>
+					</div>
 			</div>
 		</div>
 		<div id="colordiv" class="overlay">
@@ -31,47 +57,17 @@
 				<div id="colorpicker"> <!-- DYNAMIC CONTENT--> </div>
 			</div>
 		</div>
+		<div id="colrevdiv" class="overlay">
+			<div class="section">
+				<div id="colrevpicker"> <!-- DYNAMIC CONTENT--> </div>
+			</div>
+		</div>
 		<div id="seqdiv" class="overlay">
 			<div class="section">
 				<div id="presets"> <!-- DYNAMIC CONTENT--> </div>
 			</div>
 		</div>
-		<div id="disco">
-			<div class="section" id="strobsection">
-				<button onclick="strobreset()" id="strobreset">reset</button>
-				<div class="container" id="strobdimslider">
-					<input type="range" id="strobdim" onchange="strobdim()"/>
-					<label id="strobdimval" class="rangelabel">-</label>
-				</div>
-				<div class="container" id="strobospeedslider">
-					<input type="range" id="strobospeed" onchange="strobospeed()"/>
-					<label id="strobospeedval" class="rangelabel">-</label>
-				</div>
-			</div>
-			<div class="section">
-				SW
-				<button id="sw1" onclick="switchx(1)">1</button>
-				<button id="sw2" onclick="switchx(2)">2</button>
-				<button id="sw3" onclick="switchx(3)">3</button>
-				<button id="sw4" onclick="switchx(4)">4</button>
-				<button id="strob" onclick="strob()">STROB</button>
-				<button onclick="switchoff()">OFF</button>
-			</div>
-			<div class="section">
-				LED
-				<button id="auto1">1</button>
-				<button id="auto2">2</button>
-				<button id="auto3">3</button>
-				<button id="auto4">4</button>
-				<button onclick="slow()">SLOW</button>
-				<button onclick="discobtn()" id="discobtn">DISCO</button>
-			</div>
-		</div>
-		<div id="revcol" onclick="disco()">reverse</div>
-		<div id="fade">
-			<input type="range" value="40" id="faderange" onchange="fade()"/>
-			<label id="fadeval" class="rangelabel">-</label>
-		</div>
+		
 		<div class="command">
 			<button id="blackout">X</button>
 			<button id="stop">&#9632;</button>
@@ -80,56 +76,56 @@
 		</div>
 			
 		<div class="section">
-			PRESETS
-			<button onclick="togglediv('seqdiv')">SEQ</button>
-			<button onclick="togglediv('colordiv')">COL</button>
+			<button id="seqdivbtn" onclick="togglediv('seqdiv')">SEQ</button>
+			<button id="colordivbtn" onclick="togglediv('colordiv')">COL</button>
+			<button id="colrevdivbtn" onclick="togglediv('colrevdiv')">REV</button>
+			<button id="setdivbtn" onclick="togglediv('setdiv')">SET</button>
+			<button id="soldivbtn" onclick="togglediv('soldiv')">SOL</button>
 		</div>
 		
 		<br/>
 
 		<div class="section">
-			
 			<div id="settings">
-				<select id="leadid" onchange="leadid()">
-					<option value="0">1</option>
-					<option value="1">2</option>
-					<option value="2">3</option>
-					<option value="3">4</option>
-				</select>
-	
-				<input id="color" class="jscolor" value="000000" onchange="color()">
+				<div id="revcol">rev</div>
 				<button id="coloradd" onclick="coloradd()">+</button>
-				<button id="colorclear" onclick="colorclear()">clr</button>
+				<input id="color" class="jscolor" value="000000" onchange="color()">
 				<button id="colordel" onclick="colordel()">-</button>
-			</div>
-			
-			<div class="container">
-				<input type="range" id="colordim" onchange="colordim()"/>
-				<label id="colordimval" class="rangelabel">-</label>
-			</div>
-			<div class="inlinecmd">
-				<button onclick="togglediv('reardiv')">R</button>
+				<button id="colorclear" onclick="colorclear()">CLEAR</button>
+				<button id="raz" onclick="settings.reset()">RAZ</button>
+				<button id="yellowbtn">Y</button>
 				<button id="colorstrob">S</button>
-				<button id="lead">&#9819;</button>
 			</div>
 		</div>
-		<div class="section" id="solo">
+		<div class="overlay" id="soldiv">
+		<div class="section">
 			<div id="fixture">
-				<button id="PAR1">1</button>
-				<button id="PAR2">2</button>
-				<button id="PAR3">3</button>
-				<button id="PAR4">4</button>
+				<button id="PAR1">Left</button>
+				<button id="PAR2">Front</button>
+				<button id="PAR3">Back</button>
+				<button id="PAR4">Right</button>
 			</div>
-			<div class="container">
-				<input type="range" id="solodim" onchange="solodim()"/>
-				<label id="solodimval" class="rangelabel">-</label>
-			</div>
+			<select id="solsel" onchange="override()">
+					<option value=""></option>
+					<option value="0">AVG</option>
+					<option value="1">AVCG</option>
+					<option value="2">AVCD</option>
+					<option value="3">AVD</option>
+					<option value="6">ARG</option>
+					<option value="4">DRG</option>
+					<option value="7">ARC</option>
+					<option value="5">DRD</option>
+					<option value="8">ARD</option>
+			</select>
 			<div class="inlinecmd">
 				<button id="solosnap">&#9735;</button>
 				<button id="solostrob">S</button>
 			</div>
-		</div>
+		</div></div>
 		
+		<script src="init.js"></script>
+		<script src="chase.js"></script>
+		<script src="scene.js"></script>
 		<script src="index.js"></script>
 	</body>
 </html>

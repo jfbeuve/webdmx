@@ -41,7 +41,7 @@ public class RGBDSFixture implements Fixture {
 		red.override(f.r, 100, false, fade, layer);
 		green.override(f.g, 100, false, fade, layer);
 		blue.override(f.b, 100, false, fade, layer);
-		dim.override(f.dim, 100, false, fade, layer);
+		dim.override(f.dim*255/100, 100, false, fade, layer);
 		strb.override(f.strob?255:0, 100, false, 0, layer);
 	}
 	
@@ -54,8 +54,7 @@ public class RGBDSFixture implements Fixture {
 		green.reset(layer,time);
 		blue.reset(layer,time);
 		dim.reset(layer,time);
-		//TODO time = 0 for strob?
-		strb.reset(layer,time);
+		strb.reset(layer,0);
 	}
 		
 	/* (non-Javadoc)

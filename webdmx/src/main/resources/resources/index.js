@@ -21,7 +21,7 @@ function stop() {
 	get("/live/speed/-1");
 }
 function blackout() {
-	get("/live/blackout/"+fade());
+	get("/live/blackout/"+settings.fadems());
 	
 	// RESET COLOR
 	document.getElementById('color').jscolor.fromString('000000');
@@ -44,32 +44,6 @@ function tap() {
 	}
 }
 
-/**
- * display and return fade time
- */
-function fade() {
-	localStorage.fade = $("#faderange").val();
-	var time = 5000 * localStorage.fade / 100;
-	printms($("#fadeval"), time);
-	return time;
-}
-
-/**
- * print friendly for time in millis
- */
-function printms(o, v) {
-	var u = "ms";
-	if (v==0) u = "s";
-	if (v >= 1000) {
-		v = v / 1000;
-		u = "s";
-		if (v >= 60) {
-			v = Math.round(v * 100 / 60) / 100;
-			u = "m";
-		}
-	}
-	o.html('fade ' + v + u);
-}
 /*
  * OVERRIDE
  */
@@ -88,9 +62,6 @@ function solo(name) {
 		}
 		btn.addClass("active");
 		localStorage.solo=name;
-		
-		// disable lead
-		if($("#lead").hasClass("active")) holdbtn('lead');
 	}
 	override();
 }
@@ -102,25 +73,38 @@ function solostrob(on) {
 function solosnap(on) {
 	console.log('solosnap '+on);
 }
-function solodim(){
-	localStorage.solodim = $("#solodim").val();
-	override();
-	$("#solodimval").html(localStorage.solodim+'%');
-}
+
 /**
  * POST override change
  */
 function override(){
-	var dim = $("#solodim").val();
+	var dim = settings.dfmax;
 	var strob = $("#solostrob").hasClass("active");
 	var solosnap = $("#solosnap").hasClass("active");
 	var o = {"override":[],"reset":[],"fade":0,"layer":2};
 		
 	// SOLO ID
-	var f = $("#fixture>button");
-	for (var i = 0; i < f.length; i++) {
-		var btn = $('#'+f[i].id);
-		if(btn.hasClass("active")){
+	var fsel = [false,false,false,false,false,false];
+	if($('#PAR1').hasClass("active")){
+		fsel[0]=true;
+	}
+	if($('#PAR2').hasClass("active")){
+		fsel[1]=true;
+		fsel[2]=true;
+	}
+	if($('#PAR3').hasClass("active")){
+		fsel[4]=true;
+		fsel[5]=true;
+	}
+	if($('#PAR4').hasClass("active")){
+		fsel[3]=true;
+	}
+	var val = $('#solsel').val();
+	if(val.length>0){
+		fsel[val]=true;
+	}
+	for (var i = 0; i < fsel.length; i++) {
+		if(fsel[i]){
 			o.override.push({'id':i,'dim':dim,'r':255,'g':255,'b':255,'strob':strob});
 		} else {
 			o.reset.push(i);
@@ -128,10 +112,8 @@ function override(){
 	}
 	
 	if(!solosnap){
-		o.fade=fade();
+		o.fade=settings.fadems();
 	}
-	
-	disableautocolor();
 	
 	// HTTP POST
 	$.ajax({
@@ -142,173 +124,30 @@ function override(){
 	      cache: false
 		});
 }
+
 /*
- * SCENE
+ * COLOR EVENTS
  */
- 
 function color(){
-	localStorage.color=$("#color").val();
-	scene();
+	var c = $('#color').val();
+	colormatrix.setcol(c);
+	colormatrix.init();
+	scene();	
 }
 function setcolor(c){
 	document.getElementById('color').jscolor.fromString(c);
-	color();	
+	colormatrix.setcol(c);
+	colormatrix.init();
+	scene();	
 }
-function leadid(){
-	localStorage.leadid=$("#leadid").val();
-	scene();
+function setrevcolor(c){
+	colormatrix.setrev(c);
+	colormatrix.init();
+	scene();	
 }
+
 function colorstrob(on){
-	if(on)
-		$("#rearstrob").addClass("active");
-	else
-		$("#rearstrob").removeClass("active");
 	scene();
-}
-
-function lead(on){
-	console.log('lead '+on);
-	if(on){
-		// CANCEL SOLO
-		var a = $("#fixture>button.active");
-		if (a.length > 0) {
-			solo(a[0].id);
-		}
-	}
-	scene();
-}
-
-function colordim(){
-	localStorage.colordim = $("#colordim").val();
-	scene();
-	$("#colordimval").html(localStorage.colordim+'%');
-}
-
-function reardim(){
-	localStorage.reardim = $("#reardim").val();
-	$("#reardimval").html(localStorage.reardim+'%');
-}
-
-function setrevcol(){
-	var col = $("#color").val();
-	col = getrevcol(col);
-	$('#revcol').css('background-color','#'+col);
-}
-
-function getrevcol(col){
-	var revcolval = col;
-	var c = hexToRgb(revcolval);
-	
-	if(c.r>127&&c.g<128&&c.b<128) revcolval = 'FFFF00'; 
-	if(c.r>127&&c.g>127&&c.b<128) revcolval = 'FF2000'; 
-	if(c.r>127&&c.g<128&&c.b>127) revcolval = '00FFFF'; 
-	if(c.r<128&&c.g>127&&c.b>127) revcolval = 'FF00FF'; 
-	if(c.r<128&&c.g<128&&c.b>127) revcolval = '00FF20';
-	if(c.r<128&&c.g>127&&c.b<128) revcolval = '0020FF';
-	if(c.r<128&&c.g<128&&c.b<128) revcolval = 'FFFFFF';  
-	if(c.r>127&&c.g>127&&c.b>127) revcolval = '000000';
-	
-	return revcolval;	
-}
-
-/**
- * POST scene change
- */
-function scene(){
-	setrevcol();
-	
-	var colorhex = $("#color").val();
-	var c = hexToRgb(colorhex);
-	
-	var leadid = $("#leadid").val();
-	var lead = $("#lead").hasClass("active");
-	var strob = $("#colorstrob").hasClass("active");
-	var dim = $("#colordim").val();
-	
-	var sc = {
-		"fixtures":[
-		{"id":0,"dim":0,"r":0,"g":0,"b":0,"strob":false},
-		{"id":1,"dim":0,"r":0,"g":0,"b":0,"strob":false},
-		{"id":2,"dim":0,"r":0,"g":0,"b":0,"strob":false},
-		{"id":3,"dim":0,"r":0,"g":0,"b":0,"strob":false},
-		{"id":4,"dim":0,"r":0,"g":0,"b":0,"strob":false},
-		{"id":5,"dim":0,"r":0,"g":0,"b":0,"strob":false}],
-		"fade":0
-	};
-	
-	// BG COLOR, DIMMER, STROB
-	//for (var i = 0; i < sc.fixtures.length; i++) {
-	for (var i = 0; i < 4; i++) {
-		sc.fixtures[i].r = c.r;
-		sc.fixtures[i].g = c.g;
-		sc.fixtures[i].b = c.b;
-		sc.fixtures[i].dim = dim;
-		sc.fixtures[i].strob = strob;
-	}
-	
-	// FADE
-	sc.fade = fade();
-	
-	// LEAD
-	if(lead){
-		sc.fixtures[leadid].r = 255;
-		sc.fixtures[leadid].g = 255;
-		sc.fixtures[leadid].b = 255;
-		sc.fixtures[leadid].dim = dim/2;
-		sc.fixtures[leadid].strob=false;
-	}
-	
-	// REAR BEGIN
-	var rc = {r:c.r,g:c.g,b:c.b};
-	if(c.r>127&&c.g<128&&c.b<128){rc.r=255;rc.g=255;rc.b=0;} // RED = YELLOW
-	if(c.r<128&&c.g>127&&c.b<128){rc.r=255;rc.g=255;rc.b=0;} // GREEN = YELLOW
-	if(c.r<128&&c.g<128&&c.b>127){rc.r=255;rc.g=0;rc.b=255;} // BLUE = VIOLET
-	
-	if(c.r>127&&c.g>127&&c.b<128){rc.r=255;rc.g=0;rc.b=0;} // YELLOW/ORANGE = RED
-	if(c.r>127&&c.g<128&&c.b>127){rc.r=0;rc.g=0;rc.b=255;} // VIOLET = BLUE 
-	if(c.r<128&&c.g>127&&c.b>127){rc.r=255;rc.g=0;rc.b=255;} // CYAN = VIOLET
-	
-	if(c.r>127&&c.g>127&&c.b>127){rc.r=0;rc.g=0;rc.b=0;} // WHITE = BLACK
-
-	if($("#rgreen").hasClass("active")){
-		if(c.r<128&&c.g<129&&c.b>127){rc.r=0;rc.g=255;rc.b=0;} // BLUE = GREEN
-		if(c.r>127&&c.g>128&&c.b<128){rc.r=0;rc.g=255;rc.b=0;} // YELLOW+ = GREEN
-		if(c.r<128&&c.g>127&&c.b>127){rc.r=0;rc.g=255;rc.b=0;} // CYAN = GREEN
-		if(c.r<128&&c.g>127&&c.b<128){rc.r=0;rc.g=0;rc.b=255;} // GREEN = BLUE
-	}
-	
-	// REAR DIMMER
-	var reardimval = $("#reardim").val();
-	if(reardimval==0){rc.r=0;rc.g=0;rc.b=0;}
-	sc.fixtures[4].dim=reardimval;
-	sc.fixtures[5].dim=reardimval;
-	
-	// APPLY COLOR
-	sc.fixtures[4].r=rc.r;
-	sc.fixtures[4].g=rc.g;
-	sc.fixtures[4].b=rc.b;
-	sc.fixtures[5].r=rc.r;
-	sc.fixtures[5].g=rc.g;
-	sc.fixtures[5].b=rc.b;
-	
-	if($("#rearstrob").hasClass("active")){
-		// REAR STROB
-		sc.fixtures[4].strob=true;
-		sc.fixtures[5].strob=true;
-	}
-			
-	// REAR END
-	
-	//disableautocolor();
-	
-	// HTTP POST
-	$.ajax({
-		  type: "POST",
-	      url: "/live/scene",
-	      data: JSON.stringify(sc),
-	      contentType: 'application/json',
-	      cache: false
-		});
 }
 
 /*
@@ -316,196 +155,22 @@ function scene(){
  */
 
 function togglediv(name){
-	if(localStorage.togglediv=='reardiv') scene();
 	
 	if(localStorage.togglediv==''){
 		$('#'+name).toggle();
 		localStorage.togglediv=name;
+		$('#'+name+'btn').addClass('active');
 	}else if(localStorage.togglediv==name){
 		$('#'+name).toggle();
 		localStorage.togglediv='';
+		$('#'+name+'btn').removeClass('active');
 	}else{
 		$('#'+localStorage.togglediv).toggle();
+		$('#'+localStorage.togglediv+'btn').removeClass('active');
 		$('#'+name).toggle();
+		$('#'+name+'btn').addClass('active');
 		localStorage.togglediv=name;
 	}
-}
-
-function initdiv(name){
-	if (typeof(localStorage.togglediv) === "undefined") localStorage.togglediv = '';
-	if(localStorage.togglediv==name) $('#'+name).show(); else $('#'+name).hide(); 
-}
-
-/*
- * DATA INIT
- */
-
-if (typeof(localStorage.colordim) === "undefined") localStorage.colordim = 20;
-$("#colordim").val(localStorage.colordim); $("#colordimval").html(localStorage.colordim+'%');
-
-if (typeof(localStorage.solodim) === "undefined") localStorage.solodim = 100;
-$("#solodim").val(localStorage.solodim); $("#solodimval").html(localStorage.solodim+'%');
-
-if (typeof(localStorage.fade) === "undefined") localStorage.fade = 40;
-$("#faderange").val(localStorage.fade); fade();
-
-if (typeof(localStorage.solo) === "undefined") localStorage.solo = '';
-if(localStorage.solo!='') $('#'+localStorage.solo).addClass("active");
-
-if (typeof(localStorage.speed) === "undefined") localStorage.speed = 200;
-
-if (typeof(localStorage.color) === "undefined") localStorage.color = '000000';
-$('#color').val(localStorage.color); setrevcol();
-
-if (typeof(localStorage.leadid) === "undefined") localStorage.leadid = 0;
-$('#leadid').val(localStorage.leadid);
-
-var factorycolors = ['ff8000','ffff00','00ffff','ff00ff','ff2000','00ff20','0020ff','ffff20','ffffff', '000000','ff0000','00ff00','0000ff'];
-var customcolors = [];
-if (typeof(localStorage.colors) === "undefined") localStorage.colors = JSON.stringify(customcolors);
-customcolors = JSON.parse(localStorage.colors);
-
-initdiv('colordiv');
-initdiv('seqdiv');
-initdiv('reardiv');
-
-/* REAR INIT */
-
-if (typeof(localStorage.reardim) === "undefined") localStorage.reardim = 100;
-$("#reardim").val(localStorage.reardim); $("#reardimval").html(localStorage.reardim+'%');
-
-/* DISCO INIT */
-
-if (typeof(localStorage.disco) === "undefined") localStorage.disco = false;
-if(localStorage.disco=='true') $('#disco').show(); else $('#disco').hide(); 
-
-if (typeof(localStorage.strobdim) === "undefined") localStorage.strobdim = 100;
-$("#strobdim").val(localStorage.strobdim); $("#strobdimval").html('dim '+localStorage.strobdim+'%');
-
-if (typeof(localStorage.strobospeed) === "undefined") localStorage.strobospeed = 80;
-$("#strobospeed").val(localStorage.strobospeed); $("#strobospeedval").html('speed '+localStorage.strobospeed+'%');
-
-// INIT DISCO SWITCH AND STROB
-/*
-$.ajax({
-	type: "POST",
-    url: "/live/read",
-    data: JSON.stringify([1,6,11,16,21,22,23,24,25,26]), 
-    contentType: 'application/json',
-	dataType : 'text',
-	cache : false,
-	success : function(data) {
-		//console.log(data);
-		var o = JSON.parse(data);
-		initdmxbtn(o['26'],$('#strob'));
-		initdmxbtn(o['21'],$('#sw1'));
-		initdmxbtn(o['22'],$('#sw2'));
-		initdmxbtn(o['23'],$('#sw3'));
-		initdmxbtn(o['24'],$('#sw4'));
-		initdmxbtn(o['1']+o['6']+o['11']+o['16'],$('#discobtn'));
-	}.bind(this)
-});
-*/
-
-function initdmxbtn(val,btn){
-	if(val>0) btn.addClass('active');
-	else btn.removeClass('active');
-}
-
-/*
- * PRESETS
- */
-
-var presetnames = {};
-var presets = {};
-$.ajax({
-	url : '/live/sequence.json',
-	dataType : 'text',
-	cache : false,
-	success : function(data) {
-		presets = JSON.parse(data);
-		var html = '';
-		for(name in presets){
-			var displayname = presetnames[name];
-			if(typeof(displayname) === "undefined") displayname = name;
-			html = html + '<button id="'+name+'" onclick="preset(\''+name+'\')">'+displayname+'</button>';
-		}
-		$("#presets").html(html);
-	}.bind(this)
-});
-
-function preset(name){
-	console.log(name);
-	
-	var p = JSON.parse(JSON.stringify(presets[name]));
-	
-	// override dimmmer when required
-	var dim = $("#colordim").val();
-	var solodim = $("#solodim").val();
-	
-	for (var step = 0; step < p.scenes.length; step++) {
-		for (var fixture = 0; fixture < p.scenes[step].fixtures.length; fixture++) {
-			if(p.scenes[step].fixtures[fixture].dim==100) p.scenes[step].fixtures[fixture].dim = solodim;
-			if(p.scenes[step].fixtures[fixture].dim==-1) p.scenes[step].fixtures[fixture].dim = dim;
-		}
-	}
-	
-	// override speed when required
-	if(p.speed==-1) p.speed=localStorage.speed;
-	
-	// override colors when required
-	if(name=='fire'||name=='wave'){
-		var col = hexToRgb($("#color").val()); 
-		var rev = hexToRgb(getrevcol($("#color").val()));
-		p.scenes[0].fixtures[0].r = col.r;
-		p.scenes[0].fixtures[0].g = col.g;
-		p.scenes[0].fixtures[0].b = col.b;
-		p.scenes[0].fixtures[2].r = col.r;
-		p.scenes[0].fixtures[2].g = col.g;
-		p.scenes[0].fixtures[2].b = col.b;
-		p.scenes[1].fixtures[1].r = col.r;
-		p.scenes[1].fixtures[1].g = col.g;
-		p.scenes[1].fixtures[1].b = col.b;
-		p.scenes[1].fixtures[3].r = col.r;
-		p.scenes[1].fixtures[3].g = col.g;
-		p.scenes[1].fixtures[3].b = col.b;
-		p.scenes[1].fixtures[0].r = rev.r;
-		p.scenes[1].fixtures[0].g = rev.g;
-		p.scenes[1].fixtures[0].b = rev.b;
-		p.scenes[1].fixtures[2].r = rev.r;
-		p.scenes[1].fixtures[2].g = rev.g;
-		p.scenes[1].fixtures[2].b = rev.b;
-		p.scenes[0].fixtures[1].r = rev.r;
-		p.scenes[0].fixtures[1].g = rev.g;
-		p.scenes[0].fixtures[1].b = rev.b;
-		p.scenes[0].fixtures[3].r = rev.r;
-		p.scenes[0].fixtures[3].g = rev.g;
-		p.scenes[0].fixtures[3].b = rev.b;
-	}
-	
-	if(name=='colrev'){
-		var col = hexToRgb($("#color").val()); 
-		var rev = hexToRgb(getrevcol($("#color").val()));
-		var lead = $("#lead").hasClass("active");
-		var leadid = $("#leadid").val();
-		
-		for (var i = 0; i < 4; i++) {
-			if(lead&&i==leadid) continue;
-			p.scenes.push({"fixtures":[{"id":i,"dim":dim,"r":rev.r,"g":rev.g,"b":rev.b,"strob":false}],"fade":0});
-		}
-		
-	}
-	
-	//autocolor(false);
-	
-	// HTTP POST
-	$.ajax({
-		  type: "POST",
-	      url: "/live/play",
-	      data: JSON.stringify(p),
-	      contentType: 'application/json',
-	      cache: false
-		});
 }
 
 /*
@@ -521,6 +186,14 @@ function colorpresets(){
 	    html = html + '<div id="'+customcolors[i]+'" style="background-color:#'+customcolors[i]+'" onclick="setcolor(\''+customcolors[i]+'\')">'+customcolors[i]+'</div>';
 	}
 	$("#colorpicker").html(html);
+	html = '';
+	for (var i = 0; i < factorycolors.length; i++) {
+	    html = html + '<div style="background-color:#'+factorycolors[i]+'" onclick="setrevcolor(\''+factorycolors[i]+'\')">'+factorycolors[i]+'</div>';
+	}
+	for (var i = 0; i < customcolors.length; i++) {
+	    html = html + '<div style="background-color:#'+customcolors[i]+'" onclick="setrevcolor(\''+customcolors[i]+'\')">'+customcolors[i]+'</div>';
+	}
+	$("#colrevpicker").html(html);
 }
 colorpresets();
 
@@ -553,15 +226,6 @@ function colorclear(){
 	customcolors = [];
 	localStorage.colors = JSON.stringify(customcolors);
 	colorpresets();
-}
-
-function hexToRgb(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : null;
 }
 
 /*
@@ -612,40 +276,14 @@ bind('tap');
 bind('blackout');
 bindhold('solostrob');
 bindhold('colorstrob');
-bindhold('lead');
 bindhold('solosnap');
-
-bindhold('auto1');
-bindhold('auto2');
-bindhold('auto3');
-bindhold('auto4');
+bindhold('yellowbtn');
 
 bindsolo('PAR1');
 bindsolo('PAR2');
 bindsolo('PAR3');
 bindsolo('PAR4');
 
-bindhold('rgreen');
-bindhold('rearstrob');
-
-/*
- * DISCO
- */ 
-function disco(){
-	$('#disco').toggle();
-	localStorage.disco = localStorage.disco=='false';
-}
-function strobreset(){
-	localStorage.strobdim = 100;
-	$("#strobdim").val(localStorage.strobdim);
-	$("#strobdimval").html('dim '+localStorage.strobdim+'%');
-
-	localStorage.strobospeed = 91;
-	$("#strobospeed").val(localStorage.strobospeed); 
-	$("#strobospeedval").html('speed '+localStorage.strobospeed+'%');
-	
-	if ($('#strob').hasClass("active")) strobon();
-}
 function dmxwrite(data){
 	$.ajax({
 		  type: "POST",
@@ -654,126 +292,4 @@ function dmxwrite(data){
 	      contentType: 'application/json',
 	      cache: false
 		});
-}
-function strob(){
-	var btn = $('#strob');
-	if (btn.hasClass("active")) {
-		btn.removeClass("active");
-		dmxwrite({24:0,25:0}); 
-	} else {
-		btn.addClass("active");
-		strobon();
-	}
-}
-function strobon(){
-	var speed = $("#strobospeed").val() * 255 / 100;
-	var dim = $("#strobdim").val() * 255 / 100;
-	$('#discobtn').removeClass("active");
-	dmxwrite({0:0,4:0,5:0,9:0,10:0,14:0,15:0,19:0,24:speed,25:dim}); 
-}
-
-function switchx(vx){
-	var btn = $('#sw'+vx);
-	var dmx = vx + 19; 
-	var data = {};
-	if (btn.hasClass("active")) {
-		btn.removeClass("active");
-		 data[dmx]=0;
-	} else {
-		btn.addClass("active");
-		data[dmx]=255;
-	}
-	dmxwrite(data);
-}
-function switchoff(){
-	dmxwrite({0:0,4:0,5:0,9:0,10:0,14:0,15:0,19:0,20:0,21:0,22:0,23:0,24:0,25:0}); 
-	$('#strob').removeClass('active');
-	$('#discobtn').removeClass('active');
-	$('#sw1').removeClass('active');
-	$('#sw2').removeClass('active');
-	$('#sw3').removeClass('active');
-	$('#sw4').removeClass('active');
-}
-
-function strobospeed(){
-	localStorage.strobospeed = $("#strobospeed").val(); 
-	$("#strobospeedval").html('speed '+localStorage.strobospeed+'%');
-	if ($('#strob').hasClass("active")) strobon();
-}
-function strobdim(){
-	localStorage.strobdim = $("#strobdim").val();
-	$("#strobdimval").html('dim '+localStorage.strobdim+'%');
-	if ($('#strob').hasClass("active")) strobon();
-}
-/*
- * AUTO
- */
-function disableautocolor(){
-	if($('#discobtn').hasClass('active')) sendautocolor(false);
-}
-
-function sendautocolor(enable){
-	var macro = 255;
-	var speed = 255;
-	
-	var data = {0:0,4:0,5:0,9:0,10:0,14:0,15:0,19:0};
-	if(enable){
-		// put all switch on in addition to par led music
-		data = {0:0,4:0,5:0,9:0,10:0,14:0,15:0,19:0,20:255,21:255,22:255,23:255};
-		$('#sw1').addClass('active');
-		$('#sw2').addClass('active');
-		$('#sw3').addClass('active');
-		$('#sw4').addClass('active');
-	}
-	if(enable&&$('#auto1').hasClass("active")) {
-		data['0']=macro; data['4']=speed;
-	} 
-	if(enable&&$('#auto2').hasClass("active")) {
-		data['5']=macro; data['9']=speed;
-	} 
-	if(enable&&$('#auto3').hasClass("active")) {
-		data['10']=macro; data['14']=speed;
-	} 
-	if(enable&&$('#auto4').hasClass("active")) {
-		data['15']=macro; data['19']=speed;
-	}
-	dmxwrite(data);
-}
-function slow(){
-	var btn = $("button.active[id^=sw]")
-	for (var i = 0; i < btn.length; i++) {
-		$('#'+btn[i].id).removeClass('active');
-	}
-	
-	$('#sw3').addClass("active");
-	$('#strob').removeClass('active');
-	$('#discobtn').removeClass('active');
-	
-	var data = {"fixtures":[{"id":0,"dim":10,"r":0,"g":0,"b":255,"strob":false},
-		{"id":1,"dim":10,"r":0,"g":0,"b":255,"strob":false},
-		{"id":2,"dim":10,"r":0,"g":0,"b":255,"strob":false},
-		{"id":3,"dim":10,"r":0,"g":0,"b":255,"strob":false}],"fade":500};
-	
-	$.ajax({
-		  type: "POST",
-	      url: "/live/scene",
-	      data: JSON.stringify(data),
-	      contentType: 'application/json',
-	      cache: false
-		});
-	
-	dmxwrite({0:0,4:0,5:0,9:0,10:0,14:0,15:0,19:0,20:0,21:255,22:0,23:0}); 
-}
-function discobtn(){
-	var btn = $('#discobtn');
-	if(btn.hasClass('active')){
-		btn.removeClass("active");
-		// disable par led music
-		sendautocolor(false);
-	}else{
-		// disable strob, enable all switches, set led disco
-		btn.addClass("active");
-		$('#strob').removeClass("active");
-		sendautocolor(true);
-	}
 }

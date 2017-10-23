@@ -41,17 +41,27 @@ button:click {
 	width: 120px;
 	height: 40px;
 }
-#settings>button, #strobreset{
-	height: 40px;
+#settings>button{
+	height: 60px;
 	padding: 10px 10px;
-	font-size: 20px;
+	font-size: 30px;
+}
+#coloradd, #colordel, #colorstrob, #yellowbtn{
+	width: 80px;
 }
 select{
-    cursor: pointer;
     border-radius: 5px;
-    background:white;
-	color: dimgrey;
-	height: normal;
+    /*background:white;*/
+    background-color: white;
+    border: 0px;
+    color: dimgrey;
+    padding: 10px 25px;
+    margin: 4px 2px;
+    cursor: pointer;
+    touch-action: none;
+    font-family: Arial, Helvetica, sans-serif;
+	font-size: 30px;
+	height: 80px;
 }
 .command{
 	position: absolute;
@@ -65,15 +75,10 @@ select{
 #presets>button {
     margin: 5px;
 }
-#fixture>button, div.inlinecmd>button, #sw1, #sw2, #sw3, #sw4{
-	width: 80px;
-	height: 70px;
-}
 .inlinecmd{
 	position: absolute;
 	right: 20px;
 }
-
 .macro button{
 	height: 80px;
 }
@@ -95,7 +100,7 @@ div{
 .block div{
 	display: block;
 }
-#colorpicker>div{
+#colorpicker>div, #colrevpicker>div{
 	height: 80px;
 	width: 80px;
 	border: 1px solid lightgrey;
@@ -103,22 +108,13 @@ div{
 	margin: 5px;
 }
 div#revcol{
-	height: 80px;
-	width: 80px;
+	height: 65px;
+	width: 65px;
 	border: 1px solid lightgrey;
 	font-size: 20px;
 	position: absolute;
-	left: 20px;
-	bottom: 20px;
-}
-div#revcol{
-	height: 80px;
-	width: 80px;
-	border: 1px solid lightgrey;
-	font-size: 20px;
-	position: absolute;
-	left: 20px;
-	bottom: 20px;
+	top: 130px;
+	right: 20px;
 }
 div#fade{
 	position: absolute;
@@ -149,21 +145,9 @@ input[type=range]::-webkit-slider-thumb {
 	color: dimgrey;
 	pointer-events: none;
 }
-#masterdim{
-	width: 580px;
-}
-#masterdimval{
-	right: 340px;
-}
-.newrangelabel {
-	position: absolute;
-	left: 150px;
-	top: 8px;
-	color: dimgrey;
-	pointer-events: none;
-}
+
 .container{
-	position: relative;	
+	position: relative;
 }
 .nmsection{
 	font-size: 15px;
@@ -175,26 +159,22 @@ input[type=range]::-webkit-slider-thumb {
 .overlay{
 	position: absolute;
 	left: 40px;
-	top: 310px;
+	top: 210px;
 	width: 90%;
 	padding: 12px 12px;
 	z-index: 10;
 	background-color: black;
 }
-#disco{
-	position: absolute;
-	left: 40px;
-	top: 40px;
-	width: 90%;
-	z-index: 10;
-	background-color: black;
+.container>input{
+	margin-right: 20px;
+	margin-bottom: 10px;
 }
-#strobsection>div{
-	width: 400px;
-}
-#strobsection>div>label{
+.container>label{
 	position: absolute;
-	left: 150px;
+	white-space: nowrap;
+	left: 100px;
 	top: 20px;
-	width: 200px;
+	color: dimgrey;
+	pointer-events: none;
+	z-index: 11;
 }
