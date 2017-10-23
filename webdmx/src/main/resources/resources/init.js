@@ -147,12 +147,21 @@ if (typeof(localStorage.settings) !== "undefined") settings = JSON.parse(localSt
 colormatrix.wit = function(){
 	var wit = {};
 	
-	wit.fcol = colormatrix.wcol(settings.wfront); // f=front
-	wit.frev = colormatrix.wrev(settings.wfront); // f=front
-	wit.dcol = colormatrix.wcol(settings.wdrum); // d=drum
-	wit.drev = colormatrix.wrev(settings.wdrum); // d=drum
-	wit.bcol = colormatrix.wcol(settings.wback); // b=back
-	wit.brev = colormatrix.wrev(settings.wback); // b=back
+	if($('#reversebtn').hasClass('active')){
+		wit.frev = colormatrix.wcol(settings.wfront); // f=front
+		wit.fcol = colormatrix.wrev(settings.wfront); // f=front
+		wit.drev = colormatrix.wcol(settings.wdrum); // d=drum
+		wit.dcol = colormatrix.wrev(settings.wdrum); // d=drum
+		wit.brev = colormatrix.wcol(settings.wback); // b=back
+		wit.bcol = colormatrix.wrev(settings.wback); // b=back		
+	} else {
+		wit.fcol = colormatrix.wcol(settings.wfront); // f=front
+		wit.frev = colormatrix.wrev(settings.wfront); // f=front
+		wit.dcol = colormatrix.wcol(settings.wdrum); // d=drum
+		wit.drev = colormatrix.wrev(settings.wdrum); // d=drum
+		wit.bcol = colormatrix.wcol(settings.wback); // b=back
+		wit.brev = colormatrix.wrev(settings.wback); // b=back
+	}
 	
 	return wit;
 }

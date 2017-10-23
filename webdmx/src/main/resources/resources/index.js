@@ -281,11 +281,16 @@ bindhold('solostrob');
 bindhold('colorstrob');
 bindhold('solosnap');
 bindhold('yellowbtn');
+bindhold('reversebtn');
 
 bindsolo('PAR1');
 bindsolo('PAR2');
 bindsolo('PAR3');
 bindsolo('PAR4');
+
+function reversebtn(){
+	scene();
+}
 
 function dmxwrite(data){
 	$.ajax({

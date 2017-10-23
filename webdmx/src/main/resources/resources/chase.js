@@ -307,17 +307,17 @@ function rainbstep(p, c1, c2, c3){
 	
 	p.scenes.push({"fixtures":[],"fade":4000});
 	p.scenes[i].fixtures.push({"id":0,"dim":settings.dfmin,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
+	p.scenes[i].fixtures.push({"id":4,"dim":settings.ddrum,"r":w.drum.r,"g":w.drum.g,"b":w.drum.b,"strob":false});
 	p.scenes[i].fixtures.push({"id":6,"dim":settings.dback,"r":w.back.r,"g":w.back.g,"b":w.back.b,"strob":false});
 
 	w = witmatrix(c2); 
 	p.scenes[i].fixtures.push({"id":1,"dim":settings.dfmin,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
 	p.scenes[i].fixtures.push({"id":2,"dim":settings.dfmin,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
-	p.scenes[i].fixtures.push({"id":4,"dim":settings.ddrum,"r":w.drum.r,"g":w.drum.g,"b":w.drum.b,"strob":false});
-	p.scenes[i].fixtures.push({"id":5,"dim":settings.ddrum,"r":w.drum.r,"g":w.drum.g,"b":w.drum.b,"strob":false});
 	p.scenes[i].fixtures.push({"id":7,"dim":settings.dback,"r":w.back.r,"g":w.back.g,"b":w.back.b,"strob":false});
 	
 	w = witmatrix(c3); 
 	p.scenes[i].fixtures.push({"id":3,"dim":settings.dfmin,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
+	p.scenes[i].fixtures.push({"id":5,"dim":settings.ddrum,"r":w.drum.r,"g":w.drum.g,"b":w.drum.b,"strob":false});
 	p.scenes[i].fixtures.push({"id":8,"dim":settings.dback,"r":w.back.r,"g":w.back.g,"b":w.back.b,"strob":false});
 };
 

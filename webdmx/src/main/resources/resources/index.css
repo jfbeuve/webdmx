@@ -46,7 +46,7 @@ button:click {
 	padding: 10px 10px;
 	font-size: 30px;
 }
-#coloradd, #colordel, #colorstrob, #yellowbtn{
+#coloradd, #colordel, #colorstrob, #yellowbtn, #reversebtn{
 	width: 80px;
 }
 select{
