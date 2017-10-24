@@ -25,21 +25,18 @@ function rgbToHex(r, g, b) {
  * COLOR 
  */
 var colormatrix = {
-		'colors':[],
+		'colors':['FFFF00','FF0000','00FFFF','FF00FF','00FFFF','0000FF','000000','FFFFFF'],
 		'col':{'r':0,'g':0,'b':0,'hex':'000000'},
 		'rev':{'r':0,'g':0,'b':0,'hex':'000000'}
 };
 
-colormatrix.reset = function(){
-	this.colors = ['FFFF00','FF0000','00FFFF','FF00FF','00FFFF','0000FF','000000','FFFFFF'];
-};
-
-colormatrix.reset();
-
-
 if (typeof(localStorage.colormatrix) !== "undefined") colormatrix = JSON.parse(localStorage.colormatrix);
 
 console.log(colormatrix);
+
+colormatrix.reset = function(){
+	this.colors = ['FFFF00','FF0000','00FFFF','FF00FF','00FFFF','0000FF','000000','FFFFFF'];
+};
 
 // gets reverse color
 colormatrix.get = function(){
@@ -264,6 +261,7 @@ settings.display(); // init slider value
  */
 
 if (typeof(localStorage.solo) === "undefined") localStorage.solo = '';
+if (typeof(localStorage.solocolor) === "undefined") localStorage.solocolor = 'FFFFFF';
 if(localStorage.solo!='') $('#'+localStorage.solo).addClass("active");
 
 if (typeof(localStorage.speed) === "undefined") localStorage.speed = 300;

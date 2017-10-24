@@ -85,6 +85,7 @@ function override(){
 	var strob = $("#solostrob").hasClass("active");
 	var solosnap = $("#solosnap").hasClass("active");
 	var o = {"override":[],"reset":[],"fade":0,"layer":2};
+	var w = witmatrix(localStorage.solocolor);
 		
 	// SOLO ID
 	var fsel = [false,false,false,false,false,false,false,false,false];
@@ -107,8 +108,28 @@ function override(){
 		fsel[val]=true;
 	}
 	for (var i = 0; i < fsel.length; i++) {
+		
+		// FRONT COLOR
+		var r = w.front.r;
+		var g = w.front.g;
+		var b = w.front.b;
+		
+		// DRUM COLOR
+		if(i>3){
+			r = w.drum.r;
+			g = w.drum.g;
+			b = w.drum.b;
+		}
+		
+		// REAR COLOR
+		if(i>5){
+			r = w.back.r;
+			g = w.back.g;
+			b = w.back.b;
+		}
+			
 		if(fsel[i]){
-			o.override.push({'id':i,'dim':dim,'r':255,'g':255,'b':255,'strob':strob});
+			o.override.push({'id':i,'dim':dim,'r':r,'g':g,'b':b,'strob':strob});
 		} else {
 			o.reset.push(i);
 		}
@@ -151,6 +172,10 @@ function setrevcolor(c){
 
 function colorstrob(on){
 	scene();
+}
+function setsolocolor(c){
+	localStorage.solocolor = c;
+	override();
 }
 
 /*
@@ -197,6 +222,14 @@ function colorpresets(){
 	    html = html + '<div style="background-color:#'+customcolors[i]+'" onclick="setrevcolor(\''+customcolors[i]+'\')">'+customcolors[i]+'</div>';
 	}
 	$("#colrevpicker").html(html);
+	html = '';
+	for (var i = 0; i < factorycolors.length; i++) {
+	    html = html + '<div style="background-color:#'+factorycolors[i]+'" onclick="setsolocolor(\''+factorycolors[i]+'\')">'+factorycolors[i]+'</div>';
+	}
+	for (var i = 0; i < customcolors.length; i++) {
+	    html = html + '<div style="background-color:#'+customcolors[i]+'" onclick="setsolocolor(\''+customcolors[i]+'\')">'+customcolors[i]+'</div>';
+	}
+	$("#solocolor").html(html);
 }
 colorpresets();
 
@@ -233,12 +266,15 @@ function colorclear(){
 	colorpresets();
 	
 	// clear custom reverse colors
+	console.log(colormatrix);
 	colormatrix.reset();
 	colormatrix.setcol(colormatrix.col.hex);
 	
-	// clear solo color
-	
 	scene();
+	
+	// clear solo color
+	localStorage.solocolor = 'FFFFFF';
+	override();
 }
 
 /*
