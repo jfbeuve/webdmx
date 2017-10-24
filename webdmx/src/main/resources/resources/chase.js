@@ -13,6 +13,7 @@ presets.print = function(){
 		if (typeof presets[p] !== 'function') return false;
 	    if(p=='play') return false;
 	    if(p=='print') return false;
+	    if(p=='solo') return false;
 	    return true;
 	});
 	
@@ -25,6 +26,20 @@ presets.print = function(){
 
 presets.play = function(name){
 	console.log(name);
+	
+	if(localStorage.preset=='solo'&&name!='solo'){
+		$('#PAR1').removeClass("active");
+		localStorage['PAR1']=false;
+		$('#PAR2').removeClass("active");
+		localStorage['PAR2']=false;
+		$('#PAR3').removeClass("active");
+		localStorage['PAR3']=false;
+		$('#PAR4').removeClass("active");
+		localStorage['PAR4']=false;
+		$('#solochase').removeClass("active");
+		localStorage.solochase=false;
+	}
+	
 	localStorage.preset = name;
 	
 	var p = this[name]();
@@ -331,6 +346,43 @@ presets.rainb = function(){
 	rainbstep(p,'00FFFF','0000FF','FF00FF'); // STEP 5 : CYAN, BLEU, MAGENTA
 	rainbstep(p,'0000FF','FF00FF','FF0000'); // STEP 6 : BLEU, MAGENTA, ROUGE
 	rainbstep(p,'FF00FF','FF0000','FF8000'); // STEP 7 : MAGENTA, ROUGE, ORANGE
+	
+	return p;
+}
+
+function solostep(p, c){
+	var w = witmatrix(c);
+	var i = p.scenes.length;
+	p.scenes.push({"fixtures":[],"fade":0});
+	
+	if($('#PAR1').hasClass("active")){
+		p.scenes[i].fixtures.push({"id":0,"dim":settings.dfmax,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
+		p.scenes[i].fixtures.push({"id":6,"dim":settings.dback,"r":w.back.r,"g":w.back.g,"b":w.back.b,"strob":false});
+	}
+	if($('#PAR2').hasClass("active")){
+		p.scenes[i].fixtures.push({"id":1,"dim":settings.dfmax,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
+		p.scenes[i].fixtures.push({"id":2,"dim":settings.dfmax,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
+	}
+	if($('#PAR3').hasClass("active")){
+		p.scenes[i].fixtures.push({"id":4,"dim":settings.ddrum,"r":w.drum.r,"g":w.drum.g,"b":w.drum.b,"strob":false});
+		p.scenes[i].fixtures.push({"id":5,"dim":settings.ddrum,"r":w.drum.r,"g":w.drum.g,"b":w.drum.b,"strob":false});
+	}
+	if($('#PAR4').hasClass("active")){
+		p.scenes[i].fixtures.push({"id":3,"dim":settings.dfmax,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
+		p.scenes[i].fixtures.push({"id":8,"dim":settings.dback,"r":w.back.r,"g":w.back.g,"b":w.back.b,"strob":false});
+	}
+}
+
+presets.solo = function(){
+	var p = {"scenes":[],"speed":80};
+	
+	solostep(p,'FF0000');
+	solostep(p,'FF8000');
+	solostep(p,'FFFF00');
+	solostep(p,'00FF00');
+	solostep(p,'00FFFF');
+	solostep(p,'0000FF');
+	solostep(p,'FF00FF');
 	
 	return p;
 }

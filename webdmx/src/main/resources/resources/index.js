@@ -20,7 +20,15 @@ function next() {
 }
 function stop() {
 	get("/live/speed/-1");
-	localStorage.preset = '';
+	if(localStorage.preset=='solo'){
+		localStorage.preset = '';
+		$('#solochase').removeClass('active');
+		localStorage.solochase=false;
+		override();
+	} else {
+		localStorage.preset = '';
+	}
+	
 }
 function blackout() {
 	get("/live/blackout/"+settings.fadems());
@@ -81,27 +89,32 @@ function solosnap(on) {
  * POST override change
  */
 function override(){
-	var dim = settings.dfmax;
 	var strob = $("#solostrob").hasClass("active");
 	var solosnap = $("#solosnap").hasClass("active");
 	var o = {"override":[],"reset":[],"fade":0,"layer":2};
 	var w = witmatrix(localStorage.solocolor);
+	var solochase = $('#solochase').hasClass('active');
 		
 	// SOLO ID
 	var fsel = [false,false,false,false,false,false,false,false,false];
+	var soloset = false;
 	if($('#PAR1').hasClass("active")){
 		fsel[0]=true;
+		soloset=true;
 	}
 	if($('#PAR2').hasClass("active")){
 		fsel[1]=true;
 		fsel[2]=true;
+		soloset=true;
 	}
 	if($('#PAR3').hasClass("active")){
 		fsel[4]=true;
 		fsel[5]=true;
+		soloset=true;
 	}
 	if($('#PAR4').hasClass("active")){
 		fsel[3]=true;
+		soloset=true;
 	}
 	var val = $('#solsel').val();
 	if(val.length>0){
@@ -113,12 +126,14 @@ function override(){
 		var r = w.front.r;
 		var g = w.front.g;
 		var b = w.front.b;
+		var d = settings.dfmax;
 		
 		// DRUM COLOR
 		if(i>3){
 			r = w.drum.r;
 			g = w.drum.g;
 			b = w.drum.b;
+			d = settings.ddrum;
 		}
 		
 		// REAR COLOR
@@ -126,10 +141,11 @@ function override(){
 			r = w.back.r;
 			g = w.back.g;
 			b = w.back.b;
+			d = settings.dback;
 		}
 			
 		if(fsel[i]){
-			o.override.push({'id':i,'dim':dim,'r':r,'g':g,'b':b,'strob':strob});
+			o.override.push({'id':i,'dim':d,'r':r,'g':g,'b':b,'strob':strob});
 		} else {
 			o.reset.push(i);
 		}
@@ -137,6 +153,12 @@ function override(){
 	
 	if(!solosnap){
 		o.fade=settings.fadems();
+	}
+	
+	if(solochase&&soloset) {
+		o = {"override":[],"reset":[0,1,2,3,4,5,6,7,8],"fade":0,"layer":2};
+	} else {
+		if(localStorage.preset=='solo') stop();
 	}
 	
 	// HTTP POST
@@ -147,6 +169,10 @@ function override(){
 	      contentType: 'application/json',
 	      cache: false
 		});
+	
+	if(solochase&&soloset) {
+		presets.play('solo');
+	}
 }
 
 /*
@@ -175,9 +201,12 @@ function colorstrob(on){
 }
 function setsolocolor(c){
 	localStorage.solocolor = c;
+	$('#solochase').removeClass('active');
 	override();
 }
-
+function solochase(){
+	override();
+}
 /*
  * OVERLAYS
  */
@@ -328,6 +357,7 @@ bindhold('colorstrob');
 bindhold('solosnap');
 bindhold('yellowbtn');
 bindhold('reversebtn');
+bindhold('solochase');
 
 bindsolo('PAR1');
 bindsolo('PAR2');
