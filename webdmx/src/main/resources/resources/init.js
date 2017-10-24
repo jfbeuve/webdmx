@@ -25,10 +25,17 @@ function rgbToHex(r, g, b) {
  * COLOR 
  */
 var colormatrix = {
-		'colors':['FFFF00','FF0000','00FFFF','FF00FF','00FFFF','0000FF','000000','FFFFFF'],
+		'colors':[],
 		'col':{'r':0,'g':0,'b':0,'hex':'000000'},
 		'rev':{'r':0,'g':0,'b':0,'hex':'000000'}
 };
+
+colormatrix.reset = function(){
+	this.colors = ['FFFF00','FF0000','00FFFF','FF00FF','00FFFF','0000FF','000000','FFFFFF'];
+};
+
+colormatrix.reset();
+
 
 if (typeof(localStorage.colormatrix) !== "undefined") colormatrix = JSON.parse(localStorage.colormatrix);
 
@@ -239,7 +246,7 @@ settings.range = function(id){
 	localStorage.settings = JSON.stringify(this);
 
 	// propagate 
-	if(id=='dfmin'){
+	if(id!='fade'){
 		this.scene();
 	}
 };

@@ -85,8 +85,9 @@ public class Sequencer implements Runnable{
 		}
 	}
 	public void play (ScSequence s){
-		i=0;
 		scenes = s.scenes;
+		if(i>=scenes.length) i=0;
+		
 		if(s.speed>-1) 
 			speed(s.speed);
 		else if(t==null)

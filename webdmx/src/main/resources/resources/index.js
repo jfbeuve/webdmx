@@ -87,7 +87,7 @@ function override(){
 	var o = {"override":[],"reset":[],"fade":0,"layer":2};
 		
 	// SOLO ID
-	var fsel = [false,false,false,false,false,false];
+	var fsel = [false,false,false,false,false,false,false,false,false];
 	if($('#PAR1').hasClass("active")){
 		fsel[0]=true;
 	}
@@ -226,9 +226,19 @@ function colordel(){
 }
 
 function colorclear(){
+	
+	// clear custom colors
 	customcolors = [];
 	localStorage.colors = JSON.stringify(customcolors);
 	colorpresets();
+	
+	// clear custom reverse colors
+	colormatrix.reset();
+	colormatrix.setcol(colormatrix.col.hex);
+	
+	// clear solo color
+	
+	scene();
 }
 
 /*
