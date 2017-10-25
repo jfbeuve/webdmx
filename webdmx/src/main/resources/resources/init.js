@@ -143,7 +143,7 @@ colormatrix.init();
 settings = {
 		"fade":40,
 		"dfmin":20,"dfmax":100,"dback":100,"ddrum":100,
-		"wfront":15,"wback":0,"wdrum":15
+		"wfront":0,"wback":0,"wdrum":0
 };
 
 if (typeof(localStorage.settings) !== "undefined") settings = JSON.parse(localStorage.settings);
