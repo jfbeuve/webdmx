@@ -14,25 +14,31 @@ function get(url) {
 /*
  * CONTROL
  */
+if (typeof(localStorage.pause) === "undefined") localStorage.pause = false;
 function next() {
+	if(localStorage.preset == '') return;
 	get("/live/speed/0");
-	localStorage.preset = '';
+	localStorage.pause = true;
 }
+
 function stop() {
 	get("/live/speed/-1");
+	localStorage.pause = false;
+	
 	if(localStorage.preset=='solo'){
 		localStorage.preset = '';
 		$('#solochase').removeClass('active');
-		localStorage.solochase=false;
 		override();
 	} else {
 		localStorage.preset = '';
 	}
 	
 }
+
 function blackout() {
 	get("/live/blackout/"+settings.fadems());
 	localStorage.preset = '';
+	localStorage.pause = false;
 	
 	// RESET COLOR
 	document.getElementById('color').jscolor.fromString('000000');
@@ -49,6 +55,7 @@ function tap() {
 	if (timestamp == 0)
 		timestamp = Date.now();
 	else {
+		localStorage.pause = false;
 		localStorage.speed = Date.now() - timestamp;
 		get("/live/speed/"+localStorage.speed);
 		timestamp = Date.now();
@@ -172,6 +179,8 @@ function override(){
 	
 	if(solochase&&soloset) {
 		presets.play('solo');
+	} else if (localStorage.preset!= ''){
+		presets.play(localStorage.preset);
 	}
 }
 
@@ -365,6 +374,10 @@ bindsolo('PAR3');
 bindsolo('PAR4');
 
 function reversebtn(){
+	scene();
+}
+function yellowbtn(){
+	colormatrix.setcol(colormatrix.col.hex);
 	scene();
 }
 

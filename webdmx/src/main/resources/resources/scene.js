@@ -30,6 +30,6 @@ function scene(){
 	      cache: false
 		});
 	
-	if(localStorage.preset != '') presets.play(localStorage.preset);
+	presets.refresh();
 }
 settings.scene=function(){scene();};

@@ -11,9 +11,10 @@ presets.print = function(){
 	
 	var fnames = Object.getOwnPropertyNames(this).filter(function (p) {
 		if (typeof presets[p] !== 'function') return false;
-	    if(p=='play') return false;
-	    if(p=='print') return false;
-	    if(p=='solo') return false;
+		var ignore = ['play','print','solo','refresh','apply'];
+		for(var i=0;i<ignore.length;i++){
+			if(p==ignore[i]) return false;
+		}
 	    return true;
 	});
 	
@@ -24,7 +25,18 @@ presets.print = function(){
 	$("#presets").html(html);
 }
 
+// calling from scene to refresh scene without changing speed
+presets.refresh = function() {
+	if(localStorage.preset!='') this.apply(localStorage.preset);
+}
+
+// calling presets resuming speed
 presets.play = function(name){
+	localStorage.pause = false;
+	this.apply(name);
+}
+
+presets.apply = function(name){
 	console.log(name);
 	
 	if(localStorage.preset=='solo'&&name!='solo'){
@@ -44,6 +56,8 @@ presets.play = function(name){
 	
 	var p = this[name]();
 	
+	if(localStorage.pause=='true') p.speed=0
+	
 	$.ajax({
 		  type: "POST",
 	      url: "/live/play",
@@ -54,20 +68,24 @@ presets.play = function(name){
 }
 
 presets.dim = function(){
+	var p = {"scenes":[],"speed":localStorage.speed};
 	var w = colormatrix.wit();
 	
-	var p = {"scenes":[
-		{"fixtures":[
-			{"id":0,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
-			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
-			{"id":2,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
-			{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
-			{"id":4,"dim":settings.ddrum,"r":w.drev.r,"g":w.drev.g,"b":w.drev.b,"strob":true},
-			{"id":5,"dim":settings.ddrum,"r":w.drev.r,"g":w.drev.g,"b":w.drev.b,"strob":true},
-			{"id":6,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
-			{"id":7,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
-			{"id":8,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false}
-		],"fade":0},{"fixtures":[
+	//if(!$('#PAR1').hasClass("active")){
+		p.scenes.push({"fixtures":[
+					{"id":0,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+					{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+					{"id":2,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+					{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+					{"id":4,"dim":settings.ddrum,"r":w.drev.r,"g":w.drev.g,"b":w.drev.b,"strob":true},
+					{"id":5,"dim":settings.ddrum,"r":w.drev.r,"g":w.drev.g,"b":w.drev.b,"strob":true},
+					{"id":6,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
+					{"id":7,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
+					{"id":8,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false}
+				],"fade":0});
+	//}
+	//if(!$('#PAR2').hasClass("active")){
+		p.scenes.push({"fixtures":[
 			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":1,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":2,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
@@ -77,7 +95,10 @@ presets.dim = function(){
 			{"id":6,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
 			{"id":7,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
 			{"id":8,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false}
-		],"fade":0},{"fixtures":[
+		],"fade":0});
+	//}
+	//if(!$('#PAR4').hasClass("active")){
+		p.scenes.push({"fixtures":[
 			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":2,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
@@ -87,8 +108,8 @@ presets.dim = function(){
 			{"id":6,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
 			{"id":7,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
 			{"id":8,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false}
-		],"fade":0}],"speed":localStorage.speed};
-	
+		],"fade":0});
+	//}	
 	return p;
 }
 
