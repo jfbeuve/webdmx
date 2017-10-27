@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="apple-mobile-web-app-title" content="webdmx">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+		<title>Disco DMX</title>
+		<link rel="stylesheet" href="disco.css" />
+		<link rel="apple-touch-icon" href="icon.gif">
+		<script src="jquery.min.js"></script>
+		<script src="tappy.js"></script>
+		<script src="jscolor.min.js"></script>
+	</head>
+	<body>
+			
+		<div class="section">
+			<label class="nmsection">WIZARD</label>
+			<div class="color">
+				<div style="background-color:#00ffff" onclick="wizard.color(162)">BLUE</div>
+				<div style="background-color:#ff00ff" onclick="wizard.color(165)">MAGENTA</div>
+				<div style="background-color:#ffff00" onclick="wizard.color(168)">YELLOW</div>
+				<div style="background-color:#0000ff" onclick="wizard.color(171)">DARK</div>
+				<div style="background-color:#ffffff" onclick="wizard.color(174)">WHITE</div>
+				<div style="background-color:#ff0000" onclick="wizard.color(177)">RED</div>
+				<div style="background-color:#ff8000" onclick="wizard.color(180)">ORANGE</div>
+				<div style="background-color:#00ff00" onclick="wizard.color(183)">GREEN</div>
+			</div>
+			<div id="gobo">
+			
+			</div>
+			<select id="fx" onchange="wizard.fx()">
+				<option value="0">-FX-</option>
+				<option value="">AV1</option>
+			</select>
+		</div>
+		
+		<div class="section">
+		<label class="nmsection">STROB</label>
+				<div class="container">
+					<input type="range" id="strobspeedrange" onchange="slide('strobspeed')"/>
+					<label id="strobspeedrangelabel">%</label>
+				</div>
+				<div class="container">
+					<input type="range" id="strobdepthrange" onchange="slide('strobdepth')"/>
+					<label id="strobdepthrangelabel">%</label>
+				</div>
+				<button id="strobbtn">ON</button>
+				<button id="strobreset">RZ</button>
+		</div>
+		
+		<script src="disco.js"></script>
+	</body>
+</html>
