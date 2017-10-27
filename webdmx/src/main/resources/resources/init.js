@@ -143,7 +143,7 @@ colormatrix.init();
 settings = {
 		"fade":40,
 		"dfmin":20,"dfmax":100,"dback":100,"ddrum":100,
-		"wfront":0,"wback":0,"wdrum":0
+		"wfront":0,"wback":0,"wdrum":0,"scn":50
 };
 
 if (typeof(localStorage.settings) !== "undefined") settings = JSON.parse(localStorage.settings);
@@ -229,6 +229,9 @@ settings.display = function(){
 	
 	$("#faderange").val(this.fade);
 	$("#faderangelabel").html('fade '+this.fadeprint());
+	
+	$("#scnrange").val(this.scn);
+	$("#scnrangelabel").html(this.scn+'%');
 };
 
 // apply slider change

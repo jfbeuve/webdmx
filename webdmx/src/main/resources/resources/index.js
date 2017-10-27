@@ -42,7 +42,7 @@ function blackout() {
 	
 	// RESET COLOR
 	document.getElementById('color').jscolor.fromString('000000');
-	localStorage.color=$("#color").val();
+	colormatrix.setcol('000000');
 	
 	// RESET SOLO
 	var a = $("#fixture>button.active");
@@ -367,6 +367,8 @@ bindhold('solosnap');
 bindhold('yellowbtn');
 bindhold('reversebtn');
 bindhold('solochase');
+bindhold('drscn');
+bindhold('arscn');
 
 bindsolo('PAR1');
 bindsolo('PAR2');
