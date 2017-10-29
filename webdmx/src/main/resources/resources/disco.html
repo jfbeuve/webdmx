@@ -16,30 +16,175 @@
 		<script src="jscolor.min.js"></script>
 	</head>
 	<body>
-			
 		<div class="section">
-			<label class="nmsection">WIZARD</label>
-			<div class="color">
-				<div style="background-color:#00ffff" onclick="wizard.color(162)">BLUE</div>
-				<div style="background-color:#ff00ff" onclick="wizard.color(165)">MAGENTA</div>
-				<div style="background-color:#ffff00" onclick="wizard.color(168)">YELLOW</div>
-				<div style="background-color:#0000ff" onclick="wizard.color(171)">DARK</div>
-				<div style="background-color:#ffffff" onclick="wizard.color(174)">WHITE</div>
-				<div style="background-color:#ff0000" onclick="wizard.color(177)">RED</div>
-				<div style="background-color:#ff8000" onclick="wizard.color(180)">ORANGE</div>
-				<div style="background-color:#00ff00" onclick="wizard.color(183)">GREEN</div>
-			</div>
-			<div id="gobo">
-			
-			</div>
-			<select id="fx" onchange="wizard.fx()">
-				<option value="0">-FX-</option>
-				<option value="">AV1</option>
+			<label class="nmsection">shutter</label>
+			<select id="shutterselect" onchange="wizard.shutter.select()">
+				<option value="0">close</option>
+				<option value="8">open</option>
+				<option value="240">strobe*</option>
+				<option value="132">pulse &#8599;</option>
+				<option value="168">pulse &#8600;</option>
+				<option value="204">pulse &#8599;&#8600;</option>
+				<option value="240">#strobe*</option>
 			</select>
+			<div class="container">
+				<input type="range" id="shutterrange" onchange="wizard.shutter.range()"/>
+				<label id="shutterrangelabel">%</label>
+			</div>
 		</div>
-		
 		<div class="section">
-		<label class="nmsection">STROB</label>
+			<label class="nmsection">dimmer</label>
+			<div class="container">
+				<input type="range" id="dimmerrange" onchange="wizard.dimmer.range()"/>
+				<label id="dimmerrangelabel">%</label>
+			</div>
+		</div>
+		<div class="section">
+			<label class="nmsection">color</label>
+			<div class="color">
+				<div style="background-color:#00ffff" onclick="wizard.color.set(15)">BLUE</div>
+				<div style="background-color:#ff00ff" onclick="wizard.color.set(30)">MAGENTA</div>
+				<div style="background-color:#ffff00" onclick="wizard.color.set(45)">YELLOW</div>
+				<div style="background-color:#0000ff" onclick="wizard.color.set(60)">DARK</div>
+				<div style="background-color:#ffffff" onclick="wizard.color.set(75)">WHITE</div>
+				<div style="background-color:#ff0000" onclick="wizard.color.set(90)">RED</div>
+				<div style="background-color:#ff8000" onclick="wizard.color.set(105)">ORANGE</div>
+				<div style="background-color:#00ff00" onclick="wizard.color.set(120)">GREEN</div>
+			</div><br/>
+			<select id="colorselect" onchange="wizard.color.select()">
+				<option value="0">open</option>
+				<option value="15">blue</option>
+				<option value="30">magenta</option>
+				<option value="45">yellow</option>
+				<option value="60">dark blue</option>
+				<option value="75">white</option>
+				<option value="90">red</option>
+				<option value="105">orange</option>
+				<option value="120">green</option>
+				<option value="193">rotation*</option>
+				<option value="220">twinkle*</option>
+				<option value="244">#fast</option>
+				<option value="248">#medium</option>
+				<option value="252">#slow</option>
+			</select>
+			<div class="container">
+				<input type="range" id="colorrange" onchange="wizard.color.range()"/>
+				<label id="colorrangelabel">%</label>
+			</div>
+		</div>
+		<div class="section">
+			<label class="nmsection">gobo</label>
+			<select id="goboselect" onchange="wizard.gobo.select()">
+				<option value="0">open</option>
+				<option value="10">gobo 1</option>
+				<option value="20">gobo 2</option>
+				<option value="30">gobo 3</option>
+				<option value="40">gobo 4</option>
+				<option value="50">gobo 5</option>
+				<option value="60">gobo 6</option>
+				<option value="70">gobo 7</option>
+				<option value="80">gobo 8</option>
+				<option value="90">gobo 9</option>
+				<option value="100">gobo 10</option>
+				<option value="110">gobo 11</option>
+				<option value="120">gobo 12</option>
+				<option value="130">gobo 13</option>
+				<option value="140">gobo 14</option>
+				<option value="150">gobo 15</option>
+				<option value="191">rotation*</option>
+				<option value="244">#fast</option>
+				<option value="248">#medium</option>
+				<option value="252">#slow</option>
+			</select>
+			<div class="container">
+				<input type="range" id="goborange" onchange="wizard.gobo.range()"/>
+				<label id="goborangelabel">%</label>
+			</div>
+		</div>
+		<div class="section">
+			<label class="nmsection">reflector rotation</label>
+			<select id="rotationselect" onchange="wizard.rotation.select()">
+				<option value="0">position*</option>
+				<option value="91">shake*</option>
+				<option value="121">#position*</option>
+				<option value="128">cw* &#8635;</option>
+				<option value="191">stop</option>
+				<option value="193">ccw* &#8634;</option>
+			</select>
+			<div class="container">
+				<input type="range" id="rotationrange" onchange="wizard.rotation.range()"/>
+				<label id="rotationrangelabel">%</label>
+			</div>
+		</div>
+		<div class="section">
+			<label class="nmsection">drum swivel</label>
+			<select id="swivelselect" onchange="wizard.swivel.select()">
+				<option value="0">position*</option>
+				<option value="121">shake*</option>
+				<option value="128">#position*</option>
+				<option value="192">w shake*</option>
+			</select>
+			<div class="container">
+				<input type="range" id="swivelrange" onchange="wizard.swivel.range()"/>
+				<label id="swivelrangelabel">%</label>
+			</div>
+		</div>
+		<div class="section">
+			<label class="nmsection">drum rotation</label>
+			<select id="drumselect" onchange="wizard.drum.select()">
+				<option value="0">position*</option>
+				<option value="91">shake*</option>
+				<option value="121">#position*</option>
+				<option value="128">cw* &#8635;</option>
+				<option value="191">stop</option>
+				<option value="193">ccw* &#8634;</option>
+			</select>
+			<div class="container">
+				<input type="range" id="drumrange" onchange="wizard.drum.range()"/>
+				<label id="drumrangelabel">%</label>
+			</div>
+		</div>
+		<div class="section">
+			<label class="nmsection">fx</label>
+			<select id="fxselect" onchange="wizard.fx.select()">
+				<option value="0">OPEN</option>
+				<option value="11">FX1</option>
+				<option value="16">FX2</option>
+				<option value="21">FX3</option>
+				<option value="26">FX4</option>
+				<option value="31">FX5</option>
+				<option value="36">FX6</option>
+				<option value="41">FX7</option>
+				<option value="46">FX8</option>
+				<option value="51">FX9</option>
+				<option value="56">FX10</option>
+				<option value="61">FX11</option>
+				<option value="66">FX12</option>
+				<option value="71">FX13</option>
+				<option value="76">FX14</option>
+				<option value="81">FX15</option>
+				<option value="86">FX16</option>
+				<option value="91">FX17</option>
+				<option value="96">FX18</option>
+				<option value="101">FX19</option>
+				<option value="106">FX20</option>
+				<option value="115">color</option>
+				<option value="121">gobo</option>
+				<option value="126">col&amp;gob</option>
+				<option value="131">music all</option>
+				<option value="136">music mvt</option>
+				<option value="141">music col</option>
+				<option value="146">music gob</option>
+				<option value="151">music c&amp;g</option>
+				<option value="156">random</option>
+			</select>
+			<div class="container">
+				<input type="range" id="fxrange" onchange="wizard.fx.range()"/>
+				<label id="fxrangelabel">%</label>
+			</div>
+		</div>
+		<div class="section">
+		<label class="nmsection">GENI FL1800D</label>
 				<div class="container">
 					<input type="range" id="strobspeedrange" onchange="slide('strobspeed')"/>
 					<label id="strobspeedrangelabel">%</label>
