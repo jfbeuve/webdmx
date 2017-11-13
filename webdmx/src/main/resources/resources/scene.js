@@ -1,7 +1,10 @@
 /**
  * POST scene change
  */
-function scene(){
+
+var scn = {};
+
+scn.all = function(){
 	
 	var strob = $("#colorstrob").hasClass("active");
 	var w = colormatrix.wit();
@@ -21,7 +24,6 @@ function scene(){
 	sc.fixtures.push({"id":3,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false});
 	
 	// DRUMS
-	
 	if(dr) dim = Math.round(settings.ddrum * settings.scn / 100)
 	else if(ar) dim = 0;
 	else dim = settings.ddrum;
@@ -39,6 +41,81 @@ function scene(){
 	sc.fixtures.push({"id":6,"dim":dim,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob});
 	sc.fixtures.push({"id":7,"dim":dim,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob});
 	sc.fixtures.push({"id":8,"dim":dim,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob});	
+	
+	return sc;
+}
+
+scn.front = function(){
+	
+	var strob = $("#colorstrob").hasClass("active");
+	var w = colormatrix.wit();
+	var fade = settings.fadems();
+	
+	var dr = $('#drscn').hasClass('active');
+	var ar = $('#arscn').hasClass('active');
+	
+	var sc = {"fixtures":[],"fade":fade};
+	
+	// FRONT
+	var dim = settings.dfmin;
+	if(ar||dr) dim = 0;
+	sc.fixtures.push({"id":0,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob});
+	sc.fixtures.push({"id":1,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob});
+	sc.fixtures.push({"id":3,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob});
+	
+	// DRUMS
+	if(ar||dr)  dim = Math.round(settings.ddrum * settings.scn / 100)
+	else dim = settings.ddrum;
+	if(ar||dr){
+		sc.fixtures.push({"id":2,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob});
+	}else{
+		sc.fixtures.push({"id":2,"dim":dim,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":strob});		
+	}
+	sc.fixtures.push({"id":4,"dim":0,"r":0,"g":0,"b":0,"strob":false});
+	sc.fixtures.push({"id":5,"dim":0,"r":0,"g":0,"b":0,"strob":false});
+
+	// BACK
+	sc.fixtures.push({"id":6,"dim":0,"r":0,"g":0,"b":0,"strob":false});
+	sc.fixtures.push({"id":7,"dim":0,"r":0,"g":0,"b":0,"strob":false});
+	sc.fixtures.push({"id":8,"dim":0,"r":0,"g":0,"b":0,"strob":false});	
+	
+	return sc;
+}
+
+scn.duo = function(){
+	
+	var strob = $("#colorstrob").hasClass("active");
+	var w = colormatrix.wit();
+	var fade = settings.fadems();
+	
+	var dr = $('#drscn').hasClass('active');
+	var ar = $('#arscn').hasClass('active');
+	
+	var sc = {"fixtures":[],"fade":fade};
+	
+	// FRONT
+	var dim = settings.dfmin;
+	if(ar||dr) dim = Math.round(settings.dfmin * settings.scn / 100)
+	sc.fixtures.push({"id":0,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob});
+	sc.fixtures.push({"id":1,"dim":0,"r":0,"g":0,"b":0,"strob":false});
+	sc.fixtures.push({"id":2,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob});
+	sc.fixtures.push({"id":3,"dim":0,"r":0,"g":0,"b":0,"strob":false});
+	
+	// DRUMS
+	sc.fixtures.push({"id":4,"dim":0,"r":0,"g":0,"b":0,"strob":false});
+	sc.fixtures.push({"id":5,"dim":0,"r":0,"g":0,"b":0,"strob":false});
+
+	// BACK
+	sc.fixtures.push({"id":6,"dim":0,"r":0,"g":0,"b":0,"strob":false});
+	sc.fixtures.push({"id":7,"dim":0,"r":0,"g":0,"b":0,"strob":false});
+	sc.fixtures.push({"id":8,"dim":0,"r":0,"g":0,"b":0,"strob":false});	
+	
+	return sc;
+}
+
+function scene(){
+	
+	var sc = scn[settings.scncfg]();
 	
 	// HTTP POST
 	$.ajax({
@@ -60,3 +137,5 @@ function drscn(){
 function arscn(){
 	scene();
 }
+
+

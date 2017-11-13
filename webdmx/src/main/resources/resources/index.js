@@ -101,6 +101,7 @@ function override(){
 	var o = {"override":[],"reset":[],"fade":0,"layer":2};
 	var w = witmatrix(localStorage.solocolor);
 	var solochase = $('#solochase').hasClass('active');
+	var scncfg = settings.scncfg;
 		
 	// SOLO ID
 	var fsel = [false,false,false,false,false,false,false,false,false];
@@ -110,13 +111,14 @@ function override(){
 		soloset=true;
 	}
 	if($('#PAR2').hasClass("active")){
-		fsel[1]=true;
-		fsel[2]=true;
+		if(scncfg!='duo') fsel[1]=true;
+		if(scncfg!='front') fsel[2]=true;
 		soloset=true;
 	}
 	if($('#PAR3').hasClass("active")){
-		fsel[4]=true;
-		fsel[5]=true;
+		if(scncfg=='all') fsel[4]=true;
+		if(scncfg=='all') fsel[5]=true;
+		if(scncfg=='front') fsel[2]=true;
 		soloset=true;
 	}
 	if($('#PAR4').hasClass("active")){
