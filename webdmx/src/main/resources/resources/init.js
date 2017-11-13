@@ -143,7 +143,7 @@ colormatrix.init();
 settings = {
 		"fade":40,
 		"dfmin":20,"dfmax":100,"dback":100,"ddrum":100,
-		"wfront":0,"wback":0,"wdrum":0,"scn":50
+		"wfront":0,"wback":0,"wdrum":0,"scn":50,"scncfg":"all"
 };
 
 if (typeof(localStorage.settings) !== "undefined") settings = JSON.parse(localStorage.settings);
@@ -232,6 +232,8 @@ settings.display = function(){
 	
 	$("#scnrange").val(this.scn);
 	$("#scnrangelabel").html(this.scn+'%');
+	
+	$("#scncfg").val(this.scncfg);
 };
 
 // apply slider change
@@ -249,6 +251,18 @@ settings.range = function(id){
 	if(id!='fade'){
 		this.scene();
 	}
+};
+
+// set value from scncfg drop down list
+settings.set = function(id){
+	// set
+	this[id]=$("#"+id).val();
+	
+	// store
+	localStorage.settings = JSON.stringify(this);
+
+	// propagate 
+	this.scene();
 };
 
 settings.reset = function(){
