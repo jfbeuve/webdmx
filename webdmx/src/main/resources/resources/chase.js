@@ -5,6 +5,7 @@
 if (typeof(localStorage.preset) === "undefined") localStorage.preset = '';
 
 var presets = {};
+var presetscfg = {'all':{},'front':{},'duo':{}};
 
 presets.print = function(){
 	var html = '';
@@ -54,7 +55,10 @@ presets.apply = function(name){
 	
 	localStorage.preset = name;
 	
-	var p = this[name]();
+	var p = {};
+	if(settings.scncfg=='all') p=this[name]();
+	if(settings.scncfg=='front') p=presetscfg.front[name]();
+	if(settings.scncfg=='duo') p=presetscfg.duo[name]();
 	
 	if(localStorage.pause=='true') p.speed=0
 	
@@ -343,18 +347,18 @@ function rainbstep(p, c1, c2, c3){
 	
 	p.scenes.push({"fixtures":[],"fade":4000});
 	p.scenes[i].fixtures.push({"id":0,"dim":settings.dfmin,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
-	p.scenes[i].fixtures.push({"id":4,"dim":settings.ddrum,"r":w.drum.r,"g":w.drum.g,"b":w.drum.b,"strob":false});
-	p.scenes[i].fixtures.push({"id":6,"dim":settings.dback,"r":w.back.r,"g":w.back.g,"b":w.back.b,"strob":false});
+	if(settings.scncfg=='all') p.scenes[i].fixtures.push({"id":4,"dim":settings.ddrum,"r":w.drum.r,"g":w.drum.g,"b":w.drum.b,"strob":false});
+	if(settings.scncfg=='all') p.scenes[i].fixtures.push({"id":6,"dim":settings.dback,"r":w.back.r,"g":w.back.g,"b":w.back.b,"strob":false});
 
 	w = witmatrix(c2); 
-	p.scenes[i].fixtures.push({"id":1,"dim":settings.dfmin,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
+	if(settings.scncfg!='duo') p.scenes[i].fixtures.push({"id":1,"dim":settings.dfmin,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
 	p.scenes[i].fixtures.push({"id":2,"dim":settings.dfmin,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
-	p.scenes[i].fixtures.push({"id":7,"dim":settings.dback,"r":w.back.r,"g":w.back.g,"b":w.back.b,"strob":false});
+	if(settings.scncfg=='all') p.scenes[i].fixtures.push({"id":7,"dim":settings.dback,"r":w.back.r,"g":w.back.g,"b":w.back.b,"strob":false});
 	
 	w = witmatrix(c3); 
-	p.scenes[i].fixtures.push({"id":3,"dim":settings.dfmin,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
-	p.scenes[i].fixtures.push({"id":5,"dim":settings.ddrum,"r":w.drum.r,"g":w.drum.g,"b":w.drum.b,"strob":false});
-	p.scenes[i].fixtures.push({"id":8,"dim":settings.dback,"r":w.back.r,"g":w.back.g,"b":w.back.b,"strob":false});
+	if(settings.scncfg!='duo') p.scenes[i].fixtures.push({"id":3,"dim":settings.dfmin,"r":w.front.r,"g":w.front.g,"b":w.front.b,"strob":false});
+	if(settings.scncfg=='all') p.scenes[i].fixtures.push({"id":5,"dim":settings.ddrum,"r":w.drum.r,"g":w.drum.g,"b":w.drum.b,"strob":false});
+	if(settings.scncfg=='all') p.scenes[i].fixtures.push({"id":8,"dim":settings.dback,"r":w.back.r,"g":w.back.g,"b":w.back.b,"strob":false});
 };
 
 presets.rainb = function(){
@@ -409,5 +413,254 @@ presets.solo = function(){
 }
 
 presets.print();
+
+/**
+ * FRONT
+ */
+presetscfg.front.dim = function(){
+	var p = {"scenes":[],"speed":localStorage.speed};
+	var w = colormatrix.wit();
+	
+		p.scenes.push({"fixtures":[
+					{"id":0,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+					{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+					{"id":2,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+					{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+				],"fade":0});
+		p.scenes.push({"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0});
+		p.scenes.push({"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":1,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0});
+		p.scenes.push({"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":3,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0});
+	return p;
+}
+presetscfg.front.col = function(){
+	var w = colormatrix.wit();
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":1,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
+		],"fade":0}],"speed":localStorage.speed};
+	
+	return p;
+}
+presetscfg.front.swap = function(){
+	var w = colormatrix.wit();
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":1,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
+		],"fade":0}],"speed":localStorage.speed};
+	
+	return p;
+}
+presetscfg.front.flash = function(){
+	var w = colormatrix.wit();
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":1,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":3,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":1,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":3,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":1,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":3,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":1,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":3,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":1,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":2,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":3,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":1,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":2,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":3,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":1,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":2,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":3,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":1,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":2,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":3,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
+		],"fade":0}],"speed":80};
+	
+	return p;
+}
+presetscfg.front.wave = function(){
+	var w = colormatrix.wit();
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":4000},{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":1,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
+		],"fade":4000}],"speed":16000};
+	
+	return p;
+}
+
+presetscfg.front.fade = presets.fade;
+presetscfg.front.chase = presets.chase;
+presetscfg.front.rainb = presets.rainb;
+
+/**
+ * DUO
+ */
+presetscfg.duo.dim = function(){
+	var p = {"scenes":[],"speed":localStorage.speed};
+	var w = colormatrix.wit();
+	
+		p.scenes.push({"fixtures":[
+					{"id":0,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+					{"id":2,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+				],"fade":0});
+		p.scenes.push({"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0});
+
+	return p;
+}
+
+presetscfg.duo.col = function(){
+	var w = colormatrix.wit();
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
+		],"fade":0}],"speed":localStorage.speed};
+	
+	return p;
+}
+presetscfg.duo.swap = presetscfg.duo.col;
+presetscfg.duo.flash = function(){
+	var w = colormatrix.wit();
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":2,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":2,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
+		],"fade":0}],"speed":80};
+	
+	return p;
+}
+presetscfg.duo.wave = function(){
+	var w = colormatrix.wit();
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
+		],"fade":4000},{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":4000}],"speed":16000};
+	
+	return p;
+}
+presetscfg.duo.fade = function(){
+	var w = colormatrix.wit();
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":400},{"fixtures":[
+			{"id":0,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":400}],"speed":400};
+	
+	return p;
+}
+
+presetscfg.duo.chase = function(){
+	var w = colormatrix.wit();
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":2,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0}],"speed":localStorage.speed};
+	
+	return p;
+}
+presetscfg.duo.rainb = presets.rainb;
 
 
