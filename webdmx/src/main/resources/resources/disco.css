@@ -10,7 +10,17 @@ textarea:focus,
 button:focus {
     outline: none;
 }
-
+select{
+    border-radius: 5px;
+    background-color: white;
+    border: 0px;
+    color: dimgrey;
+    padding: 10px 25px;
+    margin: 4px 2px;
+    cursor: pointer;
+    touch-action: none;
+	font-size: 20px;
+}
 button {
 	border-radius: 5px;
     background-color: white;
@@ -47,6 +57,9 @@ button:click {
 
 div{
 	display: inline-block;
+}
+.gobo{
+	display: block;
 }
 .color>div{
 	height: 100px;
