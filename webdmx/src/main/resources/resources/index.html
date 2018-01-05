@@ -18,38 +18,25 @@
 	<body>
 		<div id="setdiv" class="overlay">
 			<div class="section">
-				    <div class="container">
-						<input type="range" id="dfminrange" onchange="settings.range('dfmin')"/>
-						<label id="dfminrangelabel">FRONT D%</label>
-					</div>
-					<div class="container">
-						<input type="range" id="wfrontrange" onchange="settings.range('wfront')"/>
-						<label id="wfrontrangelabel">FRONT W%</label>
-					</div>
-					<div class="container">
-						<input type="range" id="ddrumrange" onchange="settings.range('ddrum')"/>
-						<label id="ddrumrangelabel">DRUM D%</label>
-					</div>
-					<div class="container">
-						<input type="range" id="wdrumrange" onchange="settings.range('wdrum')"/>
-						<label id="wdrumrangelabel">DRUM W%</label>
-					</div>
-					<div class="container">
-						<input type="range" id="dbackrange" onchange="settings.range('dback')"/>
-						<label id="dbackrangelabel">BACK D%</label>
-					</div>
-					<div class="container">
-						<input type="range" id="wbackrange" onchange="settings.range('wback')"/>
-						<label id="wbackrangelabel">BACK W%</label>
-					</div>
-					<div class="container">
-						<input type="range" id="dfmaxrange" onchange="settings.range('dfmax')"/>
-						<label id="dfmaxrangelabel">SOLO D%</label>
-					</div>
-					<div class="container">
-						<input type="range" id="faderange" onchange="settings.range('fade')"/>
-						<label id="faderangelabel">FADE s</label>
-					</div>
+				<div class="container">
+					<input type="range" id="range" onchange="settings.range()"/>
+					<label id="rangelabel">%</label>
+				</div>
+				<select id="rangesel" onchange="settings.select()">
+						<option value="dfmin">DIM FRONT</option>
+						<option value="wfront">WIT FRONT</option>
+						<option value="ddrum">DIM DRUM</option>
+						<option value="wdrum">WIT DRUM</option>
+						<option value="dback">DIM REAR</option>
+						<option value="wback">WIT REAR</option>
+						<option value="dfmax">DIM SOLO</option>
+						<option value="fade">FADE</option>
+						<option value="dlead">DIM LEAD</option>
+						<option value="wlead">WIT LEAD</option>
+						<option value="strbdim">DIM STROB</option>
+						<option value="strbspeed">SPD STROB</option>
+				</select>
+				<button onclick="settings.reset()" id="init">INIT</button>
 			</div>
 		</div>
 		<div id="colordiv" class="overlay">
@@ -82,6 +69,7 @@
 		</div>
 		
 		<div class="command">
+			<label id="speed">xx ms</label> 
 			<button id="blackout">X</button>
 			<button id="stop">&#9632;</button>
 			<button id="next">&#9658;&#10074;</button>
@@ -104,8 +92,7 @@
 				<button id="coloradd" onclick="coloradd()">+</button>
 				<input id="color" class="jscolor" value="000000" onchange="color()">
 				<button id="colordel" onclick="colordel()">-</button>
-				<button onclick="colorclear()">CLEAN</button>
-				<button onclick="settings.reset()">RESET</button>
+				<!-- button onclick="colorclear()">CLEAN</button -->
 				<button id="yellowbtn">Y</button>
 				<button id="reversebtn">R</button>
 				<button id="colorstrob">S</button>

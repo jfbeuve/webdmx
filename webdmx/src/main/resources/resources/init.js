@@ -143,7 +143,8 @@ colormatrix.init();
 settings = {
 		"fade":40,
 		"dfmin":20,"dfmax":100,"dback":100,"ddrum":100,
-		"wfront":0,"wback":0,"wdrum":0,"scn":50,"scncfg":"all"
+		"wfront":0,"wback":0,"wdrum":0,"scn":50,"scncfg":"all",
+		"dlead":50,"wlead":20,"strbdim":100,"strbspeed":80,"sel":"dfmin"
 };
 
 if (typeof(localStorage.settings) !== "undefined") settings = JSON.parse(localStorage.settings);
@@ -209,37 +210,39 @@ settings.scene = function(){};
 
 // print settings 
 settings.display = function(){
-	$('#dfminrange').val(this.dfmin);
-	$('#dfminrangelabel').html('front D'+this.dfmin+'%');
-	$('#wfrontrange').val(this.wfront);
-	$('#wfrontrangelabel').html('front W'+this.wfront+'%');
+	var id = this.sel;
+	$('#rangesel').val(id);
+	$('#range').val(this[id]);
 	
-	$('#ddrumrange').val(this.ddrum);
-	$('#ddrumrangelabel').html('drum D'+this.ddrum+'%');
-	$('#wdrumrange').val(this.wdrum);
-	$('#wdrumrangelabel').html('drum W'+this.wdrum+'%');
-	
-	$('#dbackrange').val(this.dback);
-	$('#dbackrangelabel').html('back D'+this.dback+'%');
-	$('#wbackrange').val(this.wback);
-	$('#wbackrangelabel').html('back W'+this.wback+'%');
-	
-	$('#dfmaxrange').val(this.dfmax);
-	$('#dfmaxrangelabel').html('solo D'+this.dfmax+'%');
-	
-	$("#faderange").val(this.fade);
-	$("#faderangelabel").html('fade '+this.fadeprint());
-	
+	if(id=='fade'){
+		$('#rangelabel').html(this.fadeprint());
+	}else{
+		$('#rangelabel').html(this[id]+'%');
+	}
+
 	$("#scnrange").val(this.scn);
 	$("#scnrangelabel").html(this.scn+'%');
 	
 	$("#scncfg").val(this.scncfg);
 };
 
+settings.select = function(){
+	var id = $('#rangesel').val();
+	this.sel=id;
+	localStorage.settings = JSON.stringify(this);
+	this.display();
+};
+
 // apply slider change
 settings.range = function(id){
+	if (typeof(id) === "undefined"){
+		id = this.sel;
+	}
+	console.log('settings.range('+id+')');
+	
 	// set
-	this[id]=$("#"+id+"range").val();
+	//this[id]=$("#"+id+"range").val();
+	this[id]=$("#range").val();
 	
 	//display
 	this.display();
@@ -282,6 +285,7 @@ if (typeof(localStorage.solocolor) === "undefined") localStorage.solocolor = 'FF
 if(localStorage.solo!='') $('#'+localStorage.solo).addClass("active");
 
 if (typeof(localStorage.speed) === "undefined") localStorage.speed = 300;
+$('#speed').html(localStorage.speed+'ms');
 
 var factorycolors = ['ff0000','ff8000','ffff00','00ff00','00ffff','0000ff','ff00ff','ffffff', '000000'];
 var customcolors = [];

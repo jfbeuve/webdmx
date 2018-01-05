@@ -56,8 +56,12 @@ function tap() {
 		timestamp = Date.now();
 	else {
 		localStorage.pause = false;
-		localStorage.speed = Date.now() - timestamp;
-		get("/live/speed/"+localStorage.speed);
+		var speed = Date.now() - timestamp;
+		if(speed<20000){
+			localStorage.speed = speed;
+			$('#speed').html(localStorage.speed+'ms');
+			get("/live/speed/"+localStorage.speed);
+		}
 		timestamp = Date.now();
 	}
 }

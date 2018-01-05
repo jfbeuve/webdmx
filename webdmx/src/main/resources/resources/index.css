@@ -192,3 +192,10 @@ input[type=range]::-webkit-slider-thumb {
 #scncfg{
 	margin-left: 20px;
 }
+button#init{
+	position: absolute;
+	right: 25px;
+}
+label#speed{
+	margin-right: 400px;
+}
