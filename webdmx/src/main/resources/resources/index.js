@@ -268,10 +268,10 @@ function colorpresets(){
 	$("#colrevpicker").html(html);
 	html = '';
 	for (var i = 0; i < factorycolors.length; i++) {
-	    html = html + '<div style="background-color:#'+factorycolors[i]+'" onclick="setsolocolor(\''+factorycolors[i]+'\')">'+factorycolors[i]+'</div>';
+		if(factorycolors[i]!='000000') html = html + '<div style="background-color:#'+factorycolors[i]+'" onclick="setsolocolor(\''+factorycolors[i]+'\')">'+factorycolors[i]+'</div>';
 	}
 	for (var i = 0; i < customcolors.length; i++) {
-	    html = html + '<div style="background-color:#'+customcolors[i]+'" onclick="setsolocolor(\''+customcolors[i]+'\')">'+customcolors[i]+'</div>';
+		html = html + '<div style="background-color:#'+customcolors[i]+'" onclick="setsolocolor(\''+customcolors[i]+'\')">'+customcolors[i]+'</div>';
 	}
 	$("#solocolor").html(html);
 }
