@@ -141,6 +141,11 @@ function override(){
 		var b = w.front.b;
 		var d = settings.dfmax;
 		
+		// LEAD COLOR
+		if(i>0&&i<4&&scncfg=='all'){
+			d = settings.dfmax*settings.dlead/100;
+		}
+		
 		// DRUM COLOR
 		if(i>3){
 			r = w.drum.r;
