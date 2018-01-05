@@ -19,9 +19,12 @@ scn.all = function(){
 	var dim = settings.dfmin;
 	if(ar||dr) dim = 0;
 	sc.fixtures.push({"id":0,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false});
-	sc.fixtures.push({"id":1,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false});
-	sc.fixtures.push({"id":2,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false});
 	sc.fixtures.push({"id":3,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false});
+	
+	// LEAD
+	sc.fixtures.push({"id":1,"dim":dim*settings.dlead/100,"r":w.lcol.r,"g":w.lcol.g,"b":w.lcol.b,"strob":false});
+	sc.fixtures.push({"id":2,"dim":dim*settings.dlead/100,"r":w.lcol.r,"g":w.lcol.g,"b":w.lcol.b,"strob":false});
+	
 	
 	// DRUMS
 	if(dr) dim = Math.round(settings.ddrum * settings.scn / 100)
@@ -60,8 +63,10 @@ scn.front = function(){
 	var dim = settings.dfmin;
 	if(ar||dr) dim = 0;
 	sc.fixtures.push({"id":0,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob});
-	sc.fixtures.push({"id":1,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob});
 	sc.fixtures.push({"id":3,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob});
+	
+	// LEAD
+	sc.fixtures.push({"id":1,"dim":dim,"r":w.lcol.r,"g":w.lcol.g,"b":w.lcol.b,"strob":strob});
 	
 	// DRUMS
 	if(ar||dr)  dim = Math.round(settings.ddrum * settings.scn / 100)

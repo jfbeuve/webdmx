@@ -158,7 +158,9 @@ colormatrix.wit = function(){
 		wit.drev = colormatrix.wcol(settings.wdrum); // d=drum
 		wit.dcol = colormatrix.wrev(settings.wdrum); // d=drum
 		wit.brev = colormatrix.wcol(settings.wback); // b=back
-		wit.bcol = colormatrix.wrev(settings.wback); // b=back		
+		wit.bcol = colormatrix.wrev(settings.wback); // b=back
+		wit.lrev = colormatrix.wcol(settings.wlead); // l=lead
+		wit.lcol = colormatrix.wrev(settings.wlead); // l=lead
 	} else {
 		wit.fcol = colormatrix.wcol(settings.wfront); // f=front
 		wit.frev = colormatrix.wrev(settings.wfront); // f=front
@@ -166,6 +168,8 @@ colormatrix.wit = function(){
 		wit.drev = colormatrix.wrev(settings.wdrum); // d=drum
 		wit.bcol = colormatrix.wcol(settings.wback); // b=back
 		wit.brev = colormatrix.wrev(settings.wback); // b=back
+		wit.lrev = colormatrix.wrev(settings.wlead); // l=lead
+		wit.lcol = colormatrix.wcol(settings.wlead); // l=lead
 	}
 	
 	return wit;
