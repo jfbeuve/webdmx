@@ -104,30 +104,12 @@ colormatrix.setcol = function(col){
 
 // returns main color after white filter
 colormatrix.wcol = function (w){
-	var c = {'r':this.col.r,'g':this.col.g,'b':this.col.b};
-	
-	if(c.r+c.g+c.b==0)return c;
-
-	var val = Math.round(w*255/100);
-	if(c.r==0) c.r=val; 
-	if(c.g==0) c.g=val; 
-	if(c.b==0) c.b=val;
-
-	return c;
+	return witcalc({'r':this.col.r,'g':this.col.g,'b':this.col.b},w);
 }
 
 //returns reverse color after white filter
-colormatrix.wrev = function (w){
-	var c = {'r':this.rev.r,'g':this.rev.g,'b':this.rev.b};
-	
-	if(c.r+c.g+c.b==0)return c;
-	
-	var val = Math.round(w*255/100);
-	if(c.r==0) c.r=val; 
-	if(c.g==0) c.g=val; 
-	if(c.b==0) c.b=val;
-	
-	return c;
+colormatrix.wrev = function (w){	
+	return witcalc({'r':this.rev.r,'g':this.rev.g,'b':this.rev.b},w);
 }
 
 colormatrix.init = function(){
@@ -175,20 +157,26 @@ colormatrix.wit = function(){
 	return wit;
 }
 
-function witmatrix(color){
-	
+function witmatrix(color){	
 	var c = hexToRgb(color);
-	
-	var wf = Math.round(settings.wfront*255/100);
-	var wd = Math.round(settings.wdrum*255/100);
-	var wb = Math.round(settings.wback*255/100);
-	
-	var wit = {'front':{'r':(c.r==0?wf:c.r),'g':(c.g==0?wf:c.g),'b':(c.b==0?wf:c.b)},
-			'drum':{'r':(c.r==0?wd:c.r),'g':(c.g==0?wd:c.g),'b':(c.b==0?wd:c.b)},
-			'back':{'r':(c.r==0?wb:c.r),'g':(c.g==0?wb:c.g),'b':(c.b==0?wb:c.b)}
+
+	return {'front':witcalc(c,settings.wfront),
+			'drum':witcalc(c,settings.wdrum),
+			'back':witcalc(c,settings.wback),
+			'lead':witcalc(c,settings.wlead),
 	};
-	
-	return wit;
+}
+
+/**
+ * returns RGB color with white level applied 
+ **/
+function witcalc(rgb, w){
+	if(rgb.r+rgb.g+rgb.b==0) return rgb;
+	return {
+		'r':Math.round((255*w/100)+(rgb.r*(100-w)/100)),
+		'g':Math.round((255*w/100)+(rgb.g*(100-w)/100)),
+		'b':Math.round((255*w/100)+(rgb.b*(100-w)/100))
+	};
 }
 
 settings.fadeprint = function(){

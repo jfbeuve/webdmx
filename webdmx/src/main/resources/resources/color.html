@@ -1,0 +1,63 @@
+<html><head>
+<style type="text/css">
+body{
+	background-color: black;
+	color: white;
+}
+.section>div>div{
+	height: 80px;
+	width: 80px;
+	border: 1px solid lightgrey;
+	font-size: 20px;
+	margin: 5px;
+	display: inline-block;
+}
+.section div{
+	display: block;
+	border: 1px solid lightgrey;
+	padding: 8px 1px 1px 8px;
+	margin: 9px 2px;
+	width: 98%;
+	position: relative;
+}
+.nmsection label{
+	font-size: 15px;
+	position: absolute;
+	top: -10px;
+	background-color: black;
+	padding: 1px 5px;
+}
+</style>
+<script src="jquery.min.js"></script>
+
+</head>
+<body>
+		<div class="section">
+			<label class="nmsection">white zero</label>
+			<div id="wzero"></div>
+		</div>
+		<div class="section">
+			<label class="nmsection">white all</label>
+			<div id="wall"></div>
+		</div>
+		<script>
+function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+var html = '';
+for (var i = 0; i < 256; i++) {
+    html = html + '<div style="background-color:';
+    html = html + rgbToHex(255, 127, i);
+    html = html + '"></div>';
+}
+$("#wzero").html(html);
+html = '';
+for (var i = 0; i < 256; i++) {
+    html = html + '<div style="background-color:';
+    html = html + rgbToHex(255, 127+Math.round(i/2), i);
+    html = html + '"></div>';
+}
+$("#wall").html(html);
+</script>
+</body>
+</html>
