@@ -88,9 +88,9 @@
 						<phase>package</phase>
 						<configuration>
 							<tasks>
-								<scp file="./target/webdmx.jar" todir="pi@192.168.1.27:/home/pi"
+								<scp file="./target/webdmx.jar" todir="pi@raspberrypi.local:/home/pi"
 									password="raspberry" trust="true"/>
-								<sshexec host="192.168.1.27" username="pi" password="raspberry"
+								<sshexec host="raspberrypi.local" username="pi" password="raspberry"
 									command="sudo /home/pi/restart.sh" trust="true"/>
 							</tasks>
 						</configuration>
