@@ -26,10 +26,14 @@ wizard.update = function(){
 	settings.wiz.speed=parseInt($("#wizspeed").val());
 	settings.wiz.position=parseInt($("#wizpos").val());
 	settings.wiz.fx=$("#wizfx").val();
+	if(settings.wiz.position>0&&(settings.wiz.fx=='music'||settings.wiz.fx=='move')){
+		$("#wizfx").val('rotate');
+		settings.wiz.fx = 'rotate';
+	}
 	localStorage.settings = JSON.stringify(settings);
 	
 	// dmx values
-	var shutter = 0, dimmer=255, color=0, gobo=0, drum=0, position=0, rotation=0, fxset=0, fx=0, fxspeed=0;
+	var shutter = 0, dimmer=255, color=0, gobo=0, drum=0, position=0, rotation=0, fxset=147, fx=0, fxspeed=0;
 	if($("#wizon").hasClass('active')) {
 		shutter=10;
 		color=settings.wiz.color;
