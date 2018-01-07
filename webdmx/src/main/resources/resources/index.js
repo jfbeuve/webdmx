@@ -380,6 +380,7 @@ bindhold('reversebtn');
 bindhold('solochase');
 bindhold('drscn');
 bindhold('arscn');
+bindhold('wizon');
 
 bindsolo('PAR1');
 bindsolo('PAR2');

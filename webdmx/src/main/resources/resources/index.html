@@ -82,6 +82,7 @@
 			<button id="colrevdivbtn" onclick="togglediv('colrevdiv')">REV</button>
 			<button id="setdivbtn" onclick="togglediv('setdiv')">SET</button>
 			<button id="soldivbtn" onclick="togglediv('soldiv')">SOL</button>
+			<button id="wizdivbtn" onclick="togglediv('wizdiv')">WIZ</button>
 		</div>
 		
 		<br/>
@@ -126,10 +127,66 @@
 				<div id="solocolor"> <!-- DYNAMIC CONTENT--> </div>
 			</div>
 		</div>
+		<div class="overlay" id="wizdiv">
+			<div class="section">
+				<div class="wizpicker">
+					<div style="background-color:#00ffff" onclick="wizard.color(15)"></div>
+					<div style="background-color:#ff00ff" onclick="wizard.color(30)"></div>
+					<div style="background-color:#ffff00" onclick="wizard.color(45)"></div>
+					<div style="background-color:#0000ff" onclick="wizard.color(60)"></div>
+					<div style="background-color:#ffffff" onclick="wizard.color(75)"></div>
+					<div style="background-color:#ff0000" onclick="wizard.color(90)"></div>
+					<div style="background-color:#ff8000" onclick="wizard.color(105)"></div>
+					<div style="background-color:#00ff00" onclick="wizard.color(120)"></div>
+				</div><div class="wizpicker">
+					<img src="wiz/open.jpg" onclick="wizard.gobo(0)"/>
+					<img src="wiz/wiz01.jpg" onclick="wizard.gobo(10)"/>
+					<img src="wiz/wiz02.jpg" onclick="wizard.gobo(20)"/>
+					<img src="wiz/wiz03.jpg" onclick="wizard.gobo(30)"/>
+					<img src="wiz/wiz04.jpg" onclick="wizard.gobo(40)"/>
+					<img src="wiz/wiz05.jpg" onclick="wizard.gobo(50)"/>
+					<img src="wiz/wiz06.jpg" onclick="wizard.gobo(60)"/>
+					<img src="wiz/wiz07.jpg" onclick="wizard.gobo(70)"/>
+					<img src="wiz/wiz08.jpg" onclick="wizard.gobo(80)"/>
+					<img src="wiz/wiz09.jpg" onclick="wizard.gobo(90)"/>
+					<img src="wiz/wiz10.jpg" onclick="wizard.gobo(100)"/>
+					<img src="wiz/wiz11.jpg" onclick="wizard.gobo(110)"/>
+					<img src="wiz/wiz12.jpg" onclick="wizard.gobo(120)"/>
+					<img src="wiz/wiz13.jpg" onclick="wizard.gobo(130)"/>
+					<img src="wiz/wiz14.jpg" onclick="wizard.gobo(140)"/>
+					<img src="wiz/wiz15.jpg" onclick="wizard.gobo(150)"/>
+				</div>
+				<select id="wizspeed" onchange="wizard.update()">
+					<option value="1">Slow</option>
+					<option value="50">Medium</option>
+					<option value="99">Fast</option>
+				</select>
+				<select id="wizpos" onchange="wizard.update()">
+					<option value="0">---</option>
+					<option value="1">0%</option>
+					<option value="30">25%</option>
+					<option value="60">50%</option>
+					<option value="90">75%</option>
+					<option value="120">100%</option>
+				</select>
+				<select id="wizfx" onchange="wizard.update()">
+					<option value="music">music</option>
+					<option value="move">move</option>
+					<option value="strob">strob</option>
+					<option value="rotate">rotate</option>
+					<option value="drum">drum</option>
+					<option value="shake">shake</option>
+					<option value="wshake">wshake</option>
+					<option value="pulse">pulse</option>
+				</select>
+				<button id="wizon">ON</button>
+			</div>
+		</div>
 		
 		<script src="init.js"></script>
 		<script src="chase.js"></script>
 		<script src="scene.js"></script>
 		<script src="index.js"></script>
+		<script src="wizard.js"></script>
 	</body>
 </html>

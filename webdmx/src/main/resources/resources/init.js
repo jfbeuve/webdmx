@@ -126,7 +126,8 @@ settings = {
 		"fade":40,
 		"dfmin":20,"dfmax":100,"dback":100,"ddrum":100,
 		"wfront":0,"wback":0,"wdrum":0,"scn":50,"scncfg":"all",
-		"dlead":50,"wlead":20,"strbdim":100,"strbspeed":80,"sel":"dfmin"
+		"dlead":50,"wlead":20,"strbdim":100,"strbspeed":80,"sel":"dfmin",
+		"wiz":{"color":0,"gobo":0,"speed":50,"fx":"music","position":0}
 };
 
 if (typeof(localStorage.settings) !== "undefined") settings = JSON.parse(localStorage.settings);
@@ -289,3 +290,4 @@ initdiv('seqdiv');
 initdiv('setdiv');
 initdiv('soldiv');
 initdiv('colrevdiv');
+initdiv('wizdiv');
