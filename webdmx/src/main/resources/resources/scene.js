@@ -131,6 +131,13 @@ function scene(){
 	      cache: false
 		});
 	
+	// STROBO speed=25, depth=26
+	if($("#colorstrob").hasClass("active")){
+		dmxwrite({25:Math.round(255*settings.strbspeed/100), 26:Math.round(255*settings.strbdim/100)});
+	}else{
+		dmxwrite({25:0,26:0});
+	}
+	
 	presets.refresh();
 }
 settings.scene=function(){scene();};
