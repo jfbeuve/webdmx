@@ -25,40 +25,38 @@ wizard.update = function(){
 	// record ui values
 	settings.wiz.speed=parseInt($("#wizspeed").val());
 	settings.wiz.position=parseInt($("#wizpos").val());
+	settings.wiz.drum=parseInt($("#wizmir").val());
 	settings.wiz.fx=$("#wizfx").val();
-	if(settings.wiz.position>0&&(settings.wiz.fx=='music'||settings.wiz.fx=='move')){
-		$("#wizfx").val('rotate');
-		settings.wiz.fx = 'rotate';
-	}
 	localStorage.settings = JSON.stringify(settings);
 	
 	// dmx values
-	var shutter = 0, dimmer=255, color=0, gobo=0, drum=0, position=0, rotation=0, fxset=147, fx=0, fxspeed=0;
+	var shutter = 0, dimmer=255, color=0, gobo=0, drum=45, position=60, rotation=0, fxset=0, fx=0, fxspeed=0;
+		
 	if($("#wizon").hasClass('active')) {
 		shutter=10;
+		
 		color=settings.wiz.color;
 		gobo=settings.wiz.gobo;
+		
 		position=settings.wiz.position;
-		fxspeed=Math.round(255*settings.wiz.speed/100);
+		if(position==192) position = Math.round(192+63*settings.wiz.speed/100);
+		
+		drum=settings.wiz.drum;
+		if(drum==91) drum = Math.round(91+29*settings.wiz.speed/100);
+		if(drum==193) drum = Math.round(193+62*settings.wiz.speed/100);
+		
+		fxspeed=11+Math.round(244*settings.wiz.speed/100);
 		
 		if(settings.wiz.fx=='music'){
 			fx=133;
-			position=0;
-			color=0;
-			gobo=0;
 		}else if(settings.wiz.fx=='move'){
 			fx=138;
-			position=0;
+		}else if(settings.wiz.fx=='open'){
+			fx=0;
 		}else if(settings.wiz.fx=='strob'){
 			shutter=110;
 		}else if(settings.wiz.fx=='rotate'){
-			rotation=Math.round(128+62*settings.wiz.speed/100);
-		}else if(settings.wiz.fx=='drum'){
-			drum=Math.round(193+62*settings.wiz.speed/100);
-		}else if(settings.wiz.fx=='shake'){
-			drum=Math.round(91+29*settings.wiz.speed/100);
-		}else if(settings.wiz.fx=='wshake'){
-			position=Math.round(192+63*settings.wiz.speed/100);
+			rotation=Math.round(128+62-62*settings.wiz.speed/100);
 		}else if(settings.wiz.fx=='pulse'){
 			shutter=180;
 		}
@@ -74,6 +72,7 @@ wizard.update = function(){
 wizard.init = function(){
 	$("#wizspeed").val(settings.wiz.speed);
 	$("#wizpos").val(settings.wiz.position);
+	$("#wizmir").val(settings.wiz.drum);
 	$("#wizfx").val(settings.wiz.fx);
 }
 wizard.init();

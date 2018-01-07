@@ -127,7 +127,7 @@ settings = {
 		"dfmin":20,"dfmax":100,"dback":100,"ddrum":100,
 		"wfront":0,"wback":0,"wdrum":0,"scn":50,"scncfg":"all",
 		"dlead":50,"wlead":20,"strbdim":100,"strbspeed":90,"sel":"dfmin",
-		"wiz":{"color":0,"gobo":0,"speed":50,"fx":"music","position":0}
+		"wiz":{"color":0,"gobo":0,"speed":50,"fx":"music","position":60,"drum":45}
 };
 
 if (typeof(localStorage.settings) !== "undefined") settings = JSON.parse(localStorage.settings);

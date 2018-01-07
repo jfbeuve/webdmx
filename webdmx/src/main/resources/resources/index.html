@@ -41,6 +41,18 @@
 		</div>
 		<div id="colordiv" class="overlay">
 			<div class="section">
+				<div id="settings">
+					<button id="coloradd" onclick="coloradd()">+</button>
+					<input id="color" class="jscolor" value="000000" onchange="color()">
+					<button id="colordel" onclick="colordel()">-</button>
+					<!-- button onclick="colorclear()">CLEAN</button -->
+					<button id="yellowbtn">Y</button>
+					<button id="reversebtn">R</button>
+					<button id="colorstrob">S</button>
+					<div id="revcol">rev</div>
+				</div>
+			</div>
+			<div class="section">
 				<div id="colorpicker"> <!-- DYNAMIC CONTENT--> </div>
 			</div>
 			<div class="section">
@@ -87,18 +99,6 @@
 		
 		<br/>
 
-		<div class="section">
-			<div id="settings">
-				<div id="revcol">rev</div>
-				<button id="coloradd" onclick="coloradd()">+</button>
-				<input id="color" class="jscolor" value="000000" onchange="color()">
-				<button id="colordel" onclick="colordel()">-</button>
-				<!-- button onclick="colorclear()">CLEAN</button -->
-				<button id="yellowbtn">Y</button>
-				<button id="reversebtn">R</button>
-				<button id="colorstrob">S</button>
-			</div>
-		</div>
 		<div class="overlay" id="soldiv">
 			<div class="section">
 				<div id="fixture">
@@ -157,26 +157,36 @@
 					<img src="wiz/wiz15.jpg" onclick="wizard.gobo(150)"/>
 				</div>
 				<select id="wizspeed" onchange="wizard.update()">
-					<option value="1">Slow</option>
-					<option value="50">Medium</option>
-					<option value="99">Fast</option>
+					<option value="1">Slow-</option>
+					<option value="25">Slow+</option>
+					<option value="50">Speed</option>
+					<option value="75">Fast-</option>
+					<option value="99">Fast+</option>
 				</select>
 				<select id="wizpos" onchange="wizard.update()">
-					<option value="0">---</option>
-					<option value="1">0%</option>
-					<option value="30">25%</option>
-					<option value="60">50%</option>
-					<option value="90">75%</option>
-					<option value="120">100%</option>
+					<option value="30">+45°</option>
+					<option value="60">90°</option>
+					<option value="90">-45°</option>
+					<option value="120">0°</option>
+					<option value="192">shake</option>
+				</select>
+				<select id="wizmir" onchange="wizard.update()">
+					<option value="42">-3</option>
+					<option value="43">-2</option>
+					<option value="44">-1</option>
+					<option value="45">0</option>
+					<option value="46">+1</option>
+					<option value="47">+2</option>
+					<option value="48">+3</option>
+					<option value="91">shake</option>
+					<option value="193">turn</option>
 				</select>
 				<select id="wizfx" onchange="wizard.update()">
 					<option value="music">music</option>
 					<option value="move">move</option>
+					<option value="open">open</option>
 					<option value="strob">strob</option>
 					<option value="rotate">rotate</option>
-					<option value="drum">drum</option>
-					<option value="shake">shake</option>
-					<option value="wshake">wshake</option>
 					<option value="pulse">pulse</option>
 				</select>
 				<button id="wizon">ON</button>
