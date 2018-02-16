@@ -11,7 +11,7 @@
 	<groupId>fr.jfbeuve</groupId>
 	<name>Spring Boot Jetty Sample</name>
 	<description>Spring Boot Jetty Sample</description>
-	<version>2.5.0</version>
+	<version>2.6.0</version>
 	<packaging>jar</packaging>
 	<properties>
 		<main.basedir>${basedir}/../..</main.basedir>
@@ -38,6 +38,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.pi4j</groupId>
+			<artifactId>pi4j-core</artifactId>
+			<version>1.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>webdmx</finalName>
@@ -46,29 +51,20 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-     			   <mainClass>fr.jfbeuve.webdmx.Start</mainClass>
-			    </configuration>
-			    <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-			</plugin>
-			<!-- plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>fr.jfbeuve.webdmx.Start</mainClass>
-						</manifest>
-					</archive>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
+					<mainClass>fr.jfbeuve.webdmx.Start</mainClass>
 				</configuration>
-			</plugin-->
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- plugin> <artifactId>maven-assembly-plugin</artifactId> <configuration> 
+				<archive> <manifest> <mainClass>fr.jfbeuve.webdmx.Start</mainClass> </manifest> 
+				</archive> <descriptorRefs> <descriptorRef>jar-with-dependencies</descriptorRef> 
+				</descriptorRefs> </configuration> </plugin -->
 			<plugin>
 				<dependencies>
 					<dependency>
@@ -89,9 +85,9 @@
 						<configuration>
 							<tasks>
 								<scp file="./target/webdmx.jar" todir="pi@raspberrypi.local:/home/pi"
-									password="raspberry" trust="true"/>
-								<sshexec host="raspberrypi.local" username="pi" password="raspberry"
-									command="sudo /home/pi/restart.sh" trust="true"/>
+									password="raspberry" trust="true" />
+								<sshexec host="raspberrypi.local" username="pi"
+									password="raspberry" command="sudo /home/pi/restart.sh" trust="true" />
 							</tasks>
 						</configuration>
 						<goals>

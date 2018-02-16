@@ -7,7 +7,7 @@
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
         </encoder>
     </appender>
-    <logger name="fr.jfbeuve.webdmx" level="DEBUG" additivity="false">
+    <logger name="fr.jfbeuve" level="DEBUG" additivity="false">
             <appender-ref ref="STDOUT" />
     </logger>
     <!-- By default, the level of the root level is set to DEBUG -->
