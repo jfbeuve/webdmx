@@ -291,3 +291,4 @@ initdiv('setdiv');
 initdiv('soldiv');
 initdiv('colrevdiv');
 initdiv('wizdiv');
+initdiv('mfdiv');

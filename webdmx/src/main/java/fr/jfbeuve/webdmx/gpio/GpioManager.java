@@ -119,7 +119,9 @@ public class GpioManager implements GpioPinListenerDigital, FogGpio, QuizzGpio{
 	    		led3.low();
 	    }
 	    public boolean btn1(){
-	    	if(offline) return true;
+	    	if(offline) {
+	    		return System.currentTimeMillis()%10000<5000;
+	    	}
 	    	return btn1.isHigh();
 	    }
 	    public boolean led1(){

@@ -95,6 +95,7 @@
 			<button id="setdivbtn" onclick="togglediv('setdiv')">SET</button>
 			<button id="soldivbtn" onclick="togglediv('soldiv')">SOL</button>
 			<button id="wizdivbtn" onclick="togglediv('wizdiv')">WIZ</button>
+			<button id="mfdivbtn" onclick="togglemf()">MF</button>
 		</div>
 		
 		<br/>
@@ -125,6 +126,13 @@
 			</div>
 			<div class="section">
 				<div id="solocolor"> <!-- DYNAMIC CONTENT--> </div>
+			</div>
+		</div>
+		<div class="overlay" id="mfdiv">
+			<div class="section">
+				<button id="mffog" onclick="mffog()">fog</button>
+				<button id="mfauto" onclick="mfauto()">auto</button>
+				<label id="mflabel"></label>
 			</div>
 		</div>
 		<div class="overlay" id="wizdiv">
@@ -198,5 +206,6 @@
 		<script src="scene.js"></script>
 		<script src="index.js"></script>
 		<script src="wizard.js"></script>
+		<script src="fog.js"></script>
 	</body>
 </html>

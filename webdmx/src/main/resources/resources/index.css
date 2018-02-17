@@ -206,3 +206,8 @@ label#speed{
 	border: 1px solid lightgrey;
 	margin: 5px;
 }
+#mflabel{
+	position:absolute;
+	right:40px;
+	top:45px;
+}
