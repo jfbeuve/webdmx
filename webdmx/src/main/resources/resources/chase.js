@@ -423,6 +423,28 @@ presets.solo = function(){
 	return p;
 }
 
+presets.wit = function(){
+	var strob = $("#colorstrob").hasClass("active");
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":255,"g":255,"b":255,"strob":false},
+			{"id":6,"dim":settings.dback,"r":255,"g":255,"b":255,"strob":strob}
+		],"fade":0},{"fixtures":[
+			{"id":4,"dim":settings.ddrum,"r":255,"g":255,"b":255,"strob":strob},
+			{"id":5,"dim":settings.ddrum,"r":255,"g":255,"b":255,"strob":strob}
+		],"fade":0},{"fixtures":[
+			{"id":1,"dim":settings.dfmin*settings.dlead/100,"r":255,"g":255,"b":255,"strob":false},
+			{"id":2,"dim":settings.dfmin*settings.dlead/100,"r":255,"g":255,"b":255,"strob":false},
+			{"id":7,"dim":settings.dback,"r":255,"g":255,"b":255,"strob":strob}
+		],"fade":0},{"fixtures":[
+			{"id":3,"dim":settings.dfmin,"r":255,"g":255,"b":255,"strob":false},
+			{"id":8,"dim":settings.dback,"r":255,"g":255,"b":255,"strob":strob}
+		],"fade":0}],"speed":localStorage.speed};
+	
+	return p;
+}
+
 presets.print();
 
 /**
@@ -574,7 +596,22 @@ presetscfg.front.wave = function(){
 	
 	return p;
 }
-
+presetscfg.front.wit = function(){
+	var strob = $("#colorstrob").hasClass("active");
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":255,"g":255,"b":255,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":2,"dim":settings.dfmin,"r":255,"g":255,"b":255,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":1,"dim":settings.dfmin,"r":255,"g":255,"b":255,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":3,"dim":settings.dfmin,"r":255,"g":255,"b":255,"strob":false}
+		],"fade":0}],"speed":localStorage.speed};
+	
+	return p;
+}
 presetscfg.front.fade = presets.fade;
 presetscfg.front.chase = presets.chase;
 presetscfg.front.rainb = presets.rainb;
@@ -614,6 +651,20 @@ presetscfg.duo.col = function(){
 	
 	return p;
 }
+
+presetscfg.duo.wit = function(){
+	var strob = $("#colorstrob").hasClass("active");
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":255,"g":255,"b":255,"strob":strob}
+		],"fade":0},{"fixtures":[
+			{"id":2,"dim":settings.dfmin,"r":255,"g":255,"b":255,"strob":strob}
+		],"fade":0}],"speed":localStorage.speed};
+	
+	return p;
+}
+
 presetscfg.duo.swap = presetscfg.duo.col;
 presetscfg.duo.flash = function(){
 	var w = colormatrix.wit();
