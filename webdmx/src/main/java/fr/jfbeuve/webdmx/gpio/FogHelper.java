@@ -43,17 +43,17 @@ public class FogHelper {
 		if(ready){
 			if(fog()){
 				// if fog, init fogstart
-				fogstart=System.currentTimeMillis();
+				if(fogstart>0) fogstart=System.currentTimeMillis();
 				// if autofog, start fog timer
 				if(auto) timer(fogtime,false);
 			}
 		}else{
 			// if fog, set fogtime
 			if(!auto&&fog()) {
-				fogtime = System.currentTimeMillis() - fogstart;
+				fogtime();
+				sleepstart = System.currentTimeMillis();
 				gpio.led1(false);
 			}
-			sleepstart = System.currentTimeMillis();
 			// if auto, start sleep timer?
 		}
 	}
@@ -65,16 +65,14 @@ public class FogHelper {
 		if(fire){
 			// start fog + init fogstart if ready
 			gpio.led1(true);
-			if(sleepstart>0) sleeptime=System.currentTimeMillis()-sleepstart;
-			if(ready()) {
-				fogstart=System.currentTimeMillis();
-				// if auto, start fog timer
-				if(auto) timer(fogtime,false);
-			}
+			sleeptime();
+			fogstart=System.currentTimeMillis();
+			// if auto, start fog timer
+			if(ready()&&auto) timer(fogtime,false);
 		} else {
 			// stop fog + update fogtime
 			gpio.led1(false);
-			fogtime=System.currentTimeMillis()-fogstart;
+			fogtime();
 			sleepstart = System.currentTimeMillis();
 			// if auto : start sleep timer
 			if(auto) timer(sleeptime, true);
@@ -92,7 +90,7 @@ public class FogHelper {
 				timer(fogtime,false);
 				fogstart=System.currentTimeMillis();
 			}
-			sleeptime=System.currentTimeMillis()-sleepstart;
+			sleeptime();
 		} else {
 			// stop fog + stop timer
 			gpio.led1(false);
@@ -132,5 +130,14 @@ public class FogHelper {
 			timer.thread = new Thread(timer);
 			timer.thread.start();
 		}
+	}
+	/** records fog time **/
+	private void fogtime(){
+		if(fogstart>0) fogtime = System.currentTimeMillis() - fogstart;
+		if(fogtime>30000)fogtime=30000;
+	}
+	/** records sleep time **/
+	private void sleeptime(){
+		if(sleepstart>0) sleeptime=System.currentTimeMillis()-sleepstart;
 	}
 }

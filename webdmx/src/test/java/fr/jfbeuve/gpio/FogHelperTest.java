@@ -1,6 +1,10 @@
 package fr.jfbeuve.gpio;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,7 +22,7 @@ public class FogHelperTest implements FogGpio{
 	}
 	
 	@Test
-	public void manual() throws Exception {
+	public void fog() throws Exception {
 		// init
 		ready=false; fog=false;
 		f = new FogHelper(this);
@@ -43,7 +47,7 @@ public class FogHelperTest implements FogGpio{
 	}
 
 	@Test
-	public void auto() throws Exception {
+	public void thread() throws Exception {
 		// init
 		ready=false; fog=false;
 		f = new FogHelper(this);
@@ -148,6 +152,117 @@ public class FogHelperTest implements FogGpio{
 		// auto stop
 		f.auto(false);
 		assertio(true,false);
+	}
+	
+	@Test
+	public void time() throws Exception {
+		// init
+		ready=true; fog=false; 
+		f = new FogHelper(this);
+		asserttime(30000,30000);
+		
+		// ** happy use case, fog ready
+		f.fog(true);
+		assertTrue(fog);
+		Thread.sleep(100);
+		f.fog(false);
+		assertFalse(fog);
+		Thread.sleep(200);
+		f.auto(true);
+		assertTrue(fog);
+		asserttime(100,200);
+		f.auto(false);
+		assertFalse(fog);
+		asserttime(100,200);
+		
+		// ** adjusting auto, fog ready
+		f.auto(true);
+		asserttime(100,200);
+		assertTrue(fog);
+		Thread.sleep(50);
+		f.fog(false);
+		asserttime(50,200);
+		assertFalse(fog);
+		Thread.sleep(150);
+		f.fog(true);
+		asserttime(50,150);
+		assertTrue(fog);
+		
+		// auto stop
+		f.auto(false);
+		assertFalse(fog);
+		
+		// ** auto + fog not ready
+		ready=false;
+		f.auto(true);
+		asserttime(50,150);
+		assertTrue(fog);
+		Thread.sleep(30);
+		ready(true);
+		asserttime(50,150);
+		Thread.sleep(30);
+		assertTrue(fog);
+		Thread.sleep(30);
+		assertFalse(fog);
+		asserttime(50,150);
+		ready(false);
+		Thread.sleep(60);
+		ready(true);
+		assertFalse(fog);
+		asserttime(50,150);
+		Thread.sleep(100);
+		assertTrue(fog);
+		
+		// auto stop
+		f.auto(false);
+		assertFalse(fog);
+		
+		// ** happy use case, fog becomes ready
+		ready=false; fog=false; 
+		f = new FogHelper(this);
+		asserttime(30000,30000);
+		assertFalse(fog);
+		f.fog(true);
+		assertTrue(fog);
+		Thread.sleep(80);
+		ready(true);
+		Thread.sleep(80);
+		f.fog(false);
+		asserttime(80,30000);
+		
+		// ** happy use case, fog becomes not ready
+		ready=true; fog=false; 
+		f = new FogHelper(this);
+		asserttime(30000,30000);
+		assertFalse(fog);
+		ready(true);
+		f.fog(true);
+		Thread.sleep(40);
+		ready(false);
+		asserttime(40,30000);
+		
+		// ** auto before fog, fog ready
+		ready=true; fog=false; 
+		f = new FogHelper(this);
+		asserttime(30000,30000);
+		assertFalse(fog);
+		f.auto(true);
+		assertTrue(fog);
+		asserttime(30000,30000);
+		Thread.sleep(100);
+		f.fog(false);
+		asserttime(100,30000);
+		assertFalse(fog);
+		
+		// auto stop
+		f.auto(false);
+		assertFalse(fog);
+		assertFalse(f.status().auto);
+	}
+	
+	private void asserttime(long fog, long sleep){
+		assertThat((double)f.status().fogtime, closeTo(fog, 10));
+		assertThat((double)f.status().sleeptime, closeTo(sleep, 10));
 	}
 	
 	@Override
