@@ -40,12 +40,15 @@ public class FogHelper {
 	
 	/** gpio og ready listener **/
 	public void ready(boolean ready){
+		log.info("FOG READY "+ready);
 		if(ready){
 			if(fog()){
 				// if fog, init fogstart
-				if(fogstart>0) fogstart=System.currentTimeMillis();
+				fogstart=System.currentTimeMillis();
 				// if autofog, start fog timer
-				if(auto) timer(fogtime,false);
+				if(auto) {
+					timer(fogtime,false);
+				}
 			}
 		}else{
 			// if fog, set fogtime

@@ -4,6 +4,7 @@ import javax.annotation.PreDestroy;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.pi4j.io.gpio.GpioController;
@@ -28,7 +29,9 @@ public class GpioManager implements GpioPinListenerDigital, FogGpio, QuizzGpio{
 		private static final String LED1 = "LED1", LED2="LED2", LED3="LED3";
 		
 		private QuizzHelper quizz = new QuizzHelper(this);
-		private FogHelper fog = new FogHelper(this);
+		
+		@Autowired
+		private FogHelper fog;
 		
 		private boolean offline = false;
 		private boolean offlineled1 = false;

@@ -1,4 +1,4 @@
-package fr.jfbeuve.gpio;
+package fr.jfbeuve.webdmx.gpio;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -46,6 +46,35 @@ public class FogHelperTest implements FogGpio{
 		assertio(false,false);
 	}
 
+	@Test
+	public void autonotready() throws Exception {
+		// set fog time
+		ready=true; fog=false;
+		f = new FogHelper(this);
+		assertio(true,false);
+		f.fog(true);
+		assertio(true,true);
+		Thread.sleep(50);
+		f.fog(false);
+		assertio(true,false);
+		Thread.sleep(100);
+		ready(false);
+		
+		// test auto with ready false
+		f.auto(true);
+		assertio(false,true);
+		Thread.sleep(50);
+		ready(true);
+		assertio(true,true);
+		Thread.sleep(30);
+		assertio(true,true);
+		Thread.sleep(30);
+		assertio(true,false);
+		
+		// auto stop
+		f.auto(false);
+	}
+	
 	@Test
 	public void thread() throws Exception {
 		// init
@@ -139,7 +168,7 @@ public class FogHelperTest implements FogGpio{
 		log.info("## ASSERT auto false");
 		assertio(false,false);
 		Thread.sleep(310);
-		log.info("## ASSERT auto true");
+		log.info("## ASSERT auto true !!!");
 		assertio(false,true);
 		Thread.sleep(200);
 		log.info("## ASSERT auto true");

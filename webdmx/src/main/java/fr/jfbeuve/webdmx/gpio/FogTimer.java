@@ -18,7 +18,7 @@ public class FogTimer implements Runnable{
 
 	@Override
 	public void run() {
-		log.debug("START TIMER "+action+" "+time);
+		log.info("START TIMER "+action+" "+time);
 		try {
 			Thread.sleep(time);
 			fog.timer(action);

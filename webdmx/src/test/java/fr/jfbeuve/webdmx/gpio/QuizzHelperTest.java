@@ -1,4 +1,4 @@
-package fr.jfbeuve.gpio;
+package fr.jfbeuve.webdmx.gpio;
 
 import static org.junit.Assert.assertEquals;
 
