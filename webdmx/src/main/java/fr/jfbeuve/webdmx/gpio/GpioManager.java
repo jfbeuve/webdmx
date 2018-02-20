@@ -57,12 +57,24 @@ public class GpioManager implements GpioPinListenerDigital, FogGpio, QuizzGpio{
 				offline=true;
 			}
 	    }
-	    
-	    public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+	    private long time=0;
+	    public synchronized void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
 	        GpioPin pin = event.getPin();
 	        PinState state = event.getState();
 	        log.debug("STATE CHANGE: " + event.getPin() + " = "+ event.getState());
-	        toggle(pin,state);
+	    	
+	        String nm = pin.getName();
+	    	log.info(nm+" = "+state.getName());
+
+	    	if(nm.equals(GpioManager.BTN4)||btn4.isHigh()){
+		    	if(state.isLow()) return;
+	    		quizz.fire(nm);
+	    	}else if (nm.equals(GpioManager.BTN1)){
+	    		if(System.currentTimeMillis()-time>100) {
+	    			time = System.currentTimeMillis();
+	    			new Thread(fog).start();
+	    		}
+	    	}
 	    }
 	    
 	    private void init(){
@@ -90,17 +102,7 @@ public class GpioManager implements GpioPinListenerDigital, FogGpio, QuizzGpio{
 	    public void shutdown(){
 	    	gpio.shutdown();
 	    }
-	    private synchronized void toggle(GpioPin pin,PinState state){
-	    	String nm = pin.getName();
-	    	log.info(nm+" = "+state.getName());
 
-	    	if(nm.equals(GpioManager.BTN4)||(!nm.equals(GpioManager.BTN4)&&btn4.isHigh())){
-		    	if(state.isLow()) return;
-	    		quizz.fire(nm);
-	    	}else{
-	    		fog.ready(btn1.isHigh());
-	    	}
-	    }
 	    public void led1(boolean fire){
 	    	offlineled1=fire;
 	    	if(offline) return;

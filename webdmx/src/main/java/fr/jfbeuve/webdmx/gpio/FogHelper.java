@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FogHelper {
+public class FogHelper implements Runnable{
 	private static final Log log = LogFactory.getLog(FogHelper.class);
+	private static final boolean FOG_READY = false; // make it true if you want to react to gpio events
 	
 	public FogHelper(){}
 	public FogHelper(FogGpio _gpio){
@@ -39,25 +40,31 @@ public class FogHelper {
 	}
 	
 	/** gpio og ready listener **/
-	public void ready(boolean ready){
+	public void run(){
+		try {
+			Thread.sleep(100); // cleans instability
+		} catch (InterruptedException e) {
+			log.warn(e,e);
+		}
+		boolean ready = ready();
 		log.info("FOG READY "+ready);
-		if(ready){
-			if(fog()){
-				// if fog, init fogstart
-				fogstart=System.currentTimeMillis();
-				// if autofog, start fog timer
-				if(auto) {
-					timer(fogtime,false);
+		if(FOG_READY){ 
+			if(ready){
+				if(fog()){
+					// if fog, init fogstart
+					fogstart=System.currentTimeMillis();
+					// if autofog, start fog timer
+					if(auto) timer(fogtime,false);
 				}
+			}else{
+				// if fog, set fogtime
+				if(!auto&&fog()) {
+					fogtime();
+					sleepstart = System.currentTimeMillis();
+					gpio.led1(false);
+				}
+				// if auto, start sleep timer?
 			}
-		}else{
-			// if fog, set fogtime
-			if(!auto&&fog()) {
-				fogtime();
-				sleepstart = System.currentTimeMillis();
-				gpio.led1(false);
-			}
-			// if auto, start sleep timer?
 		}
 	}
 	
@@ -71,7 +78,7 @@ public class FogHelper {
 			sleeptime();
 			fogstart=System.currentTimeMillis();
 			// if auto, start fog timer
-			if(ready()&&auto) timer(fogtime,false);
+			if((ready()&&auto)||!FOG_READY) timer(fogtime,false);
 		} else {
 			// stop fog + update fogtime
 			gpio.led1(false);
@@ -89,7 +96,7 @@ public class FogHelper {
 		if(fire){
 			// start fog + start fog timer if ready
 			gpio.led1(true);
-			if(ready()) {
+			if(ready()||!FOG_READY) {
 				timer(fogtime,false);
 				fogstart=System.currentTimeMillis();
 			}
@@ -108,7 +115,7 @@ public class FogHelper {
 		if(fire){
 			// start fog + start fog timer if ready
 			gpio.led1(true);
-			if(ready()) {
+			if(ready()||!FOG_READY) {
 				timer(fogtime,false);
 				fogstart=System.currentTimeMillis();
 			}
