@@ -5,6 +5,7 @@ import javax.annotation.PreDestroy;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.pi4j.io.gpio.GpioController;
@@ -33,26 +34,30 @@ public class GpioManager implements GpioPinListenerDigital, FogGpio, QuizzGpio{
 		@Autowired
 		private FogHelper fog;
 		
-		private boolean offline = false;
 		private boolean offlineled1 = false;
+		
+		@Value("${offline:false}")
+		private boolean offline;
 		
 	    public GpioManager(){
 	    	try {
-				gpio = GpioFactory.getInstance();
-				
-				btn1 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_05,BTN1,PinPullResistance.PULL_DOWN);
-				led1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00,LED1,PinState.LOW);
-				
-				btn2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_06,BTN2,PinPullResistance.PULL_DOWN);
-				led2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02,LED2,PinState.LOW);
-				
-				btn3 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_27,BTN3,PinPullResistance.PULL_DOWN);
-				led3 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03,LED3,PinState.LOW);
-				
-				btn4 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_25,BTN4,PinPullResistance.PULL_DOWN);
-				btn5 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_04,BTN5,PinPullResistance.PULL_DOWN);
-				
-				init();
+	    		if(!offline){
+					gpio = GpioFactory.getInstance();
+					
+					btn1 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_05,BTN1,PinPullResistance.PULL_DOWN);
+					led1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_00,LED1,PinState.LOW);
+					
+					btn2 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_06,BTN2,PinPullResistance.PULL_DOWN);
+					led2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02,LED2,PinState.LOW);
+					
+					btn3 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_27,BTN3,PinPullResistance.PULL_DOWN);
+					led3 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03,LED3,PinState.LOW);
+					
+					btn4 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_25,BTN4,PinPullResistance.PULL_DOWN);
+					btn5 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_04,BTN5,PinPullResistance.PULL_DOWN);
+					
+					init();
+	    		}
 			} catch (Error e) {
 				offline=true;
 			}
@@ -69,7 +74,7 @@ public class GpioManager implements GpioPinListenerDigital, FogGpio, QuizzGpio{
 	    	if(nm.equals(GpioManager.BTN4)||btn4.isHigh()){
 		    	if(state.isLow()) return;
 	    		quizz.fire(nm);
-	    	}else if (nm.equals(GpioManager.BTN1)){
+	    	}else if (nm.equals(GpioManager.BTN1)&&btn4.isLow()){
 	    		if(System.currentTimeMillis()-time>100) {
 	    			time = System.currentTimeMillis();
 	    			new Thread(fog).start();

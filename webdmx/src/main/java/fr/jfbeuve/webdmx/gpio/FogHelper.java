@@ -78,7 +78,7 @@ public class FogHelper implements Runnable{
 			sleeptime();
 			fogstart=System.currentTimeMillis();
 			// if auto, start fog timer
-			if((ready()&&auto)||!FOG_READY) timer(fogtime,false);
+			if((ready()&&auto)&&FOG_READY) timer(fogtime,false);
 		} else {
 			// stop fog + update fogtime
 			gpio.led1(false);
@@ -105,6 +105,7 @@ public class FogHelper implements Runnable{
 			// stop fog + stop timer
 			gpio.led1(false);
 			timer(0,false);
+			sleepstart=0;
 		}
 		auto=fire;
 	}

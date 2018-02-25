@@ -1,9 +1,13 @@
 package fr.jfbeuve.webdmx.http;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +25,11 @@ import fr.jfbeuve.webdmx.sc.Sequencer;
 
 @RestController
 public class LiveController {
+	private static final Log log = LogFactory.getLog(LiveController.class);
+	
+	@Value("${offline:false}")
+	private boolean offline;
+	
 	@Autowired
 	private DmxWrapper dmx;
 	@Autowired
@@ -85,5 +94,20 @@ public class LiveController {
 		if(man!=null) fog.fog(man);
 		if(auto!=null) fog.auto(auto);
 		return fog.status();
+	}
+	/**
+	 * system
+	 */
+	@RequestMapping("/live/shutdown")
+	public Object shutdown() {
+		log.info("SHUTDOWN!");
+		if(!offline){
+			try {
+				Runtime.getRuntime().exec("shutdown -h now");
+			} catch (IOException e) {
+				log.error(e,e);
+			}
+		}
+		return null;
 	}
 }

@@ -404,3 +404,14 @@ function dmxwrite(data){
 	      cache: false
 		});
 }
+/** SYSTEM **/
+function shutdown(){
+	if(window.confirm('shutdown?')){
+		$.ajax({
+			  type: "GET",
+		      url: "/live/shutdown",
+		      contentType: 'application/json',
+		      cache: false
+			});
+	}
+}

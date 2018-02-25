@@ -197,6 +197,9 @@ button#init{
 	position: absolute;
 	right: 25px;
 }
+button#shutdown{
+	margin-left: 670px;
+}
 label#speed{
 	margin-right: 400px;
 }
