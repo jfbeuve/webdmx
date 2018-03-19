@@ -112,10 +112,11 @@ function override(){
 	var soloset = false;
 	if($('#PAR1').hasClass("active")){
 		fsel[0]=true;
+		if(scncfg=='duo') fsel[3]=true; // COPY #0
 		soloset=true;
 	}
 	if($('#PAR2').hasClass("active")){
-		if(scncfg!='duo') fsel[1]=true;
+		fsel[1]=true; // COPY #2
 		if(scncfg!='front') fsel[2]=true;
 		soloset=true;
 	}

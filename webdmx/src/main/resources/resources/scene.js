@@ -101,19 +101,21 @@ scn.duo = function(){
 	// FRONT
 	var dim = settings.dfmin;
 	if(ar||dr) dim = Math.round(settings.dfmin * settings.scn / 100)
-	sc.fixtures.push({"id":0,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob});
-	sc.fixtures.push({"id":1,"dim":0,"r":0,"g":0,"b":0,"strob":false});
-	sc.fixtures.push({"id":2,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob});
-	sc.fixtures.push({"id":3,"dim":0,"r":0,"g":0,"b":0,"strob":false});
+	sc.fixtures.push({"id":0,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false});
+	sc.fixtures.push({"id":1,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}); // COPY #2
+	sc.fixtures.push({"id":2,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false});
+	sc.fixtures.push({"id":3,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}); // COPY #0
 	
 	// DRUMS
 	sc.fixtures.push({"id":4,"dim":0,"r":0,"g":0,"b":0,"strob":false});
 	sc.fixtures.push({"id":5,"dim":0,"r":0,"g":0,"b":0,"strob":false});
-
+	
 	// BACK
-	sc.fixtures.push({"id":6,"dim":0,"r":0,"g":0,"b":0,"strob":false});
-	sc.fixtures.push({"id":7,"dim":0,"r":0,"g":0,"b":0,"strob":false});
-	sc.fixtures.push({"id":8,"dim":0,"r":0,"g":0,"b":0,"strob":false});	
+	if(ar) dim = Math.round(settings.dback * settings.scn / 100)
+	else dim = settings.dback;
+	sc.fixtures.push({"id":6,"dim":dim,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob});
+	sc.fixtures.push({"id":7,"dim":dim,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob});
+	sc.fixtures.push({"id":8,"dim":dim,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob});
 	
 	return sc;
 }
