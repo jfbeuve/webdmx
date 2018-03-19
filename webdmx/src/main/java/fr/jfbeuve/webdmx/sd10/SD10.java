@@ -8,6 +8,7 @@ import fr.jfbeuve.webdmx.preset.PresetColor;
 
 public class SD10 {
 	private static final RGB8W RGB1=new RGB8W(0),RGB2=new RGB8W(5),RGB3=new RGB8W(10),RGB4=new RGB8W(15);
+	private static final RGBEuroliteBP EUR1=new RGBEuroliteBP(55),EUR2=new RGBEuroliteBP(60),EUR3=new RGBEuroliteBP(65);
     private static final DICRO DICRO=new DICRO(26);
     private static final STROB STROB = new STROB(24);
     private static final SWITCH SWITCH = new SWITCH(20);
@@ -17,15 +18,11 @@ public class SD10 {
     private int[] data = new int[512];
     
     private int step=0;
-    private int dim=100;
 	private String cat = "P";
 	private int rank = 1;
 	
-	//TODO update SD10 trioled2, trioled2disco
-	//TODO wizard strob
-	// CARNAVAL SAINT PIERRE trioled2, trioled2disco
-	private static final String[] P={"disco", "slow", "bistro","bistroled","triolite","discoled3","discoled2"};
-	private static final String[] S={"strob", "music","sync",  "syncled",  "trio",    "discoled4", "discoled2trio"};
+	private static final String[] P={"dicro", "led", "rgb", "rainb"};
+	private static final String[] S={"strob","led","rgbled", "rainb"};
 	
 	private static void compile() throws SecurityException{
 		int max = P.length;
@@ -63,7 +60,6 @@ public class SD10 {
     	io = null;
     }
     private void init(){
-    	dim=100;
     	for(int i=0;i<data.length;i++) data[i]=0;
     	step=0;
     }
@@ -126,30 +122,164 @@ public class SD10 {
 		return t[rank-1];
 	}
 	/**
-	 * DICRO/LED RGBA + ALL SWITCHS ON
+	 * RGB REAR EuroliteBigParty 7 colors chase
 	 */
-	public void disco() throws IOException{
+	public void led() throws IOException{
 		print();
 		SWITCH.set(true,true,true,true).set(data);
 		WIZARD.disco().set(data);
-		DICRO.color(PresetColor.R,100).set(data);
-		RGB4.color(PresetColor.R,100).set(data);
+		ledstep(PresetColor.RED,100);
 		pause();
 		print();
-		DICRO.color(PresetColor.G,100).set(data);
-		RGB4.color(PresetColor.G,100).set(data);
+		ledstep(PresetColor.ORANGE,100);
 		pause();
 		print();
-		DICRO.color(PresetColor.B,100).set(data);
-		RGB4.color(PresetColor.B,100).set(data);
+		ledstep(PresetColor.YELLOW,100);
 		pause();
 		print();
-		DICRO.color(PresetColor.YELLOW,100).set(data);
-		RGB4.color(PresetColor.YELLOW,100).set(data);
+		ledstep(PresetColor.GREEN,100);
 		pause();
 		print();
-		DICRO.color(PresetColor.BLACK,100).set(data);
-		RGB4.color(PresetColor.BLACK,100).set(data);
+		ledstep(PresetColor.CYAN,100);
+		pause();
+		print();
+		ledstep(PresetColor.BLUE,100);
+		pause();
+		print();
+		ledstep(PresetColor.VIOLET,100);
+		pause();
+	}
+	private void ledstep(PresetColor c, int dim) throws IOException{
+		EUR1.color(c,dim).set(data);
+		EUR2.color(PresetColor.BLACK,0).set(data);
+		EUR3.color(PresetColor.BLACK,0).set(data);
+		pause();
+		print();
+		EUR1.color(PresetColor.BLACK,0).set(data);
+		EUR2.color(c,dim).set(data);
+		EUR3.color(PresetColor.BLACK,0).set(data);
+		pause();
+		print();
+		EUR1.color(PresetColor.BLACK,0).set(data);
+		EUR2.color(PresetColor.BLACK,0).set(data);
+		EUR3.color(c,dim).set(data);
+	}
+	/**
+	 * RGB REAR EuroliteBigParty 7 colors rainbow
+	 */
+	public void rainb() throws IOException{
+		print();
+		EUR1.color(PresetColor.RED,100).set(data);
+		EUR2.color(PresetColor.ORANGE,100).set(data);
+		EUR3.color(PresetColor.YELLOW,100).set(data);
+		pause();
+		print();
+		EUR1.color(PresetColor.ORANGE,100).set(data);
+		EUR2.color(PresetColor.YELLOW,100).set(data);
+		EUR3.color(PresetColor.GREEN,100).set(data);
+		pause();
+		print();
+		EUR1.color(PresetColor.YELLOW,100).set(data);
+		EUR2.color(PresetColor.GREEN,100).set(data);
+		EUR3.color(PresetColor.CYAN,100).set(data);
+		pause();
+		print();
+		EUR1.color(PresetColor.GREEN,100).set(data);
+		EUR2.color(PresetColor.CYAN,100).set(data);
+		EUR3.color(PresetColor.BLUE,100).set(data);
+		pause();
+		print();
+		EUR1.color(PresetColor.CYAN,100).set(data);
+		EUR2.color(PresetColor.BLUE,100).set(data);
+		EUR3.color(PresetColor.VIOLET,100).set(data);
+		pause();
+		print();
+		EUR1.color(PresetColor.BLUE,100).set(data);
+		EUR2.color(PresetColor.VIOLET,100).set(data);
+		EUR3.color(PresetColor.RED,100).set(data);
+		pause();
+		print();
+		EUR1.color(PresetColor.VIOLET,100).set(data);
+		EUR2.color(PresetColor.RED,100).set(data);
+		EUR3.color(PresetColor.ORANGE,100).set(data);
+		pause();
+	}
+	/**
+	 * RGB8W RGB LEFT/RIGHT CHASE
+	 */
+	public void rgb() throws IOException{
+		print();
+		SWITCH.set(true,true,true,true).set(data);
+		WIZARD.disco().set(data);
+		RGB1.color(PresetColor.RED,100).set(data);
+		RGB2.color(PresetColor.BLACK,0).set(data);
+		pause();
+		RGB2.color(PresetColor.RED,100).set(data);
+		RGB1.color(PresetColor.BLACK,0).set(data);
+		pause();
+		print();
+		RGB1.color(PresetColor.GREEN,100).set(data);
+		RGB2.color(PresetColor.BLACK,0).set(data);
+		pause();
+		print();
+		RGB2.color(PresetColor.GREEN,100).set(data);
+		RGB1.color(PresetColor.BLACK,0).set(data);
+		pause();
+		print();
+		RGB1.color(PresetColor.BLUE,100).set(data);
+		RGB2.color(PresetColor.BLACK,0).set(data);
+		pause();
+		print();
+		RGB2.color(PresetColor.BLUE,100).set(data);
+		RGB1.color(PresetColor.BLACK,0).set(data);
+		pause();
+	}
+	/**
+	 * RGB8W + REAR EuroliteBigParty RGB LEFT/RIGHT CHASE
+	 */
+	public void rgbled() throws IOException{
+		print();
+		SWITCH.set(true,true,true,true).set(data);
+		WIZARD.disco().set(data);
+		RGB1.color(PresetColor.RED,100).set(data);
+		RGB2.color(PresetColor.BLACK,0).set(data);
+		EUR1.color(PresetColor.YELLOW,100).set(data);
+		EUR2.color(PresetColor.RED,100).set(data);
+		EUR3.color(PresetColor.ORANGE,100).set(data);
+		pause();
+		RGB2.color(PresetColor.RED,100).set(data);
+		RGB1.color(PresetColor.BLACK,0).set(data);
+		EUR3.color(PresetColor.YELLOW,100).set(data);
+		EUR2.color(PresetColor.RED,100).set(data);
+		EUR1.color(PresetColor.ORANGE,100).set(data);
+		pause();
+		print();
+		RGB1.color(PresetColor.GREEN,100).set(data);
+		RGB2.color(PresetColor.BLACK,0).set(data);
+		EUR1.color(PresetColor.YELLOW,100).set(data);
+		EUR2.color(PresetColor.GREEN,100).set(data);
+		EUR3.color(PresetColor.CYAN,100).set(data);
+		pause();
+		print();
+		RGB2.color(PresetColor.GREEN,100).set(data);
+		RGB1.color(PresetColor.BLACK,0).set(data);
+		EUR3.color(PresetColor.YELLOW,100).set(data);
+		EUR2.color(PresetColor.GREEN,100).set(data);
+		EUR1.color(PresetColor.CYAN,100).set(data);
+		pause();
+		print();
+		RGB1.color(PresetColor.BLUE,100).set(data);
+		RGB2.color(PresetColor.BLACK,0).set(data);
+		EUR1.color(PresetColor.YELLOW,100).set(data);
+		EUR2.color(PresetColor.BLUE,100).set(data);
+		EUR3.color(PresetColor.CYAN,100).set(data);
+		pause();
+		print();
+		RGB2.color(PresetColor.BLUE,100).set(data);
+		RGB1.color(PresetColor.BLACK,0).set(data);
+		EUR3.color(PresetColor.YELLOW,100).set(data);
+		EUR2.color(PresetColor.BLUE,100).set(data);
+		EUR1.color(PresetColor.CYAN,100).set(data);
 		pause();
 	}
 	public void blackout() throws IOException{
@@ -162,245 +292,41 @@ public class SD10 {
 		SWITCH.set(true,true,true,true).set(data);
 		STROB.set().set(data);
 		pause();
-		
 	}
 	/**
-	 * LIGHT RGB LED/DICRO, ONLY SWITCH #2 ON 
+	 * DICRO/LED RGBA + ALL SWITCHS ON
 	 */
-	public void slow() throws IOException{
+	public void dicro() throws IOException{
 		print();
-		WIZARD.slow().set(data);
-		SWITCH.set(false,true,false,false).set(data);
-		colorall(PresetColor.B,3);
+		SWITCH.set(true,true,true,true).set(data);
+		WIZARD.disco().set(data);
+		DICRO.color(PresetColor.RED,100).set(data);
+		EUR1.color(PresetColor.RED,100).set(data);
+		EUR2.color(PresetColor.BLACK,0).set(data);
+		EUR3.color(PresetColor.BLACK,0).set(data);
 		pause();
 		print();
-		colorall(PresetColor.G,3);
+		DICRO.color(PresetColor.GREEN,100).set(data);
+		EUR2.color(PresetColor.GREEN,100).set(data);
+		EUR1.color(PresetColor.BLACK,0).set(data);
+		EUR3.color(PresetColor.BLACK,0).set(data);
 		pause();
 		print();
-		colorall(PresetColor.R,3);
+		DICRO.color(PresetColor.BLUE,100).set(data);
+		EUR3.color(PresetColor.BLUE,100).set(data);
+		EUR2.color(PresetColor.BLACK,0).set(data);
+		EUR1.color(PresetColor.BLACK,0).set(data);
 		pause();
-	}
-	/**
-	 * DICRO/LED1/LED3 RGBA + LED10MM/LED2/LED3 REVERSE COLOR 
-	 */
-	public void sync() throws IOException{
-		syncstep(PresetColor.RED,PresetColor.YELLOW);
-		syncstep(PresetColor.GREEN,PresetColor.ORANGE);
-		syncstep(PresetColor.BLUE,PresetColor.VIOLET);
-		syncstep(PresetColor.YELLOW,PresetColor.RED);
-	}
-	private void syncstep(PresetColor bg, PresetColor c) throws IOException{
-		if(bg==c)return;
 		print();
-		bgcolor(bg,100);
-		color(c,100);
+		DICRO.color(PresetColor.YELLOW,100).set(data);
+		EUR2.color(PresetColor.YELLOW,100).set(data);
+		EUR1.color(PresetColor.BLACK,0).set(data);
+		EUR3.color(PresetColor.BLACK,0).set(data);
 		pause();
 	}
-	private void bgcolor(PresetColor c,int dim){
-		RGB1.color(c,dim).set(data);
-		RGB4.color(c,dim).set(data);
-		DICRO.color(c,dim).set(data);
-	}
-	private void color(PresetColor c,int dim){
-		RGB2.color(c,dim).set(data);
-		RGB3.color(c,dim).set(data);
-		LED.color(c,dim).set(data);
-	}
-	private void colorall(PresetColor c,int dim){
-		RGB2.color(c,dim).set(data);
-		RGB3.color(c,dim).set(data);
-		LED.color(c,dim*10).set(data);
-		RGB1.color(c,dim).set(data);
-		RGB4.color(c,dim).set(data);
-		DICRO.color(c,dim*7).set(data);
-	}
-	
 	private OlaWeb io;
 	private void dmxapply(){
 		if(io!=null) io.send(data);
-	}
-	public void music() throws IOException{
-		print();
-		WIZARD.disco().set(data);
-		SWITCH.set(true,true,true,true).set(data);
-		RGB1.music().set(data);
-		RGB2.music().set(data);
-		RGB3.music().set(data);
-		RGB4.music().set(data);
-		LED.music().set(data);
-		pause();
-	}
-	public void bistro() throws IOException{
-		bistrostep(PresetColor.RED);
-		bistrostep(PresetColor.GREEN);
-		bistrostep(PresetColor.BLUE);
-		bistrostep(PresetColor.YELLOW);
-		bistrostep(PresetColor.ORANGE);
-		bistrostep(PresetColor.VIOLET);
-		bistrostep(PresetColor.CYAN);
-		bistrostep(PresetColor.WHITE);
-	}
-	private void bistrostep(PresetColor c) throws IOException{
-		syncstep(PresetColor.RED,c);
-		syncstep(PresetColor.GREEN,c);
-		syncstep(PresetColor.BLUE,c);
-		syncstep(PresetColor.YELLOW,c);
-	}
-	private void bistroledstep(PresetColor c) throws IOException{
-		syncstep(PresetColor.RED,c);
-		syncstep(PresetColor.GREEN,c);
-		syncstep(PresetColor.BLUE,c);
-		syncstep(PresetColor.YELLOW,c);
-		syncstep(PresetColor.ORANGE,c);
-		syncstep(PresetColor.VIOLET,c);
-		syncstep(PresetColor.CYAN,c);
-	}
-	public void bistroled() throws IOException{
-		bistroledstep(PresetColor.RED);
-		bistroledstep(PresetColor.GREEN);
-		bistroledstep(PresetColor.BLUE);
-		bistroledstep(PresetColor.YELLOW);
-		bistroledstep(PresetColor.ORANGE);
-		bistroledstep(PresetColor.VIOLET);
-		bistroledstep(PresetColor.CYAN);
-	}
-	public void syncled() throws IOException{
-		syncstep(PresetColor.RED,PresetColor.YELLOW);
-		syncstep(PresetColor.YELLOW,PresetColor.RED);
-		syncstep(PresetColor.GREEN,PresetColor.BLUE);
-		syncstep(PresetColor.BLUE,PresetColor.GREEN);
-		syncstep(PresetColor.CYAN,PresetColor.VIOLET);
-		syncstep(PresetColor.VIOLET,PresetColor.CYAN);	
-	}
-	private final int LITE = 20;
-	public void triolite() throws IOException{
-		dim=LITE;
-		trio();
-	}
-	public void trio() throws IOException{
-		triosteps(PresetColor.CYAN,PresetColor.VIOLET);
-		triosteps(PresetColor.VIOLET,PresetColor.CYAN);
-		triosteps(PresetColor.RED,PresetColor.YELLOW);
-		triosteps(PresetColor.YELLOW,PresetColor.RED);
-		triosteps(PresetColor.BLUE,PresetColor.GREEN);
-		triosteps(PresetColor.GREEN,PresetColor.BLUE);
-	}
-	private void triosteps(PresetColor bg, PresetColor c) throws IOException{
-		triostep(c,bg,bg,dim);
-		triostep(bg,c,bg,dim);
-		triostep(bg,bg,c,dim);
-		triostep(bg,c,bg,dim);
-		triostep(c,bg,bg,dim);
-	}
-	private void triostep(PresetColor c1, PresetColor c2, PresetColor c3, int dim) throws IOException{
-		print();
-		RGB3.color(c1,dim).set(data);
-		LED.color(c2,100).set(data);
-		RGB4.color(c3,dim).set(data);
-		pause();
-	}
-	public void discoled4() throws IOException{
-		discoled(4);
-	}
-	public void discoled3() throws IOException{
-		discoled(3);
-	}
-	public void discoled2() throws IOException{
-		discoled2(false);
-	}
-	public void discoled2trio() throws IOException{
-		discoled2(true);
-	}
-	public void discoled2(boolean trio) throws IOException{
-		print();
-		WIZARD.disco().set(data);
-		SWITCH.set(true,true,true,true).set(data);
-		discoled2step(PresetColor.R,trio);
-		print();
-		discoled2step(PresetColor.G,trio);
-		print();
-		discoled2step(PresetColor.B,trio);
-		print();
-		discoled2step(PresetColor.YELLOW,trio);
-		print();
-		discoled2step(PresetColor.VIOLET,trio);
-		print();
-		discoled2step(PresetColor.CYAN,trio);
-		print();
-	}
-	private void discoled2step(PresetColor c, boolean trio) throws IOException{
-		RGB1.color(c, dim);
-		RGB2.color(PresetColor.BLACK, dim);
-		if(trio)triostep(c, reverse(c), reverse(c), LITE);
-		pause();print();
-		RGB1.color(PresetColor.BLACK, dim);
-		RGB2.color(c, dim);
-		if(trio)triostep(reverse(c), c, reverse(c), LITE);
-		pause();print();
-		RGB1.color(c, dim);
-		RGB2.color(PresetColor.BLACK, dim);
-		if(trio)triostep(reverse(c), reverse(c),c, LITE);
-		pause();print();
-		//NOTE remove last step?
-		RGB1.color(PresetColor.BLACK, dim);
-		RGB2.color(PresetColor.BLACK, dim);
-		if(trio)triostep(reverse(c), reverse(c), reverse(c), LITE);
-		pause();
-	}
-	private PresetColor reverse(PresetColor c){
-		if(c==PresetColor.BLACK) return PresetColor.WHITE;
-		if(c==PresetColor.CYAN) return PresetColor.VIOLET;
-		if(c==PresetColor.VIOLET) return PresetColor.CYAN;
-		if(c==PresetColor.R) return PresetColor.YELLOW;
-		if(c==PresetColor.RED) return PresetColor.YELLOW;
-		if(c==PresetColor.YELLOW) return PresetColor.RED;
-		if(c==PresetColor.G) return PresetColor.BLUE;
-		if(c==PresetColor.GREEN) return PresetColor.BLUE;
-		if(c==PresetColor.B) return PresetColor.GREEN;
-		if(c==PresetColor.BLUE) return PresetColor.GREEN;
-		return PresetColor.BLACK;
-	}
-	private void discoled(int nbfxtr) throws IOException{
-		print();
-		WIZARD.disco().set(data);
-		SWITCH.set(true,true,true,true).set(data);
-		discoledstep(PresetColor.CYAN,nbfxtr);
-		print();
-		discoledstep(PresetColor.VIOLET,nbfxtr);
-		print();
-		discoledstep(PresetColor.R,nbfxtr);
-		print();
-		discoledstep(PresetColor.YELLOW,nbfxtr);
-		print();
-		discoledstep(PresetColor.B,nbfxtr);
-		print();
-		discoledstep(PresetColor.G,nbfxtr);
-	}
-	private void discoledstep(PresetColor c, int nbfxtr) throws IOException{
-		RGB1.color(c,dim).set(data);
-		RGB2.color(PresetColor.BLACK,dim).set(data);
-		RGB3.color(PresetColor.BLACK,dim).set(data);
-		RGB4.color(PresetColor.BLACK,dim).set(data);
-		pause();
-		print();
-		RGB1.color(PresetColor.BLACK,dim).set(data);
-		RGB2.color(c,dim).set(data);
-		RGB3.color(PresetColor.BLACK,dim).set(data);
-		RGB4.color(PresetColor.BLACK,dim).set(data);
-		pause();
-		print();
-		RGB1.color(PresetColor.BLACK,dim).set(data);
-		RGB2.color(PresetColor.BLACK,dim).set(data);
-		RGB3.color(c,dim).set(data);
-		RGB4.color(PresetColor.BLACK,dim).set(data);
-		pause();
-		if(nbfxtr<4) return;
-		print();
-		RGB1.color(PresetColor.BLACK,dim).set(data);
-		RGB2.color(PresetColor.BLACK,dim).set(data);
-		RGB3.color(PresetColor.BLACK,dim).set(data);
-		RGB4.color(c,dim).set(data);
-		pause();
 	}
 
 	private void pause() throws IOException{

@@ -3,7 +3,7 @@ package fr.jfbeuve.webdmx.sd10;
 import fr.jfbeuve.webdmx.preset.PresetColor;
 
 public class RGB10MM extends Fixture{
-	private static final int RED=0, GREEN=1, BLUE=2, MACRO=3, STROB=4, MODE=5, DIM=6;
+	protected static int RED=0, GREEN=1, BLUE=2, MACRO=3, STROB=4, MODE=5, DIM=6;
 
 	public RGB10MM(int ch){
 		super(ch);
@@ -15,15 +15,6 @@ public class RGB10MM extends Fixture{
 		val[RED]=c.r;
 		val[GREEN]=c.g;
 		val[BLUE]=c.b;
-		if(c==PresetColor.RED){
-			val[GREEN]=0;
-		}
-		if(c==PresetColor.GREEN){
-			val[BLUE]=0;
-		}
-		if(c==PresetColor.BLUE){
-			val[GREEN]=0;
-		}
 		return this;
 	}
 	public RGB10MM music(){
