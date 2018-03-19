@@ -150,19 +150,28 @@ public class SD10 {
 		pause();
 	}
 	private void ledstep(PresetColor c, int dim) throws IOException{
+		PresetColor dicrocol = c;
+		
+		if(c==PresetColor.VIOLET) dicrocol = PresetColor.RED;
+		if(c==PresetColor.ORANGE) dicrocol = PresetColor.YELLOW;
+		if(c==PresetColor.CYAN) dicrocol = PresetColor.BLUE;
+		
 		EUR1.color(c,dim).set(data);
 		EUR2.color(PresetColor.BLACK,0).set(data);
 		EUR3.color(PresetColor.BLACK,0).set(data);
+		DICRO.color(dicrocol, 100);
 		pause();
 		print();
 		EUR1.color(PresetColor.BLACK,0).set(data);
 		EUR2.color(c,dim).set(data);
 		EUR3.color(PresetColor.BLACK,0).set(data);
+		DICRO.color(PresetColor.BLACK, 0);
 		pause();
 		print();
 		EUR1.color(PresetColor.BLACK,0).set(data);
 		EUR2.color(PresetColor.BLACK,0).set(data);
 		EUR3.color(c,dim).set(data);
+		DICRO.color(dicrocol, 100);
 	}
 	/**
 	 * RGB REAR EuroliteBigParty 7 colors rainbow
