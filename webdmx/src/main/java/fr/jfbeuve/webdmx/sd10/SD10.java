@@ -22,7 +22,7 @@ public class SD10 {
 	private int rank = 1;
 	
 	private static final String[] P={"dicro", "led", "rgb", "rainb"};
-	private static final String[] S={"strob","led","rgbled", "rainb"};
+	private static final String[] S={"strob","led","rgbled", "srainb"};
 	
 	private static void compile() throws SecurityException{
 		int max = P.length;
@@ -152,9 +152,13 @@ public class SD10 {
 	private void ledstep(PresetColor c, int dim) throws IOException{
 		PresetColor dicrocol = c;
 		
-		if(c==PresetColor.VIOLET) dicrocol = PresetColor.RED;
-		if(c==PresetColor.ORANGE) dicrocol = PresetColor.YELLOW;
+		if(c==PresetColor.VIOLET) dicrocol = PresetColor.BLUE;
+		if(c==PresetColor.ORANGE) dicrocol = PresetColor.RED;
 		if(c==PresetColor.CYAN) dicrocol = PresetColor.BLUE;
+		if(c==PresetColor.BLUE) dicrocol = PresetColor.GREEN;
+		if(c==PresetColor.GREEN) dicrocol = PresetColor.BLUE;
+		if(c==PresetColor.RED) dicrocol = PresetColor.YELLOW;
+		if(c==PresetColor.YELLOW) dicrocol = PresetColor.RED;
 		
 		EUR1.color(c,dim).set(data);
 		EUR2.color(PresetColor.BLACK,0).set(data);
@@ -173,9 +177,12 @@ public class SD10 {
 		EUR3.color(c,dim).set(data);
 		DICRO.color(dicrocol, 100);
 	}
-	/**
-	 * RGB REAR EuroliteBigParty 7 colors rainbow
-	 */
+	public void srainb() throws IOException{
+		EUR1.strob(true);
+		EUR2.strob(true);
+		EUR3.strob(true);
+		rainb();
+	}
 	public void rainb() throws IOException{
 		print();
 		EUR1.color(PresetColor.RED,100).set(data);
@@ -222,6 +229,7 @@ public class SD10 {
 		WIZARD.disco().set(data);
 		RGB1.color(PresetColor.RED,100).set(data);
 		RGB2.color(PresetColor.BLACK,0).set(data);
+		print();
 		pause();
 		RGB2.color(PresetColor.RED,100).set(data);
 		RGB1.color(PresetColor.BLACK,0).set(data);

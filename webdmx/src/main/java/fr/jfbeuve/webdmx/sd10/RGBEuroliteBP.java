@@ -18,8 +18,8 @@ public class RGBEuroliteBP extends Fixture {
 		val[BLUE]=c.b;
 		return this;
 	}
-	public RGBEuroliteBP music(){
-		//TODO implement
+	public RGBEuroliteBP strob(boolean fire){
+		val[STROB]=(fire?255:0);
 		return this;
 	}
 	public String toString(){
@@ -27,7 +27,6 @@ public class RGBEuroliteBP extends Fixture {
 		if(ch==55) id="EUR1";
 		if(ch==60) id="EUR2";
 		if(ch==65) id="EUR3";
-		//TODO if MUSIC return "RGB10MM = MUSIC";
 		return id+" R "+val(RED)+" G "+val(GREEN)+" B "+val(BLUE)+(val[STROB]>0?" S":"");
 	}
 	private int val(int ch){
