@@ -229,8 +229,8 @@ public class SD10 {
 		WIZARD.disco().set(data);
 		RGB1.color(PresetColor.RED,100).set(data);
 		RGB2.color(PresetColor.BLACK,0).set(data);
-		print();
 		pause();
+		print();
 		RGB2.color(PresetColor.RED,100).set(data);
 		RGB1.color(PresetColor.BLACK,0).set(data);
 		pause();
@@ -264,6 +264,7 @@ public class SD10 {
 		EUR2.color(PresetColor.RED,100).set(data);
 		EUR3.color(PresetColor.ORANGE,100).set(data);
 		pause();
+		print();
 		RGB2.color(PresetColor.RED,100).set(data);
 		RGB1.color(PresetColor.BLACK,0).set(data);
 		EUR3.color(PresetColor.YELLOW,100).set(data);
