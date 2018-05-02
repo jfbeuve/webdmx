@@ -228,14 +228,29 @@ settings.select = function(){
 
 // apply slider change
 settings.range = function(id){
-	if (typeof(id) === "undefined"){
-		id = this.sel;
-	}
 	console.log('settings.range('+id+')');
 	
-	// set
-	//this[id]=$("#"+id+"range").val();
-	this[id]=$("#range").val();
+	if (typeof(id) === "undefined"){
+		id = this.sel;
+		this[id]=$("#range").val();
+	}else{
+		this[id]=$("#"+id+"range").val()
+	}
+	
+	//display
+	this.display();
+	
+	// store
+	localStorage.settings = JSON.stringify(this);
+
+	// propagate 
+	if(id!='fade'){
+		this.scene();
+	}
+};
+settings.scnrange = function(){
+	
+	this[id]=$("#scnrange").val();
 	
 	//display
 	this.display();
