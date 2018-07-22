@@ -23,6 +23,7 @@ public class SD10 {
 	
 	private static final String[] P={"dicro", "led", "rgb", "rainb"};
 	private static final String[] S={"strob","led","rgbled", "srainb"};
+	//TODO P5 1-20 Wizard FX 80% S5-1 Wizard music S5-2 Wizard FX random 80% 
 	
 	private static void compile() throws SecurityException{
 		int max = P.length;

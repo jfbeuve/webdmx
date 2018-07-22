@@ -33,6 +33,9 @@ function stop() {
 		localStorage.preset = '';
 	}
 	
+	if($("#wizon").hasClass('active')) holdbtn("wizon")
+	
+	if($("#colorstrob").hasClass('active')) holdbtn("colorstrob")
 }
 
 function blackout() {
