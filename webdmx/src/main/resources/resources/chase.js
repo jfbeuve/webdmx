@@ -410,6 +410,21 @@ presets.rainb = function(){
 	return p;
 }
 
+presets.lr = function(){
+	var w = colormatrix.wit();
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0}],"speed":localStorage.speed};
+	
+	return p;
+}
+
 function solostep(p, c){
 	var w = witmatrix(c);
 	var i = p.scenes.length;
@@ -639,6 +654,7 @@ presetscfg.front.wit = function(){
 presetscfg.front.fade = presets.fade;
 presetscfg.front.chase = presets.chase;
 presetscfg.front.rainb = presets.rainb;
+presetscfg.front.lr = presets.lr;
 
 /**
  * DUO
@@ -845,5 +861,5 @@ presetscfg.duo.chase = function(){
 	return p;
 }
 presetscfg.duo.rainb = presets.rainb;
-
+presetscfg.duo.lr = presets.lr;
 
