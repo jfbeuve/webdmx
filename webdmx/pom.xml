@@ -84,6 +84,8 @@
 						<phase>package</phase>
 						<configuration>
 							<tasks>
+								<sshexec host="raspberrypi.local" username="pi"
+									password="raspberry" command="sudo /home/pi/backup.sh" trust="true" />
 								<scp file="./target/webdmx.jar" todir="pi@raspberrypi.local:/home/pi"
 									password="raspberry" trust="true" />
 								<sshexec host="raspberrypi.local" username="pi"
