@@ -410,7 +410,7 @@ presets.rainb = function(){
 	return p;
 }
 
-presets.lr = function(){
+presets.lrswap = function(){
 	var w = colormatrix.wit();
 	
 	var p = {"scenes":[
@@ -421,6 +421,36 @@ presets.lr = function(){
 			{"id":0,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
 			{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
 		],"fade":0}],"speed":localStorage.speed};
+	
+	return p;
+}
+
+presets.lrwave = function(){
+	var w = colormatrix.wit();
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
+		],"fade":4000},{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":4000}],"speed":4000};
+	
+	return p;
+}
+
+presets.lrflash = function(){
+	var w = colormatrix.wit();
+	
+	var p = {"scenes":[
+		{"fixtures":[
+			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":3,"dim":0,"r":0,"g":0,"b":0,"strob":false}
+		],"fade":0},{"fixtures":[
+			{"id":0,"dim":0,"r":0,"g":0,"b":0,"strob":false},
+			{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+		],"fade":0}],"speed":80};
 	
 	return p;
 }
@@ -654,7 +684,9 @@ presetscfg.front.wit = function(){
 presetscfg.front.fade = presets.fade;
 presetscfg.front.chase = presets.chase;
 presetscfg.front.rainb = presets.rainb;
-presetscfg.front.lr = presets.lr;
+presetscfg.front.lrswap = presets.lrswap;
+presetscfg.front.lrwave = presets.lrwave;
+presetscfg.front.lrflash = presets.lrflash;
 
 /**
  * DUO
@@ -861,5 +893,7 @@ presetscfg.duo.chase = function(){
 	return p;
 }
 presetscfg.duo.rainb = presets.rainb;
-presetscfg.duo.lr = presets.lr;
+presetscfg.duo.lrswap = presets.lrswap;
+presetscfg.duo.lrwave = presets.lrwave;
+presetscfg.duo.lrflash = presets.lrflash;
 
