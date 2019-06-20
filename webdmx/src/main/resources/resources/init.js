@@ -228,7 +228,7 @@ settings.select = function(){
 
 // apply slider change
 settings.range = function(id){
-	console.log('settings.range('+id+')');
+	//console.log('settings.range('+id+')');
 	
 	if (typeof(id) === "undefined"){
 		id = this.sel;
@@ -242,6 +242,7 @@ settings.range = function(id){
 	
 	// store
 	localStorage.settings = JSON.stringify(this);
+	//console.log(localStorage.settings);
 
 	// propagate 
 	if(id!='fade'){
