@@ -22,8 +22,8 @@ scn.all = function(){
 	sc.fixtures.push({"id":3,"dim":dim,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false});
 	
 	// LEAD
-	sc.fixtures.push({"id":1,"dim":dim*settings.dlead/100,"r":w.lcol.r,"g":w.lcol.g,"b":w.lcol.b,"strob":false});
-	sc.fixtures.push({"id":2,"dim":dim*settings.dlead/100,"r":w.lcol.r,"g":w.lcol.g,"b":w.lcol.b,"strob":false});
+	sc.fixtures.push({"id":1,"dim":settings.dlead/100,"r":w.lcol.r,"g":w.lcol.g,"b":w.lcol.b,"strob":false});
+	sc.fixtures.push({"id":2,"dim":settings.dlead/100,"r":w.lcol.r,"g":w.lcol.g,"b":w.lcol.b,"strob":false});
 	
 	
 	// DRUMS

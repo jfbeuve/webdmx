@@ -49,7 +49,12 @@ public class DmxWrapper {
 		fixture[6]=new EuroliteBigParty(56);
 		fixture[7]=new EuroliteBigParty(61);
 		fixture[8]=new EuroliteBigParty(66);
-		
+		// 6in1 LEFT 71 LEAD 81 DRUM 91 RIGHT 101
+		fixture[9]=new RGBFixture(71);
+		fixture[10]=new RGBFixture(81);
+		fixture[11]=new RGBFixture(91);
+		fixture[12]=new RGBFixture(101);
+
 		thread=new DmxThread(this);
 	}
 

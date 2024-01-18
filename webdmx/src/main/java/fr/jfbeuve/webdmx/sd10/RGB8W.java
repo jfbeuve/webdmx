@@ -14,6 +14,18 @@ public class RGB8W extends Fixture{
 		val[BLUE]=c.b*dim/100;
 		return this;
 	}
+
+	@Override
+	public Fixture strob(boolean fire) {
+		return this;
+	}
+
+	public RGB8W color(int red, int green, int blue){
+		val[RED]=red;
+		val[GREEN]=green;
+		val[BLUE]=blue;
+		return this;
+	}
 	public RGB8W music(){
 		val[MACRO]=255;
 		val[SPEED]=255;

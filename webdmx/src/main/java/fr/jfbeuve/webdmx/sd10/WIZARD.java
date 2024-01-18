@@ -1,5 +1,7 @@
 package fr.jfbeuve.webdmx.sd10;
 
+import fr.jfbeuve.webdmx.preset.PresetColor;
+
 public class WIZARD extends Fixture{
 	private static final int SHUTTER=0,DIMMER=1,COLOR=2,GOBO=3,REFLECTOR=4,PAN=5,TILT=6,SETTINGS=7,FX=8,SPEED=9;
 	public WIZARD(int ch){
@@ -16,5 +18,15 @@ public class WIZARD extends Fixture{
 	}
 	public String toString(){
 		return "WIZARD "+super.toString();
+	}
+
+	@Override
+	public Fixture color(PresetColor c, int dim) {
+		return this;
+	}
+
+	@Override
+	public Fixture strob(boolean fire) {
+		return this;
 	}
 }

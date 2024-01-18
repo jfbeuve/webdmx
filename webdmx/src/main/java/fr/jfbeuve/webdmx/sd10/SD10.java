@@ -12,17 +12,19 @@ public class SD10 {
     private static final RGB10MM DR2 = new RGB10MM(30);
     private static final RGB10MM DR4 = new RGB10MM(48);
     private static final WIZARD WIZARD = new WIZARD(37);
+	private static final RGBWAUV7 LEFT=new RGBWAUV7(70), LEAD =new RGBWAUV7(80),DRUMRIGHT=new RGBWAUV7(90),RIGHT=new RGBWAUV7(100);
+
+	// RGBAWUV 70 Right 80 Drum Right 90 Drum Left 100 Left
     
     private int[] data = new int[512];
     
     private int step=0;
 	private String cat = "P";
 	private int rank = 1;
-	
-	private static final String[] P={"disco3","scnwit","scncold"};
-	private static final String[] S={"disco6","scnrbw","scnwarm"};
-	//TODO P5 1-20 Wizard FX 80% S5-1 Wizard music S5-2 Wizard FX random 80% 
-	
+
+	private static final String[] P={"dj","cold"};
+	private static final String[] S={"djstrob","warm"};
+
 	private static void compile() throws SecurityException{
 		int max = P.length;
 		if(S.length>max)max=S.length;
@@ -53,7 +55,8 @@ public class SD10 {
 	}
 	
     public SD10(String host){
-    	if(host!=null) io = new OlaWeb(host);
+		if(host!=null) io = new OlaWeb(host);
+		io = new OlaWeb("192.168.1.61");
     }
     public SD10(){
     	io = null;
@@ -121,106 +124,96 @@ public class SD10 {
 		return t[rank-1];
 	}
 
-	private void discostep(PresetColor c, int pos) throws IOException{
-		if(pos!=1) AV1.color(PresetColor.BLACK,0).set(data);
-		if(pos!=2) AV2.color(PresetColor.BLACK,0).set(data);
-		if(pos!=3) AV3.color(PresetColor.BLACK,0).set(data);
-		if(pos==1) AV1.color(c,100).set(data);
-		if(pos==2) AV2.color(c,100).set(data);
-		if(pos==3) AV3.color(c,100).set(data);
-		pause();
+	private void setdiscofixture(Fixture f, PresetColor c, int dim, boolean strob){
+		if(dim==0) c=PresetColor.BLACK;
+		f.color(c,dim).strob(dim==0?false:strob).set(data);
 	}
 
-	public void disco3() throws IOException{
+	private void discostep(PresetColor c, int pos, boolean strob) throws IOException{
+		setdiscofixture(AV1,c,pos==1?100:0,strob);
+		setdiscofixture(AV2,c,pos==2||pos==4?100:0,strob);
+		setdiscofixture(AV3,c,pos==3?100:0,strob);
+		setdiscofixture(LEFT,c,pos==1?100:0,strob);
+		setdiscofixture(LEAD,c,pos==2?100:0,strob);
+		setdiscofixture(DRUMRIGHT,c,pos==3?100:0,strob);
+		setdiscofixture(RIGHT,c,pos==4?100:0,strob);
+		pause();
+	}
+	public void dj() throws IOException{
+		disco(false);
+	}
+	public void djstrob() throws IOException{
+		disco(true);
+	}
+	private void disco(boolean strob) throws IOException{
 		print();
 		WIZARD.disco().set(data);
-		discostep(PresetColor.RED,1);print();
-		discostep(PresetColor.RED,2);print();
-		discostep(PresetColor.RED,3);print();
-		discostep(PresetColor.GREEN,1);print();
-		discostep(PresetColor.GREEN,2);print();
-		discostep(PresetColor.GREEN,3);print();
-		discostep(PresetColor.BLUE,1);print();
-		discostep(PresetColor.BLUE,2);print();
-		discostep(PresetColor.BLUE,3);	
+		for(int i=1;i<5;i++) discostep(PresetColor.RED,i,strob);print();
+		for(int i=1;i<5;i++) discostep(PresetColor.ORANGE,i,strob);print();
+		for(int i=1;i<5;i++) discostep(PresetColor.VIOLET,i,strob);print();
+		for(int i=1;i<5;i++) discostep(PresetColor.GREEN,i,strob);print();
+		for(int i=1;i<5;i++) discostep(PresetColor.CYAN,i,strob);print();
+		for(int i=1;i<5;i++) discostep(PresetColor.BLUE,i,strob);print();
 	}
-	public void disco6() throws IOException{
-		print();
-		WIZARD.disco().set(data);
-		discostep(PresetColor.RED,1);print();
-		discostep(PresetColor.ORANGE,2);print();
-		discostep(PresetColor.YELLOW,3);print();
-		discostep(PresetColor.YELLOW,1);print();
-		discostep(PresetColor.RED,2);print();
-		discostep(PresetColor.ORANGE,3);print();
-		discostep(PresetColor.ORANGE,1);print();
-		discostep(PresetColor.YELLOW,2);print();
-		discostep(PresetColor.RED,3);print();
-		
-		discostep(PresetColor.CYAN,1);print();
-		discostep(PresetColor.BLUE,2);print();
-		discostep(PresetColor.VIOLET,3);print();
-		discostep(PresetColor.VIOLET,1);print();
-		discostep(PresetColor.CYAN,2);print();
-		discostep(PresetColor.BLUE,3);print();
-		discostep(PresetColor.BLUE,1);print();
-		discostep(PresetColor.VIOLET,2);print();
-		discostep(PresetColor.CYAN,3);
+
+	public void cold() throws IOException{
+		step(PresetColor.CYAN,PresetColor.VIOLET);
+		step(PresetColor.VIOLET,PresetColor.CYAN);
+		step(PresetColor.VIOLET,PresetColor.ORANGE);
+		step(PresetColor.CYAN,PresetColor.ORANGE);
 	}
-	public void scnwit() throws IOException{
-		print();
-		DR2.color(PresetColor.WHITE,100).set(data);
-		DR4.color(PresetColor.WHITE,100).set(data);
-		pause();
+	public void warm() throws IOException{
+		step(PresetColor.YELLOW,PresetColor.RED);
+		step(PresetColor.RED,PresetColor.YELLOW);
+		step(PresetColor.ORANGE,PresetColor.RED);
+		step(PresetColor.RED,PresetColor.ORANGE);
 	}
-	public void scnrbw() throws IOException{
+
+	private void step(PresetColor c1, PresetColor c2) throws IOException {
 		print();
-		DR2.color(PresetColor.RED,100).set(data);
-		DR4.color(PresetColor.RED,100).set(data);
+		AV1.color(c1,20).set(data);
+		LEFT.color(c1,100).set(data);
+		AV2.color(c2,20).set(data);
+		LEAD.color(c2,100).set(data);
+		DRUMRIGHT.color(c2,100).set(data);
+		AV4.color(c1,20).set(data);
+		RIGHT.color(c1,100).set(data);
 		pause();
 		print();
-		DR2.color(PresetColor.ORANGE,100).set(data);
-		DR4.color(PresetColor.ORANGE,100).set(data);
+		AV1.color(c1,20).set(data);
+		LEFT.color(c1,100).set(data);
+		AV2.color(c1,20).set(data);
+		LEAD.color(c1,100).set(data);
+		DRUMRIGHT.color(c1,100).set(data);
+		AV4.color(c2,20).set(data);
+		RIGHT.color(c2,100).set(data);
 		pause();
 		print();
-		DR2.color(PresetColor.YELLOW,100).set(data);
-		DR4.color(PresetColor.YELLOW,100).set(data);
+		AV1.color(c1,20).set(data);
+		LEFT.color(c1,100).set(data);
+		AV2.color(c2,20).set(data);
+		LEAD.color(c2,100).set(data);
+		DRUMRIGHT.color(c2,100).set(data);
+		AV4.color(c1,20).set(data);
+		RIGHT.color(c1,100).set(data);
 		pause();
 		print();
-		DR2.color(PresetColor.GREEN,100).set(data);
-		DR4.color(PresetColor.GREEN,100).set(data);
+		AV1.color(c2,20).set(data);
+		LEFT.color(c2,100).set(data);
+		AV2.color(c1,20).set(data);
+		LEAD.color(c1,100).set(data);
+		DRUMRIGHT.color(c1,100).set(data);
+		AV4.color(c1,20).set(data);
+		RIGHT.color(c1,100).set(data);
 		pause();
 		print();
-		DR2.color(PresetColor.CYAN,100).set(data);
-		DR4.color(PresetColor.CYAN,100).set(data);
-		pause();
-		print();
-		DR2.color(PresetColor.BLUE,100).set(data);
-		DR4.color(PresetColor.BLUE,100).set(data);
-		pause();
-		print();
-		DR2.color(PresetColor.VIOLET,100).set(data);
-		DR4.color(PresetColor.VIOLET,100).set(data);
-		pause();
-	}
-	public void scncold() throws IOException{
-		print();
-		DR2.color(PresetColor.CYAN,100).set(data);
-		DR4.color(PresetColor.VIOLET,100).set(data);
-		pause();
-		print();
-		DR2.color(PresetColor.VIOLET,100).set(data);
-		DR4.color(PresetColor.CYAN,100).set(data);
-		pause();
-	}
-	public void scnwarm() throws IOException{
-		print();
-		DR2.color(PresetColor.RED,100).set(data);
-		DR4.color(PresetColor.YELLOW,100).set(data);
-		pause();
-		print();
-		DR2.color(PresetColor.YELLOW,100).set(data);
-		DR4.color(PresetColor.RED,100).set(data);
+		AV1.color(c1,20).set(data);
+		LEFT.color(c1,100).set(data);
+		AV2.color(c2,20).set(data);
+		LEAD.color(c2,100).set(data);
+		DRUMRIGHT.color(c2,100).set(data);
+		AV4.color(c1,20).set(data);
+		RIGHT.color(c1,100).set(data);
 		pause();
 	}
 	public void blackout() throws IOException{

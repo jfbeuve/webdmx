@@ -1,5 +1,7 @@
 package fr.jfbeuve.webdmx.sd10;
 
+import fr.jfbeuve.webdmx.preset.PresetColor;
+
 public class SWITCH extends Fixture{
 	
 	public SWITCH(int ch){
@@ -17,5 +19,15 @@ public class SWITCH extends Fixture{
 
 	public String toString(){
 		return "SWITCH "+super.toString();
+	}
+
+	@Override
+	public Fixture color(PresetColor c, int dim) {
+		return this;
+	}
+
+	@Override
+	public Fixture strob(boolean fire) {
+		return this;
 	}
 }

@@ -1,6 +1,8 @@
 package fr.jfbeuve.webdmx.sd10;
 
-public class Fixture {
+import fr.jfbeuve.webdmx.preset.PresetColor;
+
+public abstract class Fixture {
 	protected int ch;
 	protected int[] val= {};
 
@@ -23,4 +25,6 @@ public class Fixture {
 		s.append("]");
 		return s.toString();
 	}
+	public abstract Fixture color(PresetColor c, int dim);
+	public abstract Fixture strob(boolean fire);
 }

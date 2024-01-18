@@ -17,6 +17,12 @@ public class RGB10MM extends Fixture{
 		val[BLUE]=c.b;
 		return this;
 	}
+
+	@Override
+	public Fixture strob(boolean fire) {
+		return this;
+	}
+
 	public RGB10MM music(){
 		//TODO implement
 		return this;
