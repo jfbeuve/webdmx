@@ -38,6 +38,7 @@ public class RGBWAUV implements Fixture {
 
 		white.set(f.dim==0?0:min(f),100, false, fade);
 		amber.set(f.dim==0?0:amber(f),100, false, fade);
+		uv.set(f.dim==0?0:uv(f),100, false, fade);
 	}
 
 	public int amber(RGBFixtureState f){
@@ -56,7 +57,10 @@ public class RGBWAUV implements Fixture {
 		}
 		return 255;
 	}
-
+	private int uv(RGBFixtureState f){
+		if(f.r==0&&f.g==0&&f.b==0) return 255;
+		return 0;
+	}
 	private int max(RGBFixtureState f){
 		if(f.r>=f.g&&f.r>=f.b) return f.r;
 		if(f.g>=f.r&&f.g>=f.b) return f.g;
@@ -79,6 +83,7 @@ public class RGBWAUV implements Fixture {
 		strb.override(f.strob?255:0, 100, false, 0, layer);
 		white.override(f.dim==0?0:min(f),100, false, fade, layer);
 		amber.override(f.dim==0?0:amber(f),100, false, fade, layer);
+		uv.override(f.dim==0?0:uv(f),100, false, fade, layer);
 	}
 
 	@Override
