@@ -909,7 +909,6 @@ presetscfg.front.lrflash = presets.lrflash;
 /**
  * DUO
  */
- // TODO implement fixtures 9,10,11,12 in DUO presets
 presetscfg.duo.dim = function(){
 	var p = {"scenes":[],"speed":localStorage.speed};
 	var w = colormatrix.wit();
@@ -922,7 +921,11 @@ presetscfg.duo.dim = function(){
 			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":6,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
 			{"id":7,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
-			{"id":8,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob}
+			{"id":8,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
+			{"id":9,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+            {"id":10,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+            {"id":11,"dim":settings.dfmax/2,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+            {"id":12,"dim":settings.dfmax/2,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob}
 		],"fade":0});
 		p.scenes.push({"fixtures":[
 			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
@@ -931,7 +934,11 @@ presetscfg.duo.dim = function(){
 			{"id":1,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":6,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
 			{"id":7,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
-			{"id":8,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob}
+			{"id":8,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
+			{"id":9,"dim":settings.dfmax/2,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+            {"id":10,"dim":settings.dfmax/2,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+            {"id":11,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+            {"id":12,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob}
 		],"fade":0});
 
 	return p;
@@ -949,7 +956,11 @@ presetscfg.duo.col = function(){
 			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":6,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
 			{"id":7,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
-			{"id":8,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob}
+			{"id":8,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
+			{"id":9,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+            {"id":10,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+            {"id":11,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+            {"id":12,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob}
 		],"fade":0},{"fixtures":[
 			{"id":0,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
 			{"id":3,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
@@ -957,7 +968,11 @@ presetscfg.duo.col = function(){
 			{"id":1,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
 			{"id":6,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
 			{"id":7,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
-			{"id":8,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob}
+			{"id":8,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
+			{"id":9,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":strob},
+            {"id":10,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":strob},
+            {"id":11,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":strob},
+            {"id":12,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":strob}
 		],"fade":0}],"speed":localStorage.speed};
 	
 	return p;
@@ -971,10 +986,14 @@ presetscfg.duo.wit = function(){
 			{"id":0,"dim":settings.dfmin,"r":255,"g":255,"b":255,"strob":false},
 			{"id":3,"dim":settings.dfmin,"r":255,"g":255,"b":255,"strob":false},
 			{"id":6,"dim":settings.dback,"r":255,"g":255,"b":255,"strob":false},
+			{"id":9,"dim":settings.dfmax,"r":255,"g":255,"b":255,"strob":false},
+			{"id":12,"dim":settings.dfmax,"r":255,"g":255,"b":255,"strob":false}
 		],"fade":0},{"fixtures":[
 			{"id":2,"dim":settings.dfmin,"r":255,"g":255,"b":255,"strob":false},
 			{"id":1,"dim":settings.dfmin,"r":255,"g":255,"b":255,"strob":false},
 			{"id":8,"dim":settings.dback,"r":255,"g":255,"b":255,"strob":false},
+			{"id":10,"dim":settings.dfmax,"r":255,"g":255,"b":255,"strob":false},
+			{"id":11,"dim":settings.dfmax,"r":255,"g":255,"b":255,"strob":false}
 		],"fade":0}],"speed":localStorage.speed};
 	
 	return p;
@@ -983,7 +1002,7 @@ presetscfg.duo.wit = function(){
 presetscfg.duo.swap = presetscfg.duo.col;
 presetscfg.duo.flash = function(){
 	var w = colormatrix.wit();
-	
+
 	var p = {"scenes":[
 		{"fixtures":[
 			{"id":0,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
@@ -992,7 +1011,11 @@ presetscfg.duo.flash = function(){
 			{"id":1,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":6,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
 			{"id":7,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
-			{"id":8,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false}
+			{"id":8,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
+			{"id":9,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":10,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":11,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+			{"id":12,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
 		],"fade":0},{"fixtures":[
 			{"id":0,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":3,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
@@ -1000,7 +1023,11 @@ presetscfg.duo.flash = function(){
 			{"id":1,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":6,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
 			{"id":7,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
-			{"id":8,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false}
+			{"id":8,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
+			{"id":9,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":10,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":11,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+			{"id":12,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
 		],"fade":0},{"fixtures":[
 			{"id":0,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":3,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
@@ -1008,7 +1035,11 @@ presetscfg.duo.flash = function(){
 			{"id":1,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":6,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
 			{"id":7,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
-			{"id":8,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false}
+			{"id":8,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
+			{"id":9,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":10,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
+			{"id":11,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+			{"id":12,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
 		],"fade":0},{"fixtures":[
 			{"id":0,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
 			{"id":3,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
@@ -1016,7 +1047,11 @@ presetscfg.duo.flash = function(){
 			{"id":1,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
 			{"id":6,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":false},
 			{"id":7,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":false},
-			{"id":8,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":false}
+			{"id":8,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":false},
+			{"id":9,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":9,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":12,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":12,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
 		],"fade":0},{"fixtures":[
 			{"id":0,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
 			{"id":3,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
@@ -1024,7 +1059,11 @@ presetscfg.duo.flash = function(){
 			{"id":1,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
 			{"id":6,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":false},
 			{"id":7,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":false},
-			{"id":8,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":false}
+			{"id":8,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":false},
+			{"id":9,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":9,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":12,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":12,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
 		],"fade":0},{"fixtures":[
 			{"id":0,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
 			{"id":3,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
@@ -1032,7 +1071,11 @@ presetscfg.duo.flash = function(){
 			{"id":1,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
 			{"id":6,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":false},
 			{"id":7,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":false},
-			{"id":8,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":false}
+			{"id":8,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":false},
+			{"id":9,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":9,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":12,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
+			{"id":12,"dim":0,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false}
 		],"fade":0}],"speed":localStorage.speed};
 	
 	return p;
@@ -1049,7 +1092,11 @@ presetscfg.duo.wave = function(){
 			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":6,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
 			{"id":7,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
-			{"id":8,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob}
+			{"id":8,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
+			{"id":9,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":10,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":11,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":12,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob}
 		],"fade":4000},{"fixtures":[
 			{"id":0,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
 			{"id":3,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
@@ -1057,7 +1104,11 @@ presetscfg.duo.wave = function(){
 			{"id":1,"dim":settings.dfmin,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},
 			{"id":6,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
 			{"id":7,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
-			{"id":8,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob}
+			{"id":8,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
+			{"id":9,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":strob},
+			{"id":10,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":strob},
+			{"id":11,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":strob},
+			{"id":12,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":strob}
 		],"fade":4000}],"speed":16000};
 	
 	return p;
@@ -1073,7 +1124,11 @@ presetscfg.duo.fade = function(){
 			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":6,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
 			{"id":7,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
-			{"id":8,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob}
+			{"id":8,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
+			{"id":9,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":10,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":11,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":12,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob}
 		],"fade":400},{"fixtures":[
 			{"id":0,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":3,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
@@ -1081,7 +1136,11 @@ presetscfg.duo.fade = function(){
 			{"id":1,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":6,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
 			{"id":7,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
-			{"id":8,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob}
+			{"id":8,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
+			{"id":9,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":10,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":11,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":12,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob}
 		],"fade":400}],"speed":400};
 	
 	return p;
@@ -1098,7 +1157,11 @@ presetscfg.duo.chase = function(){
 			{"id":1,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":6,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
 			{"id":7,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
-			{"id":8,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob}
+			{"id":8,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
+			{"id":9,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":10,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":11,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":12,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob}
 		],"fade":0},{"fixtures":[
 			{"id":0,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":3,"dim":settings.dfmin,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
@@ -1106,7 +1169,11 @@ presetscfg.duo.chase = function(){
 			{"id":1,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":6,"dim":0,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
 			{"id":7,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":strob},
-			{"id":8,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob}
+			{"id":8,"dim":settings.dback,"r":w.brev.r,"g":w.brev.g,"b":w.brev.b,"strob":strob},
+			{"id":9,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":10,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":11,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob},
+			{"id":12,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":strob}
 		],"fade":0}],"speed":localStorage.speed};
 	
 	return p;
