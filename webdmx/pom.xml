@@ -84,11 +84,11 @@
 						<phase>package</phase>
 						<configuration>
 							<tasks>
-								<sshexec host="raspberrypi.local" username="pi"
+								<sshexec host="192.168.1.61" username="pi"
 									password="raspberry" command="sudo /home/pi/backup.sh" trust="true" />
-								<scp file="./target/webdmx.jar" todir="pi@raspberrypi.local:/home/pi"
+								<scp file="./target/webdmx.jar" todir="pi@192.168.1.61:/home/pi"
 									password="raspberry" trust="true" />
-								<sshexec host="raspberrypi.local" username="pi"
+								<sshexec host="192.168.1.61" username="pi"
 									password="raspberry" command="sudo /home/pi/restart.sh" trust="true" />
 							</tasks>
 						</configuration>

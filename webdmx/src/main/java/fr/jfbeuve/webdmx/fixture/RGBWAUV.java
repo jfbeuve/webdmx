@@ -29,12 +29,9 @@ public class RGBWAUV implements Fixture {
 		green.set(f.dim==0?0:f.g,100, false, fade);
 		blue.set(f.dim==0?0:f.b,100, false, fade);
 		
-		if(f.r==0&&f.g==0&&f.b==0)
-			dim.set(0,0, false, fade);
-		else
-			dim.set(f.dim*255/100,100, false, fade);
+		dim.set(f.dim*255/100,100, false, fade);
 		
-		strb.set(f.strob?255:0,100, false, 0);
+		strb.set(f.strob?220:0,100, false, 0);
 
 		white.set(f.dim==0?0:min(f),100, false, fade);
 		amber.set(f.dim==0?0:amber(f),100, false, fade);
@@ -47,13 +44,13 @@ public class RGBWAUV implements Fixture {
 
 		if(f.r<max) return 0;
 		if(f.b>min) return 0;
-		if(f.g>max/2) return 0;
+		if(f.g<=min) return 0;
 
-		if(f.g>64) {
-			return (128-f.g)*255/64;
+		if(f.g>128) {
+			return (255-f.g)*255/127;
 		}
-		if(f.g<64) {
-			return f.g*255/64;
+		if(f.g<128) {
+			return f.g*255/128;
 		}
 		return 255;
 	}
@@ -80,7 +77,7 @@ public class RGBWAUV implements Fixture {
 		green.override(f.dim==0?0:f.g, 100, false, fade, layer);
 		blue.override(f.dim==0?0:f.b, 100, false, fade, layer);
 		dim.override(f.dim*255/100, 100, false, fade, layer);
-		strb.override(f.strob?255:0, 100, false, 0, layer);
+		strb.override(f.strob?220:0, 100, false, 0, layer);
 		white.override(f.dim==0?0:min(f),100, false, fade, layer);
 		amber.override(f.dim==0?0:amber(f),100, false, fade, layer);
 		uv.override(f.dim==0?0:uv(f),100, false, fade, layer);

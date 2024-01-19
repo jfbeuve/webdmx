@@ -514,6 +514,7 @@ presets.rainb = function(){
 
 presets.lrswap = function(){
 	var w = colormatrix.wit();
+	var strob = $("#colorstrob").hasClass("active");
 	
 	var p = {"scenes":[
 		{"fixtures":[
@@ -537,6 +538,7 @@ presets.lrswap = function(){
 
 presets.lrwave = function(){
 	var w = colormatrix.wit();
+	var strob = $("#colorstrob").hasClass("active");
 	
 	var p = {"scenes":[
 		{"fixtures":[
@@ -1014,7 +1016,7 @@ presetscfg.duo.flash = function(){
 			{"id":8,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
 			{"id":9,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":10,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
-			{"id":11,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+			{"id":11,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":12,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
 		],"fade":0},{"fixtures":[
 			{"id":0,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
@@ -1026,7 +1028,7 @@ presetscfg.duo.flash = function(){
 			{"id":8,"dim":settings.dback,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
 			{"id":9,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":10,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
-			{"id":11,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+			{"id":11,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":12,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
 		],"fade":0},{"fixtures":[
 			{"id":0,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
@@ -1038,7 +1040,7 @@ presetscfg.duo.flash = function(){
 			{"id":8,"dim":0,"r":w.bcol.r,"g":w.bcol.g,"b":w.bcol.b,"strob":false},
 			{"id":9,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":10,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
-			{"id":11,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
+			{"id":11,"dim":settings.dfmax,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false},
 			{"id":12,"dim":0,"r":w.fcol.r,"g":w.fcol.g,"b":w.fcol.b,"strob":false}
 		],"fade":0},{"fixtures":[
 			{"id":0,"dim":settings.dfmax,"r":w.frev.r,"g":w.frev.g,"b":w.frev.b,"strob":false},

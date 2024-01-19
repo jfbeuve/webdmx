@@ -2,6 +2,7 @@ package fr.jfbeuve.webdmx.dmx;
 
 import java.util.Map;
 
+import fr.jfbeuve.webdmx.fixture.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import fr.jfbeuve.webdmx.awt.DmxMonitor;
-import fr.jfbeuve.webdmx.fixture.EuroliteBigParty;
-import fr.jfbeuve.webdmx.fixture.Fixture;
-import fr.jfbeuve.webdmx.fixture.RGBDSFixture;
-import fr.jfbeuve.webdmx.fixture.RGBFixture;
 import fr.jfbeuve.webdmx.io.OlaWeb;
 import fr.jfbeuve.webdmx.sc.RGBFixtureState;
 import fr.jfbeuve.webdmx.sc.ScOverride;
@@ -36,7 +33,7 @@ public class DmxWrapper {
 		data = new int[512];
 		for(int i=0;i<512;i++) data[i]=0;
 		
-		fixture=new Fixture[9];
+		fixture=new Fixture[13];
 		// RGB 8W
 		fixture[0]=new RGBFixture(2);
 		fixture[1]=new RGBFixture(7);
@@ -50,10 +47,10 @@ public class DmxWrapper {
 		fixture[7]=new EuroliteBigParty(61);
 		fixture[8]=new EuroliteBigParty(66);
 		// 6in1 LEFT 71 LEAD 81 DRUM 91 RIGHT 101
-		fixture[9]=new RGBFixture(71);
-		fixture[10]=new RGBFixture(81);
-		fixture[11]=new RGBFixture(91);
-		fixture[12]=new RGBFixture(101);
+		fixture[9]=new RGBWAUV(71);
+		fixture[10]=new RGBWAUV(81);
+		fixture[11]=new RGBWAUV(91);
+		fixture[12]=new RGBWAUV(101);
 
 		thread=new DmxThread(this);
 	}
