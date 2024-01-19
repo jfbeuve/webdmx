@@ -25,6 +25,4 @@ public abstract class Fixture {
 		s.append("]");
 		return s.toString();
 	}
-	public abstract Fixture color(PresetColor c, int dim);
-	public abstract Fixture strob(boolean fire);
 }

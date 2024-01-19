@@ -21,13 +21,4 @@ public class SWITCH extends Fixture{
 		return "SWITCH "+super.toString();
 	}
 
-	@Override
-	public Fixture color(PresetColor c, int dim) {
-		return this;
-	}
-
-	@Override
-	public Fixture strob(boolean fire) {
-		return this;
-	}
 }

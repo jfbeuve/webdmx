@@ -14,16 +14,14 @@ public class SD10 {
     private static final WIZARD WIZARD = new WIZARD(37);
 	private static final RGBWAUV7 LEFT=new RGBWAUV7(70), LEAD =new RGBWAUV7(80),DRUMRIGHT=new RGBWAUV7(90),RIGHT=new RGBWAUV7(100);
 
-	// RGBAWUV 70 Right 80 Drum Right 90 Drum Left 100 Left
-    
     private int[] data = new int[512];
     
     private int step=0;
 	private String cat = "P";
 	private int rank = 1;
 
-	private static final String[] P={"dj","cold"};
-	private static final String[] S={"djstrob","warm"};
+	private static final String[] P={"dj","cold","warm"};
+	private static final String[] S={"strob","dimcold","dimwarm"};
 
 	private static void compile() throws SecurityException{
 		int max = P.length;
@@ -124,36 +122,53 @@ public class SD10 {
 		return t[rank-1];
 	}
 
-	private void setdiscofixture(Fixture f, PresetColor c, int dim, boolean strob){
-		if(dim==0) c=PresetColor.BLACK;
-		f.color(c,dim).strob(dim==0?false:strob).set(data);
-	}
-
-	private void discostep(PresetColor c, int pos, boolean strob) throws IOException{
-		setdiscofixture(AV1,c,pos==1?100:0,strob);
-		setdiscofixture(AV2,c,pos==2||pos==4?100:0,strob);
-		setdiscofixture(AV3,c,pos==3?100:0,strob);
-		setdiscofixture(LEFT,c,pos==1?100:0,strob);
-		setdiscofixture(LEAD,c,pos==2?100:0,strob);
-		setdiscofixture(DRUMRIGHT,c,pos==3?100:0,strob);
-		setdiscofixture(RIGHT,c,pos==4?100:0,strob);
+	private void strobostep(PresetColor c, boolean on) throws IOException{
+		AV1.color(c,on?100:0).set(data);
+		AV2.color(c,on?100:0).set(data);
+		AV3.color(c,on?100:0).set(data);
+		LEFT.color(c,100).strob(true).set(data);
+		LEAD.color(c,100).strob(true).set(data);
+		DRUMRIGHT.color(c,100).strob(true).set(data);
+		RIGHT.color(c,100).strob(true).set(data);
 		pause();
 	}
-	public void dj() throws IOException{
-		disco(false);
+
+	private void djstep(PresetColor c, int pos) throws IOException{
+		AV1.color(c,pos==1?100:0).set(data);
+		AV2.color(c,pos==2||pos==4?100:0).set(data);
+		AV3.color(c,pos==3?100:0).set(data);
+		LEFT.color(c,pos==1?100:0).set(data);
+		LEAD.color(c,pos==2?100:0).set(data);
+		DRUMRIGHT.color(c,pos==3?100:0).set(data);
+		RIGHT.color(c,pos==4?100:0).set(data);
+		pause();
 	}
-	public void djstrob() throws IOException{
-		disco(true);
-	}
-	private void disco(boolean strob) throws IOException{
+
+	public void strob() throws IOException{
 		print();
 		WIZARD.disco().set(data);
-		for(int i=1;i<5;i++) discostep(PresetColor.RED,i,strob);print();
-		for(int i=1;i<5;i++) discostep(PresetColor.ORANGE,i,strob);print();
-		for(int i=1;i<5;i++) discostep(PresetColor.VIOLET,i,strob);print();
-		for(int i=1;i<5;i++) discostep(PresetColor.GREEN,i,strob);print();
-		for(int i=1;i<5;i++) discostep(PresetColor.CYAN,i,strob);print();
-		for(int i=1;i<5;i++) discostep(PresetColor.BLUE,i,strob);print();
+		strobostep(PresetColor.RED, true);print();
+		strobostep(PresetColor.RED, false);print();
+		strobostep(PresetColor.ORANGE, true);print();
+		strobostep(PresetColor.ORANGE, false);print();
+		strobostep(PresetColor.VIOLET, true);print();
+		strobostep(PresetColor.VIOLET, false);print();
+		strobostep(PresetColor.GREEN, true);print();
+		strobostep(PresetColor.GREEN, false);print();
+		strobostep(PresetColor.CYAN, true);print();
+		strobostep(PresetColor.CYAN, false);print();
+		strobostep(PresetColor.BLUE, true);print();
+		strobostep(PresetColor.BLUE, false);
+	}
+	public void dj() throws IOException{
+		print();
+		WIZARD.disco().set(data);
+		for(int i=1;i<5;i++) {djstep(PresetColor.RED,i);print();}
+		for(int i=1;i<5;i++) {djstep(PresetColor.ORANGE,i);print();}
+		for(int i=1;i<5;i++) {djstep(PresetColor.VIOLET,i);print();}
+		for(int i=1;i<5;i++) {djstep(PresetColor.GREEN,i);print();}
+		for(int i=1;i<5;i++) {djstep(PresetColor.CYAN,i);print();}
+		for(int i=1;i<5;i++) {djstep(PresetColor.BLUE,i);print();}
 	}
 
 	public void cold() throws IOException{
@@ -167,6 +182,19 @@ public class SD10 {
 		step(PresetColor.RED,PresetColor.YELLOW);
 		step(PresetColor.ORANGE,PresetColor.RED);
 		step(PresetColor.RED,PresetColor.ORANGE);
+	}
+
+	public void dimcold() throws IOException{
+		dim(PresetColor.CYAN,PresetColor.VIOLET);
+		dim(PresetColor.VIOLET,PresetColor.CYAN);
+		dim(PresetColor.VIOLET,PresetColor.ORANGE);
+		dim(PresetColor.CYAN,PresetColor.ORANGE);
+	}
+	public void dimwarm() throws IOException{
+		dim(PresetColor.YELLOW,PresetColor.RED);
+		dim(PresetColor.RED,PresetColor.YELLOW);
+		dim(PresetColor.ORANGE,PresetColor.RED);
+		dim(PresetColor.RED,PresetColor.ORANGE);
 	}
 
 	private void step(PresetColor c1, PresetColor c2) throws IOException {
@@ -212,6 +240,63 @@ public class SD10 {
 		AV2.color(c2,20).set(data);
 		LEAD.color(c2,100).set(data);
 		DRUMRIGHT.color(c2,100).set(data);
+		AV4.color(c1,20).set(data);
+		RIGHT.color(c1,100).set(data);
+		pause();
+	}
+
+	private void dim(PresetColor c1, PresetColor c2) throws IOException {
+		print();
+		AV1.color(c1,20).set(data);
+		LEFT.color(c1,100).set(data);
+		AV2.color(c2,20).set(data);
+		LEAD.color(c2,100).set(data);
+		DRUMRIGHT.color(c2,100).set(data);
+		AV4.color(c1,20).set(data);
+		RIGHT.color(c1,100).set(data);
+		pause();
+		print();
+		AV1.color(c1,100).set(data);
+		LEFT.color(c1,50).set(data);
+		AV2.color(c2,20).set(data);
+		LEAD.color(c2,100).set(data);
+		DRUMRIGHT.color(c2,100).set(data);
+		AV4.color(c1,20).set(data);
+		RIGHT.color(c1,100).set(data);
+		pause();
+		print();
+		AV1.color(c1,20).set(data);
+		LEFT.color(c1,100).set(data);
+		AV2.color(c2,20).set(data);
+		LEAD.color(c2,100).set(data);
+		DRUMRIGHT.color(c2,100).set(data);
+		AV4.color(c1,20).set(data);
+		RIGHT.color(c1,100).set(data);
+		pause();
+		print();
+		AV1.color(c1,20).set(data);
+		LEFT.color(c1,100).set(data);
+		AV2.color(c2,20).set(data);
+		LEAD.color(c2,100).set(data);
+		DRUMRIGHT.color(c2,100).set(data);
+		AV4.color(c1,100).set(data);
+		RIGHT.color(c1,50).set(data);
+		pause();
+		print();
+		AV1.color(c1,20).set(data);
+		LEFT.color(c1,100).set(data);
+		AV2.color(c2,20).set(data);
+		LEAD.color(c2,100).set(data);
+		DRUMRIGHT.color(c2,100).set(data);
+		AV4.color(c1,20).set(data);
+		RIGHT.color(c1,100).set(data);
+		pause();
+		print();
+		AV1.color(c1,20).set(data);
+		LEFT.color(c1,100).set(data);
+		AV2.color(c2,100).set(data);
+		LEAD.color(c2,50).set(data);
+		DRUMRIGHT.color(c2,50).set(data);
 		AV4.color(c1,20).set(data);
 		RIGHT.color(c1,100).set(data);
 		pause();

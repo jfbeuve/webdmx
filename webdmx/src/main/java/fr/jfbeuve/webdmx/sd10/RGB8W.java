@@ -15,11 +15,6 @@ public class RGB8W extends Fixture{
 		return this;
 	}
 
-	@Override
-	public Fixture strob(boolean fire) {
-		return this;
-	}
-
 	public RGB8W color(int red, int green, int blue){
 		val[RED]=red;
 		val[GREEN]=green;

@@ -30,7 +30,7 @@ public class RGBWAUV7 extends Fixture {
 		return this;
 	}
 	public RGBWAUV7 strob(boolean fire){
-		val[STROB]=(fire?255:0);
+		val[STROB]=(fire?220:0);
 		return this;
 	}
 	public String toString(){

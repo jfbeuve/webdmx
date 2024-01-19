@@ -37,11 +37,6 @@ public class DICRO extends Fixture{
 		return this;
 	}
 
-	@Override
-	public Fixture strob(boolean fire) {
-		return this;
-	}
-
 	public String toString(){
 		return "DICRO R "+val[RED]+" G "+val[GREEN]+" B "+val[BLUE]+" A "+val[AMBER];
 	}

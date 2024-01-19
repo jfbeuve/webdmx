@@ -20,13 +20,4 @@ public class WIZARD extends Fixture{
 		return "WIZARD "+super.toString();
 	}
 
-	@Override
-	public Fixture color(PresetColor c, int dim) {
-		return this;
-	}
-
-	@Override
-	public Fixture strob(boolean fire) {
-		return this;
-	}
 }
