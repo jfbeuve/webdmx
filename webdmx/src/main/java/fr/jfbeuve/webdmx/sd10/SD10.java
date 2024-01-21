@@ -9,10 +9,10 @@ import fr.jfbeuve.webdmx.preset.PresetColor;
 public class SD10 {
 	private static final RGB8W AV1=new RGB8W(0),AV2=new RGB8W(5),AV3=new RGB8W(10),AV4=new RGB8W(15);
 	private static final RGBEuroliteBP AR1=new RGBEuroliteBP(55),AR3=new RGBEuroliteBP(60),AR4=new RGBEuroliteBP(65);
-    private static final RGB10MM DR2 = new RGB10MM(30);
-    private static final RGB10MM DR4 = new RGB10MM(48);
-    private static final WIZARD WIZARD = new WIZARD(37);
-	private static final RGBWAUV7 LEFT=new RGBWAUV7(70), LEAD =new RGBWAUV7(80),DRUMRIGHT=new RGBWAUV7(90),RIGHT=new RGBWAUV7(100);
+    private static final RGB10MM DR2 = new RGB10MM(90); // was 30
+    private static final RGB10MM DR4 = new RGB10MM(98); // was 48
+    private static final WIZARD WIZARD = new WIZARD(20); // was 37
+	private static final RGBWAUV7 LEFT=new RGBWAUV7(70), LEAD =new RGBWAUV7(80),DRUMRIGHT=new RGBWAUV7(30),RIGHT=new RGBWAUV7(40);
 
     private int[] data = new int[512];
     

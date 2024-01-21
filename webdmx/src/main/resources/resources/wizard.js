@@ -63,7 +63,8 @@ wizard.update = function(){
 	}
 	
 	//fire dmx
-	dmxwrite({37:shutter, 38:dimmer, 39:color, 40:gobo, 41:drum, 42:position, 43:rotation, 44:fxset, 45:fx, 46:fxspeed});
+	//dmxwrite({37:shutter, 38:dimmer, 39:color, 40:gobo, 41:drum, 42:position, 43:rotation, 44:fxset, 45:fx, 46:fxspeed});
+	dmxwrite({20:shutter, 21:dimmer, 22:color, 23:gobo, 24:drum, 25:position, 26:rotation, 27:fxset, 28:fx, 29:fxspeed});
 }
 
 /**
