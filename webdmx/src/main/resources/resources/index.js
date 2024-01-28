@@ -111,7 +111,7 @@ function override(){
 	var scncfg = settings.scncfg;
 		
 	// SOLO ID
-	var fsel = [false,false,false,false,false,false,false,false,false];
+	var fsel = [false,false,false,false,false,false,false,false,false,false,false,false,false];
 	var soloset = false;
 	if($('#PAR1').hasClass("active")){
 		fsel[0]=true;
